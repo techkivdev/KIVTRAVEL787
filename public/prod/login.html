@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="external/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="external/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="css/style.css" type="text/css" rel="stylesheet" />
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.2.0/firebase-ui-auth.css" />
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
+</head>
+
+
+<body>   
+
+  <!-- **************************************** -->
+  <!-- Navigation Sectione -->
+  <!-- **************************************** -->
+  
+  <nav class="white z-depth-2" role="navigation" style="position: relative;">
+    <div class="nav-wrapper container">
+
+      <!-- Logo Container -->
+      <a id="logo-container" href="index.html" class="brand-logo">Logo</a>
+
+      <!-- Navigation List -->
+      <ul class="right hide-on-med-and-down">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="alldetails.html?detail1=DESTINATIONS&detail2=NA&detail3=NA">Destinations</a></li>
+        <li><a href="alldetails.html?detail1=PACKAGES&detail2=NA&detail3=NA">Packages</a></li>
+        <li class="active"><a href="login.html">Profile</a></li>
+      </ul>
+
+      <!-- Mobile Navigation List -->
+      <ul id="nav-mobile" class="sidenav">
+        
+          <div class="container-fluid">
+              <div class="fb-profile">            
+                <img class="fb-image-lg left-align z-depth-2" src="Images/default.jpg" alt="Snow" style="height: 200px; margin-bottom: 10px;">            
+              </div>
+            </div>
+
+
+          <li><a href="index.html">Home</a></li>
+          <li><a href="alldetails.html?detail1=DESTINATIONS&detail2=NA&detail3=NA">Destinations</a></li>
+          <li><a href="alldetails.html?detail1=PACKAGES&detail2=NA&detail3=NA">Packages</a></li>
+          <li class="active"><a href="login.html">Profile</a></li> 
+          <li class="divider"></li>    
+          <li style="margin-top: 10px;"><a href="terms_and_conditions.html">Terms & Conditions</a></li>  
+          <li><a href="privacy_police.html">Privacy Police</a></li>
+          <li><a href="about_us.html">About Us</a></li>
+      </ul>
+
+      <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+
+    </div>
+  </nav>
+
+  <div id="spinner" class="center-align header-margin">
+
+    <div class="preloader-wrapper active">
+      <div class="spinner-layer spinner-red-only">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div>
+        <div class="gap-patch">
+          <div class="circle"></div>
+        </div>
+        <div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- **************************************** -->
+  <!--   Coloum Section 1  -->
+
+  <!-- Login Header -->
+
+  <div id="login_header_section" style="display: none; margin-top: 1px;">
+
+      <div class="bg">
+    <div class="container">
+      <br>
+
+      <div class="row">
+
+        <!-- User Image -->
+        <div class="col s12 m12">
+
+          <div class="row">
+
+            <div class="col s12 m7">
+              <h1 class="white-text" ></h1>
+
+            </div>
+          </div>
+        </div>
+
+
+        <!-- User Content -->
+        <div class="col s12 m12">
+
+          <div class="row">
+            
+            <div class="col s12 m12" style="margin-top: 100px;">
+                <div class="card" style="border-radius: 25px;">
+                    <div class="red-card-content white-text z-depth-2" style="border-radius: 25px 25px 0px 0px;
+                    height: 100px;">
+                        <div class="card-content">
+                            <p style="font-size: 40px;">Login</p>
+                            </div>                    
+                    </div>
+                   
+                    <div style="height: 100px; margin-top: 50px;">
+                    <div id="firebaseui-auth-container"></div>  
+                    </div>   
+    
+    
+                  </div>
+                </div>
+              </div>
+
+
+          </div>
+        </div>
+
+      </div>
+      <br>
+    </div>
+
+  </div>
+  </div>
+
+  <!-- ***************** END ******************* -->
+
+
+  <!-- **************************************** -->
+  <!--   Profile Section  -->
+
+  <!-- Header -->
+  <div id="main_profile_section" style="display: none; margin-top: 1px;">
+
+    <div id="profile_header_section">
+
+      <div class="container-fluid">
+        <div class="fb-profile">
+          <img class="fb-image-lg left-align z-depth-2" src="Images/profile_background.jpg" alt="Profile image" />
+          <div class="center-align">
+            <img id="user_profile_image" class="fb-image-profile thumbnail z-depth-2" src="Images/default.jpg"
+              alt="Profile image example" />
+          </div>
+
+          <div id="user_content" class="center-align">
+            <!-- Script Code -->>
+          </div>
+
+        </div>
+
+       
+
+      </div>
+
+
+
+
+    </div>
+
+
+    <!-- Profile Content -->
+    <div class="container-fluid" id="profile_content_section" style="margin: 4% 5% 0px 5%;;">
+
+      <div class="row">
+
+
+        <div class="col s12 m12">
+
+          <!-- Tab Section -->
+          <div class="row" style="margin-top: 3%;">
+            <div class="col s12">
+              <ul class="tabs tabs-fixed-width tab-demo z-depth-1 white lighten-5 rcorners">
+                <li class="tab col s3"><a class="active blue-text" href="#Profile"><b>Profile</b></a></li>
+                <li class="tab col s3"><a class="blue-text" href="#Bookings"><b>Bookings</b></a></li>                
+                <li class="tab col s3"><a class="blue-text" href="#Options"><b>Options</b></a></li>
+              </ul>
+            </div>
+
+            <!--Edit Profile -->
+            <div id="Profile" class="col s12">
+              <div id="user_profile">
+                <!-- form -->
+
+                <div class="row" style="margin-top:1%;">
+                  <div class="col s12">
+                    <div class="card" style="border-radius: 25px;">
+                      
+                        <div class="red-card-content white-text z-depth-2" style="border-radius: 25px 25px 0px 0px; height: 100px;">
+                          <p class="card-content" style="font-size: 40px;">Profile</p>
+                        </div>
+                         
+                        <div class="card-content">
+                          <div class="row">
+                            <form class="col s12">
+                              <div class="row">
+                                <div class="input-field col s12">
+                                  <i class="material-icons prefix">account_circle</i>
+                                  <input disabled value="abc" id="user_name" type="text" class="validate">
+                                  <label for="user_name">Name</label>
+                                </div>
+                              </div>
+                            </form>
+
+
+                            <form class="col s12">
+                              <div class="row">
+                                <div class="input-field col s12">
+                                  <i class="material-icons prefix">email</i>
+                                  <input disabled value="abc@gmail.com" id="user_email" type="text" class="validate">
+                                  <label for="user_email">Email ID</label>
+                                </div>
+                              </div>
+                            </form>
+
+
+                            <form class="col s12">
+                              <div class="row">
+                                <div class="input-field col s12">
+                                  <i class="material-icons prefix">phone</i>
+                                  <input value="0" id="user_mobile" type="number" class="validate">
+                                  <label class="active" for="user_mobile">Mobile Number (+91)</label>
+                                </div>
+                              </div>
+                            </form>
+
+                            <form class="col s12">
+                              <div class="row">
+                                <div class="left-align" style="margin-left: 2%;">
+                                  <a onclick="saveprofiledata()" class="waves-effect waves-light btn blue rcorners z-depth-2" style="width: 150px; font-size: 20px;">Update</a>
+                                </div>
+                              </div>
+                            </form>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+
+            
+
+            <!--Bookings -->
+            <div id="Bookings" class="col s12">
+              <div id="user_bookings" style="margin-top:1%;">
+                <!-- Script Code -->
+              </div>
+            </div>
+           
+
+            <!--Options -->
+            <div id="Options" class="col s12">
+
+              <div class="row" style="margin-top:1%;">
+                <div class="col s12">
+                  <div class="card" style="border-radius: 25px;">
+
+                      <div class="red-card-content white-text z-depth-2" style="border-radius: 25px 25px 0px 0px; height: 100px;">
+                          <p class="card-content" style="font-size: 40px;">Options</p>
+                        </div>
+
+                    <div class="card-content">
+                        <div id="user_options">
+
+                          <!-- Create Option -->
+
+                          <div id="user_options">
+                            <div class="collection">
+                              <a href="#!" onclick="openBookmark()" class="collection-item">Your Wishlist</a>
+                            </div>
+                          </div>
+
+                          <div class="center-align" style="margin-top: 15%;">
+                            <a onclick="signout()" class="waves-effect waves-light btn red rcorners" style="width: 150px; font-size: 20px;">Signout</a>
+                          </div>
+
+                          <div id="admin_options">
+                            <!-- Script Code -->
+
+                          </div>
+
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+
+
+            <!-- tab end -->
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ***************** END ******************* -->
+
+
+  <!-- **************************************** -->
+  <!-- Footer -->
+  <!-- **************************************** -->
+  <footer id="footer_sec" style="display: none;" class="page-footer fresh-content  white-text">
+      <div class="container">
+          <div class="row">
+            <div class="col l6 s12">
+              <h5 class="white-text">Company Bio</h5>
+              <!--
+              <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our
+                full time job. Any amount would help support and continue development on this project and is greatly
+                appreciated.</p>
+                -->
+  
+  
+            </div>
+            <div class="col l3 s12">
+              <!-- <h5 class="white-text">Settings</h5> -->
+              <ul>
+                <li><a class="white-text" href="about_us.html">About</a></li>
+                <li><a class="white-text" href="terms_and_conditions.html">Terms & Conditions</a></li>
+                <li><a class="white-text" href="privacy_police.html">Privacy and Cookie Police</a></li>              
+              </ul>
+            </div>
+            <div class="col l3 s12">
+            <!--
+              <h5 class="white-text">Connect</h5>
+              <ul>
+                <li><a class="white-text" href="#!">Facebook</a></li>
+                <li><a class="white-text" href="#!">Instgram</a></li>
+              </ul>
+             -->
+            </div>
+          </div>
+        </div>
+        <div class="footer-copyright">
+          <div class="container">
+            Made by <a class="brown-text text-lighten-3" href="#!">KivTech</a>
+          </div>
+        </div>
+  </footer>
+
+
+
+  <!-- **************************************** -->
+  <!--  Scripts-->
+  <!-- **************************************** -->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="../external/js/materialize.js"></script>
+  <script src="../external/js/init.js"></script>
+
+
+  <script src="https://www.gstatic.com/firebasejs/ui/4.2.0/firebase-ui-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-storage.js"></script>
+  <script src="app/firestore.js"></script>
+  <script src="scripts/common.js"></script>
+  <script src="scripts/login.js"></script>
+
+
+</body>
+
+</html>

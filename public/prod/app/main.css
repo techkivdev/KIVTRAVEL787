@@ -1,0 +1,10 @@
+p {
+    width: 300px;
+}
+.wrap {
+    word-wrap: break-word;
+}
+
+.scroll {    
+    overflow-x: auto;
+}

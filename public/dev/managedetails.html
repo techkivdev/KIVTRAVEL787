@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>All Details</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="external/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="external/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+    <div class="bg">
+
+  <!-- **************************************** -->
+  <!-- Navigation Sectione -->
+  <!-- **************************************** -->
+
+    <nav class="white z-depth-2" role="navigation" style="position: relative;">
+      <div class="nav-wrapper container">
+
+        <!-- Logo Container -->
+        <a id="logo-container" href="index.html" class="brand-logo">Logo</a>
+
+        <!-- Navigation List -->
+        <ul class="right hide-on-med-and-down">
+          <li><a href="index.html">Home</a></li>   
+          <li><a href="alldetails.html?detail1=DESTINATIONS&detail2=NA&detail3=NA">Destinations</a></li>
+          <li><a href="alldetails.html?detail1=PACKAGES&detail2=NA&detail3=NA">Packages</a></li>
+          <li><a href="login.html">Profile</a></li>       
+        </ul>
+
+        <!-- Mobile Navigation List -->
+        <ul id="nav-mobile" class="sidenav">
+           
+            <div class="container-fluid">
+                <div class="fb-profile">            
+                  <img class="fb-image-lg left-align z-depth-2" src="Images/default.jpg" alt="Snow" style="height: 200px; margin-bottom: 10px;">            
+                </div>
+              </div>
+
+
+            <li><a href="index.html">Home</a></li>
+            <li><a href="alldetails.html?detail1=DESTINATIONS&detail2=NA&detail3=NA">Destinations</a></li>
+            <li><a href="alldetails.html?detail1=PACKAGES&detail2=NA&detail3=NA">Packages</a></li>
+            <li><a href="login.html">Profile</a></li> 
+            <li class="divider"></li>    
+            <li style="margin-top: 10px;"><a href="terms_and_conditions.html">Terms & Conditions</a></li>  
+            <li><a href="privacy_police.html">Privacy Police</a></li>
+            <li><a href="about_us.html">About Us</a></li> 
+        </ul>
+
+        <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>        
+
+      </div>
+
+      
+
+    </nav>  
+
+    
+
+  <!-- **************************************** -->
+  <!-- Main Banner -->
+  <!-- **************************************** -->
+
+  <div class="container"> 
+          <h3 class="white-text">Manage Details</h3> 
+    </div>
+
+  <div id="main_progress" class="progress">
+      <div class="indeterminate red"></div>
+    </div>
+
+    <!-- Floating Btn -->
+    <div class="fixed-action-btn">
+        <a onclick="refereshSection()" class="btn-floating btn-large  blue">
+          <i class="large material-icons">autorenew</i>
+        </a>      
+      </div>    
+
+
+  <!-- **************************************** -->
+  <!-- Container Section 1 -->
+  <!-- **************************************** -->
+  <div class="container">
+    <div class="section">     
+
+      <!-- **************************************** -->
+      <!--   Coloum Section 1  --> 
+      <div id="col_section_1">
+
+        <!-- Filter Option -->
+        <div id="filter_options">
+            <ul class="collapsible blue-grey lighten-4">
+                <li>
+                  <div class="collapsible-header"><i class="material-icons">filter_list</i>Filter</div>
+                  <div class="collapsible-body">
+                    <span><b>Status Options</b></span>
+                    <!-- Drop Box -->
+                    <div style="margin-top: 2%;">
+
+                        <div class="input-field col s12">
+                            <select id="filter_state_options">
+                              <option value="0" disabled selected>Default OPEN</option>
+                              <option value="1">ALL</option>
+                              <option value="2">OPEN</option>
+                              <option value="3">PROGRESS</option>
+                              <option value="4">SUCCESS</option>
+                              <option value="5">CANCEL</option>
+                              <option value="6">DELETED</option>
+                            </select>
+                            <label></label>
+                          </div>
+                        
+                          
+                      </div>
+
+                      <!-- Input Filter Options -->
+                      <span><b>Input Option's</b></span>                      
+                      <div style="margin-top: 2%;">
+                          <form action="#">
+
+                              <label>
+                                  <input id="filter_none" class="with-gap" name="group1" type="radio" checked  />
+                                  <span class="black-text">NONE</span>
+                                </label>
+
+                                <label style="margin-left: 2%;">
+                                    <input id="filter_id" class="with-gap" name="group1" type="radio"  />
+                                    <span  class="black-text">ID</span>
+                                  </label>
+
+                                <label style="margin-left: 2%;">
+                                    <input id="filter_email" class="with-gap" name="group1" type="radio"  />
+                                    <span  class="black-text">Email ID</span>
+                                  </label>
+
+                                  <label style="margin-left: 2%;">
+                                      <input id="filter_mobile" class="with-gap" name="group1" type="radio"  />
+                                      <span  class="black-text">Mobile</span>
+                                    </label>
+
+                            </form>
+
+                            <div style="margin-top: 2%;">                             
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">input</i>
+                                  <input value="" id="filter_input" type="text" class="validate">
+                                  <label for="filter_input"></label>
+                                </div>
+                              </div>
+                      </div>
+
+                      <!-- Input Filter Options -->
+                      <span><b>Date Option's</b></span> 
+                      <div style="margin-top: 2%;">
+
+                          <div class="input-field col s12">
+                              <select id="filter_date_options">
+                                <option value="0" disabled selected>Please Select Option</option>
+                                <option value="1">START DATE</option>
+                                <option value="2">BOOKING DATE</option>  
+                                <option value="3">NONE</option>                              
+                              </select>
+                              <label></label>
+                            </div>
+
+                          <div class="input-field col s6">
+                              <i class="material-icons prefix">date_range</i>
+                              <input type="text" id="input_date" class="datepicker">
+                              <label for="input_date"></label>
+                            </div>
+                      </div>
+
+
+
+                      <!-- BUTTON -->
+                    <div style="margin-top: 2%;">
+                      <br>
+                        <a onclick="filterOperation()" class="waves-effect waves-light btn blue" style="width:100px">Filter</a>
+                        <a onclick="resetfilterOperation()" class="waves-effect waves-light btn orange" style="width:100px;margin-left: 2%;">RESET</a>
+                      </div>
+
+                  </div>
+                </li>               
+              </ul>
+              <li class="divider"></li>
+        </div>
+
+        <!-- Booking Managment -->
+        <div id="booking_managment" class="row" style="display: none; margin-top: 2%;">  
+          
+          <!-- Section 1 -->
+          <div id="section_1" class="col s12 m4" style="max-height: 600px;overflow: auto;">             
+            
+            <ul id="booking_collection" class="collection z-depth-3" >                
+               <!-- Script Code -->
+            </ul>
+
+          </div>
+
+          <!-- Section 2 -->
+          <div id="section_2" class="col s12 m8" style="display: none;">   
+
+                <div class="card">
+                  <div class="card-content black-text">
+                    <span id="booking_title" class="card-title"></span>
+                   
+                    <div id="header_content" >
+                      <!-- Script Code  -->  
+                    </div> 
+                        
+                    <!-- Tab Section -->
+                    <div class="row" style="margin-top: 2%;">
+                        <div class="col s12">
+                          <ul class="tabs tabs-fixed-width tab-demo z-depth-1">
+                            <li class="tab col s3"><a class="active" href="#Control">Control</a></li>
+                            <li class="tab col s3"><a href="#Options">Options</a></li>   
+                            <li class="tab col s3"><a href="#Comment">Comment</a></li>                          
+                          </ul>
+                        </div>
+
+                        <!-- Control -->
+                        <div id="Control" class="col s12">  
+                        
+                              <div id="footer_content" style="margin-top: 2%;">
+                                  <!-- Script Code  -->  
+                              </div>
+                          
+                        </div>
+
+                        <!-- Options -->
+                        <div id="Options" class="col s12">
+                            <br>
+                            <div class="row">
+
+                                <div class="input-field col s12">                                  
+                                    <input value="nav-mobile" id="input_pkgid"  onkeyup="this.value = this.value.toUpperCase();" type="text" class="validate">
+                                    <label class="active" for="input_pkgid">Package ID</label>
+                                  </div>
+
+                                  <div class="input-field col s12">                                  
+                                      <input value="NA" id="input_destid"  onkeyup="this.value = this.value.toUpperCase();" type="text" class="validate">
+                                      <label class="active" for="input_destid">Destination ID</label>
+                                    </div>
+
+                                    <div class="input-field col s12">                                  
+                                        <input value="0" id="input_priority" type="number" class="validate">
+                                        <label class="active" for="input_priority">Priority</label>
+                                      </div>
+
+                                      <div class="input-field col s12">                                  
+                                          <input value=" " id="input_dissstatus" type="text" class="validate">
+                                          <label class="active" for="input_dissstatus">Disscustion Status</label>
+                                        </div>
+
+
+                                        <div class="input-field col s12">
+                                            <input value=" " type="text" id="input_dissdate" class="datepicker">
+                                           <label class="active" for="input_dissdate">Disscustion Date</label>
+                                          </div>
+
+                                          <div class="input-field col s12">                                  
+                                              <input value=" " id="input_usermood" type="text" class="validate">
+                                              <label class="active" for="input_usermood">User Mood</label>
+                                            </div>
+
+
+                                <div class="input-field col s12">                                  
+                                  <input value=" " id="input_vendor"  onkeyup="this.value = this.value.toUpperCase();" type="text" class="validate">
+                                  <label class="active" for="input_vendor">Vendor ID</label>
+                                </div>
+
+                                <div class="input-field col s12">                                  
+                                  <input value="0" id="input_deal_price" type="number" class="validate">
+                                  <label class="active" for="input_deal_price">Deal Price</label>
+                                </div>                              
+                                                                     
+
+                              </div>                          
+                            
+                              
+                        </div> 
+
+                         <!-- Comment -->
+                         <div id="Comment" class="col s12">  
+
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix">verified_user</i>
+                                <textarea value="NA" id="admin_comment" class="materialize-textarea" data-length="300"></textarea>
+                                <label class="active" for="admin_comment"></label>
+                              </div>                                  
+                             
+                              
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">message</i>
+                                    <textarea value="NA" id="finalmessage_comment" class="materialize-textarea" data-length="300"></textarea>
+                                    <label class="active" for="finalmessage_comment"></label>
+                                  </div>
+                        
+                           
+                        
+                      </div>
+
+                      </div>
+
+                   
+                  </div>                  
+                </div>
+              
+
+          </div>
+
+        </div>
+        
+        </div>
+
+
+    </div> 
+    </div>>
+
+ 
+ 
+  
+  
+   <!-- ***************** END ******************* -->  
+  
+
+  <!-- **************************************** -->
+  <!-- Footer -->
+  <!-- **************************************** -->
+  <footer class="page-footer fresh-content  white-text">
+      <div class="container">
+          <div class="row">
+            <div class="col l6 s12">
+              <h5 class="white-text">Company Bio</h5>
+              <!--
+              <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our
+                full time job. Any amount would help support and continue development on this project and is greatly
+                appreciated.</p>
+                -->
+  
+  
+            </div>
+            <div class="col l3 s12">
+              <!-- <h5 class="white-text">Settings</h5> -->
+              <ul>
+                <li><a class="white-text" href="about_us.html">About</a></li>
+                <li><a class="white-text" href="terms_and_conditions.html">Terms & Conditions</a></li>
+                <li><a class="white-text" href="privacy_police.html">Privacy and Cookie Police</a></li>              
+              </ul>
+            </div>
+            <div class="col l3 s12">
+            <!--
+              <h5 class="white-text">Connect</h5>
+              <ul>
+                <li><a class="white-text" href="#!">Facebook</a></li>
+                <li><a class="white-text" href="#!">Instgram</a></li>
+              </ul>
+             -->
+            </div>
+          </div>
+        </div>
+        <div class="footer-copyright">
+          <div class="container">
+            Made by <a class="brown-text text-lighten-3" href="#!">KivTech</a>
+          </div>
+        </div>
+    </footer>
+
+  </div>
+
+
+  
+
+
+  <!-- **************************************** -->
+  <!--  Scripts-->
+  <!-- **************************************** -->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="../external/js/materialize.js"></script>
+  <script src="../external/js/init.js"></script>
+ 
+
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-storage.js"></script>
+  <script src="app/firestore.js"></script>
+  <script src="scripts/common.js"></script>
+  <script src="scripts/managedetails.js"></script>
+
+
+</body>
+
+</html>

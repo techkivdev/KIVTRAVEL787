@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Content Managment</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+		<a class="navbar-brand" href="#">Content Managment</a>
+		<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+			
+		</ul>
+		
+	</div>
+</nav>
+
+
+<div class="container">
+	<br><br>
+	
+	<!-- Collection Content Container -->
+	<div id="project_content_container" class="container">
+	
+	<h2>Welcome</h2>
+	<p><strong>Note:</strong> The <strong>data-parent</strong> </p>
+
+
+	<br>
+
+	<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+		<li class="nav-item">
+			<a class="nav-link active" id="pills-adminControl1-tab" data-toggle="pill" href="#pills-adminControl1" role="tab" aria-controls="pills-adminControl1" aria-selected="true">Dashboard</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" id="pills-adminControl2-tab" data-toggle="pill" href="#pills-adminControl2" role="tab" aria-controls="pills-adminControl2" aria-selected="false">Project Configuration</a>
+		</li>
+
+	</ul>
+
+	<div class="tab-content" id="pills-tabContent">
+
+		<!-- Admin Control 1 -->
+		<div class="tab-pane fade show active" id="pills-adminControl1" role="tabpanel" aria-labelledby="pills-adminControl1-tab">
+			<div class="card border-dark mb-3">
+				<div class="card-body">
+					<h5 class="card-title">Project Dashboard</h5>
+					<br>
+
+					<!-- Language Dropdown -->
+					<div class="btn-group">
+						<div class="dropdown">
+							<button class="btn btn-secondary dropdown-toggle" type="button" id="lang_dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Select Language
+							</button>
+							<div id="lang_dropdownMenuOptions" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+								<a class="dropdown-item" href="#">CORE</a>
+								<a class="dropdown-item" href="#">LANG_EN</a>
+							</div>
+						</div>
+					</div>
+
+					<br><br>
+					<div class="tab-content" id="controlContent1">
+						<!-- Script code -->
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<!-- Admin Control 2 -->
+		<div class="tab-pane fade" id="pills-adminControl2" role="tabpanel" aria-labelledby="pills-adminControl2-tab">
+
+			<div class="card border-dark mb-3">
+				<div class="card-body">
+					<h5 class="card-title">Project Configuration</h5>
+					<!-- Tab panes -->
+					<br>
+					<div class="tab-content" id="controlContent2">
+
+						<!-- Project Settings View -->
+						<div class="row">
+							<div class="col-sm-4">
+								<!-- List group -->
+								<div class="list-group" id="adminList" role="tablist">
+									<a class="list-group-item list-group-item-action active" data-toggle="list" href="#admin_tab_1" role="tab">Create New Collection</a>
+									<a class="list-group-item list-group-item-action" data-toggle="list" href="#admin_tab_2" role="tab">Project Options</a>
+									<a class="list-group-item list-group-item-action" data-toggle="list" href="#admin_tab_3" role="tab">Settings</a>
+									<a class="list-group-item list-group-item-action" data-toggle="list" href="#admin_tab_4" role="tab">Extra</a>
+								</div>
+							</div>
+
+							<div class="col-sm-8">
+								<!-- Tab panes -->
+								<div class="tab-content">
+
+									<!-- Tab 1 -->
+									<div class="tab-pane active" id="admin_tab_1" role="tabpanel">
+
+										<!-- SECTION : CREATE NEW COLLECTION -->
+										<div class="card">
+											<div class="card-body">
+												<h5 class="card-title">Create Collection</h5>
+												<h6 class="card-subtitle mb-2 text-muted">Please provide below details to create new collection.</h6>
+												<br>
+
+												<form method="post" name="createNewCollectionForm">
+
+													<div class="form-group">
+														<label for="coll_name">Collection Name</label>
+														<input type="text" onkeyup="this.value = this.value.toUpperCase();" class="form-control" id="coll_name" required placeholder="name">
+													</div>
+
+													<div class="form-group">
+														<label for="coll_details">Collection Details</label>
+														<input type="text" class="form-control" id="coll_details" required placeholder="details">
+													</div>
+
+													<div class="form-group">
+														<label for="coll_lang">Language Database Name</label>
+														<input type="text" class="form-control" id="coll_lang" required value="CORE">
+													</div>
+
+													<div class="form-group">
+														<label for="coll_totalDocument">Total Documents inside collection</label>
+														<input type="number" class="form-control" id="coll_totalDocument" min="1" max="50" required value="1">
+													</div>
+
+													<br><br>
+													<h6 class="card-subtitle mb-2 text-muted">Each Document Configuration</h6>
+
+													<div class="form-group">
+														<label for="coll_totalInfo">Total Informtions Fields</label>
+														<input type="number" class="form-control" id="coll_totalInfo" min="1" max="30" required value="1">
+													</div>
+
+													<div class="form-group">
+														<label for="coll_totalMultiInfo">Total Multi Informtions Fields</label>
+														<input type="number" class="form-control" id="coll_totalMultiInfo" min="1" max="30" required value="0">
+													</div>
+
+													<div class="form-group">
+														<label for="coll_totalBoolInfo">Total Boolean Informtions Fields</label>
+														<input type="number" class="form-control" id="coll_totalBoolInfo" min="1" max="30" required value="0">
+													</div>
+
+													<div class="form-group">
+														<label for="coll_totalNumInfo">Total Number Informtions Fields</label>
+														<input type="number" class="form-control" id="coll_totalNumInfo" min="1" max="30" required value="0">
+													</div>
+
+													<div class="form-group">
+														<label for="coll_totalListref">Total List Reference Fields</label>
+														<input type="number" class="form-control" id="coll_totalListref" min="0" max="30" required value="0">
+													</div>
+
+													<div class="form-group">
+														<label for="coll_totalImages">Total Images Fields</label>
+														<input type="number" class="form-control" id="coll_totalImages" min="0" max="30" required value="0">
+													</div>
+
+													<div class="form-group">
+														<label for="coll_totalTree">Total Tree Fields</label>
+														<input type="number" class="form-control" id="coll_totalTree" min="0" max="30" required value="0">
+													</div>
+
+													<div class="form-group">
+														<label for="coll_totalForm">Total Forms Fields</label>
+														<input type="number" class="form-control" id="coll_totalForm" min="0" max="30" required value="0">
+													</div>
+
+													<br>
+													<div class="text-right">
+														<button type="submit" class="btn btn-primary createNewColl">Create Collection</button>
+													</div>
+
+												</form>
+
+
+											</div>
+
+										</div>
+
+									</div>
+
+
+									<!-- Tab 2 -->
+									<div class="tab-pane" id="admin_tab_2" role="tabpanel">
+
+										<div class="card">
+											<div class="card-body">
+
+
+												<!-- Create Collection From Backup -->
+												<br>
+												<div class="card">
+													<div class="card-body">
+														<h5 class="card-title">Create New Backup Collection</h5>
+														<p class="card-subtitle mb-2 text-muted">Create New Collection from Backup file. If already collection present then collection current data will be updated by new backup data.</p>
+														<br><input type="file" id="newCollBackupFile" onchange="createNewCollectionFromBackupFile()">
+														<p id="newCollectionBackupFileDetails"></p>
+													</div>
+												</div>
+
+												<!-- Create New Language -->
+												<br>
+												<div class="card">
+													<div class="card-body">
+														<h5 class="card-title">Add New Development Language</h5>
+														<p class="card-subtitle mb-2 text-muted">Add new language in DEVELOPMENT Database.</p>
+														<br><input type="button" id="addNewLanguageBtn" class="btn btn-success" value="+ Add Language" onclick="addNewLanguage('DEVELOPMENT')" />
+
+
+													</div>
+												</div>
+												
+												<div class="card">
+													<div class="card-body">
+														<h5 class="card-title">Add New Production Language</h5>
+														<p class="card-subtitle mb-2 text-muted">Add new language in PRODUCTION Database.</p>
+														<br><input type="button" id="addNewLanguageBtn" class="btn btn-success" value="+ Add Language" onclick="addNewLanguage('PRODUCTION')" />
+
+
+													</div>
+												</div>
+
+											</div>
+										</div>
+
+
+									</div>
+
+									<!-- Tab 3 -->
+									<div class="tab-pane" id="admin_tab_3" role="tabpanel">
+
+
+
+									</div>
+
+									<!-- Tab 4 -->
+									<div class="tab-pane" id="admin_tab_4" role="tabpanel">
+
+
+									</div>
+
+
+								</div>
+
+
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+		
+		
+		
+		
+		</div>
+
+
+
+
+
+</div>
+
+<br><br><br><br><br><br>
+
+
+<!-- Script Locations 
+<script src="https://www.gstatic.com/firebasejs/5.8.4/firebase.js"></script> -->
+<script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-storage.js"></script>
+<script src="scripts/common.js"></script>
+<script src="app/firestore.js"></script>
+<script src="app/datasets.js"></script>
+<script src="app/project_settings.js"></script>
+
+</body>
+</html>

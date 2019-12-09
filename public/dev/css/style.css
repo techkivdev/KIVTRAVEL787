@@ -1,0 +1,188 @@
+.big-banner{
+    background-image: url('../Images/header_default.jpg');
+    background-size: 100%;
+    height: 500px; padding-top: 150px;
+}
+
+.fresh-content{
+    background: linear-gradient(-45deg,#ec5252,#6e1a52);
+}
+
+.blue-card-content{
+  background: linear-gradient(-45deg,#7391e4,#340788);
+}
+
+.red-card-content{
+  background: linear-gradient(-45deg,#ec5252,#6e1a52);
+}
+
+.green-card-content{
+  background: linear-gradient(-45deg,#a4ec52,#2e6e1a);
+}
+
+.orange-card-content{
+  background: linear-gradient(-45deg,#ec8f52,#6e401a);
+}
+
+.new-container {
+    position: relative;
+    text-align: center;
+    color: white;    
+  }
+
+  /* Bottom left text */
+.bottom-left {
+    position: absolute;
+    bottom: 8px;
+    left: 16px;
+  }
+  
+  /* Top left text */
+  .top-left {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+  }
+  
+  /* Top right text */
+  .top-right {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+  }
+
+
+  /* Bottom right text */
+.bottom-right {
+    position: absolute;
+    bottom: 8px;
+    right: 16px;
+  }
+  
+  /* Centered text */
+  .centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .img-circle {
+    border-radius: 50%;
+    height: 250px;
+}
+
+.header-margin {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+/* Page Background Details */
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
+.bg {
+  /* The image used */
+  background-image: url("../Images/body_background.png");
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Profile Page Background */
+
+body
+{
+    font-family: 'Open Sans', sans-serif;
+}
+
+.fb-profile img.fb-image-lg{
+    z-index: 0;
+    width: 100%;  
+    height: 300px;
+    max-height: 500px;
+    margin-bottom: 0px;
+}
+
+.fb-image-profile
+{
+    margin: -130px 0px 0px 0px;
+    z-index: 9;    
+    max-width: 250px;
+    max-height: 250px;
+    border: solid white 5px;
+    border-radius: 50%;
+}
+
+/* Round Corner */
+.rcorners {
+  border-radius: 25px;    
+}
+
+/* For long text */
+.long-text{
+  line-height:1.2em;
+  height:3.6em;
+  overflow:hidden;
+}
+
+
+
+/* ================================================= */
+/* -------------- Scrolling Handling --------------- */
+/* Link : https://stackoverflow.com/questions/47505426/html-horizontal-scrollbar-for-card-divs */
+
+
+
+.circular {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+ 
+}
+
+
+.row-scroll{
+  align-items: stretch;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.card-scroll {
+  /*float: left;*/  
+  padding: .75rem;
+  margin-bottom: 2rem;
+  border: 0;  
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.card-scroll > img {
+  margin-bottom: .75rem;
+}
+
+.card-scroll-text {
+  font-size: 85%;
+}
+
+
+
+/* ================================================= */
+
+
+/* ================================================= */
+/* --------- Fix Header Content -------------------- */
+
+
+
+
+/* ================================================= */
