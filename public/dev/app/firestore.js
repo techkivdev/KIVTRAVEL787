@@ -1,15 +1,15 @@
 // *********************************************************************	
 // Initialize Firebase
 // *********************************************************************	
-let config = {
-  apiKey: "AIzaSyCcO_Q7pgBXrgIZ23_-fJf2AAH5viE1fHU",
-  authDomain: "webtemplate-1b4f0.firebaseapp.com",
-  databaseURL: "https://webtemplate-1b4f0.firebaseio.com",
-  projectId: "webtemplate-1b4f0",
-  storageBucket: "webtemplate-1b4f0.appspot.com",
-  messagingSenderId: "764361145796",
-  appId: "1:764361145796:web:531e1d5288b315e2ee7891",
-  measurementId: "G-YPGDK3WC88"
+let config = { 
+  apiKey: "AIzaSyADCYfe_XMIKyIb7M7hC7-e5HtFm9wdrgg",
+  authDomain: "kivtravels-2483b.firebaseapp.com",
+  databaseURL: "https://kivtravels-2483b.firebaseio.com",
+  projectId: "kivtravels",
+  storageBucket: "kivtravels.appspot.com",
+  messagingSenderId: "972368251233",
+  appId: "1:972368251233:web:a01a5c78dfc5d6400c9d20",
+  measurementId: "G-FBBCZG6P3N"
 };
 
 firebase.initializeApp(config);
