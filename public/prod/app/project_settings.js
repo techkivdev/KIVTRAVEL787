@@ -329,9 +329,12 @@ function validationFailed() {
 // Call Function when page loaded
 // ************************************
 // Bypass for first time use
-//readProjectDataFromDatabase()
-
-validateAdminRoles();
+if(bypass_validation_check) {
+   console.log('By pass validation check.')
+   readProjectDataFromDatabase()
+} else {
+   validateAdminRoles();
+}
 
 
 // ***************************************************

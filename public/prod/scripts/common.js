@@ -37,6 +37,9 @@ var first_time_operation = true
 // false : Development Publish Content
 var check_dev_publish_content = true
 
+// Bypass Validation check
+var bypass_validation_check = false
+
 
 // ------------------------------------------------------
 // Auto Init

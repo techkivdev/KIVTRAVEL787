@@ -274,9 +274,12 @@ getParams();
 
 // Read Data from Database
 // Bypass for first time use
-//readDataFromDatabase()
-
-validateAdminRoles();
+if(bypass_validation_check) {
+    console.log('By pass validation check.')
+    readDataFromDatabase()
+ } else {
+    validateAdminRoles();
+ }
 
 
 
