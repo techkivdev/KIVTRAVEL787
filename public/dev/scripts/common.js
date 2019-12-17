@@ -179,20 +179,17 @@ function clickHandling(mdl_map_details) {
   var id = mdl_map_details['ID']
 
   var action = mdl_action_details.split(',')[0]
-  var page_name = mdl_action_details.split(',')[1]
-  var name = mdl_action_details.split(',')[2]
-  var filter = mdl_action_details.split(',')[3]
-  var extra = mdl_action_details.split(',')[4]
+  var page_name = mdl_action_details.split(',')[1]   
 
 
   if (action == 'STATICPAGE') {
-    var url = page_name + '.html?detail1=' + encodeURIComponent(name) + '&detail2=' + encodeURIComponent(filter) + '&detail3=' + encodeURIComponent(extra);
+    var url = page_name + '.html?id=' + encodeURIComponent(id) + '&fl=' + encodeURIComponent('NA');
 
     //document.location.href = url;
     return url
   } else if (action == 'FILTERPAGE') {
 
-    var url = page_name + '.html?detail1=' + encodeURIComponent(name) + '&detail2=' + encodeURIComponent(id) + '&detail3=' + encodeURIComponent(extra);
+    var url = page_name + '.html?id=' + encodeURIComponent(id) + '&fl=' + encodeURIComponent('NA');
 
     return url
 
@@ -491,6 +488,18 @@ function modelLayoutSelector(mdl_coll, mdl_layout, doc_details, all_doc_info_lis
   mdl_map_details['CONTENT'] = complete_content
   mdl_map_details['ACTION'] = mdl_action_details
 
+  // SQUARE_CARD_NOR Layout
+  if (mdl_layout == 'SQUARE_CARD_NOR') {
+
+    mdl_html_line = modelLytSquareCardNormal(mdl_map_details)
+  }
+
+  // SQUARE_CARD_NOR_SCROLL Layout
+  if (mdl_layout == 'SQUARE_CARD_NOR_SCROLL') {
+
+    mdl_html_line = modelLytSquareCardNormalScroll(mdl_map_details)
+  }
+
 
   // SQUARE_CARD Layout
   if (mdl_layout == 'SQUARE_CARD') {
@@ -526,7 +535,7 @@ function modelLayoutSelector(mdl_coll, mdl_layout, doc_details, all_doc_info_lis
 
 }
 
-// Model Square Card
+// Model Square Card - Normal
 // Important Point :
 // : col s12 m6 - Desktop layout is same but in mobile layout one below to another one
 // : col s6 m6  - Same in desktop and mobile also
@@ -536,9 +545,31 @@ function modelLytSquareCardNormal(mdl_map_details) {
   var complete_content = mdl_map_details['CONTENT']  
 
   var htmlLine = '<div class="col s12 m4"><a href="' + clickHandling(mdl_map_details) + '">\
-                  <div class="card hoverable">\
+                  <div class="card hoverable" style="border-radius: 10px; widht: 300px; max-width: 300px;">\
                     <div class="card-image">\
-                      <img src="' + getModelImageRef(image_ref) + '">\
+                      <img src="' + getModelImageRef(image_ref) + '" style="height: 200px; max-height: 200px; widht: 400px; max-width: 400px; border-radius: 10px 10px 0px 0px;">\
+                    </div>\
+                    <div class="card-content">\
+                      <div>' + complete_content + '</div>\
+                    </div>\
+                  </div>\
+                </a>\
+              </div>';
+
+  return htmlLine;
+
+}
+
+// Model Square Card - Normal - Scroll
+function modelLytSquareCardNormalScroll(mdl_map_details) {
+  
+  var image_ref = mdl_map_details['IMAGE']
+  var complete_content = mdl_map_details['CONTENT']  
+
+  var htmlLine = '<div class="card-scroll"><a href="' + clickHandling(mdl_map_details) + '">\
+                  <div class="card hoverable" style="border-radius: 10px; widht: 300px; max-width: 300px;">\
+                    <div class="card-image">\
+                      <img src="' + getModelImageRef(image_ref) + '" style="height: 200px; max-height: 200px; widht: 400px; max-width: 400px; border-radius: 10px 10px 0px 0px;">\
                     </div>\
                     <div class="card-content">\
                       <div>' + complete_content + '</div>\

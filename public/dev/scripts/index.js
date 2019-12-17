@@ -312,6 +312,7 @@ if(docID in allDocCmpData) {
 docMapDetails["top_header"] = allDocCmpData[docID]["INFO0"]
 docMapDetails["top_destination"] = docID + "#INFO10"
 docMapDetails["top_packages"] = docID + "#INFO11"
+docMapDetails["top_places"] = docID + "#INFO18"
 docMapDetails["app_config"] = allDocCmpData[docID]["INFO12"]
 docMapDetails["catg_list"] = allDocCmpData[docID]["INFO2"]
 docMapDetails["offer_list"] = allDocCmpData[docID]["INFO3"]
@@ -362,6 +363,7 @@ function updateListRefDetails() {
   displayOutput('Update List view ...')
   getListRefDetails(getInfoDetailsC('Top Destination'), 'col_section_1')
   getListRefDetails(getInfoDetailsC('Top Packages'), 'col_section_2')  
+  getListRefDetails(getInfoDetailsC('Top Places'), 'col_section_3') 
 
 }
 
@@ -465,6 +467,15 @@ function getModelCompleteContent(mdl_coll, all_doc_info_list, doc_data) {
     html_div_line += '<small style="font-size: 20px;">&#x20b9;'+ price +'</small></span>\
         <br>\
   </p></div>';
+
+      break;
+
+      case "PLACES":
+
+      var header = doc_data[all_doc_info_list[0]]
+      var content = doc_data[all_doc_info_list[1]]      
+
+      html_div_line = '<b class="black-text">' + header +'</b><br><p class="grey-text">' + content +'</p>'
 
       break;
 
@@ -638,7 +649,7 @@ function openRequestForm() {
 
   localStorageData('ISPKG',false)
 
-  location.href = 'requestform.html?detail1=NA&detail2=NA&detail3=NA'
+  location.href = 'requestform.html'
 }
 
 

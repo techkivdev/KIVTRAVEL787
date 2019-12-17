@@ -57,14 +57,7 @@ function getParams() {
   }
   displayOutput(params);
 
-  // ------- Update Variables ------------
-  if ('detail1' in params) {
-    document_ID = params['detail1'];
-    filter = params['detail2'];
-    extra = params['detail3'];
-  }
-
-  displayOutput(document_ID + ' , ' + filter + ' , ' + extra)
+ 
 
 
 }
