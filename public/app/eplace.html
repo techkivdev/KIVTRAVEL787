@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title id="page_title">Places</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="external/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="external/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+  <!-- **************************************** -->
+  <!-- Navigation Sectione -->
+  <!-- **************************************** -->
+
+  <nav id="main_nav_bar" class="white z-depth-2" role="navigation" style="position: relative; display: none;">
+    <div class="nav-wrapper container">
+
+      <!-- Logo Container -->
+      <a id="logo-container" href="index.html" class="brand-logo">KivTravels</a>
+
+      <!-- Navigation List -->
+      <ul class="right hide-on-med-and-down">
+        <li><a href="index.html">Home</a></li>
+          <li><a href="destinations.html?fl=NA">Destinations</a></li>
+          <li><a href="packages.html?fl=NA">Packages</a></li>
+          <li><a href="login.html">Profile</a></li>
+      </ul>
+
+      <!-- Mobile Navigation List -->
+      <ul id="nav-mobile" class="sidenav">
+       
+          <div class="container-fluid">
+              <div class="fb-profile">            
+                <img class="fb-image-lg left-align z-depth-2" src="Images/nav_mobile.jpg" alt="Snow" style="height: 200px; margin-bottom: 10px;">            
+              </div>
+            </div>
+
+
+          <li><a href="index.html">Home</a></li>
+          <li><a href="destinations.html?fl=NA">Destinations</a></li>
+          <li><a href="packages.html?fl=NA">Packages</a></li>
+          <li><a href="login.html">Profile</a></li> 
+          <li class="divider"></li>    
+          <li style="margin-top: 10px;"><a href="terms_and_conditions.html">Terms & Conditions</a></li>  
+          <li><a href="privacy_police.html">Privacy Police</a></li>
+          <li><a href="about_us.html">About Us</a></li>
+      </ul>
+
+      <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+
+    </div>
+
+  </nav>
+
+
+
+
+  <!-- **************************************** -->
+  <!-- Header Section -->
+  <!-- **************************************** -->
+
+
+  <!-- **************************************** -->
+  <!-- Main Banner -->
+  <!-- **************************************** -->
+
+  <div id="header_section" class="new-container" style="display: none; height: 400px;  margin-top: 1px;">
+
+    <img id="banner_main_image" class="z-depth-2" src="Images/default.jpg" alt="Snow"
+      style="height: 400px; width:100%; background-size: 100%;">
+
+    <div class="centered">    
+
+      <div id="header_btn_options_plc" style="margin-top: 25%;">
+        <div class="col s12">
+          <ul class="tabs tabs-fixed-width tab-demo z-depth-1 white lighten-5 rcorners">
+            <li class="tab col s3"><a class="active blue-text" href="#details_plc"><b>Details</b></a></li>
+            <li class="tab col s3"><a class="blue-text" href="#images_plc"><b>Images</b></a></li>
+          </ul>
+        </div>
+      </div>     
+
+    </div>
+
+
+
+
+  </div>
+
+ 
+  <!-- ***************** END ******************* -->
+
+
+  <!-- Progress Bar -->
+  <div id="main_progress" class="center-align header-margin">
+
+    <div class="preloader-wrapper active">
+      <div class="spinner-layer spinner-red-only">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div>
+        <div class="gap-patch">
+          <div class="circle"></div>
+        </div>
+        <div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <!-- **************************************** -->
+  <!-- Container Section 1 -->
+  <!-- **************************************** -->
+
+  <div id="main_list_container" class="container row">   
+
+      <!-- **************************************** -->
+      <!--   Coloum Section 1  -->
+      <div id="col_section_1" style="display: none;">
+
+        <!-- details  -->
+        <div id="details_plc" class="col s12">
+          <!-- Row Section 1 -->
+          <div class="row" style="margin: -130px 0px 0px 0px;">
+
+            <!-- CARD Infromation 1 -->
+            <div class="col s12">
+              <div class="card" style="border-radius: 25px;">
+
+                <!-- red-card-content white-text z-depth-2 -->
+                <div id="header_card_dest" class="" style="border-radius: 25px 25px 0px 0px;">
+
+                  <div class="card-content">
+                    <p id="plc_title" style="font-size: 25px; margin-bottom: 20px;">Place Name</p>                   
+
+                    <div class="row">
+
+                   
+                    <!-- best time -->                    
+                      <div class="col s6">
+                        <p id="plc_header_1" class="grey-text">Best Time</p>
+                        <b id="plc_best_time">Sept - Oct</b>
+                      </div>
+                    
+
+                    <!-- Visa -->                   
+                      <div class="col s6">
+                        <p id="plc_header_2" class="grey-text">Visa</p>
+                        <b id="plc_visa">on arrival</b>
+                      </div>
+                    
+                  </div>
+
+
+                  <div class="row">
+
+                     <!-- Ideal Duration -->                     
+                      <div class="col s6">
+                        <p id="plc_header_3" class="grey-text">Ideal Duration</p>
+                        <b id="plc_duration">1-2 Hours</b>
+                      </div>
+                   
+
+                     <!-- Starting from -->                   
+                      <div class="col s6">
+                        <p id="plc_header_4" class="grey-text">Starting From</p>
+                        <b id="plc_starting">Rs. 8,074</b>
+                      </div>
+                  
+
+                  </div>
+
+                  <div class="row">
+                    <div class="col s12">                    
+  
+                      <div id="plc_tags">
+  
+                        <!-- All Activities Details -->
+                        <div class="chip">
+                          <img src="Images/default.jpg" alt="default">
+                          Jane Doe
+                        </div>
+  
+                      </div>
+  
+  
+                    </div>
+                  </div>
+
+                  </div>
+
+
+                </div>
+               
+              </div>
+            </div>
+
+             <!-- CARD Infromation desc -->
+          <div id="plc_info_1" class="col s12">
+            <div class="card" style="border-radius: 10px;">
+              <div class="card-content black-text">
+                <span class="card-title"><b id="plc_header_5">Description</b></span>
+                <!-- Card Body START -->
+                <div>
+                  <p id="plc_description" class="long-text">#</p>
+                </div> 
+
+                <div class="right-align" style="margin-top: 2%;">
+                  <a onclick="viewOverview()" class="waves-effect waves-teal btn-flat blue-text">Read More</a>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+            <!-- CARD Infromation 2 -->
+          <div id="plc_info_2" class="col s12">
+            <div class="card" style="border-radius: 10px;">
+              <div class="card-content black-text">
+                <span class="card-title"><b id="plc_header_6">How to Reach</b></span>
+                <!-- Card Body START -->
+                <div>
+                  <p id="plc_info_2_details">#</p>
+                </div> 
+              </div>
+            </div>
+          </div>
+
+
+          <!-- =========================================== -->
+          <!--  --------- TAB SECTION 2 ------------------ -->
+          <!-- =========================================== -->
+           
+
+            <div id="header_btn_options_plc_2" >
+              <div class="col s12" style="margin-top: 3%;">
+                <ul class="tabs tabs-fixed-width tab-demo z-depth-1 white lighten-5 rcorners">
+                  <li class="tab col s3"><a class="active blue-text" href="#plc_info_3"><b>Entry</b></a></li>
+                  <li class="tab col s3"><a class="blue-text" href="#plc_info_4"><b>Timings</b></a></li>
+                  <li class="tab col s3"><a class="blue-text" href="#plc_info_5"><b>Tips</b></a></li>
+                </ul>
+              </div>
+            </div>     
+      
+         
+
+
+           <!-- CARD Infromation 3 -->
+           <div id="plc_info_3" class="col s12">
+            <div class="card" style="border-radius: 10px;">
+              <div class="card-content black-text">
+                <span class="card-title"><b id="plc_header_7">Entry fees</b></span>
+                <!-- Card Body START -->
+                <div>
+                  <p id="plc_info_3_details">#</p>
+                </div> 
+              </div>
+            </div>
+          </div>
+
+
+          <!-- CARD Infromation 4 -->
+          <div id="plc_info_4" class="col s12">
+            <div class="card" style="border-radius: 10px;">
+              <div class="card-content black-text">
+                <span class="card-title"><b id="plc_header_8">Timings</b></span>
+                <!-- Card Body START -->
+                <div>
+                  <p id="plc_info_4_details">#</p>
+                </div> 
+              </div>
+            </div>
+          </div>
+
+           <!-- CARD Infromation 5 -->
+           <div id="plc_info_5" class="col s12">
+            <div class="card" style="border-radius: 10px;">
+              <div class="card-content black-text">
+                <span class="card-title"><b id="plc_header_9">Tips</b></span>
+                <!-- Card Body START -->
+                <div>
+                  <p id="plc_info_5_details">#</p>
+                </div> 
+              </div>
+            </div>
+          </div>
+
+
+          </div>
+
+        </div>
+
+
+        <!--images -->
+        <div id="images_plc" class="col s12">
+
+          <!-- Row Section 1 -->
+          <div class="row" style="margin: -130px 0px 0px 0px;">
+            <!-- CARD Infromation Images -->
+            <div id="plc_image_view_section" class="col s12">
+              <div class="card" style="border-radius: 25px;">
+                <div class="card-content black-text">
+                  <span class="card-title"><b>Images</b></span>
+
+                  <!-- Card Body START -->
+                  <div id="plc_image_view" class="row">
+
+                  </div>
+                  <!-- Card Body END -->
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+        
+
+      </div>
+
+      <div id="all_packages_list_ref">
+        <!-- **************************************** -->
+        <!--   Script Code  -->
+        <!-- **************************************** -->
+      </div>
+
+      <div id="all_places_list_ref">
+        <!-- **************************************** -->
+        <!--   Script Code  -->
+        <!-- **************************************** -->
+      </div>
+
+  </div>
+
+  </div>
+
+  <!-- ***************** END ******************* -->
+
+
+  <!-- **************************************** -->
+  <!-- Footer -->
+  <!-- **************************************** -->
+  <div id="main_footer_sec" style="display: none; ">
+  <footer id="footer_sec" style="display: none; " class="page-footer fresh-content  white-text">
+      <div class="container">
+          <div class="row">
+            <div class="col l6 s12">
+              <h5 class="white-text">Company Bio</h5>
+              <!--
+              <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our
+                full time job. Any amount would help support and continue development on this project and is greatly
+                appreciated.</p>
+                -->
+  
+  
+            </div>
+            <div class="col l3 s12">
+              <!-- <h5 class="white-text">Settings</h5> -->
+              <ul>
+                <li><a class="white-text" href="about_us.html">About</a></li>
+                <li><a class="white-text" href="terms_and_conditions.html">Terms & Conditions</a></li>
+                <li><a class="white-text" href="privacy_police.html">Privacy and Cookie Police</a></li>              
+              </ul>
+            </div>
+            <div class="col l3 s12">
+            <!--
+              <h5 class="white-text">Connect</h5>
+              <ul>
+                <li><a class="white-text" href="#!">Facebook</a></li>
+                <li><a class="white-text" href="#!">Instgram</a></li>
+              </ul>
+             -->
+            </div>
+          </div>
+        </div>
+        <div class="footer-copyright">
+          <div class="container">
+            Made by <a class="brown-text text-lighten-3" href="#!" id="role_message">KivTech</a>
+          </div>
+        </div>
+  </footer>
+</div>
+
+
+  <!-- **************************************** -->
+  <!--  Scripts-->
+  <!-- **************************************** -->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="external/js/materialize.js"></script>
+  <script src="external/js/init.js"></script>
+
+
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-storage.js"></script>
+  <script src="app/firestore.js"></script>
+  <script src="scripts/common.js"></script>
+  <script src="scripts/eplace.js"></script>
+
+
+</body>
+
+</html>

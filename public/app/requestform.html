@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Request Form</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="external/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="external/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+    <div class="bg">
+
+  <!-- **************************************** -->
+  <!-- Navigation Sectione -->
+  <!-- **************************************** -->
+
+    <nav id="main_nav_bar" class="white z-depth-2" role="navigation" style="position: relative; display: none;">
+      <div class="nav-wrapper container">
+
+        <!-- Logo Container -->
+        <a id="logo-container" href="index.html" class="brand-logo">KivTravels</a>
+
+        <!-- Navigation List -->
+        <ul class="right hide-on-med-and-down">
+          <li><a href="index.html">Home</a></li>   
+          <li><a href="destinations.html?fl=NA">Destinations</a></li>
+          <li><a href="packages.html?fl=NA">Packages</a></li>
+          <li><a href="login.html">Profile</a></li>       
+        </ul>
+
+        <!-- Mobile Navigation List -->
+        <ul id="nav-mobile" class="sidenav">
+           
+            <div class="container-fluid">
+                <div class="fb-profile">            
+                  <img class="fb-image-lg left-align z-depth-2" src="Images/nav_mobile.jpg" alt="Snow" style="height: 200px; margin-bottom: 10px;">            
+                </div>
+              </div>
+
+
+            <li><a href="index.html">Home</a></li>
+            <li><a href="destinations.html?fl=NA">Destinations</a></li>
+            <li><a href="packages.html?fl=NA">Packages</a></li>
+            <li><a href="login.html">Profile</a></li> 
+            <li class="divider"></li>    
+            <li style="margin-top: 10px;"><a href="terms_and_conditions.html">Terms & Conditions</a></li>  
+            <li><a href="privacy_police.html">Privacy Police</a></li>
+            <li><a href="about_us.html">About Us</a></li> 
+        </ul>
+
+        <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>        
+
+      </div>
+
+      
+
+    </nav>
+   
+
+  
+
+  <!-- **************************************** -->
+  <!-- Main Banner -->
+  <!-- **************************************** -->  
+
+
+  <!-- **************************************** -->
+  <!-- Container Section 1 -->
+  <!-- **************************************** -->
+  <div class="container">
+    <div class="section">
+
+      <!-- **************************************** -->
+      <!--   Coloum Section 1  --> 
+      <div id="col_section_1" style="display: block;">
+
+          <div> 
+              <h3 class="white-text">Request Quote</h3> 
+          </div>
+
+         
+          <div class="row">
+
+              <div class="col s12 m12">
+
+                <div class="card">
+                  <div class="card-content">  
+                    
+                      <div class="row">
+
+                        <!-- Section for Package details -->
+                        <div id="package_details_sec" class="col s12" style="display: none; margin: 5px 0px 10px 0px;">
+                            <ul class="collection z-depth-2">
+                                <li class="collection-item avatar">
+                                  <img id="pkg_img" src="Images/default.jpg" alt="" class="circle">
+                                  <span class="title"><b id="pkg_hdr">Title</b></span>
+                                  <p id="pkg_extra" class="grey-text">First Line</p>
+                                </li>
+                              </ul>
+                        </div>
+
+                        <!-- form sec 1 -->
+                          <div class="col s12">
+                            <div class="row">
+                              <div class="input-field col s12">
+                                <i class="material-icons prefix">location_on</i>
+                                <input placeholder="Select Destination" type="text" id="autocomplete-input-destination" class="autocomplete">
+                                <label for="autocomplete-input-destination">Destination</label>
+                              </div>
+
+                              <div class ="right-align col s12">                                  
+                                  <p>
+                                      <label>
+                                        <input id="exploreDest" type="checkbox" />
+                                        <span>I want to explore Destination</span>
+                                      </label>
+                                    </p>                                    
+                                </div>
+
+                            </div>
+                          </div>
+                          <!-- end -->   
+                          
+                          
+                         
+                          
+                           <!-- form sec 2 -->
+                           <div class="col s12">
+                              <div class="row">
+                                <div class="input-field col s12">
+                                  <i class="material-icons prefix">location_on</i>
+                                  <input placeholder="Enter your departure city" type="text" id="autocomplete-input-from" class="autocomplete">
+                                  <label for="autocomplete-input-from">Departure City</label>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- end --> 
+
+                            <!-- form sec 3 -->
+                           <div class="col s12">
+                              <div class="row">
+                                <div class="input-field col s12 m6">
+                                  <i class="material-icons prefix">date_range</i>
+                                  <input type="text" id="start_date" class="datepicker">
+                                  <label for="start_date">Start Date</label>
+                                </div>
+                                <div class="input-field col s12 m6">
+                                    <i class="material-icons prefix">date_range</i>
+                                    <input type="text" id="end_date" class="datepicker">
+                                    <label for="end_date">End Date</label>
+                                  </div>
+                              </div>
+                            </div>
+                            
+
+                            <div class="col s12">
+                                <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">date_range</i>
+                                    <select id="date_options">
+                                      <option value="" disabled selected>Choose your option</option>
+                                      <option value="1">FIXED</option>
+                                      <option value="2">FLEXIBLE</option>
+                                      <option value="3">ANYTIME</option>
+                                    </select>
+                                    <label>Date Options</label>
+                                  </div>
+                            </div>
+                          </div>
+
+                              <!-- end -->                             
+
+
+                               <!-- user comment -->
+                               <form class="col s12">
+                                  <div class="row">
+                                      <div class="input-field col s12">
+                                          <i class="material-icons prefix">message</i>
+                                          <textarea value=" " id="user_comment" class="materialize-textarea" data-length="300"></textarea>
+                                          <label class="active" for="user_comment">Any Comment ?</label>
+                                        </div>                                  
+                                  </div>
+                                </form>
+
+
+                                <!-- Other Options -->
+                              <form class="col s12" style="margin: -20px 0px 20px 30px;">
+                                  <div class="row">
+
+                                      <div class ="left-align col s12">                                  
+                                          <p>
+                                              <label>
+                                                <input id="hotelOption" type="checkbox" />
+                                                <span>I want different hotel options.</span>
+                                              </label>
+                                            </p>                                    
+                                        </div>
+
+                                        <div class ="left-align col s12">                             
+                                            <p>
+                                                <label>
+                                                  <input id="transOption" type="checkbox" />
+                                                  <span>I another transportation option.</span>
+                                                </label>
+                                              </p>                                    
+                                          </div>
+
+                                    </div>
+                                  </form>
+
+                                  
+
+                                <form class="col s12">
+                                    <div class="row">
+                                        <li class="divider"></li>                                
+                                    </div>
+                                  </form>
+
+                               
+
+
+                              <!-- form sec 4 -->
+                              <form class="col s12">
+                                  <div class="row">
+                                    <div class="input-field col s12">
+                                      <i class="material-icons prefix">account_circle</i>
+                                      <input value=" " id="name_txt" type="text" class="validate">
+                                      <label class="active" for="name_txt">Name</label>
+                                    </div>                                   
+                                  </div>
+                                </form>
+
+                                <!-- end -->
+
+                                 <!-- form sec 5 -->
+                              <form class="col s12">
+                                  <div class="row">                                   
+                                    <div class="input-field col s12">
+                                      <i class="material-icons prefix">phone</i>
+                                      <input value="0"id="mobile_txt" type="number" class="validate">
+                                      <label class="active" for="mobile_txt">Telephone</label>
+                                      <span class="helper-text" data-error="wrong" data-success=""></span>
+                                    </div>
+                                  </div>
+                                </form>
+
+                                <!-- end -->
+
+                                 <!-- form sec 6 -->
+                              <form class="col s12">
+                                  <div class="row">
+                                    <div class="input-field col s12">
+                                      <i class="material-icons prefix">email</i>
+                                      <input value=" " id="email_txt" type="email" class="validate">
+                                      <label class="active" for="email_txt">Email</label>
+                                      <span class="helper-text" data-error="wrong" data-success=""></span>
+                                    </div>                                   
+                                  </div>
+                                </form>
+
+                                <!-- end -->
+
+                                <!-- form sec 7 -->
+                              <form class="col s12">  
+                                  <div class="row">                                
+                                      <div class="center-align">
+                                      <a onclick="submitDetails()" class="waves-effect waves-light btn-large pink rcorners">Submit</a>
+                                      </div>
+                                    </div> 
+                                </form>
+
+                                <!-- end -->                                
+
+                            <!-- end -->
+                          
+                        </div>
+                    
+
+
+                  </div>                  
+                </div>
+              </div>
+            </div>
+
+
+      </div>
+
+      <!-- **************************************** -->
+      <!--   Coloum Section 2  --> 
+      <div id="col_section_2" style="display: none; margin-bottom: 30%;">          
+              <h3 class="white-text">Thanks for your Quote.</h3>     
+              <h5 class="white-text">Our Team will contact you soon.</h5>     
+        </div>
+
+
+    </div> 
+
+  </div>
+
+   <!-- ***************** END ******************* -->  
+  
+
+  <!-- **************************************** -->
+  <!-- Footer -->
+  <!-- **************************************** -->
+  <footer id="main_footer_sec" class="page-footer fresh-content  white-text" style="display: none;">
+      <div class="container">
+          <div class="row">
+            <div class="col l6 s12">
+              <h5 class="white-text">Company Bio</h5>
+              <!--
+              <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our
+                full time job. Any amount would help support and continue development on this project and is greatly
+                appreciated.</p>
+                -->
+  
+  
+            </div>
+            <div class="col l3 s12">
+              <!-- <h5 class="white-text">Settings</h5> -->
+              <ul>
+                <li><a class="white-text" href="about_us.html">About</a></li>
+                <li><a class="white-text" href="terms_and_conditions.html">Terms & Conditions</a></li>
+                <li><a class="white-text" href="privacy_police.html">Privacy and Cookie Police</a></li>              
+              </ul>
+            </div>
+            <div class="col l3 s12">
+            <!--
+              <h5 class="white-text">Connect</h5>
+              <ul>
+                <li><a class="white-text" href="#!">Facebook</a></li>
+                <li><a class="white-text" href="#!">Instgram</a></li>
+              </ul>
+             -->
+            </div>
+          </div>
+        </div>
+        <div class="footer-copyright">
+          <div class="container">
+            Made by <a class="brown-text text-lighten-3" href="#!">KivTech</a>
+          </div>
+        </div>
+    </footer>
+
+  </div>
+
+
+  <!-- **************************************** -->
+  <!--  Scripts-->
+  <!-- **************************************** -->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="../external/js/materialize.js"></script>
+  <script src="../external/js/init.js"></script>
+ 
+
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-storage.js"></script>
+  <script src="app/firestore.js"></script>
+  <script src="scripts/common.js"></script>
+  <script src="scripts/requestform.js"></script>
+
+
+</body>
+
+</html>
