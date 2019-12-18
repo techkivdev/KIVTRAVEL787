@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title id="page_title">Package</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="external/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="external/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+  <!-- **************************************** -->
+  <!-- Navigation Sectione -->
+  <!-- **************************************** -->
+
+  <nav class="white z-depth-2" role="navigation" style="position: relative;">
+    <div class="nav-wrapper container">
+
+      <!-- Logo Container -->
+      <a id="logo-container" href="index.html" class="brand-logo">KivTravels</a>
+
+      <!-- Navigation List -->
+      <ul class="right hide-on-med-and-down">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="destinations.html?fl=NA">Destinations</a></li>
+        <li><a href="packages.html?fl=NA">Packages</a></li>
+        <li><a href="login.html">Profile</a></li>
+      </ul>
+
+      <!-- Mobile Navigation List -->
+      <ul id="nav-mobile" class="sidenav">
+       
+          <div class="container-fluid">
+              <div class="fb-profile">            
+                <img class="fb-image-lg left-align z-depth-2" src="Images/nav_mobile.jpg" alt="Snow" style="height: 200px; margin-bottom: 10px;">            
+              </div>
+            </div>
+
+
+          <li><a href="index.html">Home</a></li>
+          <li><a href="destinations.html?fl=NA">Destinations</a></li>
+          <li><a href="packages.html?fl=NA">Packages</a></li>
+          <li><a href="login.html">Profile</a></li> 
+          <li class="divider"></li>    
+          <li style="margin-top: 10px;"><a href="terms_and_conditions.html">Terms & Conditions</a></li>  
+          <li><a href="privacy_police.html">Privacy Police</a></li>
+          <li><a href="about_us.html">About Us</a></li>
+      </ul>
+
+      <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+
+    </div>
+
+  </nav>
+
+
+
+
+  <!-- **************************************** -->
+  <!-- Header Section -->
+  <!-- **************************************** -->
+
+
+  <!-- **************************************** -->
+  <!-- Main Banner -->
+  <!-- **************************************** -->
+
+  <div id="header_section" class="new-container" style="display: none; height: 400px;  margin-top: 1px;">
+
+    <img id="banner_main_image" class="z-depth-2" src="Images/default.jpg" alt="Snow"
+      style="height: 400px; width:100%; background-size: 100%;">
+
+    <div class="centered">
+      <h1 id="banner_main_header"> </h1>
+      <p id="banner_small_header"> </p>
+      <br>
+      <div style="margin-top: -30%;">
+        <a id="btn_book_now" onclick="openRequestForm()" href="#!"
+          class="waves-effect waves-light btn-large pink rcorners">Book Now</a>
+      </div>
+
+      <div id="header_btn_options_dest" style="margin-top: 25%;">
+        <div class="col s12">
+          <ul class="tabs tabs-fixed-width tab-demo z-depth-1 white lighten-5 rcorners">
+            <li class="tab col s3"><a class="active blue-text" href="#details_dest"><b>Details</b></a></li>
+            <li class="tab col s3"><a class="blue-text" href="#images_dest"><b>Images</b></a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div id="header_btn_options_pkg" style="margin-top: 25%;">
+        <div class="col s12">
+          <ul class="tabs tabs-fixed-width tab-demo z-depth-1 white lighten-5 rcorners">
+            <li class="tab col s3"><a class="active blue-text" href="#details_pkg"><b>Details</b></a></li>
+            <li class="tab col s3"><a class="blue-text" href="#images_pkg"><b>Images</b></a></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+
+
+
+  </div>
+
+  <!-- **************************************** -->
+  <!-- Floating Action Button -->
+  <!-- **************************************** -->
+  <!-- Bookmark -->
+  <div  id="pkg_bookmark_sec" class="fixed-action-btn">
+         <!-- Script Code -->
+  </div>
+
+
+  <!-- ***************** END ******************* -->
+
+
+  <!-- Progress Bar -->
+  <div id="main_progress" class="center-align header-margin">
+
+    <div class="preloader-wrapper active">
+      <div class="spinner-layer spinner-red-only">
+        <div class="circle-clipper left">
+          <div class="circle"></div>
+        </div>
+        <div class="gap-patch">
+          <div class="circle"></div>
+        </div>
+        <div class="circle-clipper right">
+          <div class="circle"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <!-- **************************************** -->
+  <!-- Container Section 1 -->
+  <!-- **************************************** -->
+
+  <div class="container-fluid" style="margin: 0px 2% 0px 2%">   
+
+    <!-- **************************************** -->
+    <!--   Coloum Section 2  -->
+    <div id="col_section_2" style="display: none;">
+
+      <!-- details  -->
+      <div id="details_pkg" class="col s12">
+
+        <!-- Row Section 1 -->
+        <div class="row" style="margin: -120px 0px 0px 0px;">
+
+          <!-- CARD Infromation 1 Details -->
+          <div id="pkgcard_basic_information" class="col s12">
+
+            <div class="card" style="border-radius: 25px;">
+
+              <!-- Custom Content -->
+              <div id="header_card_pkg" class="red-card-content white-text z-depth-2" style="border-radius: 25px 25px 0px 0px;">
+
+                <!-- Header -->
+                <div class="card-content">
+                  <div>
+                    <p id="pkg_title" style="font-size: 25px;">Package Name asdasfd asdfascdas dtsadas dasfdcasd
+                      sadasdasd</p>
+                  </div>
+                </div>
+
+                <!-- Card Body START -->
+                <div class="card-content" style="margin: -20px 0px 0px 0px;">
+
+                  <div class="row">
+
+                    <!-- Days Details -->
+                    <div class="col s6">
+                      <p id="pkg_header_4" class="white-text" style="margin-left: 1%">Days</p>
+                      <div class="chip black" style="width: 130px; height: 35px; font-size: 20px; padding: 4px;">
+                        <p id="pkg_days" class="white-text center-align">12D | 13N</p>
+                      </div>
+                    </div>
+
+                      <!-- Best Time -->
+                      <div class="col s6">
+                          <p id="pkg_header_3" class="white-text" style="margin-left: 1%">Best Time</p>
+                          <div class="chip orange" style="width: 130px; height: 35px; font-size: 20px; padding: 4px;">
+                            <p id="pkg_best_time" class="white-text center-align">Oct - Nov</p>
+                          </div>
+                        </div>
+
+                    
+
+                  </div>
+
+                  <div class="row">
+
+                    <!-- Price -->
+                    <div class="col s12">
+                      <div class="left-align">
+
+                        <span>
+                          <small id="pkg_price" style="font-size: 50px;">$12000</small>
+                          <small id="pkg_header_2" style="font-size: 10px;">Per Person</small><br>
+                          <small id="pkg_cut_price" style="text-decoration: line-through; font-size: 20px;"
+                            class="text-muted"></small>
+
+                        </span>
+
+                      </div>
+
+                    </div>
+
+
+
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              <!-- Normal Content -->
+              <div class="card-content black-text">
+
+                <div class="row">
+
+                  <!-- City -->
+                  <div class="col s6">
+                    <p id="pkg_header_6" class="grey-text">Cities</p>
+                    <b>
+                      <p id="pkg_cities">#</p>
+                    </b>
+                  </div>
+
+                  <!-- Hotels -->
+                  <div class="col s6">
+                    <p id="pkg_header_5" class="grey-text">Hotel Included</p>
+                    <b>
+                      <p id="pkg_hotel_inc">#</p>
+                    </b>
+                  </div>
+
+                </div>
+
+
+                <div class="row">
+                  <div class="col s12">
+                    <p id="pkg_header_7" class="grey-text">Activities</p>
+
+                    <div id="pkg_activities">
+
+                      <!-- All Activities Details -->
+                      <div class="chip">
+                        <img src="Images/default.jpg" alt="default">
+                        Jane Doe
+                      </div>
+
+                    </div>
+
+
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col s12">
+                    <p id="pkg_header_8" class="grey-text">Includes</p>
+
+                    <div id="pkg_includes">
+
+                      <!-- All Activities Details -->
+                      <div class="chip">
+                        <img src="Images/default.jpg" alt="default">
+                        Flight
+                      </div>
+
+                    </div>
+
+
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col s12">
+                    <p id="pkg_header_9" class="grey-text">Ratings</p>
+                    <p id="pkg_ratings" style="font-size: 50px;">#</p>
+                    <p id="pkg_ratings_num" style="font-size: 10px;">#</p>
+
+                    <div style="margin-top: 1%;">
+                      <a onclick="viewReviewDetails()" class="waves-effect waves-light btn blue rcorners">All
+                        Review's</a>
+                    </div>
+
+                  </div>
+                </div>
+
+                <!-- Card Body END -->
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- CARD Infromation 2 Overview -->
+          <div id="pkgcard_overview" class="col s12">
+            <div class="card">
+              <div class="card-content black-text">
+                <span class="card-title"><b id="pkg_header_11">Overview</b></span>
+
+                <!-- Card Body START -->
+                <div>
+                  <p id="pkg_description" class="long-text">#</p>
+                </div>
+                <!-- Card Body END -->
+                <div class="right-align" style="margin-top: 2%;">
+                  <a onclick="viewOverview()" class="waves-effect waves-teal btn-flat blue-text">Read More</a>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD Infromation 3 Highlights -->
+          <div id="card_highlights" class="col s12">
+            <div class="card">
+              <div class="card-content black-text">
+                <span class="card-title"><b id="pkg_header_12">Highlights</b></span>
+
+                <!-- Card Body START -->
+                <div id="pkg_highlights">
+
+                  <blockquote>This is an example quotation that uses the blockquote tag.</blockquote>
+                  <blockquote>This is an example quotation that uses the blockquote tag.</blockquote>
+                  <blockquote>This is an example quotation that uses the blockquote tag.</blockquote>
+
+                </div>
+                <!-- Card Body END -->
+
+
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD Infromation 4 Itinerary -->
+          <div id="pkgcard_itinerary" class="col s12">
+            <div class="card">
+              <div class="black-text">
+                <div class="card-content">
+                  <span class="card-title"><b id="pkg_header_13">Itinerary</b></span>
+                </div>
+
+                <!-- Card Body START -->
+                <div id="pkg_itinerary">
+
+                  <ul class="collapsible popout">
+
+
+                    <!-- itinerary_1 Card START -->
+                    <li id="itinerary_1">
+                      <div class="collapsible-header">
+                        <!-- Header -->
+                        <b>
+                          <div id="itinerary_1_day" class="col s1">#</div>
+                        </b>
+                        <div class="col s11">
+                          <p id="itinerary_1_header">#</p>
+                          <div id="itinerary_1_tags"></div>
+                        </div>
+                        <!-- end -->
+                      </div>
+                      <div id="itinerary_1_body" class="collapsible-body"></div>
+                    </li>
+                    <!-- itinerary_1 END -->
+
+                    <!-- itinerary_2 Card START -->
+                    <li id="itinerary_2">
+                      <div class="collapsible-header">
+                        <!-- Header -->
+                        <b>
+                          <div id="itinerary_2_day" class="col s1">#</div>
+                        </b>
+                        <div class="col s11">
+                          <p id="itinerary_2_header">#</p>
+                          <div id="itinerary_2_tags"></div>
+                        </div>
+                        <!-- end -->
+                      </div>
+                      <div id="itinerary_2_body" class="collapsible-body"></div>
+                    </li>
+                    <!-- itinerary_2 END -->
+
+                    <!-- itinerary_3 Card START -->
+                    <li id="itinerary_3">
+                      <div class="collapsible-header">
+                        <!-- Header -->
+                        <b>
+                          <div id="itinerary_3_day" class="col s1">#</div>
+                        </b>
+                        <div class="col s11">
+                          <p id="itinerary_3_header">#</p>
+                          <div id="itinerary_3_tags"></div>
+                        </div>
+                        <!-- end -->
+                      </div>
+                      <div id="itinerary_3_body" class="collapsible-body"></div>
+                    </li>
+                    <!-- itinerary_3 END -->
+
+                    <!-- itinerary_4 Card START -->
+                    <li id="itinerary_4">
+                      <div class="collapsible-header">
+                        <!-- Header -->
+                        <b>
+                          <div id="itinerary_4_day" class="col s1">#</div>
+                        </b>
+                        <div class="col s11">
+                          <p id="itinerary_4_header">#</p>
+                          <div id="itinerary_4_tags"></div>
+                        </div>
+                        <!-- end -->
+                      </div>
+                      <div id="itinerary_4_body" class="collapsible-body"></div>
+                    </li>
+                    <!-- itinerary_4 END -->
+
+                    <!-- itinerary_5 Card START -->
+                    <li id="itinerary_5">
+                      <div class="collapsible-header">
+                        <!-- Header -->
+                        <b>
+                          <div id="itinerary_5_day" class="col s1">#</div>
+                        </b>
+                        <div class="col s11">
+                          <p id="itinerary_5_header">#</p>
+                          <div id="itinerary_5_tags"></div>
+                        </div>
+                        <!-- end -->
+                      </div>
+                      <div id="itinerary_5_body" class="collapsible-body"></div>
+                    </li>
+                    <!-- itinerary_5 END -->
+
+                    <!-- itinerary_6 Card START -->
+                    <li id="itinerary_6">
+                      <div class="collapsible-header">
+                        <!-- Header -->
+                        <b>
+                          <div id="itinerary_6_day" class="col s1">#</div>
+                        </b>
+                        <div class="col s11">
+                          <p id="itinerary_6_header">#</p>
+                          <div id="itinerary_6_tags"></div>
+                        </div>
+                        <!-- end -->
+                      </div>
+                      <div id="itinerary_6_body" class="collapsible-body"></div>
+                    </li>
+                    <!-- itinerary_6 END -->
+
+                    <!-- itinerary_7 Card START -->
+                    <li id="itinerary_7">
+                      <div class="collapsible-header">
+                        <!-- Header -->
+                        <b>
+                          <div id="itinerary_7_day" class="col s1">#</div>
+                        </b>
+                        <div class="col s11">
+                          <p id="itinerary_7_header">#</p>
+                          <div id="itinerary_7_tags"></div>
+                        </div>
+                        <!-- end -->
+                      </div>
+                      <div id="itinerary_7_body" class="collapsible-body"></div>
+                    </li>
+                    <!-- itinerary_7 END -->
+
+
+                  </ul>
+
+
+
+                </div>
+                <!-- Card Body END -->
+
+
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD Infromation 5 Hotels -->
+          <div id="pkgcard_hotels" class="col s12">
+            <div class="card">
+              <div class="card-content black-text">
+                <span class="card-title"><b id="pkg_header_14">Hotels</b></span>
+
+                <!-- Card Body START -->
+                <div class="row" id="pkg_hotels">
+
+                  <div class="col s12">
+                    <b id="hotel_name">Hotel Name</b>
+                    <p id="hotel_days">Days Details</p>
+                  </div>
+
+                  <div class="col s6">
+                    <img id="hotel_image" class="materialboxed" data-caption="Click on screen to close it." width="250"
+                      src="Images/default.jpg">
+
+                  </div>
+
+
+                  <div class="col s12">
+                    <p id="hotel_star">Hotel Star</p>
+                    <p id="hotel_extra">Other details</p>
+                  </div>
+
+
+                </div>
+                <!-- Card Body END -->
+
+
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD Infromation 6 what's Includes -->
+          <div id="pkgcard_includes" class="col s12">
+            <div class="card">
+              <div class="card-content">
+                <p id="pkg_header_15" class="grey-text">Wht's Include in this package.</p>
+              </div>
+
+              <div class="card-tabs">
+                <ul class="tabs tabs-fixed-width tab-demo z-depth-1">
+                  <li class="tab"><a class="active" href="#pkg_inclusions">
+                      <p id="pkg_header_16">Inclusions</p>>
+                    </a></li>
+                  <li class="tab"><a href="#pkg_exclusions">
+                      <p id="pkg_header_17">Exclusions</p>
+                    </a></li>
+                </ul>
+              </div>
+              <div class="card-content grey lighten-4">
+                <div id="pkg_inclusions">
+
+                  <div class="collapsible-header grey lighten-4"><i class="material-icons">add</i>First</div>
+                  <div class="collapsible-header grey lighten-4"><i class="material-icons">add</i>First</div>
+                  <div class="collapsible-header grey lighten-4"><i class="material-icons">add</i>First</div>
+
+                </div>
+
+                <div id="pkg_exclusions">
+
+                  <div class="collapsible-header grey lighten-4"><i class="material-icons">remove</i>First</div>
+                  <div class="collapsible-header grey lighten-4"><i class="material-icons">remove</i>First</div>
+                  <div class="collapsible-header grey lighten-4"><i class="material-icons">remove</i>First</div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- END -->
+        </div>
+
+      </div>
+
+      <!--images -->
+      <div id="images_pkg" class="col s12">
+
+        <!-- Row Section 1 -->
+        <div class="row" style="margin: -120px 0px 0px 0px;">
+          <!-- CARD Infromation Images -->
+          <div id="pkg_image_view_section" class="col s12">
+            <div class="card" style="border-radius: 25px;">
+              <div class="card-content black-text">
+                <span class="card-title"><b>Images</b></span>
+
+                <!-- Card Body START -->
+                <div id="pkg_image_view" class="row">
+
+                </div>
+                <!-- Card Body END -->
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+      <div id="other_packages_list_ref">
+        <!-- **************************************** -->
+        <!--   Script Code  -->
+        <!-- **************************************** -->
+      </div>
+
+    </div>
+
+    <div id="all_places_list_ref">
+      <!-- **************************************** -->
+      <!--   Script Code  -->
+      <!-- **************************************** -->
+    </div>
+
+  </div>
+
+  </div>
+
+  <!-- ***************** END ******************* -->
+
+
+  <!-- **************************************** -->
+  <!-- Footer -->
+  <!-- **************************************** -->
+  <footer id="footer_sec" style="display: none; " class="page-footer fresh-content  white-text">
+      <div class="container">
+          <div class="row">
+            <div class="col l6 s12">
+              <h5 class="white-text">Company Bio</h5>
+              <!--
+              <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our
+                full time job. Any amount would help support and continue development on this project and is greatly
+                appreciated.</p>
+                -->
+  
+  
+            </div>
+            <div class="col l3 s12">
+              <!-- <h5 class="white-text">Settings</h5> -->
+              <ul>
+                <li><a class="white-text" href="about_us.html">About</a></li>
+                <li><a class="white-text" href="terms_and_conditions.html">Terms & Conditions</a></li>
+                <li><a class="white-text" href="privacy_police.html">Privacy and Cookie Police</a></li>              
+              </ul>
+            </div>
+            <div class="col l3 s12">
+            <!--
+              <h5 class="white-text">Connect</h5>
+              <ul>
+                <li><a class="white-text" href="#!">Facebook</a></li>
+                <li><a class="white-text" href="#!">Instgram</a></li>
+              </ul>
+             -->
+            </div>
+          </div>
+        </div>
+        <div class="footer-copyright">
+          <div class="container">
+            Made by <a class="brown-text text-lighten-3" href="#!" id="role_message">KivTech</a>
+          </div>
+        </div>
+  </footer>
+
+
+  <!-- **************************************** -->
+  <!--  Scripts-->
+  <!-- **************************************** -->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="external/js/materialize.js"></script>
+  <script src="external/js/init.js"></script>
+
+
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-storage.js"></script>
+  <script src="app/firestore.js"></script>
+  <script src="scripts/common.js"></script>
+  <script src="scripts/epackage.js"></script>
+
+
+</body>
+
+</html>
