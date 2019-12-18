@@ -139,15 +139,17 @@ async function readDocumentDataAsync(docID) {
 
   checkLoginData()
 
-  displayOutput('DB : ' +coll_base_path)
- 
+  displayOutput('DB : ' + coll_base_path)
+
   showPleaseWait()
 
   await db.collection(coll_base_path + coll_lang + '/' + coll_name).doc(docID).get()
     .then(doc => {
       if (!doc.exists) {
         displayOutput('No such document!');
-        hidePleaseWait()
+        hidePleaseWait()        
+        document.getElementById('main_progress_2').style.display = "none";
+     
 
       } else {
         displayOutput(docID + ' - Document data Read Done.');
@@ -159,6 +161,7 @@ async function readDocumentDataAsync(docID) {
       displayOutput('Error getting document', err);
 
       hidePleaseWait()
+      document.getElementById('main_progress_2').style.display = "none";
     });
 
 
@@ -169,6 +172,7 @@ async function readDocumentDataAsync(docID) {
         displayOutput('No such document!');
 
         hidePleaseWait()
+        document.getElementById('main_progress_2').style.display = "none";
 
       } else {
         displayOutput('MAIN - Document data Read Done.');
@@ -177,6 +181,7 @@ async function readDocumentDataAsync(docID) {
         updateMappingDetails(docID)
 
         hidePleaseWait()
+        document.getElementById('main_progress_2').style.display = "none";
 
         updateHTMLPage()
 
@@ -186,6 +191,7 @@ async function readDocumentDataAsync(docID) {
       displayOutput('Error getting document', err);
 
       hidePleaseWait()
+      document.getElementById('main_progress_2').style.display = "none";
     });
 
 }
@@ -200,6 +206,9 @@ startUpCalls();
 
 // Get Parameters details
 getParams();
+
+// Mobile mode handling
+mobileModeStartupHandling()
 
 // Read All Documents from Collection
 //readCompleateCollection();
@@ -223,6 +232,9 @@ function updateHTMLPage() {
   displayOutput(mainDocMapDetails)
   displayOutput(docMapDetails)
 
+  // Modify Page Style
+  modifyPageStyle()
+
   displayOutput('Update Header Images ...')
 
   // Update Header Images
@@ -241,14 +253,14 @@ function updateHTMLPage() {
   // Update Flash Content
   let flash_cnt = getHashDataList(getInfoDetailsC("Top Header"))
   // Create HTML Content
-  let img = '<i class="fab '+flash_cnt['FLASH_ICON_1']+'" style="font-size: 50px;"></i>'
+  let img = '<i class="fab ' + flash_cnt['FLASH_ICON_1'] + '" style="font-size: 50px;"></i>'
   $("#flash_img_1").html(img)
-  let content = '<h5>'+flash_cnt['FLASH_BOLD_HDR_1']+'</h5>' + flash_cnt['FLASH_CONTENT_1']
+  let content = '<h5>' + flash_cnt['FLASH_BOLD_HDR_1'] + '</h5>' + flash_cnt['FLASH_CONTENT_1']
   $("#flash_cnt_1").html(content)
 
-  img = '<i class="fab '+flash_cnt['FLASH_ICON_2']+'" style="font-size: 50px;"></i>'
+  img = '<i class="fab ' + flash_cnt['FLASH_ICON_2'] + '" style="font-size: 50px;"></i>'
   $("#flash_img_2").html(img)
-  content = '<h5>'+flash_cnt['FLASH_BOLD_HDR_2']+'</h5>' + flash_cnt['FLASH_CONTENT_2']
+  content = '<h5>' + flash_cnt['FLASH_BOLD_HDR_2'] + '</h5>' + flash_cnt['FLASH_CONTENT_2']
   $("#flash_cnt_2").html(content)
 
   displayOutput('Header Updated ..')
@@ -262,7 +274,42 @@ function updateHTMLPage() {
   // HTML Modification functions
   updateListRefDetails()
 
-  
+
+
+
+}
+
+// Modify Page style according to the browser
+function modifyPageStyle() {
+  // Check for mobile browser
+  if (isMobileBrowser()) {
+    displayOutput('Mobile Browser found!')
+
+    document.getElementById('main_list_container').className = "container-fluid row";
+
+  } else {
+    displayOutput('Mobile Browser Not found!')
+  }
+
+}
+
+// ----------------------------------------
+// --------- Mobile Mode Handling ---------
+// ----------------------------------------
+function mobileModeStartupHandling() {
+
+  // Check for Mobile Mode
+  if (mobile_mode) {
+    // Disable Nav-bar and Footer
+    document.getElementById("main_nav_bar").style.display = 'none';
+    document.getElementById("main_footer_sec").style.display = 'none';
+
+    document.getElementById("main_progress_2").style.display = 'block';
+
+  } else {
+    document.getElementById("main_nav_bar").style.display = 'block';
+    document.getElementById("main_footer_sec").style.display = 'block';
+  }
 
 
 }
@@ -278,7 +325,7 @@ function updateHTMLPage() {
 //**************** Mapping Function ***************************
 // Update Mapping Data Sets details
 function updateMappingDetails(docID) {
-  if("MAIN" in allDocCmpData) {
+  if ("MAIN" in allDocCmpData) {
     mainDocMapDetails["ID"] = allDocCmpData["MAIN"]["INFO0"]
     mainDocMapDetails["NAME"] = allDocCmpData["MAIN"]["INFO1"]
     mainDocMapDetails["DESC"] = allDocCmpData["MAIN"]["INFO2"]
@@ -308,39 +355,39 @@ function updateMappingDetails(docID) {
 
 
 
-if(docID in allDocCmpData) {
-docMapDetails["top_header"] = allDocCmpData[docID]["INFO0"]
-docMapDetails["top_destination"] = docID + "#INFO10"
-docMapDetails["top_packages"] = docID + "#INFO11"
-docMapDetails["top_places"] = docID + "#INFO18"
-docMapDetails["app_config"] = allDocCmpData[docID]["INFO12"]
-docMapDetails["catg_list"] = allDocCmpData[docID]["INFO2"]
-docMapDetails["offer_list"] = allDocCmpData[docID]["INFO3"]
-docMapDetails["footer"] = allDocCmpData[docID]["INFO4"]
-docMapDetails["config"] = allDocCmpData[docID]["INFO5"]
+  if (docID in allDocCmpData) {
+    docMapDetails["top_header"] = allDocCmpData[docID]["INFO0"]
+    docMapDetails["top_destination"] = docID + "#INFO10"
+    docMapDetails["top_packages"] = docID + "#INFO11"
+    docMapDetails["top_places"] = docID + "#INFO18"
+    docMapDetails["app_config"] = allDocCmpData[docID]["INFO12"]
+    docMapDetails["catg_list"] = allDocCmpData[docID]["INFO2"]
+    docMapDetails["offer_list"] = allDocCmpData[docID]["INFO3"]
+    docMapDetails["footer"] = allDocCmpData[docID]["INFO4"]
+    docMapDetails["config"] = allDocCmpData[docID]["INFO5"]
 
-// MAP Development and Production Image correctly .....
-if(check_dev_publish_content) {
+    // MAP Development and Production Image correctly .....
+    if (check_dev_publish_content) {
 
-// IMAGES Production Information
+      // IMAGES Production Information
 
-docMapDetails["hdr_img1"] = docID + "#INFO14"
-docMapDetails["hdr_img2"] = docID + "#INFO16"
-docMapDetails["hdr_img3"] = docID + "#INFO7"
-docMapDetails["footer_image"] = docID + "#INFO9"
+      docMapDetails["hdr_img1"] = docID + "#INFO14"
+      docMapDetails["hdr_img2"] = docID + "#INFO16"
+      docMapDetails["hdr_img3"] = docID + "#INFO7"
+      docMapDetails["footer_image"] = docID + "#INFO9"
 
-} else {
-// IMAGES Information
+    } else {
+      // IMAGES Information
 
-docMapDetails["hdr_img1"] = docID + "#INFO13"
-docMapDetails["hdr_img2"] = docID + "#INFO15"
-docMapDetails["hdr_img3"] = docID + "#INFO6"
-docMapDetails["footer_image"] = docID + "#INFO8"
+      docMapDetails["hdr_img1"] = docID + "#INFO13"
+      docMapDetails["hdr_img2"] = docID + "#INFO15"
+      docMapDetails["hdr_img3"] = docID + "#INFO6"
+      docMapDetails["footer_image"] = docID + "#INFO8"
 
-}    
-} else {
+    }
+  } else {
     displayOutput(docID + " Data not found !!")
-}
+  }
 
 
 }
@@ -362,8 +409,8 @@ function updateListRefDetails() {
   // Collect List Ref Details and Display Into HTML
   displayOutput('Update List view ...')
   getListRefDetails(getInfoDetailsC('Top Destination'), 'col_section_1')
-  getListRefDetails(getInfoDetailsC('Top Packages'), 'col_section_2')  
-  getListRefDetails(getInfoDetailsC('Top Places'), 'col_section_3') 
+  getListRefDetails(getInfoDetailsC('Top Packages'), 'col_section_2')
+  getListRefDetails(getInfoDetailsC('Top Places'), 'col_section_3')
 
 }
 
@@ -391,9 +438,9 @@ function updateNormalListContent() {
   // ------------------------------------
   // Update Catg List
   // ------------------------------------
-  createScrollCardLytFromMapListData('catg_list_sec',catg_list,'S',true)
+  createScrollCardLytFromMapListData('catg_list_sec', catg_list, 'L', true)
 
-  createScrollCardLytFromMapListData('offr_list_sec',offer_list,'M',true)
+  createScrollCardLytFromMapListData('offr_list_sec', offer_list, 'M', true)
 
 
 
@@ -403,7 +450,7 @@ function updateNormalListContent() {
 
 // --------- Update Model Content ------------------------------- 
 // Model Layout Configuration
-function getModelLayoutConfig(mdl_coll){
+function getModelLayoutConfig(mdl_coll) {
 
   /*
   show_model_base_header = true
@@ -412,19 +459,19 @@ function getModelLayoutConfig(mdl_coll){
   header_button_layout_position = 'center'
   */
 
- switch (mdl_coll) {
-  case "DESTINATIONS":
-    return [true,true,'center','center']
-    
-  case "PACKAGES":
-    return [true,true,'center','center']
+  switch (mdl_coll) {
+    case "DESTINATIONS":
+      return [true, true, 'center', 'center']
 
-  default:
-    return [true,true,'center','center']
-}
+    case "PACKAGES":
+      return [true, true, 'center', 'center']
 
-  
-    
+    default:
+      return [true, false, 'center', 'center']
+  }
+
+
+
 }
 
 // Create Model Content
@@ -449,33 +496,33 @@ function getModelCompleteContent(mdl_coll, all_doc_info_list, doc_data) {
       var sub_header = doc_data[all_doc_info_list[1]]
       var ratings = doc_data[all_doc_info_list[2]]
       var price = doc_data[all_doc_info_list[3]]
-      var cut_price = doc_data[all_doc_info_list[4]] 
+      var cut_price = doc_data[all_doc_info_list[4]]
 
       let tags_line = getAppendHTMLLines(sub_header,
         '<div class="small chip">',
         '</div>')
 
-  html_div_line = '<div><p style="font-size: 20px;">'+ header +'</p>\
-  <p class="card-text" style="font-size: 10px;">'+ tags_line +'</p>\
-  <p><small class="text-muted">' +  getRatingHTMLCode(ratings)  + '\
+      html_div_line = '<div><p style="font-size: 20px;">' + header + '</p>\
+  <p class="card-text" style="font-size: 10px;">'+ tags_line + '</p>\
+  <p><small class="text-muted">' + getRatingHTMLCode(ratings) + '\
       </small>\
   <br>\
   <span class="right">'
-  
-    if(cut_price != '0') {html_div_line += '<small style="text-decoration: line-through; class="text-muted">(&#x20b9;'+ cut_price +')</small>'}
 
-    html_div_line += '<small style="font-size: 20px;">&#x20b9;'+ price +'</small></span>\
+      if (cut_price != '0') { html_div_line += '<small style="text-decoration: line-through; class="text-muted">(&#x20b9;' + cut_price + ')</small>' }
+
+      html_div_line += '<small style="font-size: 20px;">&#x20b9;' + price + '</small></span>\
         <br>\
   </p></div>';
 
       break;
 
-      case "PLACES":
+    case "PLACES":
 
       var header = doc_data[all_doc_info_list[0]]
-      var content = doc_data[all_doc_info_list[1]]      
+      var content = doc_data[all_doc_info_list[1]]
 
-      html_div_line = '<b class="black-text">' + header +'</b><br><p class="grey-text">' + content +'</p>'
+      html_div_line = '<b class="black-text">' + header + '</b><br><p class="grey-text">' + content + '</p>'
 
       break;
 
@@ -495,11 +542,11 @@ function startUpCalls() {
     $('.modal').modal();
   });
 
-  $(document).ready(function(){
+  $(document).ready(function () {
     $('.slider').slider();
   });
 
-  $(document).ready(function(){
+  $(document).ready(function () {
     $('.fixed-action-btn').floatingActionButton();
   });
 
@@ -535,62 +582,63 @@ function checkUserDetailsAndSTART() {
             let userData = doc.data()
 
             // Update Session Data
-            localStorageData('ISUSER',true)
-            localStorageData('UUID',userData['UUID'])
-            localStorageData('NAME',userData['NAME'])
-            localStorageData('EMAIL',userData['EMAIL'])
-            localStorageData('MOBILE',userData['MOBILE'])
-            localStorageData('ROLE',userData['ROLE']) 
-            
+            localStorageData('ISUSER', true)
+            localStorageData('UUID', userData['UUID'])
+            localStorageData('NAME', userData['NAME'])
+            localStorageData('EMAIL', userData['EMAIL'])
+            localStorageData('MOBILE', userData['MOBILE'])
+            localStorageData('ROLE', userData['ROLE'])
+
             displayOutput('Session Data Updated ...')
 
             // Check is User have DEV access or Not
-            if(is_production_mode) {
+            if (is_production_mode) {
 
-               // ----------- Publish Option -----------------------------------------
-                  // Update Publish Database option for TESTER
-                  if(userData['ROLE'] == 'ADMIN' || userData['ROLE'] == 'DEV') {
-                    displayOutput('Change Publish Mode from Production to Development.')
-                    check_dev_publish_content = false              
-                    coll_base_path = basePath                   
-                    $('#role_message').html('KivTech Development Publish')
-                    
-                  }
-                  // --------------------------------------------------------------------
-                  
-                  readDocumentDataAsync(document_ID)
+              // ----------- Publish Option -----------------------------------------
+              // Update Publish Database option for TESTER
+              if (userData['ROLE'] == 'ADMIN' || userData['ROLE'] == 'DEV') {
+                displayOutput('Change Publish Mode from Production to Development.')
+                check_dev_publish_content = false
+                coll_base_path = basePath
+                $('#role_message').html('KivTech Development Publish')
 
-                  document.getElementById("main_container").style.display = 'block';
-                  document.getElementById("header_content").style.display = 'block';
+              }
+              // --------------------------------------------------------------------
+
+              readDocumentDataAsync(document_ID)
+
+              document.getElementById("main_container").style.display = 'block';
+              document.getElementById("header_content").style.display = 'block';
 
 
             } else {
               // Only DEV role have entry to access development url.
-            if(userData['ROLE'] == 'DEV') {           
+              if (userData['ROLE'] == 'DEV') {
 
-                  // ----------- Publish Option -----------------------------------------
-                  // Update Publish Database option for TESTER
-                  if(userData['ROLE'] == 'ADMIN' || userData['ROLE'] == 'DEV') {
-                    displayOutput('Change Publish Mode from Production to Development.')
-                    check_dev_publish_content = false              
-                    coll_base_path = basePath                    
-                    $('#role_message').html('KivTech Development Publish,DEV MODE')
-                    
-                  }
-                  // --------------------------------------------------------------------
-                  
-                  readDocumentDataAsync(document_ID)
+                // ----------- Publish Option -----------------------------------------
+                // Update Publish Database option for TESTER
+                if (userData['ROLE'] == 'ADMIN' || userData['ROLE'] == 'DEV') {
+                  displayOutput('Change Publish Mode from Production to Development.')
+                  check_dev_publish_content = false
+                  coll_base_path = basePath
+                  $('#role_message').html('KivTech Development Publish,DEV MODE')
 
-                  document.getElementById("main_container").style.display = 'block';
-                  document.getElementById("header_content").style.display = 'block';
+                }
+                // --------------------------------------------------------------------
 
-          } else {
-            // Show No Content
-            viewModel('Message','Sorry , No Content available !!') 
+                readDocumentDataAsync(document_ID)
 
+                document.getElementById("main_container").style.display = 'block';
+                document.getElementById("header_content").style.display = 'block';
+
+              } else {
+                // Show No Content
+                viewModel('Message', 'Sorry , No Content available !!')
+
+              }
+
+            }
           }
-
-          } }
 
         })
         .catch(err => {
@@ -617,12 +665,12 @@ function checkUserDetailsAndSTART() {
 function validationFailed() {
   displayOutput('Validation Failed !!')
 
-  localStorageData('ISUSER',false)
+  localStorageData('ISUSER', false)
 
-  if(is_production_mode) {
-  readDocumentDataAsync(document_ID)
+  if (is_production_mode) {
+    readDocumentDataAsync(document_ID)
   } else {
-    viewModel('Message','Sorry , No Content available !!')
+    viewModel('Message', 'Sorry , No Content available !!')
   }
 
   document.getElementById("main_container").style.display = 'block';
@@ -630,16 +678,16 @@ function validationFailed() {
 }
 
 // Check Session Data is Correct or Not
-function checkLoginData(){
+function checkLoginData() {
 
-   // Check Session Data
-   let status = getLoginUserStatus()
-   displayOutput('Check Session Data ...')
-   displayOutput(status)
-   if(status == 'true') {
-     let userLoginData = getLoginUserData()
-     displayOutput(userLoginData)
-   }
+  // Check Session Data
+  let status = getLoginUserStatus()
+  displayOutput('Check Session Data ...')
+  displayOutput(status)
+  if (status == 'true') {
+    let userLoginData = getLoginUserData()
+    displayOutput(userLoginData)
+  }
 
 }
 
@@ -647,7 +695,7 @@ function checkLoginData(){
 function openRequestForm() {
   displayOutput('Open Request Form.')
 
-  localStorageData('ISPKG',false)
+  localStorageData('ISPKG', false)
 
   location.href = 'requestform.html'
 }

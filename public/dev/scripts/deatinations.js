@@ -192,6 +192,9 @@ startUpCalls();
 // Get Parameters details
 getParams();
 
+// Mobile mode handling
+mobileModeStartupHandling()
+
 // Read All Documents from Collection
 //readCompleateCollection();
 
@@ -207,12 +210,47 @@ function updateHTMLPage() {
 
   displayOutput(allDocCmpData)
 
+  // Modify Page Style
+  modifyPageStyle()
+
   hidePleaseWait()
 
   // HTML Modification functions
   document.getElementById("header_section").style.display = 'block';
   document.getElementById("main_section").style.display = 'block';
   updateCardLayout('col_section_1')
+
+
+}
+
+// Modify Page style according to the browser
+function modifyPageStyle() {
+  // Check for mobile browser
+  if(isMobileBrowser()) {
+    displayOutput('Mobile Browser found!')
+
+    document.getElementById('main_list_container').className = "container-fluid row";
+
+  } else {
+    displayOutput('Mobile Browser Not found!')
+  }
+}
+
+// ----------------------------------------
+// --------- Mobile Mode Handling ---------
+// ----------------------------------------
+function mobileModeStartupHandling() {
+
+  // Check for Mobile Mode
+  if (mobile_mode) {
+    // Disable Nav-bar and Footer
+    document.getElementById("main_nav_bar").style.display = 'none';
+    document.getElementById("main_footer_sec").style.display = 'none';
+
+  } else {
+    document.getElementById("main_nav_bar").style.display = 'block';
+    document.getElementById("main_footer_sec").style.display = 'block';
+  }
 
 
 }

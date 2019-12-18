@@ -25,6 +25,28 @@ var cancelDetails = ''
 // Startup Call
 startupcalls()
 
+// Mobile mode handling
+mobileModeStartupHandling()
+
+// ----------------------------------------
+// --------- Mobile Mode Handling ---------
+// ----------------------------------------
+function mobileModeStartupHandling() {
+
+  // Check for Mobile Mode
+  if (mobile_mode) {
+    // Disable Nav-bar and Footer
+    document.getElementById("main_nav_bar").style.display = 'none';
+    document.getElementById("main_footer_sec").style.display = 'none';
+
+  } else {
+    document.getElementById("main_nav_bar").style.display = 'block';
+    document.getElementById("main_footer_sec").style.display = 'block';
+  }
+
+
+}
+
 
 // Initialize the FirebaseUI Widget using Firebase.
 var ui = new firebaseui.auth.AuthUI(auth);

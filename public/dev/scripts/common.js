@@ -40,6 +40,11 @@ var check_dev_publish_content = true
 // Bypass Validation check
 var bypass_validation_check = false
 
+// -----------------------------------------------------
+// ------------- Mobile Mode ---------------------------
+// -----------------------------------------------------
+var mobile_mode = false
+
 
 // ------------------------------------------------------
 // Auto Init
@@ -292,6 +297,23 @@ function getRatingHTMLCode(ratings,size='small') {
 
      return ratings_line
 }
+
+// Detecting a mobile browser
+function isMobileBrowser() { 
+  
+  if (navigator.userAgent.match(/Android/i) 
+      || navigator.userAgent.match(/webOS/i) 
+      || navigator.userAgent.match(/iPhone/i)  
+      || navigator.userAgent.match(/iPad/i)  
+      || navigator.userAgent.match(/iPod/i) 
+      || navigator.userAgent.match(/BlackBerry/i) 
+      || navigator.userAgent.match(/Windows Phone/i)) { 
+      return true; 
+  } else { 
+      return false; 
+  } 
+ 
+} 
 
 
 
@@ -702,6 +724,9 @@ function createScrollCardLytFromMapListData(htmldocID,mapListData,size_status,bo
   } else if(size_status == 'S') {
     width = '200px'
     height = '100px'
+  } else if(size_status == 'L') {
+    width = '150px'
+    height = '200px'
   }
 
   let border_radius = '0'
@@ -728,7 +753,7 @@ function createScrollCardLytFromMapListData(htmldocID,mapListData,size_status,bo
     <a href="' + link + '">\
     <div class="card hoverable" style="width:'+width+'; height: '+height+'; border-radius: '+border_radius+'px;">\
       <div class="card-image">\
-        <img src="'+image+'" style="border-radius: '+border_radius+'px;">\
+        <img src="'+image+'" style="width:'+width+'; height: '+height+'; border-radius: '+border_radius+'px; background-size: 100%;">\
         <span class="card-title">'+name+'</span>\
       </div></div></a></div>'
 
@@ -737,7 +762,7 @@ function createScrollCardLytFromMapListData(htmldocID,mapListData,size_status,bo
 
   scroll_item_line += ' </div>'
 
-  displayOutput(scroll_item_line)
+  //displayOutput(scroll_item_line)
   $("#"+htmldocID).html(scroll_item_line)
 
 }
@@ -757,7 +782,7 @@ function showPleaseWait() {
 
 function hidePleaseWait() {
   // Hide progress
-  document.getElementById('main_progress').style.display = "none";
+  document.getElementById('main_progress').style.display = "none"; 
 }
 
 // ------------- Show Alert ----------------------------

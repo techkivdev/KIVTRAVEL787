@@ -248,6 +248,9 @@ startUpCalls();
 // Get Parameters details
 getParams();
 
+// Mobile mode handling
+mobileModeStartupHandling()
+
 // ******************************************************
 // ADMIN Validation and then 
 // Read All Documents from Collection
@@ -275,6 +278,25 @@ function updateHTMLPage(active_id) {
 
   // Update HTML Page
   $("#booking_collection").html(allhtmlDetails);
+
+}
+
+// ----------------------------------------
+// --------- Mobile Mode Handling ---------
+// ----------------------------------------
+function mobileModeStartupHandling() {
+
+  // Check for Mobile Mode
+  if (mobile_mode) {
+    // Disable Nav-bar and Footer
+    document.getElementById("main_nav_bar").style.display = 'none';
+    document.getElementById("main_footer_sec").style.display = 'none';
+
+  } else {
+    document.getElementById("main_nav_bar").style.display = 'block';
+    document.getElementById("main_footer_sec").style.display = 'block';
+  }
+
 
 }
 

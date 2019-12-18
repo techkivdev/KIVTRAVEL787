@@ -110,6 +110,9 @@ startUpCalls();
 // Get Parameters details
 getParams();
 
+// Mobile mode handling
+mobileModeStartupHandling()
+
 checkLoginData()
 
 // *******************************************************
@@ -117,6 +120,25 @@ checkLoginData()
 
 // Update Complete HTML Page
 function updateHTMLPage() {        
+}
+
+// ----------------------------------------
+// --------- Mobile Mode Handling ---------
+// ----------------------------------------
+function mobileModeStartupHandling() {
+
+  // Check for Mobile Mode
+  if (mobile_mode) {
+    // Disable Nav-bar and Footer
+    document.getElementById("main_nav_bar").style.display = 'none';
+    document.getElementById("main_footer_sec").style.display = 'none';
+
+  } else {
+    document.getElementById("main_nav_bar").style.display = 'block';
+    document.getElementById("main_footer_sec").style.display = 'block';
+  }
+
+
 }
 
 // *******************************************************
