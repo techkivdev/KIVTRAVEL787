@@ -130,7 +130,7 @@ function mobileModeStartupHandling() {
   // Check for Mobile Mode
   if (mobile_mode) {
     // Disable Nav-bar and Footer
-    document.getElementById("main_nav_bar").style.display = 'none';
+    document.getElementById("main_nav_bar").style.display = 'block';
     document.getElementById("main_footer_sec").style.display = 'none';
 
   } else {
