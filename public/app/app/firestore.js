@@ -17,7 +17,7 @@ let firestore = firebase.firestore();
 let db = firebase.firestore();
 let storage  = firebase.storage();
 let auth = firebase.auth();
-console.log("Cloud Firestores Loaded");
+//console.log("Cloud Firestores Loaded");
 
 
 // *********************************************************************	

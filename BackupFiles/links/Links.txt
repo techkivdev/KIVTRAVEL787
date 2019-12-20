@@ -1,3 +1,8 @@
 Web Mobile App :
 
 https://www.freecodecamp.org/news/how-to-turn-your-website-into-a-mobile-app-with-7-lines-of-json-631c9c9895f5/
+
+
+Other Lib :
+
+https://medium.com/@archana_june/firebase-custom-domain-setup-with-godaddy-8b7acf66ccec

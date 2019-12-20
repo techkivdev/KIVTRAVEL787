@@ -769,6 +769,69 @@ function createScrollCardLytFromMapListData(htmldocID,mapListData,size_status,bo
 
 }
 
+// --------------------------------------------------------
+// ------ Get Fixed Model Content -------------------------
+// --------------------------------------------------------
+function getFixedModelContent(mdl_coll, all_doc_info_list, doc_data) {
+
+  var html_div_line = ''
+  // Change According to the Model ID 
+  switch (mdl_coll) {
+    case "DESTINATIONS":
+
+      var header = doc_data[all_doc_info_list[0]]
+      var content = doc_data[all_doc_info_list[1]]
+      var content_1 = doc_data[all_doc_info_list[2]]
+
+      html_div_line = '<b>' + header
+
+      break;
+
+    case "PACKAGES":
+
+      var header = doc_data[all_doc_info_list[0]]
+      var sub_header = doc_data[all_doc_info_list[1]]
+      var ratings = doc_data[all_doc_info_list[2]]
+      var price = doc_data[all_doc_info_list[3]]
+      var cut_price = doc_data[all_doc_info_list[4]]
+
+      let tags_line = getAppendHTMLLines(sub_header,
+        '<div class="small chip">',
+        '</div>')
+
+      html_div_line = '<div><p style="font-size: 20px;">' + header + '</p>\
+  <p class="card-text" style="font-size: 10px;">'+ tags_line + '</p>\
+  <p><small class="text-muted">' + getRatingHTMLCode(ratings) + '\
+      </small>\
+  <br>\
+  <span class="right">'
+
+      if (cut_price != '0') { html_div_line += '<small style="text-decoration: line-through; class="text-muted">(&#x20b9;' + cut_price + ')</small>' }
+
+      html_div_line += '<small style="font-size: 20px;">&#x20b9;' + price + '</small></span>\
+        <br>\
+  </p></div>';
+
+      break;
+
+    case "PLACES":
+
+      var header = doc_data[all_doc_info_list[0]]
+      var content = doc_data[all_doc_info_list[1]]
+
+      html_div_line = '<b class="black-text">' + header + '</b><br><p class="grey-text">' + content + '</p>'
+
+      break;
+
+    default:
+      displayOutput("No Document found");
+      html_div_line = ''
+  }
+
+  return html_div_line
+
+} 
+
 
 
 // *********************************************************
