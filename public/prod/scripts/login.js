@@ -21,6 +21,7 @@ var allDocCmpData = {}
 
 var bookingData = ''
 var cancelDetails = ''
+var signinpopup = 'popup'
 
 // Startup Call
 startupcalls()
@@ -38,6 +39,7 @@ function mobileModeStartupHandling() {
     // Disable Nav-bar and Footer
     document.getElementById("main_nav_bar").style.display = 'block';
     document.getElementById("main_footer_sec").style.display = 'none';
+    signinpopup = 'default'
 
   } else {
     document.getElementById("main_nav_bar").style.display = 'block';
@@ -67,9 +69,9 @@ var uiConfig = {
       authDetails()
     }
   },
-  // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
-  signInFlow: 'popup',
-  signInSuccessUrl: '#',
+  // Will use popup for IDP Providers sign-in flow instead of the default, redirect. signInFlow: 'popup'
+  signInFlow: signinpopup,
+  signInSuccessUrl: 'login.html',
   signInOptions: [
     // Leave the lines as is for the providers you want to offer your users.
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -80,9 +82,9 @@ var uiConfig = {
     //firebase.auth.PhoneAuthProvider.PROVIDER_ID
   ],
   // Terms of service url.
-  tosUrl: '<your-tos-url>',
+  tosUrl: 'terms_and_conditions.html',
   // Privacy policy url.
-  privacyPolicyUrl: '<your-privacy-policy-url>'
+  privacyPolicyUrl: 'privacy_police.html'
 };
 
 // The start method will wait until the DOM is loaded.

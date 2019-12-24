@@ -30,6 +30,9 @@ var allDocCmpData = {}
 var mainDocMapDetails = {}
 var docMapDetails = {}
 
+//Extra
+var footer_m_content = ''
+
 // ***********************************************
 
 // ***********************************************
@@ -282,6 +285,8 @@ function modifyPageStyle() {
   // Check for mobile browser
   if (isMobileBrowser()) {
     displayOutput('Mobile Browser found!')
+
+    footer_m_content = 'M'
 
     document.getElementById('main_list_container').className = "container-fluid row";
 
@@ -544,7 +549,7 @@ function checkUserDetailsAndSTART() {
                 displayOutput('Change Publish Mode from Production to Development.')
                 check_dev_publish_content = false
                 coll_base_path = basePath
-                $('#role_message').html('KivTech Development Publish')
+                $('#role_message').html('KivTech Development Publish ' + footer_m_content)
 
               }
               // --------------------------------------------------------------------
@@ -565,7 +570,7 @@ function checkUserDetailsAndSTART() {
                   displayOutput('Change Publish Mode from Production to Development.')
                   check_dev_publish_content = false
                   coll_base_path = basePath
-                  $('#role_message').html('KivTech Development Publish,DEV MODE')
+                  $('#role_message').html('KivTech Development Publish,DEV MODE '  + footer_m_content)
 
                 }
                 // --------------------------------------------------------------------
