@@ -302,6 +302,8 @@ function mobileModeStartupHandling() {
     document.getElementById("main_nav_bar").style.display = 'block';
     document.getElementById("main_footer_sec").style.display = 'none';
 
+    document.getElementById("nav_profile").style.display = 'none';  
+
   } else {
     document.getElementById("main_nav_bar").style.display = 'block';
     document.getElementById("main_footer_sec").style.display = 'block';
@@ -404,6 +406,8 @@ function updateMappingDetails(docID) {
     docMapDetails["filter"] = allDocCmpData[docID]["INFO70"]
     docMapDetails["price_list"] = allDocCmpData[docID]["INFO71"]
     docMapDetails["international"] = allDocCmpData[docID]["INFO72"]
+    docMapDetails["availability"] = allDocCmpData[docID]["INFO73"]
+    docMapDetails["availability_config"] = allDocCmpData[docID]["INFO74"]
     docMapDetails["cut_price"] = allDocCmpData[docID]["INFO8"]
     docMapDetails["includes"] = allDocCmpData[docID]["INFO9"]
 
@@ -582,7 +586,8 @@ function genHTMLContentType() {
   let config2 = getHashDataList(getInfoDetails("Config2"))  
   let transport = getHashDataList(getInfoDetails("Transport"))
   let pricelist = getHashDataList(getInfoDetails("Price List"))
-  //displayOutput(pricelist)
+  let availablitylist = getHashDataList(getInfoDetails("Availability Config"))
+  //displayOutput(availablitylist)  
 
   // Update Page Content details
   pageContent['ID'] = getInfoDetails("ID")
@@ -846,8 +851,13 @@ function bookmarkHandling(details) {
 function openRequestForm() {
   displayOutput('Open Request Form.')
 
-  updateLoaclSessionDetails()
-  location.href = 'requestform.html'
+  //Check Availablity
+  if(getInfoDetails("Availability")) {
+    updateLoaclSessionDetails()
+    location.href = 'requestform.html'
+  } else {
+    viewModel('Message', 'Sorry, Not Available !!')
+  }
 }
 
 // --------------- Local Session -------------------

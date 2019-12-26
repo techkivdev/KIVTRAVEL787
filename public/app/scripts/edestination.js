@@ -299,6 +299,9 @@ function mobileModeStartupHandling() {
     document.getElementById("main_nav_bar").style.display = 'block';
     document.getElementById("main_footer_sec").style.display = 'none';
 
+    document.getElementById("nav_profile").style.display = 'none';  
+    
+
   } else {
     document.getElementById("main_nav_bar").style.display = 'block';
     document.getElementById("main_footer_sec").style.display = 'block';

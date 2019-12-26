@@ -29,6 +29,8 @@ startupcalls()
 // Mobile mode handling
 mobileModeStartupHandling()
 
+modifyPageStyle()
+
 // ----------------------------------------
 // --------- Mobile Mode Handling ---------
 // ----------------------------------------
@@ -37,15 +39,33 @@ function mobileModeStartupHandling() {
   // Check for Mobile Mode
   if (mobile_mode) {
     // Disable Nav-bar and Footer
-    document.getElementById("main_nav_bar").style.display = 'block';
+    document.getElementById("main_nav_bar").style.display = 'none';
+    document.getElementById("main_nav_bar_mb").style.display = 'none';    
+
     document.getElementById("main_footer_sec").style.display = 'none';
     signinpopup = 'default'
 
-  } else {
+  } else {   
     document.getElementById("main_nav_bar").style.display = 'block';
+    document.getElementById("main_nav_bar_mb").style.display = 'block';
+
     document.getElementById("main_footer_sec").style.display = 'block';
   }
 
+
+}
+
+// Modify Page style according to the browser
+function modifyPageStyle() {
+  // Check for mobile browser
+  if (isMobileBrowser()) {
+    displayOutput('Mobile Browser found!') 
+    document.getElementById("profile_content_section").style.margin = "0px 0px 0px 0px";
+
+  } else {
+    displayOutput('Mobile Browser Not found!') 
+
+  }
 
 }
 

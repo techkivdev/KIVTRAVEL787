@@ -30,6 +30,9 @@ var allDocCmpData = {}
 var mainDocMapDetails = {}
 var docMapDetails = {}
 
+//Extra
+var footer_m_content = ''
+
 // ***********************************************
 
 // ***********************************************
@@ -228,10 +231,9 @@ function updateHTMLPage() {
 
   displayOutput(allDocCmpData)
   displayOutput(mainDocMapDetails)
-  displayOutput(docMapDetails)
+  displayOutput(docMapDetails)  
 
-  // Modify Page Style
-  modifyPageStyle()
+  dispHtmlSection()
 
   displayOutput('Update Header Images ...')
 
@@ -249,6 +251,7 @@ function updateHTMLPage() {
   $("#hdr_img_3_sc").html(getImageDesc(getInfoDetailsC("HDR IMG3")).split('#')[1]);
 
   // Update Flash Content
+  /*
   let flash_cnt = getHashDataList(getInfoDetailsC("Top Header"))
   // Create HTML Content
   let img = '<i class="fab ' + flash_cnt['FLASH_ICON_1'] + '" style="font-size: 50px;"></i>'
@@ -260,6 +263,7 @@ function updateHTMLPage() {
   $("#flash_img_2").html(img)
   content = '<h5>' + flash_cnt['FLASH_BOLD_HDR_2'] + '</h5>' + flash_cnt['FLASH_CONTENT_2']
   $("#flash_cnt_2").html(content)
+  */
 
   displayOutput('Header Updated ..')
 
@@ -283,10 +287,24 @@ function modifyPageStyle() {
   if (isMobileBrowser()) {
     displayOutput('Mobile Browser found!')
 
+    footer_m_content = 'M'
+
     document.getElementById('main_list_container').className = "container-fluid row";
+    document.getElementById("main_list_container").style.margin = "65% 0px 0px 0px";
+
+   // document.getElementById("main_list_container").style.maxHeight = "100px";
+
+
+    document.getElementById("catg_hdr").style.margin = "0px 0px 0px 5%";
+    document.getElementById("offr_hdr").style.margin = "0px 0px 0px 5%";
 
   } else {
     displayOutput('Mobile Browser Not found!')
+  
+
+    document.getElementById("catg_hdr").style.margin = "0px 0px 0px 2%";
+    document.getElementById("offr_hdr").style.margin = "0px 0px 0px 2%";
+
   }
 
 }
@@ -302,11 +320,21 @@ function mobileModeStartupHandling() {
     document.getElementById("main_nav_bar").style.display = 'block';
     document.getElementById("main_footer_sec").style.display = 'none';   
 
+    document.getElementById("nav_profile").style.display = 'none';  
+
   } else {
     document.getElementById("main_nav_bar").style.display = 'block';
     document.getElementById("main_footer_sec").style.display = 'block';
   }
 
+
+}
+
+// Display Content after validation
+function dispHtmlSection() {
+
+  document.getElementById("main_container").style.display = 'block';
+  document.getElementById("header_content").style.display = 'block';
 
 }
 
@@ -503,6 +531,9 @@ function startUpCalls() {
 
 function checkUserDetailsAndSTART() {
 
+  // Modify Page Style
+  modifyPageStyle()
+
   var userDataPath = coll_base_path_P + 'USER/ALLUSER'
 
   firebase.auth().onAuthStateChanged(function (user) {
@@ -544,15 +575,12 @@ function checkUserDetailsAndSTART() {
                 displayOutput('Change Publish Mode from Production to Development.')
                 check_dev_publish_content = false
                 coll_base_path = basePath
-                $('#role_message').html('KivTech Development Publish')
+                $('#role_message').html('KivTech Development Publish ' + footer_m_content)
 
               }
               // --------------------------------------------------------------------
 
-              readDocumentDataAsync(document_ID)
-
-              document.getElementById("main_container").style.display = 'block';
-              document.getElementById("header_content").style.display = 'block';
+              readDocumentDataAsync(document_ID)    
 
 
             } else {
@@ -565,15 +593,12 @@ function checkUserDetailsAndSTART() {
                   displayOutput('Change Publish Mode from Production to Development.')
                   check_dev_publish_content = false
                   coll_base_path = basePath
-                  $('#role_message').html('KivTech Development Publish,DEV MODE')
+                  $('#role_message').html('KivTech Development Publish,DEV MODE '  + footer_m_content)
 
                 }
                 // --------------------------------------------------------------------
 
-                readDocumentDataAsync(document_ID)
-
-                document.getElementById("main_container").style.display = 'block';
-                document.getElementById("header_content").style.display = 'block';
+                readDocumentDataAsync(document_ID)               
 
               } else {
                 // Show No Content
@@ -617,8 +642,8 @@ function validationFailed() {
     viewModel('Message', 'Sorry , No Content available !!')
   }
 
-  document.getElementById("main_container").style.display = 'block';
-  document.getElementById("header_content").style.display = 'block';
+  //dispHtmlSection()
+
 }
 
 // Check Session Data is Correct or Not
