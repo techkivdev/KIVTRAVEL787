@@ -93,22 +93,13 @@
       <div style="margin-top: -30%;">
         <a id="btn_book_now" onclick="openRequestForm()" href="#!"
           class="waves-effect waves-light btn-large pink rcorners">Book Now</a>
-      </div>
-
-      <div id="header_btn_options_dest" style="margin-top: 25%;">
-        <div class="col s12">
-          <ul class="tabs tabs-fixed-width tab-demo z-depth-1 white lighten-5 rcorners">
-            <li class="tab col s3"><a class="active blue-text" href="#details_dest"><b>Details</b></a></li>
-            <li class="tab col s3"><a class="blue-text" href="#images_dest"><b>Images</b></a></li>
-          </ul>
-        </div>
-      </div>
+      </div>     
 
       <div id="header_btn_options_pkg" style="margin-top: 25%;">
         <div class="col s12">
           <ul class="tabs tabs-fixed-width tab-demo z-depth-1 white lighten-5 rcorners">
-            <li class="tab col s3"><a class="active blue-text" href="#details_pkg"><b>Details</b></a></li>
-            <li class="tab col s3"><a class="blue-text" href="#images_pkg"><b>Images</b></a></li>
+            <li class="tab" style="width: 100px;"><a class="active blue-text" href="#details_pkg"><i class="material-icons pink-text" style="font-size: 40px; margin-top: 5px;">format_list_bulleted</i></a></li>
+            <li class="tab" style="width: 100px;"><a class="blue-text" href="#images_pkg"><i class="material-icons pink-text" style="font-size: 40px;  margin-top: 5px;">image</i></a></li>
           </ul>
         </div>
       </div>
@@ -221,6 +212,8 @@
                           <small id="pkg_header_2" style="font-size: 10px;">Per Person</small><br>
                           <small id="pkg_cut_price" style="text-decoration: line-through; font-size: 20px;"
                             class="text-muted"></small>
+                          <br><small id="pkg_price_list" style="display: none;">
+                            <a href='#!'><i onclick="viewPriceListDetails()" class="material-icons white-text" style="font-size: 30px;">info_outline</i></a></small>
 
                         </span>
 
@@ -245,9 +238,13 @@
                   <!-- City -->
                   <div class="col s6">
                     <p id="pkg_header_6" class="grey-text">Cities</p>
-                    <b>
-                      <p id="pkg_cities">#</p>
-                    </b>
+                    <span>
+                      <small id="pkg_cities" style="font-size: 15px;">#</small>
+                      <br><small id="pkg_map_list" style="display: none;">
+                        <a href='#!'><i  onclick="viewMapDetails()" class="material-icons black-text" style="font-size: 30px;">map</i></a></small>
+
+                    </span>                    
+                    
                   </div>
 
                   <!-- Hotels -->
@@ -322,7 +319,7 @@
 
           <!-- CARD Infromation 2 Overview -->
           <div id="pkgcard_overview" class="col s12">
-            <div class="card">
+            <div class="card" style="border-radius: 10px;">
               <div class="card-content black-text">
                 <span class="card-title"><b id="pkg_header_11">Overview</b></span>
 
@@ -342,7 +339,7 @@
 
           <!-- CARD Infromation 3 Highlights -->
           <div id="card_highlights" class="col s12">
-            <div class="card">
+            <div class="card" style="border-radius: 10px;">
               <div class="card-content black-text">
                 <span class="card-title"><b id="pkg_header_12">Highlights</b></span>
 
@@ -363,7 +360,7 @@
 
           <!-- CARD Infromation 4 Itinerary -->
           <div id="pkgcard_itinerary" class="col s12">
-            <div class="card">
+            <div class="card" style="border-radius: 10px;">
               <div class="black-text">
                 <div class="card-content">
                   <span class="card-title"><b id="pkg_header_13">Itinerary</b></span>
@@ -509,7 +506,7 @@
 
           <!-- CARD Infromation 5 Hotels -->
           <div id="pkgcard_hotels" class="col s12">
-            <div class="card">
+            <div class="card" style="border-radius: 10px;">
               <div class="card-content black-text">
                 <span class="card-title"><b id="pkg_header_14">Hotels</b></span>
 
@@ -544,7 +541,7 @@
 
           <!-- CARD Infromation 6 what's Includes -->
           <div id="pkgcard_includes" class="col s12">
-            <div class="card">
+            <div class="card" style="border-radius: 10px;">
               <div class="card-content">
                 <p id="pkg_header_15" class="grey-text">Wht's Include in this package.</p>
               </div>
@@ -575,6 +572,71 @@
                   <div class="collapsible-header grey lighten-4"><i class="material-icons">remove</i>First</div>
 
                 </div>
+              </div>
+            </div>
+          </div>
+         
+           <!-- CARD Infromation 7 Transport -->
+           <div id="pkgcard_transport" class="col s12" style="display: none;">
+            <div class="card" style="border-radius: 10px;">
+              <div class="card-content black-text">
+                <span class="card-title"><b id="pkg_header_20">Transport</b></span>
+
+                <!-- Card Body START -->
+                <div>
+                  <p id="pkg_transport" class="long-text">#</p>
+                </div>
+                <!-- Card Body END -->              
+
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD Infromation 8 availablity -->
+          <div id="pkgcard_avalibality" class="col s12" style="display: none;">
+            <div class="card" style="border-radius: 10px;">
+              <div class="card-content black-text">
+                <span class="card-title"><b id="pkg_header_21">Availability</b></span>
+
+                <!-- Card Body START -->
+                <div>
+                  <p id="pkg_avalibality" class="long-text">#</p>
+                </div>
+                <!-- Card Body END -->              
+
+              </div>
+            </div>
+          </div>
+
+           <!-- CARD Infromation 9 FAQ -->
+           <div id="pkgcard_faq" class="col s12" style="display: none;">
+            <div class="card" style="border-radius: 10px;">
+              <div class="card-content black-text">
+                <span class="card-title"><b id="pkg_header_22">FAQ</b></span>
+
+                <!-- Card Body START -->
+                <div>
+                  <p id="pkg_faq" class="long-text">#</p>
+                </div>
+                <!-- Card Body END -->              
+
+              </div>
+            </div>
+          </div>
+
+
+          <!-- CARD Infromation ADMIN -->
+          <div id="pkgcard_admin" class="col s12" style="display: none;">
+            <div class="card" style="border-radius: 10px;">
+              <div class="card-content black-text">
+                <span class="card-title"><b>ADMIN</b></span>
+
+                <!-- Card Body START -->
+                <div>
+                  <p id="pkg_admin" class="long-text">#</p>
+                </div>
+                <!-- Card Body END -->              
+
               </div>
             </div>
           </div>

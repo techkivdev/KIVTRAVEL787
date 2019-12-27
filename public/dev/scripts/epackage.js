@@ -36,6 +36,12 @@ var docMapDetails = {}
 // Page Content
 var pageContent = {}
 
+// Local Variables
+var map_hdr = ''
+var map_details = ''
+var price_hdr = ''
+var price_details = ''
+
 // ***********************************************
 
 // ***********************************************
@@ -257,7 +263,6 @@ function updateHTMLPage() {
 
   document.getElementById("col_section_2").style.display = 'block';
   document.getElementById("header_section").style.display = 'block';
-  document.getElementById("header_btn_options_dest").style.display = 'none';
   document.getElementById("footer_sec").style.display = 'block';
 
   //$("#page_title").html('Packages');
@@ -321,6 +326,16 @@ function viewReviewDetails() {
 // Show Overview details
 function viewOverview() {
   viewModel('Overview', getInfoDetails("Overview"))
+}
+
+// View Price List Details
+function viewPriceListDetails() {
+  viewModel(price_hdr, price_details)
+}
+
+// View Map Details
+function viewMapDetails() {
+  viewModel(map_hdr, map_details)
 }
 
 
@@ -408,6 +423,7 @@ function updateMappingDetails(docID) {
     docMapDetails["international"] = allDocCmpData[docID]["INFO72"]
     docMapDetails["availability"] = allDocCmpData[docID]["INFO73"]
     docMapDetails["availability_config"] = allDocCmpData[docID]["INFO74"]
+    docMapDetails["faq"] = allDocCmpData[docID]["INFO75"]
     docMapDetails["cut_price"] = allDocCmpData[docID]["INFO8"]
     docMapDetails["includes"] = allDocCmpData[docID]["INFO9"]
 
@@ -579,16 +595,56 @@ function genHTMLContentType() {
   $("#pkg_header_16").html(headerData["HEADER_16"]);
   $("#pkg_header_17").html(headerData["HEADER_17"]);
 
+  map_hdr = headerData["HEADER_18"];
+  price_hdr = headerData["HEADER_19"];
+
+  $("#pkg_header_20").html(headerData["HEADER_20"]);
+  $("#pkg_header_21").html(headerData["HEADER_21"]);
+  $("#pkg_header_22").html(headerData["HEADER_22"]);
+
   // -------------------------------------------
 
   // Read Config Details
   let config = getHashDataList(getInfoDetails("Config"))
   let config2 = getHashDataList(getInfoDetails("Config2"))  
+  
   let transport = getHashDataList(getInfoDetails("Transport"))
   let pricelist = getHashDataList(getInfoDetails("Price List"))
   let availablitylist = getHashDataList(getInfoDetails("Availability Config"))
+  let faqlist = getHashDataList(getInfoDetails("FAQ"))
+  let maplist = getHashDataList(getInfoDetails("MAP"))
   //displayOutput(availablitylist)  
 
+  // Update Multi Config Section
+  // -----------------------------------------------
+  if(maplist['DISPLAY'] == 'YES') {
+    document.getElementById("pkg_map_list").style.display = 'block';
+    map_details = maplist['CONTENT']
+  }
+
+  if(pricelist['DISPLAY'] == 'YES') {
+    document.getElementById("pkg_price_list").style.display = 'block';
+    price_details = pricelist['CONTENT']
+  }
+
+  if(transport['DISPLAY'] == 'YES') {
+    document.getElementById("pkgcard_transport").style.display = 'block';
+    $("#pkg_transport").html(transport['CONTENT']);
+  }
+
+  if(availablitylist['DISPLAY'] == 'YES') {
+    document.getElementById("pkgcard_avalibality").style.display = 'block';
+    $("#pkg_avalibality").html(availablitylist['CONTENT']);
+  }
+
+  if(faqlist['DISPLAY'] == 'YES') {
+    document.getElementById("pkgcard_faq").style.display = 'block';
+    $("#pkg_faq").html(faqlist['CONTENT']);
+  }
+
+
+
+  // -----------------------------------------------
   // Update Page Content details
   pageContent['ID'] = getInfoDetails("ID")
   pageContent['NAME'] = getInfoDetails("Name")
@@ -608,7 +664,7 @@ function genHTMLContentType() {
   if (getInfoDetails("Cut Price") != '0') { $("#pkg_cut_price").html('&#x20b9;' + getInfoDetails("Cut Price")); }
   $("#pkg_best_time").html(getInfoDetails("Best Time"));
   $("#pkg_days").html(getInfoDetails("Days"));
-  $("#pkg_cities").html(getInfoDetails("Cities"));
+  $("#pkg_cities").html('<b>' + getInfoDetails("Cities") + '</b>');
   $("#pkg_ratings").html(getRatingHTMLCode(getInfoDetails("Ratings"), 'medium'));
   $("#pkg_ratings_num").html(getInfoDetails("Ratings").replace('#', ','));
 

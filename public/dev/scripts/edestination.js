@@ -257,8 +257,7 @@ function updateHTMLPage() {
   // HTML Modification functions  
 
   document.getElementById("col_section_1").style.display = 'block';
-  document.getElementById("header_section").style.display = 'block';
-  document.getElementById("header_btn_options_pkg").style.display = 'none';
+  document.getElementById("header_section").style.display = 'block';  
   document.getElementById("btn_book_now").style.display = 'none';
   document.getElementById("footer_sec").style.display = 'block';
 
@@ -379,6 +378,7 @@ function updateMappingDetails(docID) {
     docMapDetails["activities"] = allDocCmpData[docID]["INFO31"]
     docMapDetails["ratings"] = allDocCmpData[docID]["INFO32"]
     docMapDetails["filter"] = allDocCmpData[docID]["INFO35"]
+    docMapDetails["links"] = allDocCmpData[docID]["INFO36"]
     docMapDetails["tags"] = allDocCmpData[docID]["INFO4"]
     docMapDetails["country"] = allDocCmpData[docID]["INFO5"]
     docMapDetails["state"] = allDocCmpData[docID]["INFO6"]
@@ -475,10 +475,21 @@ function genHTMLContentType() {
   $("#dest_header_3").html(headerData["HEADER_3"]);
   $("#dest_header_4").html(headerData["HEADER_4"]);
   $("#dest_header_5").html(headerData["HEADER_5"]);
+  $("#dest_header_6").html(headerData["HEADER_6"]);
 
   // Read Config Details
   let config = getHashDataList(getInfoDetails("Config"))
+  let links = getHashDataList(getInfoDetails("Links"))
   //displayOutput(config)
+
+  // Update Multi Config Section
+  // -----------------------------------------------
+  if(links['DISPLAY'] == 'YES') {
+    document.getElementById("destcard_links").style.display = 'block';
+    $("#dest_links").html(links['CONTENT']);
+  }
+
+  // -----------------------------------------------
 
   //$("#banner_main_header").html(getInfoDetails("Name"));
   //$("#banner_small_header").html(" ");
