@@ -309,6 +309,17 @@ function viewOverview() {
   viewModel('Overview', getInfoDetails("Description"))
 }
 
+// Show Map View
+function viewMapDetails() {
+
+  let coordinates = '28.377966,76.911326';
+
+  var url = "https://www.google.co.in/maps/@"+ coordinates +",15z?hl=en";
+  
+  window.open(url, '_blank');
+
+}
+
 
 // *******************************************************
 // --------------- Mapping Functions ---------------------
@@ -462,6 +473,15 @@ function genHTMLContentType() {
 
   // Read Config Details
   let config = getHashDataList(getInfoDetails("Config"))
+  let maplist = getHashDataList(getInfoDetails("MAP"))
+
+   // Update Multi Config Section
+  // -----------------------------------------------
+  if(maplist['DISPLAY'] == 'YES') {
+    document.getElementById("plc_map").style.display = 'block';   
+  }
+
+  // -----------------------------------------------
 
   $("#plc_title").html(getInfoDetails("Name"));
 

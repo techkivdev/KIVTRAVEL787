@@ -242,8 +242,13 @@
                 <span class="card-title"><b id="plc_header_6">How to Reach</b></span>
                 <!-- Card Body START -->
                 <div>
-                  <p id="plc_info_2_details">#</p>
+                  <p id="plc_info_2_details">#</p>                  
                 </div> 
+
+                <div id="plc_map" class="right-align" style="margin-top: 2%; display: none;">
+                  <a onclick="viewMapDetails()" class="waves-effect waves-teal btn-flat blue-text">Map</a>
+                </div>               
+
               </div>
             </div>
           </div>
@@ -257,9 +262,9 @@
             <div id="header_btn_options_plc_2" >
               <div class="col s12" style="margin-top: 3%;">
                 <ul class="tabs tabs-fixed-width tab-demo z-depth-1 white lighten-5 rcorners">
-                  <li class="tab col s3"><a class="active blue-text" href="#plc_info_3"><b>Entry</b></a></li>
-                  <li class="tab col s3"><a class="blue-text" href="#plc_info_4"><b>Timings</b></a></li>
-                  <li class="tab col s3"><a class="blue-text" href="#plc_info_5"><b>Tips</b></a></li>
+                  <li class="tab col s3"><a class="active blue-text" href="#plc_info_3"><i class="material-icons black-text" style="font-size: 35px;  margin-top: 5px;">attach_money</i></a></li>
+                  <li class="tab col s3"><a class="blue-text" href="#plc_info_4"><i class="material-icons pink-text" style="font-size: 35px;  margin-top: 5px;">alarm</i></a></li>
+                  <li class="tab col s3"><a class="blue-text" href="#plc_info_5"><i class="material-icons green-text" style="font-size: 35px;  margin-top: 5px;">help_outline</i></a></li>
                 </ul>
               </div>
             </div>     
@@ -421,8 +426,7 @@
   <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-storage.js"></script>
   <script src="app/firestore.js"></script>
   <script src="scripts/common.js"></script>
-  <script src="scripts/eplace.js"></script>
-
+  <script src="scripts/eplace.js"></script>  
 
 </body>
 

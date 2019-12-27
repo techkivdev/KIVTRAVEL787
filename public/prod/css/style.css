@@ -157,17 +157,19 @@ body
   overflow-x: auto;
   overflow-y: hidden;
 }
+
+
 .card-scroll {
   /*float: left;*/  
-  padding: .75rem;
-  margin-bottom: 2rem;
+  padding: .40rem;
+  /*margin-bottom: .75rem;*/
   border: 0;  
   flex-grow: 0;
   flex-shrink: 0;
 }
 
 .card-scroll > img {
-  margin-bottom: .75rem;
+  margin-bottom: .1rem;
 }
 
 .card-scroll-text {
