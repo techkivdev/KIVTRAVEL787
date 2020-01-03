@@ -36,6 +36,14 @@ var docMapDetails = {}
 // Page Content
 var pageContent = {}
 
+// Local Data
+var config_details = ''
+var links = ''
+var reachDetails =  ''
+var bestTimes =  ''
+var essential =  ''
+var toDo =  ''
+
 // ***********************************************
 
 // ***********************************************
@@ -260,6 +268,7 @@ function updateHTMLPage() {
   document.getElementById("header_section").style.display = 'block';  
   document.getElementById("btn_book_now").style.display = 'none';
   document.getElementById("footer_sec").style.display = 'block';
+  document.getElementById("dest_faq_sec").style.display = 'block';
 
   //$("#page_title").html('Destination');
 
@@ -281,6 +290,15 @@ function modifyPageStyle() {
     displayOutput('Mobile Browser found!')
 
     document.getElementById('main_list_container').className = "container-fluid row";
+
+    document.getElementById("header_section").style.height = "250px";
+    document.getElementById("banner_main_image").style.height = "250px";
+    document.getElementById("header_btn_options_dest").style.marginTop = "-30%";
+
+    //document.getElementById("hdr_details_card").style.margin = "-80px 0px 0px 0px;";
+    //document.getElementById("hdr_image_card").style.margin = "-80px 0px 0px 0px;";
+
+
 
   } else {
     displayOutput('Mobile Browser Not found!')
@@ -318,8 +336,96 @@ function viewReviewDetails() {
 
 // Show Overview details
 function viewOverview() {
-  viewModel('Overview', getInfoDetails("Description"))
+  //viewModel('Overview', getInfoDetails("Description"))
+  showFullMessageDialog('Overview', 'NA',getInfoDetails("Description"))
 }
+
+// Show Reach Details
+function viewReachDetails(details) {
+  displayOutput(details)
+
+  switch(details) {
+
+    case 'air':
+      viewModel('By Air', reachDetails['AIR'])
+      break;
+
+      case 'train':
+      viewModel('By Train', reachDetails['TRAIN'])
+      break;
+
+      case 'road':
+      viewModel('By Road', reachDetails['ROAD'])
+      break;
+
+      case 'content':
+      //viewModel('Details', reachDetails['CONTENT'])
+      showFullMessageDialog(reachDetails['HEADER'], reachDetails['DESC'],reachDetails['CONTENT'])
+      break;
+
+
+  }
+
+}
+
+// Show Best Times Details
+function viewBestTimeDetails() {
+  //viewModel(bestTimes['HEADER'], bestTimes['CONTENT'])
+  showFullMessageDialog(bestTimes['HEADER'], bestTimes['DESC'],bestTimes['CONTENT'])
+}
+
+// Show Essential Details
+function viewEssentialDetails() {
+  //viewModel(essential['HEADER'], essential['CONTENT'])
+  showFullMessageDialog(essential['HEADER'], essential['DESC'],essential['CONTENT'])
+}
+
+// Show To Do Details
+function viewtoDoDetails() {
+  //viewModel(toDo['HEADER'], toDo['CONTENT'])
+  showFullMessageDialog(toDo['HEADER'], toDo['DESC'],toDo['CONTENT'])
+}
+
+// -----------------------------------------
+// View Message Dialog
+// -----------------------------------------
+function showFullMessageDialog(header,sub_header,content){
+
+  document.getElementById("col_section_1").style.display = 'none';
+  document.getElementById("header_section").style.display = 'none';
+  document.getElementById("footer_sec").style.display = 'none';
+  document.getElementById("dest_faq_sec").style.display = 'none';
+  document.getElementById("dest_listref_section").style.display = 'none';
+
+  document.getElementById("message_display_container").style.display = 'block';
+  document.getElementById("close_fl_btn").style.display = 'block';
+
+  if(sub_header == 'NA') {document.getElementById("msg_sub_header").style.display = 'none';}
+
+  // Update HTML Details
+  $("#msg_header").html(header);
+  $("#msg_sub_header").html(sub_header);
+  $("#msg_content").html(content);
+
+  window.scrollTo(0, 0);
+}
+
+function hideFullMessageDialog(){
+
+  document.getElementById("col_section_1").style.display = 'block';
+  document.getElementById("header_section").style.display = 'block';
+  document.getElementById("footer_sec").style.display = 'block';
+  document.getElementById("dest_faq_sec").style.display = 'block';
+  document.getElementById("dest_listref_section").style.display = 'block';
+
+  document.getElementById("message_display_container").style.display = 'none';
+  document.getElementById("close_fl_btn").style.display = 'none';
+
+  window.scrollTo(0, 0);
+
+}
+
+// ------------------------------------------
 
 
 // *******************************************************
@@ -371,7 +477,7 @@ function updateMappingDetails(docID) {
     docMapDetails["reach_details"] = allDocCmpData[docID]["INFO12"]
     docMapDetails["packages_details"] = docID + "#INFO13"
     docMapDetails["places_details"] = docID + "#INFO14"
-    docMapDetails["review_details"] = docID + "#INFO15"
+    docMapDetails["cities"] = docID + "#INFO15"
     docMapDetails["name"] = allDocCmpData[docID]["INFO2"]
     docMapDetails["catageory"] = allDocCmpData[docID]["INFO3"]
     docMapDetails["district"] = allDocCmpData[docID]["INFO30"]
@@ -379,7 +485,11 @@ function updateMappingDetails(docID) {
     docMapDetails["ratings"] = allDocCmpData[docID]["INFO32"]
     docMapDetails["filter"] = allDocCmpData[docID]["INFO35"]
     docMapDetails["links"] = allDocCmpData[docID]["INFO36"]
+    docMapDetails["essential"] = allDocCmpData[docID]["INFO37"]
+    docMapDetails["to_do"] = allDocCmpData[docID]["INFO38"]
+    docMapDetails["international"] = allDocCmpData[docID]["INFO39"]
     docMapDetails["tags"] = allDocCmpData[docID]["INFO4"]
+    docMapDetails["faq"] = allDocCmpData[docID]["INFO40"]
     docMapDetails["country"] = allDocCmpData[docID]["INFO5"]
     docMapDetails["state"] = allDocCmpData[docID]["INFO6"]
     docMapDetails["places"] = allDocCmpData[docID]["INFO7"]
@@ -436,8 +546,16 @@ function getModelLayoutConfig(mdl_coll) {
   header_text_layout_position = 'center'
   header_button_layout_position = 'center'
   */
+  
 
-  return [true, false, 'center', 'center']
+  switch (mdl_coll) {    
+
+    case "PACKAGES":
+      return [true, true, 'left', 'center']
+
+    default:
+      return [true, false, 'left', 'center']
+  }
 
 }
 
@@ -465,7 +583,7 @@ function genHTMLContentType() {
   document.getElementById('banner_main_image').src = getImageUrl(getInfoDetails("Image 1"))
 
   // Update Image View
-  updateImageView("dest_image_view", ["Image 1", "Image 2", "Image 3", "Image 4", "Image 5"])
+  updateImageView("dest_image_view", ["Image 2", "Image 3", "Image 4", "Image 5","Image 6"])
 
   // Get All Header Details
   let headerData = getHashDataList(mainDocMapDetails["COMMON_DATA"])
@@ -476,11 +594,60 @@ function genHTMLContentType() {
   $("#dest_header_4").html(headerData["HEADER_4"]);
   $("#dest_header_5").html(headerData["HEADER_5"]);
   $("#dest_header_6").html(headerData["HEADER_6"]);
+  $("#dest_header_7").html(headerData["HEADER_7"]);
 
   // Read Config Details
-  let config = getHashDataList(getInfoDetails("Config"))
-  let links = getHashDataList(getInfoDetails("Links"))
-  //displayOutput(config)
+  config_details = getHashDataList(getInfoDetails("Config"))
+  links = getHashDataList(getInfoDetails("Links"))
+  reachDetails = getHashDataList(getInfoDetails("Reach Details"))
+  bestTimes = getHashDataList(getInfoDetails("Best Times"))
+  essential = getHashDataList(getInfoDetails("Essential"))
+  toDo = getHashDataList(getInfoDetails("To Do"))
+  //displayOutput(faq)
+
+   // Update To Do Section 
+  // -----------------------------------------------
+  if(toDo['DISPLAY'] == 'YES') {
+    document.getElementById("dest_todo_sec").style.display = 'block';
+  }
+
+  // -----------------------------------------------
+
+  // Update Essential Section 
+  // -----------------------------------------------
+  if(essential['DISPLAY'] == 'YES') {
+    document.getElementById("dest_essential_sec").style.display = 'block';
+  }
+
+  // -----------------------------------------------
+
+  // Update Best Time Section 
+  // -----------------------------------------------
+  if(bestTimes['DISPLAY'] == 'YES') {
+    document.getElementById("dest_besttime_list").style.display = 'block';
+  }
+
+  // -----------------------------------------------
+
+  // Update How to Reach Section 
+  // -----------------------------------------------
+  if(reachDetails['DISPLAY'] == 'YES') {
+    document.getElementById("destcard_reach").style.display = 'block';
+    $("#reach_title").html(reachDetails['HEADER']);
+    $("#reach_desc").html(reachDetails['DESC']);
+    
+    if(reachDetails['AIR'] == 'NA') {document.getElementById("destcard_air").style.display = 'none';}
+    if(reachDetails['TRAIN'] == 'NA') {document.getElementById("destcard_train").style.display = 'none';}
+    if(reachDetails['ROAD'] == 'NA') {document.getElementById("destcard_road").style.display = 'none';}
+    if(reachDetails['CONTENT'] == 'NA') {document.getElementById("reach_content_btn").style.display = 'none';}
+
+    $("#dest_by_air").html(reachDetails['AIR']);
+    $("#dest_by_train").html(reachDetails['TRAIN']);
+    $("#dest_by_road").html(reachDetails['ROAD']);
+
+  }
+
+  // -----------------------------------------------
 
   // Update Multi Config Section
   // -----------------------------------------------
@@ -497,19 +664,25 @@ function genHTMLContentType() {
   // Update HTML Page Details getInfoDetails("Name")
   $("#dest_title").html(getInfoDetails("Name"));
   $("#dest_price").html('&#x20b9;' + getInfoDetails("Price"));
-  $("#dest_best_time").html(getInfoDetails("Best Times"));
+  $("#dest_best_time").html(config_details['BEST_TIME']);
+  $("#dest_duration").html(config_details['DURATION']);
   //$("#dest_ratings").html(getInfoDetails("Ratings"));
   $("#dest_description").html(getInfoDetails("Description"));
 
 
   // Update Activities
+  // <img src="Images/default.jpg" alt="default"> 
   $("#dest_activities").html(getAppendHTMLLines(getInfoDetails("Activities"),
-    '<div class="chip"><img src="Images/default.jpg" alt="default"> ',
+    '<div class="chip">',
     '</div>'));
 
   // Update List Ref Details
+  getListRefDetails(getInfoDetails("Cities"), 'all_cities_list_ref')
   getListRefDetails(getInfoDetails("Packages Details"), 'all_packages_list_ref')
   getListRefDetails(getInfoDetails("Places Details"), 'all_places_list_ref')
+
+  // Create FAQ Section
+  createFaqSection('dest_faq_sec',getHashDataList(getInfoDetails("FAQ")))
 
 }
 

@@ -36,6 +36,11 @@ var docMapDetails = {}
 // Page Content
 var pageContent = {}
 
+// Local Variables
+var reachInfo = {}
+var feesInfo = {}
+var timingsInfo = {}
+
 // ***********************************************
 
 // ***********************************************
@@ -272,6 +277,10 @@ function modifyPageStyle() {
 
     document.getElementById('main_list_container').className = "container-fluid row";
 
+    document.getElementById("header_section").style.height = "250px";
+    document.getElementById("banner_main_image").style.height = "250px";   
+    document.getElementById("header_btn_options_plc").style.marginTop = "-20px";
+
   } else {
     displayOutput('Mobile Browser Not found!')
   }
@@ -306,7 +315,8 @@ function viewReviewDetails() {
 
 // Show Overview details
 function viewOverview() {
-  viewModel('Overview', getInfoDetails("Description"))
+ // viewModel('Overview', getInfoDetails("Description"))
+  showFullMessageDialog('Description', 'NA',getInfoDetails("Description"))
 }
 
 // Show Map View
@@ -319,6 +329,63 @@ function viewMapDetails() {
   window.open(url, '_blank');
 
 }
+
+// Show Reach Details
+function viewReachDetails() {
+  showFullMessageDialog(reachInfo['HEADER'], reachInfo['DESC'],reachInfo['CONTENT'])
+}
+
+// Show Fees Details
+function viewFeesDetails(){
+  showFullMessageDialog(feesInfo['HEADER'], feesInfo['DESC'],feesInfo['SUBCONTENT'] + feesInfo['CONTENT'])
+}
+
+// Show Timings Details
+function viewTimingDetails(){
+  showFullMessageDialog(timingsInfo['HEADER'], timingsInfo['DESC'],timingsInfo['SUBCONTENT'] + timingsInfo['CONTENT'])
+}
+
+
+// -----------------------------------------
+// View Message Dialog
+// -----------------------------------------
+function showFullMessageDialog(header,sub_header,content){
+
+  document.getElementById("col_section_1").style.display = 'none';
+  document.getElementById("header_section").style.display = 'none';
+  document.getElementById("footer_sec").style.display = 'none';
+  document.getElementById("plc_faq_sec").style.display = 'none';
+  document.getElementById("plc_listref_section").style.display = 'none';  
+
+  document.getElementById("message_display_container").style.display = 'block';
+  document.getElementById("close_fl_btn").style.display = 'block';
+
+  if(sub_header == 'NA') {document.getElementById("msg_sub_header").style.display = 'none';}
+
+  // Update HTML Details
+  $("#msg_header").html(header);
+  $("#msg_sub_header").html(sub_header);
+  $("#msg_content").html(content);
+
+  window.scrollTo(0, 0);
+}
+
+function hideFullMessageDialog(){
+
+  document.getElementById("col_section_1").style.display = 'block';
+  document.getElementById("header_section").style.display = 'block';
+  document.getElementById("footer_sec").style.display = 'block';
+  document.getElementById("plc_faq_sec").style.display = 'block';
+  document.getElementById("plc_listref_section").style.display = 'block'; 
+
+  document.getElementById("message_display_container").style.display = 'none';
+  document.getElementById("close_fl_btn").style.display = 'none';
+
+  window.scrollTo(0, 0);
+
+}
+
+// ------------------------------------------
 
 
 // *******************************************************
@@ -373,7 +440,12 @@ function updateMappingDetails(docID) {
     docMapDetails["state"] = allDocCmpData[docID]["INFO26"]
     docMapDetails["district"] = allDocCmpData[docID]["INFO27"]
     docMapDetails["filter"] = allDocCmpData[docID]["INFO28"]
+    docMapDetails["type"] = allDocCmpData[docID]["INFO29"]
     docMapDetails["name"] = allDocCmpData[docID]["INFO3"]
+    docMapDetails["destination_id"] = allDocCmpData[docID]["INFO30"]
+    docMapDetails["faq"] = allDocCmpData[docID]["INFO31"]
+    docMapDetails["category"] = allDocCmpData[docID]["INFO32"]
+    docMapDetails["activities"] = allDocCmpData[docID]["INFO33"]
     docMapDetails["desc"] = allDocCmpData[docID]["INFO4"]
     docMapDetails["description"] = allDocCmpData[docID]["INFO5"]
     docMapDetails["quick"] = allDocCmpData[docID]["INFO6"]
@@ -428,7 +500,14 @@ function getModelLayoutConfig(mdl_coll) {
   header_button_layout_position = 'center'
   */
 
-  return [true, true, 'center', 'center']
+ switch (mdl_coll) {    
+
+  case "PACKAGES":
+    return [true, true, 'left', 'center']
+
+  default:
+    return [true, false, 'left', 'center']
+}
 
 }
 
@@ -470,6 +549,8 @@ function genHTMLContentType() {
   $("#plc_header_7").html(headerData["HEADER_7"]);
   $("#plc_header_8").html(headerData["HEADER_8"]);
   $("#plc_header_9").html(headerData["HEADER_9"]);
+  $("#plc_header_10").html(headerData["HEADER_10"]);
+  $("#plc_header_11").html(headerData["HEADER_11"]);
 
   // Read Config Details
   let config = getHashDataList(getInfoDetails("Config"))
@@ -477,9 +558,7 @@ function genHTMLContentType() {
 
    // Update Multi Config Section
   // -----------------------------------------------
-  if(maplist['DISPLAY'] == 'YES') {
-    document.getElementById("plc_map").style.display = 'block';   
-  }
+  if(maplist['DISPLAY'] == 'YES') {}
 
   // -----------------------------------------------
 
@@ -487,39 +566,116 @@ function genHTMLContentType() {
 
   //displayOutput(getInfoDetails("Country"))
 
+  // ------------------ QUCIK Section -----------------------
   let quickInfo = getHashDataList(getInfoDetails("Quick"))
-  $("#plc_best_time").html(quickInfo['QUICK1']);
-  $("#plc_visa").html(quickInfo['QUICK2']);
-  $("#plc_duration").html(quickInfo['QUICK3']);
-  $("#plc_starting").html(quickInfo['QUICK4']);
+ 
+  if(quickInfo['BEST_TIME'] == 'NA') {
+    document.getElementById("plc_bestime_sec").style.display = 'none';
+  } else {
+    $("#plc_best_time").html(quickInfo['BEST_TIME']);
+  } 
+
+  if(quickInfo['VISA'] == 'NA') {
+    document.getElementById("plc_visa_sec").style.display = 'none';
+  } else {
+    $("#plc_visa").html(quickInfo['VISA']);
+  } 
+
+  if(quickInfo['DURATION'] == 'NA') {
+    document.getElementById("plc_duration_sec").style.display = 'none';
+  } else {
+    $("#plc_duration").html(quickInfo['DURATION']);
+  } 
+
+  if(quickInfo['STARTING'] == 'NA') {
+    document.getElementById("plc_starting_sec").style.display = 'none';
+  } else {
+    $("#plc_starting").html(quickInfo['STARTING']);
+  } 
+
+  if(quickInfo['ADDRESS'] == 'NA') {
+    document.getElementById("plc_address_sec").style.display = 'none';
+  } else {
+    $("#plc_address").html(quickInfo['ADDRESS']);
+  } 
+
+  if(quickInfo['LINKS'] == 'NA') {
+    document.getElementById("plc_links_sec").style.display = 'none';
+  } else {
+    $("#plc_links").html(quickInfo['LINKS']);
+  }
+
+  // ----------------------------------------------------------------
+
+   // Update Activities 
+   if(getInfoDetails("Activities")[0] == 'NA') {
+    document.getElementById("plc_activities").style.display = 'none';
+    document.getElementById("plc_activities_hdr").style.display = 'none';
+  } else {
+    $("#plc_activities").html(getAppendHTMLLines(getInfoDetails("Activities"),
+    '<div class="small chip">',
+    '</div>'));
+  }
 
 
   // Update tags 
-  $("#plc_tags").html(getAppendHTMLLines(config['TAGS'].split(','),
+  if(config['TAGS'] == 'NA') {
+    document.getElementById("plc_tags").style.display = 'none';
+  } else {
+    $("#plc_tags").html(getAppendHTMLLines(config['TAGS'].split(','),
     '<div class="small chip">',
     '</div>'));
+  }
+  
 
   $("#plc_description").html(getInfoDetails("Description"));
 
-  let reachInfo = getHashDataList(getInfoDetails("Reach"))
-  $("#plc_info_2_details").html(reachInfo['DESC']);
+  // Reaching Information
+  reachInfo = getHashDataList(getInfoDetails("Reach"))
+  if(reachInfo['DISPLAY'] == 'NO') {
+    document.getElementById("plc_info_2").style.display = 'none';   
+  } else {
+    $("#plc_header_6").html(reachInfo['HEADER']);
+    $("#plc_info_2_details").html(reachInfo['CONTENT']);
+  }
 
-  let feesInfo = getHashDataList(getInfoDetails("Fees"))
-  let entry_details = '<p class="grey-text">Price</p><b>' + feesInfo['PRICE'] + '</b><br><br>' + feesInfo['DESC']
-  $("#plc_info_3_details").html(entry_details);
+  // Fees Information
+  feesInfo = getHashDataList(getInfoDetails("Fees"))
+  if(feesInfo['DISPLAY'] == 'NO') {
+    //document.getElementById("plc_info_2").style.display = 'none';   
+  } else {
+    $("#plc_header_7").html(feesInfo['HEADER']);
+    $("#plc_info_3_details").html(feesInfo['SUBCONTENT']);
 
-  let timingsInfo = getHashDataList(getInfoDetails("Timings"))
-  let timing_details = '<p class="grey-text">Days</p><b>' + timingsInfo['DAYS'] + '</b>' +
-    '<p class="grey-text">Time</p><b>' + timingsInfo['TIME'] + '</b>' +
-    '<br><br>' + timingsInfo['DESC']
+    if(feesInfo['CONTENT'] == 'NA') {
+      document.getElementById("fees_btn").style.display = 'none';
+    }
+  }
 
-  $("#plc_info_4_details").html(timing_details);
+  // Timing Information
+  timingsInfo = getHashDataList(getInfoDetails("Timings"))
+  if(timingsInfo['DISPLAY'] == 'NO') {
+    //document.getElementById("plc_info_2").style.display = 'none';   
+  } else {
+    $("#plc_header_8").html(timingsInfo['HEADER']);
+    $("#plc_info_4_details").html(timingsInfo['SUBCONTENT']);
 
-  $("#plc_info_5_details").html(getInfoDetails("Tips"));
+    if(timingsInfo['CONTENT'] == 'NA') {
+      document.getElementById("timing_btn").style.display = 'none';
+    }
+  }
+  
+  // Update Tips Details
+  $("#plc_header_9").html(config['TIPSHEADER'])
+  $("#plc_info_5_details").html(getHashLinesListInHTMLFormat(getInfoDetails("Tips"), 'help_outline','green'))
+  
 
   // Update List Ref Details
   getListRefDetails(getInfoDetails("Packages List"), 'all_packages_list_ref')
   getListRefDetails(getInfoDetails("Places Details"), 'all_places_list_ref')
+
+  // Create FAQ Section 
+  createFaqSection('plc_faq_sec',getHashDataList(getInfoDetails("FAQ")))
 
 
 

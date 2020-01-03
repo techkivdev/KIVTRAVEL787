@@ -11,14 +11,14 @@
 var base_database_name = 'DATABASE'
 
 
-var basePath = '/'+base_database_name+'/DEVELOPMENT/PUBLIC/';
-var basePrivatePath = '/'+base_database_name+'/DEVELOPMENT/PRIVATE/';
+var basePath = '/' + base_database_name + '/DEVELOPMENT/PUBLIC/';
+var basePrivatePath = '/' + base_database_name + '/DEVELOPMENT/PRIVATE/';
 
-var baseProductionPath = '/'+base_database_name+'/PRODUCTION/PUBLIC/';
-var baseProductionPrivatePath = '/'+base_database_name+'/PRODUCTION/PRIVATE/';
+var baseProductionPath = '/' + base_database_name + '/PRODUCTION/PUBLIC/';
+var baseProductionPrivatePath = '/' + base_database_name + '/PRODUCTION/PRIVATE/';
 
-var imagebasePath = '/'+base_database_name+'/DEVELOPMENT/PUBLIC/';
-var imagebaseProductionPath = '/'+base_database_name+'/PRODUCTION/PUBLIC/';
+var imagebasePath = '/' + base_database_name + '/DEVELOPMENT/PUBLIC/';
+var imagebaseProductionPath = '/' + base_database_name + '/PRODUCTION/PUBLIC/';
 
 // ********************************************
 // ------------ Mode Configuration -----------
@@ -174,7 +174,7 @@ function displayOutput(details) {
 
 // Display Toast Message
 function toastMsg(msg) {
-  M.toast({html: msg})
+  M.toast({ html: msg })
 }
 
 // ----- Click Handling Operation --------
@@ -184,7 +184,7 @@ function clickHandling(mdl_map_details) {
   var id = mdl_map_details['ID']
 
   var action = mdl_action_details.split(',')[0]
-  var page_name = mdl_action_details.split(',')[1]   
+  var page_name = mdl_action_details.split(',')[1]
 
 
   if (action == 'STATICPAGE') {
@@ -198,7 +198,7 @@ function clickHandling(mdl_map_details) {
 
     return url
 
-  }  else {
+  } else {
     return 'NA'
   }
 
@@ -206,52 +206,84 @@ function clickHandling(mdl_map_details) {
 
 // --------  Get Key Names Details --------
 function getKeyDetails(key_name) {
-  return key_name.replace(' ','_').toLowerCase()
- }
+  return key_name.replace(' ', '_').toLowerCase()
+}
 
- // Get Info details
+// Get Info details
 function getInfoDetailsC(key) {
   return docMapDetails[getKeyDetails(key)]
 }
 
+// ------------------------
 // Get Hashvalues Details
-function getHashDataList(details) {
-  
+// ------------------------
+function getHashDataList_old(details) {
+
   var dataList = {}
+  var delim = ':'
 
-  if(details == "NA") {
-       dataList['STATUS'] = false
-  } else {      
+  if (details == "NA") {
+    dataList['STATUS'] = false
+  } else {
 
-  var all_details_list = details.split('#')
+    var all_details_list = details.split('#')
 
-  let dataLine = '{'
-  for(each_idx in all_details_list) {
-    if(each_idx == 0){continue}
-    var idx_data = all_details_list[each_idx]
-    dataLine += '"' + idx_data.split(':')[0].trim() + '"'  + ':' + '"' + idx_data.split(':')[1].trim() +'",'
-    
+    let dataLine = '{'
+    for (each_idx in all_details_list) {
+      if (each_idx == 0) { continue }
+      var idx_data = all_details_list[each_idx]
+      dataLine += '"' + idx_data.split(delim)[0].trim() + '"' + ':' + '"' + idx_data.split(delim)[1].trim() + '",'
+
+    }
+
+    dataLine = dataLine.slice(0, -1) + '}'
+
+    dataList = JSON.parse(dataLine)
+    dataList['STATUS'] = true
+
   }
 
-  dataLine = dataLine.slice(0, -1) + '}'
+  return dataList
 
-  dataList = JSON.parse(dataLine)
-  dataList['STATUS'] = true
-  
 }
 
-return dataList
+function getHashDataList(details) {
+
+  var dataList = {}
+  var delim = '$->'
+
+  if (details == "NA") {
+    dataList['STATUS'] = false
+  } else {
+
+    var all_details_list = details.split('#')
+   
+    for (each_idx in all_details_list) {
+      if (each_idx == 0) { continue }
+      var idx_data = all_details_list[each_idx]
+     
+      let key = idx_data.split(delim)[0].trim()
+      let value = idx_data.split(delim)[1].trim()
+      dataList[key] = value
+
+    }
+   
+    dataList['STATUS'] = true
+
+  }
+
+  return dataList
 
 }
 
 // Get Hash Lines List details
-function getHashLinesList(details,start,end){
+function getHashLinesList(details, start, end) {
 
   var all_details_list = details.split('#')
 
   var details_html_line = ''
-  for(each_details_idx in all_details_list) {
-    if(each_details_idx == 0){continue}
+  for (each_details_idx in all_details_list) {
+    if (each_details_idx == 0) { continue }
     var details_name = all_details_list[each_details_idx]
     details_html_line += start + details_name + end
   }
@@ -260,11 +292,37 @@ function getHashLinesList(details,start,end){
 
 }
 
+// Get HashList Lines and return in HTML Format
+function getHashLinesListInHTMLFormat(details, icon_name, color_det) {
+
+  var all_details_list = details.split('#')
+
+  let start = '<i class="material-icons '+color_det+'-text" style="position: absolute; margin-top: 6px; ">'+ icon_name +'</i><p class="long-text-nor" style="margin-left: 40px; margin-top: 10px;">'
+  let start_top = '<i class="material-icons '+color_det+'-text" style="position: absolute; margin-top: -2px; ">'+ icon_name +'</i><p class="long-text-nor" style="margin-left: 40px; margin-top: 10px;">'
+  
+  let end = '</p>'
+
+  var details_html_line = ''
+  for (each_details_idx in all_details_list) {
+    if (each_details_idx == 0) { continue }
+    var details_name = all_details_list[each_details_idx]
+    if(each_details_idx == 1) {
+      details_html_line += start_top + details_name + end
+    } else {
+      details_html_line += start + details_name + end
+    }
+    
+  }
+
+  return details_html_line
+
+}
+
 // Get Append HTML code lines
-function getAppendHTMLLines(details,start,end){
+function getAppendHTMLLines(details, start, end) {
 
   var html_line = ''
-  for(each_idx in details) {
+  for (each_idx in details) {
     var name = details[each_idx]
     html_line += start + name + end
   }
@@ -274,46 +332,65 @@ function getAppendHTMLLines(details,start,end){
 }
 
 // Get Ratings HTML Code
-function getRatingHTMLCode(ratings,size='small') {
+function getRatingHTMLCode(ratings, size = 'small') {
 
-  if(!ratings.includes("#")) {
+  if (!ratings.includes("#")) {
     ratings = '1#(1)'
   }
 
 
   var rating_num = ratings.split('#')[0]
-      
-      var ratings_line = ''
-      for (i = 0; i < Number(rating_num.split('.')[0]); i++) {
-        //ratings_line += '<i class="fas fa-star text-warning"></i>';
-        ratings_line += '<i class=" '+size+' material-icons orange-text">star</i>';
-      }
 
-      if(rating_num.includes(".5")) {
-        ratings_line += '<i class=" '+size+' material-icons orange-text">star_half</i>';
-      }
+  var ratings_line = ''
+  for (i = 0; i < Number(rating_num.split('.')[0]); i++) {
+    //ratings_line += '<i class="fas fa-star text-warning"></i>';
+    ratings_line += '<i class=" ' + size + ' material-icons orange-text">star</i>';
+  }
 
-     // ratings_line += rating_num + ' ' + ratings.split('#')[1]
+  if (rating_num.includes(".5")) {
+    ratings_line += '<i class=" ' + size + ' material-icons orange-text">star_half</i>';
+  }
 
-     return ratings_line
+  // ratings_line += rating_num + ' ' + ratings.split('#')[1]
+
+  return ratings_line
+}
+
+// Get Chip icons accroding to the Name
+function getChipIconsFromList(details){
+
+  var html_line = ''
+
+  let start = '<div class="chip">'
+  let end = '</div>'
+
+  let image_line = '<i class="material-icons" style="font-size: 35px;">flight</i><br><span>broken_image</span>'
+
+  for (each_idx in details) {
+    var name = details[each_idx]
+    html_line += start + name + end
+  }
+
+  return html_line
+
 }
 
 // Detecting a mobile browser
-function isMobileBrowser() { 
-  
-  if (navigator.userAgent.match(/Android/i) 
-      || navigator.userAgent.match(/webOS/i) 
-      || navigator.userAgent.match(/iPhone/i)  
-      || navigator.userAgent.match(/iPad/i)  
-      || navigator.userAgent.match(/iPod/i) 
-      || navigator.userAgent.match(/BlackBerry/i) 
-      || navigator.userAgent.match(/Windows Phone/i)) { 
-      return true; 
-  } else { 
-      return false; 
-  } 
- 
-} 
+function isMobileBrowser() {
+
+  if (navigator.userAgent.match(/Android/i)
+    || navigator.userAgent.match(/webOS/i)
+    || navigator.userAgent.match(/iPhone/i)
+    || navigator.userAgent.match(/iPad/i)
+    || navigator.userAgent.match(/iPod/i)
+    || navigator.userAgent.match(/BlackBerry/i)
+    || navigator.userAgent.match(/Windows Phone/i)) {
+    return true;
+  } else {
+    return false;
+  }
+
+}
 
 
 
@@ -341,7 +418,7 @@ function createListRefHTMLContent(details, htmlID) {
   }
 
   // Get BASE Layout content 
-  var base_layout_content = getBaseLayoutHTML(details['MDL_COLL'],details['BS_LYT'], details['BS_TITLE'], each_list_ref_div_content)
+  var base_layout_content = getBaseLayoutHTML(details['MDL_COLL'], details['BS_LYT'], details['BS_TITLE'], details['BS_DESC'], each_list_ref_div_content)
 
 
   // Update HTML Page
@@ -350,7 +427,7 @@ function createListRefHTMLContent(details, htmlID) {
 }
 
 // Create Base Layout
-function getBaseLayoutHTML(mdl_coll,base_layout, header, model_content) {
+function getBaseLayoutHTML(mdl_coll, base_layout, header, base_desc, model_content) {
 
   var base_layout_html = ''
 
@@ -364,7 +441,7 @@ function getBaseLayoutHTML(mdl_coll,base_layout, header, model_content) {
   // *********************************************************************
 
   if (base_layout == 'CARD_ROW') {
-    
+
     // ------------- Configuration -------------------------
     var mdl_lyt_config = getModelLayoutConfig(mdl_coll)
     show_model_base_header = mdl_lyt_config[0]
@@ -378,22 +455,22 @@ function getBaseLayoutHTML(mdl_coll,base_layout, header, model_content) {
                       <h3><i class="mdi-content-send brown-text"></i></h3>\
                       <div class="row">'
 
-                      if(show_model_base_header) {
-                        base_layout_html += '<div class="col s12">\
+    if (show_model_base_header) {
+      base_layout_html += '<div class="col s12">\
                         <h4>' + header + '</h4>\
-                      </div> ';                     
-                    }
-                        
+                      </div> ';
+    }
 
-                      if(show_model_base_button){
-                        base_layout_html += '<div class="col s12">\
+
+    if (show_model_base_button) {
+      base_layout_html += '<div class="col s12">\
                           <div class="' + header_button_layout_position + '">\
                             <a onclick="clickViewAll(\'' + mdl_coll + '\')" class="waves-effect waves-light btn blue rcorners">View All</a>\
                           </div>\
                         </div>'
-                      }
+    }
 
-                      base_layout_html += '</div>\
+    base_layout_html += '</div>\
                       </div>\
                   </div><div class="row">' + model_content + '</div>';
   }
@@ -403,7 +480,7 @@ function getBaseLayoutHTML(mdl_coll,base_layout, header, model_content) {
   // *********************************************************************
 
   if (base_layout == 'CARD_ROW_SCROLL') {
-    
+
     // ------------- Configuration -------------------------
     var mdl_lyt_config = getModelLayoutConfig(mdl_coll)
     show_model_base_header = mdl_lyt_config[0]
@@ -412,28 +489,37 @@ function getBaseLayoutHTML(mdl_coll,base_layout, header, model_content) {
     header_button_layout_position = mdl_lyt_config[3]
     // -----------------------------------------------------
 
+
     base_layout_html = '<div class="row">\
                     <div class="col s12 ' + header_text_layout_position + '">\
-                      <h3><i class="mdi-content-send brown-text"></i></h3>\
-                      <div class="row">'
-                      if(show_model_base_header) {
-                        base_layout_html += '<div class="col s12">\
-                        <h4>' + header + '</h4>\
-                      </div> ';                     
-                    }
-                        
+                    \
+                      <div>'
+    if (show_model_base_header) {
+      base_layout_html += '<div class="col s12">\
+                        <p style="font-size: 25px;">' + header + '</p>\
+                        <div><p class="grey-text long-text-nor" style="margin-top: -25px;">' + base_desc + '</p></div>\
+                      </div> ';
+    }
 
-                      if(show_model_base_button){
-                        base_layout_html += '<div class="col s12">\
-                          <div class="' + header_button_layout_position + '">\
+
+    if (show_model_base_button) {
+
+      base_layout_html += '<div class="col s12">\
+                          <div class="' + header_button_layout_position + '" style="margin-top: -10px;">\
                             <a onclick="clickViewAll(\'' + mdl_coll + '\')" class="waves-effect waves-light btn blue rcorners">View All</a>\
                           </div>\
                         </div>'
-                      }
 
-                      base_layout_html += '</div>\
+      base_layout_html += '</div>\
+                          </div>\
+                      </div><div class="row-scroll" style="margin-top: -20px">' + model_content + '</div>';
+
+    } else {
+
+      base_layout_html += '</div>\
                       </div>\
-                  </div><div class="row-scroll">' + model_content + '</div>';
+                  </div><div class="row-scroll" style="margin-top: -20px">' + model_content + '</div>';
+    }
   }
 
 
@@ -443,35 +529,35 @@ function getBaseLayoutHTML(mdl_coll,base_layout, header, model_content) {
 
   if (base_layout == 'CARD_ROW_HORIZ') {
 
-     // ------------- Configuration -------------------------
-     var mdl_lyt_config = getModelLayoutConfig(mdl_coll)
+    // ------------- Configuration -------------------------
+    var mdl_lyt_config = getModelLayoutConfig(mdl_coll)
     show_model_base_header = mdl_lyt_config[0]
     show_model_base_button = mdl_lyt_config[1]
     header_text_layout_position = mdl_lyt_config[2]
     header_button_layout_position = mdl_lyt_config[3]
-     // -----------------------------------------------------
-     base_layout_html = '<div class="row">\
+    // -----------------------------------------------------
+    base_layout_html = '<div class="row">\
                     <div class="col s12 ' + header_text_layout_position + '">\
-                      <h3><i class="mdi-content-send brown-text"></i></h3>\
-                      <div class="row">'
-                      if(show_model_base_header) {
-                        base_layout_html += '<div class="col s12">\
-                        <h4>' + header + '</h4>\
-                      </div> ';                     
-                    }
-                        
+                    <h3><i class="mdi-content-send brown-text"></i></h3>\
+                    <div class="row">'
+    if (show_model_base_header) {
+      base_layout_html += '<div class="col s12">\
+                        <h5>' + header + '</h5>\
+                        </div> ';
+    }
 
-                      if(show_model_base_button){
-                        base_layout_html += '<div class="col s12">\
+
+    if (show_model_base_button) {
+      base_layout_html += '<div class="col s12">\
                           <div class="' + header_button_layout_position + '">\
                             <a onclick="clickViewAll(\'' + mdl_coll + '\')" class="waves-effect waves-light btn blue">View All</a>\
                           </div>\
                         </div>'
-                      }
+    }
 
-                      base_layout_html += '</div>\
+    base_layout_html += '</div>\
                       </div>\
-                  </div>' + model_content;    
+                  </div>' + model_content;
 
   }
 
@@ -482,11 +568,26 @@ function getBaseLayoutHTML(mdl_coll,base_layout, header, model_content) {
 }
 
 // Click View All , Open new Page
-function clickViewAll(details){
+function clickViewAll(details) {
   displayOutput('Click : ' + details)
 
-  var url = 'alldetails.html?detail1=' + encodeURIComponent(details) + '&detail2=' + encodeURIComponent('NA') + '&detail3=' + encodeURIComponent('NA');
+  var url = '';
 
+  switch (details) {
+
+    case "PACKAGES":
+      url = 'packages.html?fl=' + encodeURIComponent('NA');
+      break;
+
+    case "DESTINATIONS":
+      url = 'destinations.html?fl=' + encodeURIComponent('NA');
+      break;
+
+    default:
+      url = 'index.html';
+      break;
+  }
+  displayOutput(url)
   document.location.href = url;
 
 
@@ -562,9 +663,9 @@ function modelLayoutSelector(mdl_coll, mdl_layout, doc_details, all_doc_info_lis
 // : col s12 m6 - Desktop layout is same but in mobile layout one below to another one
 // : col s6 m6  - Same in desktop and mobile also
 function modelLytSquareCardNormal(mdl_map_details) {
-  
+
   var image_ref = mdl_map_details['IMAGE']
-  var complete_content = mdl_map_details['CONTENT']  
+  var complete_content = mdl_map_details['CONTENT']
 
   var htmlLine = '<div class="col s12 m4"><a href="' + clickHandling(mdl_map_details) + '">\
                   <div class="card hoverable" style="border-radius: 10px; widht: 300px; max-width: 300px;">\
@@ -584,9 +685,9 @@ function modelLytSquareCardNormal(mdl_map_details) {
 
 // Model Square Card - Normal - Scroll
 function modelLytSquareCardNormalScroll(mdl_map_details) {
-  
+
   var image_ref = mdl_map_details['IMAGE']
-  var complete_content = mdl_map_details['CONTENT']  
+  var complete_content = mdl_map_details['CONTENT']
 
   var htmlLine = '<div class="card-scroll"><a href="' + clickHandling(mdl_map_details) + '">\
                   <div class="card hoverable" style="border-radius: 10px; widht: 300px; max-width: 300px;">\
@@ -608,7 +709,7 @@ function modelLytSquareCardNormalScroll(mdl_map_details) {
 function modelLytSquareCard(mdl_map_details) {
 
   var image_ref = mdl_map_details['IMAGE']
-  var complete_content = mdl_map_details['CONTENT'] 
+  var complete_content = mdl_map_details['CONTENT']
 
   var htmlLine = '<div class="col s12 m4"><a href="' + clickHandling(mdl_map_details) + '">\
                   <div class="card hoverable" style="border-radius: 10px; widht: 400px; max-width: 400px;">\
@@ -630,7 +731,7 @@ function modelLytSquareCard(mdl_map_details) {
 function modelLytSquareCardScroll(mdl_map_details) {
 
   var image_ref = mdl_map_details['IMAGE']
-  var complete_content = mdl_map_details['CONTENT'] 
+  var complete_content = mdl_map_details['CONTENT']
 
   var htmlLine = '<div class="card-scroll"><a href="' + clickHandling(mdl_map_details) + '">\
                   <div class="card hoverable" style="border-radius: 10px; widht: 300px; max-width: 300px;">\
@@ -661,7 +762,7 @@ function modelLytSquareCardImage(mdl_map_details) {
       <span class="card-title">' + complete_content + '</span>\
     </div></div>\
 </a>\
-</div>';            
+</div>';
 
   return htmlLine;
 
@@ -680,7 +781,7 @@ function modelLytSquareCardImageScroll(mdl_map_details) {
       <span class="card-title">' + complete_content + '</span>\
     </div></div>\
 </a>\
-</div>';            
+</div>';
 
   return htmlLine;
 
@@ -711,61 +812,63 @@ function modelLytSquareHoriCard(mdl_map_details) {
 }
 
 // Create Scroll card model layout with map data list
-function createScrollCardLytFromMapListData(htmldocID,mapListData,size_status,border) {
+function createScrollCardLytFromMapListData(htmldocID, mapListData, size_status, border) {
 
-  let scroll_item_line = '<div class="row-scroll">' 
-  
+  let scroll_item_line = '<div class="row-scroll">'
+
   let width = '300px'
   let height = '200px'
 
-  if(size_status == 'M') {
+  if (size_status == 'M') {
     width = '300px'
     height = '200px'
-  } else if(size_status == 'S') {
+  } else if (size_status == 'S') {
     width = '200px'
     height = '100px'
-  } else if(size_status == 'L') {
+  } else if (size_status == 'L') {
     width = '150px'
     height = '200px'
   }
 
   let border_radius = '0'
-  if(border) {
+  if (border) {
     border_radius = '10'
   }
 
 
-  if(mapListData['STATUS']) {
-  for (let key in mapListData) {
-    
-    if(key != 'STATUS') {
-    let details = mapListData[key]
+  if (mapListData['STATUS']) {
+    for (let key in mapListData) {
 
-    let name = details.split(',')[0]
-    let image = getDirectImageUrl('Images/'+details.split(',')[1])
-    let click = details.split(',')[2]
-    let link = details.split(',')[3]
-    
-    if(name == 'NA') {name = ''}
-    if(link == 'NA') {link = '#!'}
+      if( key == 'NA') {continue}
 
-    scroll_item_line += '<div class="card-scroll">\
+      if (key != 'STATUS') {
+        let details = mapListData[key]
+
+        let name = details.split(',')[0]
+        let image = getDirectImageUrl('Images/' + details.split(',')[1])
+        let click = details.split(',')[2]
+        let link = details.split(',')[3]
+
+        if (name == 'NA') { name = '' }
+        if (link == 'NA') { link = '#!' }
+
+        scroll_item_line += '<div class="card-scroll">\
     <a href="' + link + '">\
-    <div class="card hoverable" style="width:'+width+'; height: '+height+'; border-radius: '+border_radius+'px;">\
+    <div class="card hoverable" style="width:'+ width + '; height: ' + height + '; border-radius: ' + border_radius + 'px;">\
       <div class="card-image">\
-        <img src="'+image+'" style="width:'+width+'; height: '+height+'; border-radius: '+border_radius+'px; background-size: 100%;">\
-        <span class="card-title">'+name+'</span>\
+        <img src="'+ image + '" style="width:' + width + '; height: ' + height + '; border-radius: ' + border_radius + 'px; background-size: 100%;">\
+        <span class="card-title">'+ name + '</span>\
       </div></div></a></div>'
 
+      }
     }
+
+    scroll_item_line += ' </div>'
+
+    //displayOutput(scroll_item_line)
+    $("#" + htmldocID).html(scroll_item_line)
+
   }
-
-  scroll_item_line += ' </div>'
-
-  //displayOutput(scroll_item_line)
-  $("#"+htmldocID).html(scroll_item_line)
-
-}
 
 }
 
@@ -795,12 +898,16 @@ function getFixedModelContent(mdl_coll, all_doc_info_list, doc_data) {
       var price = doc_data[all_doc_info_list[3]]
       var cut_price = doc_data[all_doc_info_list[4]]
 
-      let tags_line = getAppendHTMLLines(sub_header,
-        '<div class="small chip">',
-        '</div>')
+      // Check tags lenght
+      let filter_sub_header = sub_header
+      if(sub_header.length > 3) {
+        filter_sub_header = [sub_header[0],sub_header[1],sub_header[2],'...']
+      }
+      // <div class="small chip center-align" style="height: 20px; padding: 2px;">
+      let tags_line = getChipIconsFromList(filter_sub_header)
 
       html_div_line = '<div><p style="font-size: 20px;">' + header + '</p>\
-  <p class="card-text" style="font-size: 10px;">'+ tags_line + '</p>\
+  <p class="card-text" style="margin-top: 10px;">'+ tags_line + '</p>\
   <p><small class="text-muted">' + getRatingHTMLCode(ratings) + '\
       </small>\
   <br>\
@@ -819,7 +926,7 @@ function getFixedModelContent(mdl_coll, all_doc_info_list, doc_data) {
       var header = doc_data[all_doc_info_list[0]]
       var content = doc_data[all_doc_info_list[1]]
 
-      html_div_line = '<b class="black-text">' + header + '</b><br><p class="grey-text">' + content + '</p>'
+      html_div_line = '<b class="black-text">' + header + '</b><br><p class="grey-text long-text-nor" style="font-size: 13px; margin-top: 5px;">' + content + '</p>'
 
       break;
 
@@ -830,7 +937,56 @@ function getFixedModelContent(mdl_coll, all_doc_info_list, doc_data) {
 
   return html_div_line
 
-} 
+}
+
+// Create FAQ Section
+function createFaqSection(divSec, details) {
+
+  if (details['DISPLAY'] == 'YES') {
+    document.getElementById(divSec).style.display = 'block';
+  } else {
+    document.getElementById(divSec).style.display = 'none';
+  }
+
+  if (details['DISPLAY'] == 'YES') {
+
+    let html = ''
+
+    html += '<p style="font-size: 30px;">' + details['HEADER'] + '</p>'
+    html += '<p class="grey-text" style="margin-top: -20px;">' + details['DESC'] + '</p>'
+
+    html += '<ul class="collapsible expandable">'
+
+    for (keys in details) {
+      if (keys.includes('CNT_Q')) {
+        html += '<li>'
+        html += '<div class="collapsible-header"><i class="material-icons">question_answer</i><b>' + details[keys] + '</b></div>'
+        //displayOutput(keys)
+      } else if (keys.includes('CNT_A')) {
+        html += '<div class="collapsible-body"><span>' + details[keys] + '</span></div>'
+        //displayOutput(keys)
+        html += '</li>'
+      }
+
+    }
+
+    html += '</ul>'
+
+    $("#" + divSec).html(html);
+
+    $(document).ready(function () {
+      $('.collapsible').collapsible();
+    });
+
+    var elem = document.querySelector('.collapsible.expandable');
+    var instance = M.Collapsible.init(elem, {
+      accordion: false
+    });
+
+  }
+
+
+}
 
 
 
@@ -845,7 +1001,7 @@ function showPleaseWait() {
 
 function hidePleaseWait() {
   // Hide progress
-  document.getElementById('main_progress').style.display = "none"; 
+  document.getElementById('main_progress').style.display = "none";
 }
 
 // ------------- Show Alert ----------------------------
@@ -871,7 +1027,7 @@ function getTodayDate() {
   month[11] = "December";
 
   var today = new Date();
-  var date = month[today.getMonth()].substring(0, 3)+' '+today.getDate() +', ' + today.getFullYear();
+  var date = month[today.getMonth()].substring(0, 3) + ' ' + today.getDate() + ', ' + today.getFullYear();
 
   return date
 }
@@ -885,7 +1041,7 @@ function viewModel(header, content) {
   var model = '<!-- Modal Structure -->\
   <div id="messagemodel" class="modal modal-fixed-footer">\
     <div class="modal-content">\
-      <h4> '+ header +'</h4>\
+      <h4> '+ header + '</h4>\
       <p>'+ content + '</p>\
     </div>\
     <div class="modal-footer">\
@@ -895,16 +1051,16 @@ function viewModel(header, content) {
 
   var elem = document.getElementById('messagemodel');
   if (elem) { elem.parentNode.removeChild(elem); }
-  
-  
-    $(document.body).append(model);
-  
-    $(document).ready(function () {
-      $('.modal').modal();
-    }); 
-    
-  
-    $('#messagemodel').modal('open');
+
+
+  $(document.body).append(model);
+
+  $(document).ready(function () {
+    $('.modal').modal();
+  });
+
+
+  $('#messagemodel').modal('open');
 
 
 }
@@ -920,16 +1076,16 @@ function viewModelCustom(header, content) {
 
   var elem = document.getElementById('messagemodel');
   if (elem) { elem.parentNode.removeChild(elem); }
-  
-  
-    $(document.body).append(model);
-  
-    $(document).ready(function () {
-      $('.modal').modal();
-    }); 
-    
-  
-    $('#messagemodel').modal('open');
+
+
+  $(document.body).append(model);
+
+  $(document).ready(function () {
+    $('.modal').modal();
+  });
+
+
+  $('#messagemodel').modal('open');
 
 
 }
@@ -940,7 +1096,7 @@ function closeModel() {
 }
 
 // Ask Model -  Validate some Information
-function askModel(color,header, content, yesFunctionName) {
+function askModel(color, header, content, yesFunctionName) {
 
   let mdlContent = ''
 
@@ -952,10 +1108,10 @@ function askModel(color,header, content, yesFunctionName) {
 
   mdlContent += '<div class="card-content"><p class="grey-text" style="font-size: 15px; margin-left: 30px;">' + content + '</p>\</div>'
 
-  mdlContent += '<div class="card-content center-align"><a onclick="'+yesFunctionName+'()" class="waves-effect waves-teal btn blue white-text rcorners">Yes</a>\
+  mdlContent += '<div class="card-content center-align"><a onclick="' + yesFunctionName + '()" class="waves-effect waves-teal btn blue white-text rcorners">Yes</a>\
   <a onclick="askNO()" class="waves-effect waves-teal btn black white-text rcorners" style="margin-left: 2%;">No</a>\
   </div>'
-     
+
 
 
   var model = '<!-- Modal Structure -->\
@@ -969,16 +1125,16 @@ function askModel(color,header, content, yesFunctionName) {
 
   var elem = document.getElementById('askmodel');
   if (elem) { elem.parentNode.removeChild(elem); }
-  
-  
-    $(document.body).append(model);
-  
-    $(document).ready(function () {
-      $('.modal').modal();
-    }); 
-    
-  
-    $('#askmodel').modal('open');
+
+
+  $(document.body).append(model);
+
+  $(document).ready(function () {
+    $('.modal').modal();
+  });
+
+
+  $('#askmodel').modal('open');
 
 
 }
@@ -1014,16 +1170,16 @@ function showPleaseWaitModel() {
 
   var elem = document.getElementById('pleasewaitmodel');
   if (elem) { elem.parentNode.removeChild(elem); }
-  
-  
-    $(document.body).append(model);
-  
-    $(document).ready(function () {
-      $('.modal').modal();
-    }); 
-    
-  
-    $('#pleasewaitmodel').modal('open');
+
+
+  $(document.body).append(model);
+
+  $(document).ready(function () {
+    $('.modal').modal();
+  });
+
+
+  $('#pleasewaitmodel').modal('open');
 
 
 }
@@ -1043,12 +1199,12 @@ function getUseruuid() {
 
     // Is user login or not
     if (user) {
-      displayOutput('User login !!') 
-      return user.uid;      
+      displayOutput('User login !!')
+      return user.uid;
     } else {
       // User is signed out.
-      displayOutput('User logout !!') 
-      return 'NA' 
+      displayOutput('User logout !!')
+      return 'NA'
     }
   }, function (error) {
     displayOutput(error);
@@ -1057,11 +1213,11 @@ function getUseruuid() {
 }
 
 // Store Data for one session
-function localStorageData(key,value) {
+function localStorageData(key, value) {
 
-  if (typeof(Storage) !== "undefined") {
+  if (typeof (Storage) !== "undefined") {
     // Code for localStorage/sessionStorage.
-    
+
     sessionStorage.setItem(key, value);
   } else {
     // Sorry! No Web Storage support..
@@ -1073,7 +1229,7 @@ function localStorageData(key,value) {
 // Get Login User Status
 function getLoginUserStatus() {
 
-  if (typeof(Storage) !== "undefined") {
+  if (typeof (Storage) !== "undefined") {
     // Code for localStorage/sessionStorage.
     return sessionStorage.getItem('ISUSER');
   } else {
@@ -1087,7 +1243,7 @@ function getLoginUserStatus() {
 // Get Login User Status
 function getLoginUserData() {
 
-  if (typeof(Storage) !== "undefined") {
+  if (typeof (Storage) !== "undefined") {
     // Code for localStorage/sessionStorage.
     let userData = {}
     userData['ISUSER'] = sessionStorage.getItem('ISUSER');
@@ -1109,7 +1265,7 @@ function getLoginUserData() {
 
 // Get STATUS
 function getLocalSessionIDStatus(id) {
-  if (typeof(Storage) !== "undefined") {
+  if (typeof (Storage) !== "undefined") {
     // Code for localStorage/sessionStorage.
     return sessionStorage.getItem(id);
   } else {
@@ -1122,7 +1278,7 @@ function getLocalSessionIDStatus(id) {
 // Get Login User Status
 function getLocalSessionPkgData() {
 
-  if (typeof(Storage) !== "undefined") {
+  if (typeof (Storage) !== "undefined") {
     // Code for localStorage/sessionStorage.
     let data = {}
     data['ISPKG'] = sessionStorage.getItem('ISPKG');
@@ -1146,7 +1302,6 @@ function getLocalSessionPkgData() {
 // ------ String FUnctions ------------------------
 // ================================================
 
-function isStrEmpty(str)
-{
-    return (!str || 0 === str.length);
+function isStrEmpty(str) {
+  return (!str || 0 === str.length);
 }

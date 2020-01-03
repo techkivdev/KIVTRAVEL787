@@ -142,7 +142,7 @@
         <!-- details  -->
         <div id="details_plc">
           <!-- Row Section 1 -->
-          <div class="row" style="margin: -130px 0px 0px 0px;">
+          <div class="row" style="margin: -100px 0px 0px 0px;">
 
             <!-- CARD Infromation 1 -->
             <div class="col s12">
@@ -158,14 +158,14 @@
 
                    
                     <!-- best time -->                    
-                      <div class="col s6">
+                      <div id="plc_bestime_sec" class="col s6">
                         <p id="plc_header_1" class="grey-text">Best Time</p>
                         <b id="plc_best_time">Sept - Oct</b>
                       </div>
                     
 
                     <!-- Visa -->                   
-                      <div class="col s6">
+                      <div id="plc_visa_sec" class="col s6">
                         <p id="plc_header_2" class="grey-text">Visa</p>
                         <b id="plc_visa">on arrival</b>
                       </div>
@@ -176,14 +176,14 @@
                   <div class="row">
 
                      <!-- Ideal Duration -->                     
-                      <div class="col s6">
+                      <div id="plc_duration_sec" class="col s6">
                         <p id="plc_header_3" class="grey-text">Ideal Duration</p>
                         <b id="plc_duration">1-2 Hours</b>
                       </div>
                    
 
                      <!-- Starting from -->                   
-                      <div class="col s6">
+                      <div id="plc_starting_sec" class="col s6">
                         <p id="plc_header_4" class="grey-text">Starting From</p>
                         <b id="plc_starting">Rs. 8,074</b>
                       </div>
@@ -191,6 +191,42 @@
 
                   </div>
 
+                   <!-- Address --> 
+                  <div id="plc_address_sec" class="row">                                       
+                     <div class="col s12">
+                       <p id="plc_header_10" class="grey-text">Address</p>
+                       <b id="plc_address">1-2 Hours</b>
+                     </div>                   
+                 </div>
+
+                 <!-- Links --> 
+                 <div id="plc_links_sec" class="row">                                       
+                  <div class="col s12">
+                    <p id="plc_header_11" class="grey-text">Links</p>
+                    <b id="plc_links">1-2 Hours</b>
+                  </div>                   
+              </div>
+
+                  <!-- Activities -->
+                  <div class="row">
+                    <div class="col s12">                    
+  
+                      <p id="plc_activities_hdr" class="grey-text"></p>
+                      <div id="plc_activities"> 
+                        
+                        <!-- All Activities Details -->
+                        <div class="chip">
+                          <img src="Images/default.jpg" alt="default">
+                          Jane Doe
+                        </div>
+  
+                      </div>
+  
+  
+                    </div>
+                  </div>
+
+                  <!-- Tags -->
                   <div class="row">
                     <div class="col s12">                    
   
@@ -223,7 +259,7 @@
                 <span class="card-title"><b id="plc_header_5">Description</b></span>
                 <!-- Card Body START -->
                 <div>
-                  <p id="plc_description" class="long-text">#</p>
+                  <p id="plc_description" class="long-text grey-text">#</p>
                 </div> 
 
                 <div class="right-align" style="margin-top: 2%;">
@@ -242,11 +278,11 @@
                 <span class="card-title"><b id="plc_header_6">How to Reach</b></span>
                 <!-- Card Body START -->
                 <div>
-                  <p id="plc_info_2_details">#</p>                  
+                  <p id="plc_info_2_details" class="long-text grey-text">#</p>                  
                 </div> 
 
-                <div id="plc_map" class="right-align" style="margin-top: 2%; display: none;">
-                  <a onclick="viewMapDetails()" class="waves-effect waves-teal btn-flat blue-text">Map</a>
+                <div class="right-align" style="margin-top: 2%;">
+                  <a onclick="viewReachDetails()" class="waves-effect waves-teal btn-flat blue-text">Read More</a>
                 </div>               
 
               </div>
@@ -278,9 +314,14 @@
               <div class="card-content black-text">
                 <span class="card-title"><b id="plc_header_7">Entry fees</b></span>
                 <!-- Card Body START -->
-                <div>
+                <div style="margin-top: 30px;">
                   <p id="plc_info_3_details">#</p>
-                </div> 
+                </div>
+
+                <div id="fees_btn" class="right-align" style="margin-top: 2%;">
+                  <a onclick="viewFeesDetails()" class="waves-effect waves-teal btn-flat blue-text">Read More</a>
+                </div>   
+
               </div>
             </div>
           </div>
@@ -292,9 +333,14 @@
               <div class="card-content black-text">
                 <span class="card-title"><b id="plc_header_8">Timings</b></span>
                 <!-- Card Body START -->
-                <div>
+                <div style="margin-top: 30px;">
                   <p id="plc_info_4_details">#</p>
                 </div> 
+
+                <div id="timing_btn" class="right-align" style="margin-top: 2%;">
+                  <a onclick="viewTimingDetails()" class="waves-effect waves-teal btn-flat blue-text">Read More</a>
+                </div> 
+
               </div>
             </div>
           </div>
@@ -305,7 +351,7 @@
               <div class="card-content black-text">
                 <span class="card-title"><b id="plc_header_9">Tips</b></span>
                 <!-- Card Body START -->
-                <div>
+                <div style="margin-top: 30px;">
                   <p id="plc_info_5_details">#</p>
                 </div> 
               </div>
@@ -322,7 +368,7 @@
         <div id="images_plc">
 
           <!-- Row Section 1 -->
-          <div class="row" style="margin: -130px 0px 0px 0px;">
+          <div class="row" style="margin: -100px 0px 0px 0px;">
             <!-- CARD Infromation Images -->
             <div id="plc_image_view_section" class="col s12">
               <div class="card" style="border-radius: 25px;">
@@ -348,6 +394,9 @@
 
       </div>
 
+      <!-- List Ref Section -- -->
+    <div id="plc_listref_section">
+    
       <div id="all_packages_list_ref">
         <!-- **************************************** -->
         <!--   Script Code  -->
@@ -360,8 +409,35 @@
         <!-- **************************************** -->
       </div>
 
+    </div>
+
+    <!-- FAQ Section -->
+    <div id="plc_faq_sec" class="row" style="display: none; margin: 5% 10px 10px 10px;">
+      <!-- -------------------------- -->
+      <!-- Script Code -->
+      <!-- -------------------------- -->
+    </div>
+
   </div>
 
+  <!-- ***************** END ******************* -->
+
+  <!-- **************************************** -->
+  <!-- Message Display Section -->
+  <!-- **************************************** -->
+
+  <div id="message_display_container" class="container row" style="display: none;">
+    <div>
+      <p id="msg_header" style="font-size: 30px;">Header</p>
+      <p id="msg_sub_header" class="grey-text long-text" style="margin-top: -20px;">SUB Header</p>
+      <p id="msg_content">Complete Details</p>
+    </div>
+  </div>
+
+  <div id="close_fl_btn" class="fixed-action-btn" style="display: none;">
+    <a href="#!" onclick="hideFullMessageDialog()" class="btn-floating btn-large  red">
+      <i class="large material-icons">close</i>
+    </a>
   </div>
 
   <!-- ***************** END ******************* -->
@@ -408,7 +484,7 @@
             Made by <a class="brown-text text-lighten-3" href="#!" id="role_message">KivTech</a>
           </div>
         </div>
-  </footer>
+  </footer>  
 </div>
 
 

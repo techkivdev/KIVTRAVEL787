@@ -41,6 +41,7 @@ var map_hdr = ''
 var map_details = ''
 var price_hdr = ''
 var price_details = ''
+var hotel_viewdetails = ''
 
 // ***********************************************
 
@@ -291,6 +292,11 @@ function modifyPageStyle() {
 
     document.getElementById('main_list_container').className = "container-fluid row";
 
+    document.getElementById("header_section").style.height = "250px";
+    document.getElementById("banner_main_image").style.height = "250px";
+    document.getElementById("hdr_book_now_btn").style.marginTop = "-60%";
+    document.getElementById("header_btn_options_pkg").style.marginTop = "5%";
+
   } else {
     displayOutput('Mobile Browser Not found!')
   }
@@ -325,7 +331,8 @@ function viewReviewDetails() {
 
 // Show Overview details
 function viewOverview() {
-  viewModel('Overview', getInfoDetails("Overview"))
+  //viewModel('Overview', getInfoDetails("Overview"))
+  showFullMessageDialog('Overview', 'NA',getInfoDetails("Overview"))
 }
 
 // View Price List Details
@@ -337,6 +344,54 @@ function viewPriceListDetails() {
 function viewMapDetails() {
   viewModel(map_hdr, map_details)
 }
+
+// View Hotel Details
+function viewHotelDetails() {
+  viewModel('Details', hotel_viewdetails)
+}
+
+// -----------------------------------------
+// View Message Dialog
+// -----------------------------------------
+function showFullMessageDialog(header,sub_header,content){
+
+  document.getElementById("col_section_2").style.display = 'none';
+  document.getElementById("header_section").style.display = 'none';
+  document.getElementById("footer_sec").style.display = 'none';
+  document.getElementById("pkg_faq_sec").style.display = 'none';
+  document.getElementById("pkg_listref_section").style.display = 'none';
+  document.getElementById("pkg_bookmark_sec").style.display = 'none';
+
+  document.getElementById("message_display_container").style.display = 'block';
+  document.getElementById("close_fl_btn").style.display = 'block';
+
+  if(sub_header == 'NA') {document.getElementById("msg_sub_header").style.display = 'none';}
+
+  // Update HTML Details
+  $("#msg_header").html(header);
+  $("#msg_sub_header").html(sub_header);
+  $("#msg_content").html(content);
+
+  window.scrollTo(0, 0);
+}
+
+function hideFullMessageDialog(){
+
+  document.getElementById("col_section_2").style.display = 'block';
+  document.getElementById("header_section").style.display = 'block';
+  document.getElementById("footer_sec").style.display = 'block';
+  document.getElementById("pkg_faq_sec").style.display = 'block';
+  document.getElementById("pkg_listref_section").style.display = 'block';
+  document.getElementById("pkg_bookmark_sec").style.display = 'block';
+
+  document.getElementById("message_display_container").style.display = 'none';
+  document.getElementById("close_fl_btn").style.display = 'none';
+
+  window.scrollTo(0, 0);
+
+}
+
+// ------------------------------------------
 
 
 // *******************************************************
@@ -401,7 +456,7 @@ function updateMappingDetails(docID) {
     docMapDetails["map"] = allDocCmpData[docID]["INFO23"]
     docMapDetails["places_list"] = docID + "#INFO24"
     docMapDetails["packages_list"] = docID + "#INFO25"
-    docMapDetails["stay"] = allDocCmpData[docID]["INFO3"]
+    docMapDetails["stay1"] = allDocCmpData[docID]["INFO3"]
     docMapDetails["config"] = allDocCmpData[docID]["INFO4"]
     docMapDetails["transport"] = allDocCmpData[docID]["INFO5"]
     docMapDetails["itinerary_1d"] = docID + "#INFO56"
@@ -424,6 +479,9 @@ function updateMappingDetails(docID) {
     docMapDetails["availability"] = allDocCmpData[docID]["INFO73"]
     docMapDetails["availability_config"] = allDocCmpData[docID]["INFO74"]
     docMapDetails["faq"] = allDocCmpData[docID]["INFO75"]
+    docMapDetails["departure_city"] = allDocCmpData[docID]["INFO76"]
+    docMapDetails["stay2"] = allDocCmpData[docID]["INFO77"]
+    docMapDetails["stay3"] = allDocCmpData[docID]["INFO78"]
     docMapDetails["cut_price"] = allDocCmpData[docID]["INFO8"]
     docMapDetails["includes"] = allDocCmpData[docID]["INFO9"]
 
@@ -494,7 +552,14 @@ function getModelLayoutConfig(mdl_coll) {
   header_button_layout_position = 'center'
   */
 
-  return [true, false, 'center', 'center']
+ switch (mdl_coll) {    
+
+  case "PACKAGES":
+    return [true, true, 'left', 'center']
+
+  default:
+    return [true, false, 'left', 'center']
+}
 
 }
 
@@ -573,12 +638,17 @@ function genHTMLContentType() {
   // Update Image View
   updateImageView("pkg_image_view", ["Image 1", "Image 2", "Image 3", "Image 4", "Image 5"])
 
+   // Read Config Details
+   let config = getHashDataList(getInfoDetails("Config"))
+   let config2 = getHashDataList(getInfoDetails("Config2"))  
+
 
   // Get All Header Details
-  let headerData = getHashDataList(mainDocMapDetails["COMMON_DATA"])
+  let headerData = getHashDataList(mainDocMapDetails["COMMON_DATA"]) 
 
   //$("#pkg_header_1").html(headerData["HEADER_1"]);  - Price
-  $("#pkg_header_2").html(headerData["HEADER_2"]);
+  //$("#pkg_header_2").html(headerData["HEADER_2"]);
+  $("#pkg_header_2").html(config["PRICE_HDR"]);
   $("#pkg_header_3").html(headerData["HEADER_3"]);
   $("#pkg_header_4").html(headerData["HEADER_4"]);
   $("#pkg_header_5").html(headerData["HEADER_5"]);
@@ -603,15 +673,10 @@ function genHTMLContentType() {
   $("#pkg_header_22").html(headerData["HEADER_22"]);
 
   // -------------------------------------------
-
-  // Read Config Details
-  let config = getHashDataList(getInfoDetails("Config"))
-  let config2 = getHashDataList(getInfoDetails("Config2"))  
   
   let transport = getHashDataList(getInfoDetails("Transport"))
   let pricelist = getHashDataList(getInfoDetails("Price List"))
-  let availablitylist = getHashDataList(getInfoDetails("Availability Config"))
-  let faqlist = getHashDataList(getInfoDetails("FAQ"))
+  let availablitylist = getHashDataList(getInfoDetails("Availability Config"))  
   let maplist = getHashDataList(getInfoDetails("MAP"))
   //displayOutput(availablitylist)  
 
@@ -637,10 +702,7 @@ function genHTMLContentType() {
     $("#pkg_avalibality").html(availablitylist['CONTENT']);
   }
 
-  if(faqlist['DISPLAY'] == 'YES') {
-    document.getElementById("pkgcard_faq").style.display = 'block';
-    $("#pkg_faq").html(faqlist['CONTENT']);
-  }
+  
 
 
 
@@ -665,6 +727,7 @@ function genHTMLContentType() {
   $("#pkg_best_time").html(getInfoDetails("Best Time"));
   $("#pkg_days").html(getInfoDetails("Days"));
   $("#pkg_cities").html('<b>' + getInfoDetails("Cities") + '</b>');
+  $("#pkg_route").html(getInfoDetails("Routes"));
   $("#pkg_ratings").html(getRatingHTMLCode(getInfoDetails("Ratings"), 'medium'));
   $("#pkg_ratings_num").html(getInfoDetails("Ratings").replace('#', ','));
 
@@ -685,27 +748,36 @@ function genHTMLContentType() {
   var highligts_details = getInfoDetails("Highlights")
   if (highligts_details == "NA") {
     document.getElementById("card_highlights").style.display = 'none';
-  } else {
-    $("#pkg_highlights").html(getHashLinesList(highligts_details, '<blockquote>', '</blockquote>'));
+  } else {                       
+    $("#pkg_highlights").html(getHashLinesListInHTMLFormat(highligts_details, 'check','green'));
   }
 
+  // ----------------------------------------------------
   // ------------ Stay Details --------------------------
+  // ----------------------------------------------------
   // Update Stay Details
-  var hotel_details = getHashDataList(getInfoDetails("Stay"))
+  var hotel_details = getHashDataList(getInfoDetails("Stay1"))
 
+  if(hotel_details['DISPLAY'] == 'NO') {
+    document.getElementById("pkgcard_hotels").style.display = 'none';
+    document.getElementById("pkg_hotel_incl").style.display = 'none';
+  } else {
+  
   $("#pkg_hotel_inc").html(getRatingHTMLCode(hotel_details['STAR'] + '#1'));
   $("#pkg_header_14").html(hotel_details['HEADER']);
+  $("#pkg_hotel_hdr_desc").html(hotel_details['DESC']);
+ 
+  $("#hotel_days").html(hotel_details['DAYS']);
+  $("#hotel_city").html(hotel_details['CITY']);
 
   $("#hotel_name").html(hotel_details['NAME']);
-  $("#hotel_days").html(hotel_details['DAYS']);
+  $("#hotel_addr").html(hotel_details['ADDR']);
   $("#hotel_star").html(getRatingHTMLCode(hotel_details['STAR'] + '#1'));
 
-  var extra_details = hotel_details['EXTRA']
-  if (extra_details == "NA") {
-    document.getElementById("hotel_extra").style.display = 'none';
-  } else {
-    $("#hotel_extra").html(extra_details);
-  }
+  hotel_viewdetails = hotel_details['CONTENT']
+  if(hotel_viewdetails == 'NA') {
+    document.getElementById("pkg_view_hotel_details").style.display = 'none';
+  }  
 
   if (hotel_details['IMAGE'] != 'NA') {
     var hotel_image_details = getImageUrl(getInfoDetails(hotel_details['IMAGE']))
@@ -718,15 +790,19 @@ function genHTMLContentType() {
     document.getElementById('hotel_image').src = getDirectImageUrl("Images/hotel_default.jpg")
   }
 
+}
+
+  // --------------------------------------------------------------------------
+
 
 
   // Update Inclusions
-  $("#pkg_inclusions").html(getHashLinesList(getInfoDetails("Inclusions"), '<div class="collapsible-header grey lighten-4"><i class="material-icons">add</i>', '</div>'));
-
+  //$("#pkg_inclusions").html(getHashLinesList(getInfoDetails("Inclusions"), '<div class="collapsible-header grey lighten-4"><i class="material-icons">add</i>', '</div>'));
+  $("#pkg_inclusions").html(getHashLinesListInHTMLFormat(getInfoDetails("Inclusions"), 'done_all','green'))
 
   // Update Inclusions
-  $("#pkg_exclusions").html(getHashLinesList(getInfoDetails("Exclusions"), '<div class="collapsible-header grey lighten-4"><i class="material-icons">remove</i>', '</div>'));
-
+  //$("#pkg_exclusions").html(getHashLinesList(getInfoDetails("Exclusions"), '<div class="collapsible-header grey lighten-4"><i class="material-icons">remove</i>', '</div>'));
+  $("#pkg_exclusions").html(getHashLinesListInHTMLFormat(getInfoDetails("Exclusions"), 'remove','red'))
 
 
   // Update Itinerary 
@@ -750,6 +826,10 @@ function genHTMLContentType() {
 
   $("#pkg_bookmark_sec").html(floating_btn_line);
   startUpCalls()
+
+
+  // Create FAQ Section
+  createFaqSection('pkg_faq_sec',getHashDataList(getInfoDetails("FAQ")))
 
 }
 
@@ -783,22 +863,29 @@ function updateMultiInfoDetails(id_details, html_tag) {
     $("#" + html_tag + "_header").html(multi_details["HEADER"]);
 
 
-    // Update Tags
-    var all_tags_list = multi_details["TAGS"].split(',')
+    // Get Config Details
+    let configList = getHashDataList(multi_details["TAGS"])
 
-    var tags_html_line = ''
-    for (each_tags_idx in all_tags_list) {
-      var tag_name = all_tags_list[each_tags_idx]
-      tags_html_line += '<div class="chip">' + tag_name + '</div>'
-    }
-
-    $("#" + html_tag + "_tags").html(tags_html_line);
+    // Update Tags   
+    $("#" + html_tag + "_tags").html(getAppendHTMLLines(configList["TAGS"].split(','),
+    '<div class="small chip">',
+    '</div>'));
 
 
     // Update Body
     var all_body_list = multi_details["COMPLETE"].split('#')
 
     var body_html_line = ''
+
+    body_html_line += '<p class="grey-text" style="margin-top: -10px;">'+configList["DESC"]+'</p>'
+
+    // Add Sub Header Section     
+    body_html_line += getAppendHTMLLines(configList["INCLUDES"].split(','),
+      '<div class="small chip">',
+      '</div>')  
+
+
+    // Add Content Details
     for (each_idx in all_body_list) {
       if (each_idx == 0) { continue }
       var body_line = all_body_list[each_idx]
