@@ -3611,9 +3611,16 @@ function viewHTML(value) {
     //console.log(value)
     var html_details = $('#' + value).val();
 
-    console.log(html_details)
+    //console.log(html_details)
 
-    showHTMLmodel(html_details);
+    // Check Multi Option String
+    if(html_details.includes('#NA') && html_details.includes('$->')) {
+        showMultiOptionModel(html_details,value)
+    } else {
+        showHTMLmodel(html_details);
+    }
+
+    
 
 
 } //EOF
@@ -3679,6 +3686,102 @@ function showHTMLmodel(html_content) {
   </div>';
     $(document.body).append(modalLoading);
     $("#showHTMLmodel").modal("show");
+}
+
+// --- Show Multi Options HTML Model ----
+function showMultiOptionModel(html_content,infoID) {
+
+    var elem = document.getElementById('showHTMLmodel');
+    if (elem) { elem.parentNode.removeChild(elem); }
+
+    let html = ''    
+
+    // --------------------------------------------------------------
+    // Create Fields
+
+    let optionMapDetails = getHashDataListWithDelim(html_content)
+    //console.log(optionMapDetails)
+
+    let all_keys = ''
+
+    for(eachKey in optionMapDetails) {
+
+        if(eachKey == 'NA' || eachKey == 'STATUS') {
+            continue;
+        } else {
+            html += '<div id = "' + 'DIV_' + eachKey + '" class="form-group">\n';
+            html += '<h5>' + eachKey + '</h5>\n';            
+            html += '<textarea class="form-control" rows="5" id=' + eachKey + '>' + optionMapDetails[eachKey] + '</textarea>\n';
+            
+            html += '</div>\n';
+
+            all_keys += eachKey + ','
+
+        }
+    }
+
+    
+
+    // --------------------------------------------------------------
+
+    var modalLoading = '<div class="modal fade" id="showHTMLmodel" tabindex="-1" role="dialog" aria-labelledby="showHTMLmodelLabel" aria-hidden="true">\
+    <div class="modal-dialog" role="document">\
+      <div class="modal-content">\
+        <div class="modal-header">\
+          <h5 class="modal-title" id="showHTMLmodelLabel">MULTI Option</h5>\
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">\
+            <span aria-hidden="true">&times;</span>\
+          </button>\
+        </div>\
+        <div class="modal-body">' +
+        html
+        + '</div>\
+        <div class="modal-footer">\
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>\
+          <button type="button" class="btn btn-primary" onclick="updateMultiOptionModelContent(\'' + infoID + '\',\'' + all_keys + '\')">SAVE</button>\
+        </div>\
+      </div>\
+    </div>\
+  </div>';
+
+    $(document.body).append(modalLoading);
+    $("#showHTMLmodel").modal("show");
+}
+
+// Update Multi Option Model COntent into MULTI TEXT FIeld
+function updateMultiOptionModelContent(info_details,content) {
+
+    console.log(info_details)
+
+    let keyList = content.slice(0, -1).split(',')
+    //console.log(keyList)  
+
+    let allKeysValuesDetails = '#NA $-> ================================================\n'
+
+    for(eachidx in keyList) {
+        let key = keyList[eachidx]
+
+        let value = $('#' + key).val();
+
+        // #FLASH_ICON_1 $->  fa-accessible-icon
+        let keyValue_line = '#' + key + ' $-> ' + value.trim()
+
+        keyValue_line += '\n#NA $-> ================================================\n'
+
+        allKeysValuesDetails += keyValue_line
+
+        
+    }
+
+    //console.log(allKeysValuesDetails) 
+
+    $('#' + info_details).html(allKeysValuesDetails)
+
+    $("#showHTMLmodel").modal("hide");
+    
+
+    
+
 }
 
 // --- Show IMAGE Model ----
@@ -3968,16 +4071,7 @@ function showPopForOfflineConnection() {
 
 }
 
-
-// Show No Record Message
-function showNoRecordMessage() {
-
-    //alert('No Collection Record Found !!')
-
-    document.getElementById('collection_content_container').style.display = "none";
-    document.getElementById('message_container').style.display = "block";
-
-}
+// Get Hash Map Data List
 
 // Get Hashvalues Details
 function getHashDataList(details) {
@@ -4009,6 +4103,45 @@ function getHashDataList(details) {
   
   }
 
+function getHashDataListWithDelim(details) {
+
+    var dataList = {}
+    var delim = '$->'
+  
+    if (details == "NA") {
+      dataList['STATUS'] = false
+    } else {
+  
+      var all_details_list = details.split('#')
+     
+      for (each_idx in all_details_list) {
+        if (each_idx == 0) { continue }
+        var idx_data = all_details_list[each_idx]
+       
+        let key = idx_data.split(delim)[0].trim()
+        let value = idx_data.split(delim)[1].trim()
+        dataList[key] = value
+  
+      }
+     
+      dataList['STATUS'] = true
+  
+    }
+  
+    return dataList
+  
+  }
+
+
+// Show No Record Message
+function showNoRecordMessage() {
+
+    //alert('No Collection Record Found !!')
+
+    document.getElementById('collection_content_container').style.display = "none";
+    document.getElementById('message_container').style.display = "block";
+
+}
 
 // ------ Create Toasts ---------------
 function showToastsMessage() {
