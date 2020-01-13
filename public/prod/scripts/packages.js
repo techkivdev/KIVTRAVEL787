@@ -340,9 +340,13 @@ function getCompleteModelContentDetails(doc_details) {
       var price = doc_details['INFO7']
       var cut_price = doc_details['INFO8']  
 
-      let tags_line = getAppendHTMLLines(sub_header,
-        '<div class="small chip">',
-        '</div>')
+       // Check tags lenght
+       let filter_sub_header = sub_header
+       if(sub_header.length > 3) {
+         filter_sub_header = [sub_header[0],sub_header[1],sub_header[2],'...']
+       }
+       // <div class="small chip center-align" style="height: 20px; padding: 2px;">
+       let tags_line = getChipIconsFromList_ver_2(filter_sub_header)    
 
 
       html_div_line = '<div><p style="font-size: 20px;">'+ header +'</p>\
@@ -352,7 +356,7 @@ function getCompleteModelContentDetails(doc_details) {
   <br>\
   <span class="right"> \
     <small style="text-decoration: line-through; class="text-muted">\
-      ($'+ cut_price +')</small><small style="font-size: 20px;">$'+ price +'</small></span>\
+      ($'+ cut_price +')</small><small class="green-text" style="font-size: 20px;">$'+ price +'</small></span>\
       <br>\
 </p></div>';
 
@@ -436,8 +440,8 @@ function modelLytSquareCard_local(mdl_map_details) {
                     <div class="card-image z-depth-2" style="height: 200px; max-height: 200px; widht: 500px; max-width: 500px; border-radius: 10px 10px 0px 0px;">\
                       <img src="' + getModelImageRef(image_ref) + '" style="height: 200px; max-height: 200px; widht: 400px; max-width: 400px; border-radius: 10px 10px 0px 0px;">\
                     </div>\
-                    <div class="red-card-content white-text" style="border-radius: 0px 0px 10px 10px;">\
-                      <div class="card-content white-text">' + complete_content + '</div>\
+                    <div class="black-text" style="border-radius: 0px 0px 10px 10px;">\
+                      <div class="card-content black-text">' + complete_content + '</div>\
                     </div>\
                   </div>\
                 </a>\
@@ -446,6 +450,7 @@ function modelLytSquareCard_local(mdl_map_details) {
   return htmlLine;
 
 }
+
 
 // Model Square Card with Image Only - Local
 function modelLytSquareCardImage_local(mdl_map_details) {

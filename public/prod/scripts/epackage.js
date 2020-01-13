@@ -196,6 +196,9 @@ function checkStartupValidation() {
         coll_base_path = basePath
         $('#role_message').html('KivTech Development Publish')
 
+        // Show ADMIN Section
+        document.getElementById("card_admin").style.display = 'block';
+
         readDocumentDataAsync(document_ID)
       } else {
         readDocumentDataAsync(document_ID)
@@ -216,6 +219,9 @@ function checkStartupValidation() {
         check_dev_publish_content = false
         coll_base_path = basePath
         $('#role_message').html('KivTech Development Publish,DEV MODE')
+
+        // Show ADMIN Section
+        document.getElementById("card_admin").style.display = 'block';
 
         readDocumentDataAsync(document_ID)
       }
@@ -365,7 +371,11 @@ function showFullMessageDialog(header,sub_header,content){
   document.getElementById("message_display_container").style.display = 'block';
   document.getElementById("close_fl_btn").style.display = 'block';
 
-  if(sub_header == 'NA') {document.getElementById("msg_sub_header").style.display = 'none';}
+  if(sub_header == 'NA') {
+    document.getElementById("msg_sub_header").style.display = 'none';
+  } else {
+    document.getElementById("msg_sub_header").style.display = 'block';
+  }
 
   // Update HTML Details
   $("#msg_header").html(header);
@@ -570,60 +580,8 @@ function getInfoDetails(key) {
 
 // Create Model Content
 function getModelCompleteContent(mdl_coll, all_doc_info_list, doc_data) {
-
-  var html_div_line = ''
-
-  switch (mdl_coll) {
-
-    case "PLACES":
-
-      var header = doc_data[all_doc_info_list[0]]
-      var content = doc_data[all_doc_info_list[1]]
-
-      html_div_line = '<b class="black-text">' + header + '</b><br><p class="grey-text">' + content + '</p>'
-
-      break;
-
-    case "PACKAGES":
-
-      var header = doc_data[all_doc_info_list[0]]
-      var sub_header = doc_data[all_doc_info_list[1]]
-      var ratings = doc_data[all_doc_info_list[2]]
-      var price = doc_data[all_doc_info_list[3]]
-      var cut_price = doc_data[all_doc_info_list[4]]
-
-      let tags_line = getAppendHTMLLines(sub_header,
-        '<div class="small chip">',
-        '</div>')
-
-
-      html_div_line = '<div><p style="font-size: 20px;">' + header + '</p>\
-          <p class="card-text" style="font-size: 10px;">'+ tags_line + '</p>\
-          <p><small class="text-muted">' + getRatingHTMLCode(ratings) + '\
-              </small>\
-          <br>\
-          <span class="right">'
-
-      if (cut_price != '0') { html_div_line += '<small style="text-decoration: line-through; class="text-muted">(&#x20b9;' + cut_price + ')</small>' }
-
-      html_div_line += '<small style="font-size: 20px;">&#x20b9;' + price + '</small></span>\
-              <br>\
-        </p></div>';
-
-      break;
-
-
-
-    default:
-      displayOutput("No Document found");
-      html_div_line = ''
-  }
-
-
-
-
-  return html_div_line
-
+ // Here you can bypass also and customize the content
+ return getFixedModelContent(mdl_coll, all_doc_info_list, doc_data)
 }
 
 // ===================================================
@@ -712,6 +670,7 @@ function genHTMLContentType() {
   pageContent['NAME'] = getInfoDetails("Name")
   pageContent['IMAGE'] = getImageUrl(getInfoDetails("Image 1"))
   pageContent['EXTRA'] = getInfoDetails("Days")
+  pageContent['TYPE'] = 'PKG'
   pageContent['DEST_ID'] = getInfoDetails("Destination ID")
   pageContent['DEST_NAME'] = getInfoDetails("State") + '#' + getInfoDetails("District")
 
@@ -722,6 +681,8 @@ function genHTMLContentType() {
   // Update HTML Page Details
   //$("#pkg_id").html(getInfoDetails("ID"));
   $("#pkg_title").html(getInfoDetails("Name"));
+  $("#page_title").html(getInfoDetails("Name"));
+
   $("#pkg_price").html('&#x20b9;' + getInfoDetails("Price"));
   if (getInfoDetails("Cut Price") != '0') { $("#pkg_cut_price").html('&#x20b9;' + getInfoDetails("Cut Price")); }
   $("#pkg_best_time").html(getInfoDetails("Best Time"));
@@ -831,6 +792,9 @@ function genHTMLContentType() {
   // Create FAQ Section
   createFaqSection('pkg_faq_sec',getHashDataList(getInfoDetails("FAQ")))
 
+  // Update ADMIN Section
+  updateAdminSection()
+
 }
 
 // Get Multi Info details
@@ -909,45 +873,6 @@ function updateMultiInfoDetails(id_details, html_tag) {
 
 }
 
-// Update Image View
-function updateImageView(divID, imagesList) {
-  var image_html_line = ''
-
-  for (idx in imagesList) {
-
-    var imageName = imagesList[idx]
-
-    var imageDetails = getImageUrl(getInfoDetails(imageName))
-
-    if (imageDetails != "NOK") {
-
-      var imageDesc = getImageDesc(getInfoDetails(imageName))
-
-      image_html_line += '<div class="col s12 m4">\
-                  <div class="card">\
-                    <div class="card-image">\
-                        <img class="materialboxed" data-caption="Click on image to close it" src="' + imageDetails + '"> </div>\
-                    <div style="margin-left: 20px;">\
-                        <p style="font-size: 10px;">'+ imageDesc + '</p>\
-                      </div></div>\
-                </div>';
-
-    }
-
-  } // for end
-
-  if (image_html_line == '') {
-    document.getElementById(divID + "_section").style.display = 'none';
-  } else {
-    $("#" + divID).html(image_html_line);
-  }
-
-
-
-
-
-}
-
 // Book Mark Handling
 function bookmarkHandling(details) {
 
@@ -1003,6 +928,23 @@ function openRequestForm() {
   }
 }
 
+// Update Admin Section
+function updateAdminSection() {
+
+  let admin_line = '<p class="black-text">' + document_ID +'</p>'
+
+  admin_line += '<p class="black-text">' + getInfoDetails("ID") +'</p>'  
+ 
+
+  let link = 'update_collection.html?lang_name=CORE&coll_name=PACKAGES&role=DEV'
+
+  admin_line += '<div class="right-align" style="margin-top: 0px;">\
+              <a href="'+link+'" class="waves-effect waves-teal btn-flat blue-text">Open Content Manager</a>\
+            </div>'
+
+  $("#admin_sec").html(admin_line);
+}
+
 // --------------- Local Session -------------------
 function updateLoaclSessionDetails() {
   // Update Session Data
@@ -1011,6 +953,7 @@ function updateLoaclSessionDetails() {
   localStorageData('PKG_ID', pageContent['ID'])
   localStorageData('PKG_IMG', pageContent['IMAGE'])
   localStorageData('PKG_EXTRA', pageContent['EXTRA'])
+  localStorageData('PKG_TYPE', pageContent['TYPE'])
   localStorageData('PKG_DEST_ID', pageContent['DEST_ID'])
   localStorageData('PKG_DEST_NAME', pageContent['DEST_NAME'])
 }

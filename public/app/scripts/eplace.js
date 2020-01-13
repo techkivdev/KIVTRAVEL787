@@ -194,6 +194,9 @@ function checkStartupValidation() {
         coll_base_path = basePath
         $('#role_message').html('KivTech Development Publish')
 
+        // Show ADMIN Section
+        document.getElementById("card_admin").style.display = 'block';
+
         readDocumentDataAsync(document_ID)
       } else {
         readDocumentDataAsync(document_ID)
@@ -214,6 +217,9 @@ function checkStartupValidation() {
         check_dev_publish_content = false
         coll_base_path = basePath
         $('#role_message').html('KivTech Development Publish,DEV MODE')
+
+        // Show ADMIN Section
+        document.getElementById("card_admin").style.display = 'block';
 
         readDocumentDataAsync(document_ID)
       }
@@ -360,7 +366,11 @@ function showFullMessageDialog(header,sub_header,content){
   document.getElementById("message_display_container").style.display = 'block';
   document.getElementById("close_fl_btn").style.display = 'block';
 
-  if(sub_header == 'NA') {document.getElementById("msg_sub_header").style.display = 'none';}
+  if(sub_header == 'NA') {
+    document.getElementById("msg_sub_header").style.display = 'none';
+  } else {
+    document.getElementById("msg_sub_header").style.display = 'block';
+  }
 
   // Update HTML Details
   $("#msg_header").html(header);
@@ -677,6 +687,9 @@ function genHTMLContentType() {
   // Create FAQ Section 
   createFaqSection('plc_faq_sec',getHashDataList(getInfoDetails("FAQ")))
 
+  // Update ADMIN Section
+  updateAdminSection()
+
 
 
 }
@@ -750,45 +763,6 @@ function updateMultiInfoDetails(id_details, html_tag) {
 
 }
 
-// Update Image View
-function updateImageView(divID, imagesList) {
-  var image_html_line = ''
-
-  for (idx in imagesList) {
-
-    var imageName = imagesList[idx]
-
-    var imageDetails = getImageUrl(getInfoDetails(imageName))
-
-    if (imageDetails != "NOK") {
-
-      var imageDesc = getImageDesc(getInfoDetails(imageName))
-
-      image_html_line += '<div class="col s12 m4">\
-                  <div class="card">\
-                    <div class="card-image">\
-                        <img class="materialboxed" data-caption="Click on image to close it" src="' + imageDetails + '"> </div>\
-                    <div style="margin-left: 20px;">\
-                        <p style="font-size: 10px;">'+ imageDesc + '</p>\
-                      </div></div>\
-                </div>';
-
-    }
-
-  } // for end
-
-  if (image_html_line == '') {
-    document.getElementById(divID + "_section").style.display = 'none';
-  } else {
-    $("#" + divID).html(image_html_line);
-  }
-
-
-
-  startUpCalls()
-
-}
-
 // Book Mark Handling
 function bookmarkHandling(details) {
 
@@ -837,6 +811,23 @@ function openRequestForm() {
 
   updateLoaclSessionDetails()
   location.href = 'requestform.html?detail1=NA&detail2=NA&detail3=NA'
+}
+
+// Update Admin Section
+function updateAdminSection() {
+
+  let admin_line = '<p class="black-text">' + document_ID +'</p>'
+
+  admin_line += '<p class="black-text">' + getInfoDetails("ID") +'</p>'  
+ 
+
+  let link = 'update_collection.html?lang_name=CORE&coll_name=PLACES&role=DEV'
+
+  admin_line += '<div class="right-align" style="margin-top: 0px;">\
+              <a href="'+link+'" class="waves-effect waves-teal btn-flat blue-text">Open Content Manager</a>\
+            </div>'
+
+  $("#admin_sec").html(admin_line);
 }
 
 // --------------- Local Session -------------------

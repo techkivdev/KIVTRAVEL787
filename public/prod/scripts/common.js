@@ -375,6 +375,24 @@ function getChipIconsFromList(details){
 
 }
 
+function getChipIconsFromList_ver_2(details){
+
+  var html_line = ''
+
+  let start = '<div class="chip" style="height: 22px; font-size: 10px;"><p class="center-align" style="mmargin-bottom: 3px;">'
+  let end = '</p></div>'
+
+  let image_line = ''
+
+  for (each_idx in details) {
+    var name = details[each_idx]
+    html_line += start + name + end
+  }
+
+  return html_line
+
+}
+
 // Detecting a mobile browser
 function isMobileBrowser() {
 
@@ -496,9 +514,12 @@ function getBaseLayoutHTML(mdl_coll, base_layout, header, base_desc, model_conte
                       <div>'
     if (show_model_base_header) {
       base_layout_html += '<div class="col s12">\
-                        <p style="font-size: 25px;">' + header + '</p>\
-                        <div><p class="grey-text long-text-nor" style="margin-top: -25px;">' + base_desc + '</p></div>\
-                      </div> ';
+                        <p style="font-size: 25px;">' + header + '</p>'
+            if(base_desc != 'NA') {
+              base_layout_html += '<div><p class="grey-text long-text-nor" style="margin-top: -25px;">' + base_desc + '</p></div>';
+            }
+
+            base_layout_html += '</div> ';
     }
 
 
@@ -728,7 +749,7 @@ function modelLytSquareCard(mdl_map_details) {
 }
 
 // Model Square Card - Customize - Scroll
-function modelLytSquareCardScroll(mdl_map_details) {
+function modelLytSquareCardScroll_old(mdl_map_details) {
 
   var image_ref = mdl_map_details['IMAGE']
   var complete_content = mdl_map_details['CONTENT']
@@ -740,6 +761,27 @@ function modelLytSquareCardScroll(mdl_map_details) {
                     </div>\
                     <div class="red-card-content white-text" style="border-radius: 0px 0px 10px 10px;">\
                       <div class="card-content white-text">' + complete_content + '</div>\
+                    </div>\
+                  </div>\
+                </a>\
+              </div>';
+
+  return htmlLine;
+
+}
+
+function modelLytSquareCardScroll(mdl_map_details) {
+
+  var image_ref = mdl_map_details['IMAGE']
+  var complete_content = mdl_map_details['CONTENT']
+
+  var htmlLine = '<div class="card-scroll"><a href="' + clickHandling(mdl_map_details) + '">\
+                  <div class="card hoverable" style="border-radius: 10px; widht: 300px; max-width: 300px;">\
+                    <div class="card-image z-depth-2" style="height: 200px; max-height: 200px; widht: 400px; max-width: 400px; border-radius: 10px 25px 0px 0px;">\
+                      <img src="' + getModelImageRef(image_ref) + '" style="height: 200px; max-height: 200px; widht: 400px; max-width: 400px; border-radius: 10px 10px 0px 0px;">\
+                    </div>\
+                    <div class="black-text" style="border-radius: 0px 0px 10px 10px;">\
+                      <div class="card-content black-text">' + complete_content + '</div>\
                     </div>\
                   </div>\
                 </a>\
@@ -904,7 +946,7 @@ function getFixedModelContent(mdl_coll, all_doc_info_list, doc_data) {
         filter_sub_header = [sub_header[0],sub_header[1],sub_header[2],'...']
       }
       // <div class="small chip center-align" style="height: 20px; padding: 2px;">
-      let tags_line = getChipIconsFromList(filter_sub_header)
+      let tags_line = getChipIconsFromList_ver_2(filter_sub_header)
 
       html_div_line = '<div><p style="font-size: 20px;">' + header + '</p>\
   <p class="card-text" style="margin-top: 10px;">'+ tags_line + '</p>\
@@ -915,7 +957,7 @@ function getFixedModelContent(mdl_coll, all_doc_info_list, doc_data) {
 
       if (cut_price != '0') { html_div_line += '<small style="text-decoration: line-through; class="text-muted">(&#x20b9;' + cut_price + ')</small>' }
 
-      html_div_line += '<small style="font-size: 20px;">&#x20b9;' + price + '</small></span>\
+      html_div_line += '<small class="green-text" style="font-size: 20px;">&#x20b9;' + price + '</small></span>\
         <br>\
   </p></div>';
 
@@ -925,8 +967,17 @@ function getFixedModelContent(mdl_coll, all_doc_info_list, doc_data) {
 
       var header = doc_data[all_doc_info_list[0]]
       var content = doc_data[all_doc_info_list[1]]
+      var tags = doc_data[all_doc_info_list[2]]
 
-      html_div_line = '<b class="black-text">' + header + '</b><br><p class="grey-text long-text-nor" style="font-size: 13px; margin-top: 5px;">' + content + '</p>'
+      // Check tags lenght
+      let plc_filter_tags = tags
+      if(tags.length > 3) {
+        plc_filter_tags = [tags[0],tags[1],tags[2]]
+      }
+      // <div class="small chip center-align" style="height: 20px; padding: 2px;">
+      let plc_tags_line = getChipIconsFromList(plc_filter_tags)
+
+      html_div_line = '<b class="black-text">' + header + '</b><br><p class="grey-text long-text" style="font-size: 13px; margin-top: 5px;">' + content + '</p><div style="margin-top: 5px;">' + plc_tags_line +'</div>'
 
       break;
 
@@ -1086,6 +1137,49 @@ function viewModelCustom(header, content) {
 
 
   $('#messagemodel').modal('open');
+
+
+}
+
+// Update Image View
+function updateImageView(divID, imagesList) {
+  var image_html_line = ''
+
+  for (idx in imagesList) {
+
+    var imageName = imagesList[idx]
+
+    var imageDetails = getImageUrl(getInfoDetails(imageName))
+
+    if (imageDetails != "NOK") {
+
+      var imageDesc = getImageDesc(getInfoDetails(imageName))
+
+      image_html_line += '<div class="col s12 m4">\
+                  <div class="card">\
+                    <div class="card-image">\
+                        <img class="materialboxed" data-caption="Click on image to close it" src="' + imageDetails + '"> </div>'
+                        if(imageDesc != 'NA') {
+                          image_html_line += '<div style="margin-left: 20px;">\
+                        <p style="font-size: 10px;">'+ imageDesc + '</p>\
+                      </div>'
+    }
+                      
+    image_html_line += '</div>\
+                </div>';
+
+    }
+
+  } // for end
+
+  if (image_html_line == '') {
+    document.getElementById(divID + "_section").style.display = 'none';
+  } else {
+    $("#" + divID).html(image_html_line);
+  }
+
+
+
 
 
 }
@@ -1286,6 +1380,7 @@ function getLocalSessionPkgData() {
     data['PKG_ID'] = sessionStorage.getItem('PKG_ID');
     data['PKG_IMG'] = sessionStorage.getItem('PKG_IMG');
     data['PKG_EXTRA'] = sessionStorage.getItem('PKG_EXTRA');
+    data['PKG_TYPE'] = sessionStorage.getItem('PKG_TYPE');
     data['PKG_DEST_ID'] = sessionStorage.getItem('PKG_DEST_ID');
     data['PKG_DEST_NAME'] = sessionStorage.getItem('PKG_DEST_NAME');
 

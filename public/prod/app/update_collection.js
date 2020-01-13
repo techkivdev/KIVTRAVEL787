@@ -136,7 +136,7 @@ function readDataFromDatabase() {
 
                     list_html += '<a class="list-group-item list-group-item-action " data-toggle="list" href="#' + doc.id + '_TAB' + '" role="tab">\n';
                     list_html += '<div class="d-flex w-100 justify-content-between">\n';
-                    list_html += '<h5 class="mb-1">' + allDocData[doc.id]['MAIN']['VALUE']['INFO1']['VALUE'] + '</h5>\n';
+                    list_html += '<b>' + allDocData[doc.id]['MAIN']['VALUE']['INFO1']['VALUE'] + '</b>\n';
                     list_html += '</div>\n';
                     list_html += '<small>' + doc.id + '</small>\n';
                     list_html += '</a>\n';
@@ -3725,7 +3725,7 @@ function showMultiOptionModel(html_content,infoID) {
     // --------------------------------------------------------------
 
     var modalLoading = '<div class="modal fade" id="showHTMLmodel" tabindex="-1" role="dialog" aria-labelledby="showHTMLmodelLabel" aria-hidden="true">\
-    <div class="modal-dialog" role="document">\
+    <div class="modal-dialog modal-lg" role="document">\
       <div class="modal-content">\
         <div class="modal-header">\
           <h5 class="modal-title" id="showHTMLmodelLabel">MULTI Option</h5>\

@@ -38,8 +38,10 @@ var pageContent = {}
 
 // Local Variables
 var reachInfo = {}
+var addonInfo = {}
 var feesInfo = {}
 var timingsInfo = {}
+var config_details = {}
 
 // ***********************************************
 
@@ -194,6 +196,9 @@ function checkStartupValidation() {
         coll_base_path = basePath
         $('#role_message').html('KivTech Development Publish')
 
+        // Show ADMIN Section
+        document.getElementById("card_admin").style.display = 'block';
+
         readDocumentDataAsync(document_ID)
       } else {
         readDocumentDataAsync(document_ID)
@@ -214,6 +219,9 @@ function checkStartupValidation() {
         check_dev_publish_content = false
         coll_base_path = basePath
         $('#role_message').html('KivTech Development Publish,DEV MODE')
+
+        // Show ADMIN Section
+        document.getElementById("card_admin").style.display = 'block';
 
         readDocumentDataAsync(document_ID)
       }
@@ -316,7 +324,7 @@ function viewReviewDetails() {
 // Show Overview details
 function viewOverview() {
  // viewModel('Overview', getInfoDetails("Description"))
-  showFullMessageDialog('Description', 'NA',getInfoDetails("Description"))
+  showFullMessageDialog(config_details["ABOUT_HDR"], 'NA',getInfoDetails("Description"))
 }
 
 // Show Map View
@@ -333,6 +341,11 @@ function viewMapDetails() {
 // Show Reach Details
 function viewReachDetails() {
   showFullMessageDialog(reachInfo['HEADER'], reachInfo['DESC'],reachInfo['CONTENT'])
+}
+
+// Show Reach Details
+function viewAddOnDetails() {
+  showFullMessageDialog(addonInfo['HEADER'], addonInfo['DESC'],addonInfo['CONTENT'])
 }
 
 // Show Fees Details
@@ -360,7 +373,11 @@ function showFullMessageDialog(header,sub_header,content){
   document.getElementById("message_display_container").style.display = 'block';
   document.getElementById("close_fl_btn").style.display = 'block';
 
-  if(sub_header == 'NA') {document.getElementById("msg_sub_header").style.display = 'none';}
+  if(sub_header == 'NA') {
+    document.getElementById("msg_sub_header").style.display = 'none';
+  } else {
+    document.getElementById("msg_sub_header").style.display = 'block';
+  }
 
   // Update HTML Details
   $("#msg_header").html(header);
@@ -396,90 +413,96 @@ function hideFullMessageDialog(){
 
 // <<<<<<<<<<<<<<<<<< CODE SECTION START >>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-//**************** Mapping Function ***************************
-// Update Mapping Data Sets details
-function updateMappingDetails(docID) {
-  if ("MAIN" in allDocCmpData) {
-    mainDocMapDetails["ID"] = allDocCmpData["MAIN"]["INFO0"]
-    mainDocMapDetails["NAME"] = allDocCmpData["MAIN"]["INFO1"]
-    mainDocMapDetails["DESC"] = allDocCmpData["MAIN"]["INFO2"]
-    mainDocMapDetails["VISIBLE"] = allDocCmpData["MAIN"]["INFO3"]
-    mainDocMapDetails["OWNER"] = allDocCmpData["MAIN"]["INFO4"]
-    mainDocMapDetails["LINKS"] = allDocCmpData["MAIN"]["INFO5"]
-    mainDocMapDetails["TDOC"] = allDocCmpData["MAIN"]["INFO6"]
-    mainDocMapDetails["ADMIN"] = allDocCmpData["MAIN"]["INFO7"]
-    mainDocMapDetails["IMAGE_TAB"] = allDocCmpData["MAIN"]["INFO8"]
-    mainDocMapDetails["MULTI_TAB"] = allDocCmpData["MAIN"]["INFO9"]
-    mainDocMapDetails["FORM_TAB"] = allDocCmpData["MAIN"]["INFO10"]
-    mainDocMapDetails["COLL_DOC"] = allDocCmpData["MAIN"]["INFO11"]
-    mainDocMapDetails["DOC_PBLS"] = allDocCmpData["MAIN"]["INFO12"]
-    mainDocMapDetails["DOC_LIST"] = allDocCmpData["MAIN"]["INFO13"]
-    mainDocMapDetails["DEF_IMG"] = allDocCmpData["MAIN"]["INFO14"]
-    mainDocMapDetails["LIST_REF_INFO"] = allDocCmpData["MAIN"]["INFO15"]
-    mainDocMapDetails["IMAGE_INFO"] = allDocCmpData["MAIN"]["INFO16"]
-    mainDocMapDetails["IMAGE_PRO_INFO"] = allDocCmpData["MAIN"]["INFO17"]
-    mainDocMapDetails["MULTI_INFO"] = allDocCmpData["MAIN"]["INFO18"]
-    mainDocMapDetails["FORM_INFO"] = allDocCmpData["MAIN"]["INFO19"]
-    mainDocMapDetails["COMMON_DATA"] = allDocCmpData["MAIN"]["INFO20"]
-  } else {
-    displayOutput("MAIN Doc details is not found !!")
-  }
+    //**************** Mapping Function ***************************
+    // Update Mapping Data Sets details
+    function updateMappingDetails(docID) { 
+      if("MAIN" in allDocCmpData) {
+        mainDocMapDetails["ID"] = allDocCmpData["MAIN"]["INFO0"]
+        mainDocMapDetails["NAME"] = allDocCmpData["MAIN"]["INFO1"]
+        mainDocMapDetails["DESC"] = allDocCmpData["MAIN"]["INFO2"]
+        mainDocMapDetails["VISIBLE"] = allDocCmpData["MAIN"]["INFO3"]
+        mainDocMapDetails["OWNER"] = allDocCmpData["MAIN"]["INFO4"]
+        mainDocMapDetails["LINKS"] = allDocCmpData["MAIN"]["INFO5"]
+        mainDocMapDetails["TDOC"] = allDocCmpData["MAIN"]["INFO6"]
+        mainDocMapDetails["ADMIN"] = allDocCmpData["MAIN"]["INFO7"]
+        mainDocMapDetails["IMAGE_TAB"] = allDocCmpData["MAIN"]["INFO8"]
+        mainDocMapDetails["MULTI_TAB"] = allDocCmpData["MAIN"]["INFO9"]
+        mainDocMapDetails["FORM_TAB"] = allDocCmpData["MAIN"]["INFO10"]
+        mainDocMapDetails["COLL_DOC"] = allDocCmpData["MAIN"]["INFO11"]
+        mainDocMapDetails["DOC_PBLS"] = allDocCmpData["MAIN"]["INFO12"]
+        mainDocMapDetails["DOC_LIST"] = allDocCmpData["MAIN"]["INFO13"]
+        mainDocMapDetails["DEF_IMG"] = allDocCmpData["MAIN"]["INFO14"]
+        mainDocMapDetails["LIST_REF_INFO"] = allDocCmpData["MAIN"]["INFO15"]
+        mainDocMapDetails["IMAGE_INFO"] = allDocCmpData["MAIN"]["INFO16"]
+        mainDocMapDetails["IMAGE_PRO_INFO"] = allDocCmpData["MAIN"]["INFO17"]
+        mainDocMapDetails["MULTI_INFO"] = allDocCmpData["MAIN"]["INFO18"]
+        mainDocMapDetails["FORM_INFO"] = allDocCmpData["MAIN"]["INFO19"]
+        mainDocMapDetails["COMMON_DATA"] = allDocCmpData["MAIN"]["INFO20"]
+      } else {
+        displayOutput("MAIN Doc details is not found !!")
+      }
+    
 
 
 
 
+if(docID in allDocCmpData) {
+docMapDetails["id"] = allDocCmpData[docID]["INFO0"]
+docMapDetails["timings"] = allDocCmpData[docID]["INFO10"]
+docMapDetails["tips"] = allDocCmpData[docID]["INFO11"]
+docMapDetails["places_details"] = docID + "#INFO22"
+docMapDetails["packages_list"] = docID + "#INFO23"
+docMapDetails["config"] = allDocCmpData[docID]["INFO24"]
+docMapDetails["country"] = allDocCmpData[docID]["INFO25"]
+docMapDetails["state"] = allDocCmpData[docID]["INFO26"]
+docMapDetails["district"] = allDocCmpData[docID]["INFO27"]
+docMapDetails["filter"] = allDocCmpData[docID]["INFO28"]
+docMapDetails["type"] = allDocCmpData[docID]["INFO29"]
+docMapDetails["name"] = allDocCmpData[docID]["INFO3"]
+docMapDetails["destination_id"] = allDocCmpData[docID]["INFO30"]
+docMapDetails["faq"] = allDocCmpData[docID]["INFO31"]
+docMapDetails["category"] = allDocCmpData[docID]["INFO32"]
+docMapDetails["activities"] = allDocCmpData[docID]["INFO33"]
+docMapDetails["services"] = allDocCmpData[docID]["INFO34"]
+docMapDetails["city"] = docID + "#INFO35"
+docMapDetails["things_todo"] = docID + "#INFO36"
+docMapDetails["stories"] = docID + "#INFO37"
+docMapDetails["review"] = docID + "#INFO38"
+docMapDetails["addon"] = allDocCmpData[docID]["INFO39"]
+docMapDetails["desc"] = allDocCmpData[docID]["INFO4"]
+docMapDetails["description"] = allDocCmpData[docID]["INFO5"]
+docMapDetails["quick"] = allDocCmpData[docID]["INFO6"]
+docMapDetails["map"] = allDocCmpData[docID]["INFO7"]
+docMapDetails["reach"] = allDocCmpData[docID]["INFO8"]
+docMapDetails["fees"] = allDocCmpData[docID]["INFO9"]
+    
+// MAP Development and Production Image correctly .....
+    if(check_dev_publish_content) {
 
-  if (docID in allDocCmpData) {
-    docMapDetails["id"] = allDocCmpData[docID]["INFO0"]
-    docMapDetails["timings"] = allDocCmpData[docID]["INFO10"]
-    docMapDetails["tips"] = allDocCmpData[docID]["INFO11"]
-    docMapDetails["places_details"] = docID + "#INFO22"
-    docMapDetails["packages_list"] = docID + "#INFO23"
-    docMapDetails["config"] = allDocCmpData[docID]["INFO24"]
-    docMapDetails["country"] = allDocCmpData[docID]["INFO25"]
-    docMapDetails["state"] = allDocCmpData[docID]["INFO26"]
-    docMapDetails["district"] = allDocCmpData[docID]["INFO27"]
-    docMapDetails["filter"] = allDocCmpData[docID]["INFO28"]
-    docMapDetails["type"] = allDocCmpData[docID]["INFO29"]
-    docMapDetails["name"] = allDocCmpData[docID]["INFO3"]
-    docMapDetails["destination_id"] = allDocCmpData[docID]["INFO30"]
-    docMapDetails["faq"] = allDocCmpData[docID]["INFO31"]
-    docMapDetails["category"] = allDocCmpData[docID]["INFO32"]
-    docMapDetails["activities"] = allDocCmpData[docID]["INFO33"]
-    docMapDetails["desc"] = allDocCmpData[docID]["INFO4"]
-    docMapDetails["description"] = allDocCmpData[docID]["INFO5"]
-    docMapDetails["quick"] = allDocCmpData[docID]["INFO6"]
-    docMapDetails["map"] = allDocCmpData[docID]["INFO7"]
-    docMapDetails["reach"] = allDocCmpData[docID]["INFO8"]
-    docMapDetails["fees"] = allDocCmpData[docID]["INFO9"]
+    // IMAGES Production Information
 
-    // MAP Development and Production Image correctly .....
-    if (check_dev_publish_content) {
+docMapDetails["image1"] = docID + "#INFO13"
+docMapDetails["image2"] = docID + "#INFO15"
+docMapDetails["image3"] = docID + "#INFO17"
+docMapDetails["image4"] = docID + "#INFO19"
+docMapDetails["model"] = docID + "#INFO21"
 
-      // IMAGES Production Information
+} else {
+    // IMAGES Information
 
-      docMapDetails["image1"] = docID + "#INFO13"
-      docMapDetails["image2"] = docID + "#INFO15"
-      docMapDetails["image3"] = docID + "#INFO17"
-      docMapDetails["image4"] = docID + "#INFO19"
-      docMapDetails["model"] = docID + "#INFO21"
+docMapDetails["image1"] = docID + "#INFO12"
+docMapDetails["image2"] = docID + "#INFO14"
+docMapDetails["image3"] = docID + "#INFO16"
+docMapDetails["image4"] = docID + "#INFO18"
+docMapDetails["model"] = docID + "#INFO20"
 
-    } else {
-      // IMAGES Information
-
-      docMapDetails["image1"] = docID + "#INFO12"
-      docMapDetails["image2"] = docID + "#INFO14"
-      docMapDetails["image3"] = docID + "#INFO16"
-      docMapDetails["image4"] = docID + "#INFO18"
-      docMapDetails["model"] = docID + "#INFO20"
-
+}    
+} else {
+        displayOutput(docID + " Data not found !!")
     }
-  } else {
-    displayOutput(docID + " Data not found !!")
-  }
 
 }
-//**************** END ***************************
+    //**************** END ***************************
 
 // <<<<<<<<<<<<<<<<< CODE SECTION END >>>>>>>>>>>>>>>>>>>>>
 
@@ -537,6 +560,9 @@ function genHTMLContentType() {
   // Update Image View
   updateImageView("plc_image_view", ["Image1", "Image2", "Image3", "Image4"])
 
+  // Read Config Details
+  config_details = getHashDataList(getInfoDetails("Config"))
+
   // Get All Header Details
   let headerData = getHashDataList(mainDocMapDetails["COMMON_DATA"])
 
@@ -544,16 +570,14 @@ function genHTMLContentType() {
   $("#plc_header_2").html(headerData["HEADER_2"]);
   $("#plc_header_3").html(headerData["HEADER_3"]);
   $("#plc_header_4").html(headerData["HEADER_4"]);
-  $("#plc_header_5").html(headerData["HEADER_5"]);
+  $("#plc_header_5").html(config_details["ABOUT_HDR"]);
   $("#plc_header_6").html(headerData["HEADER_6"]);
   $("#plc_header_7").html(headerData["HEADER_7"]);
   $("#plc_header_8").html(headerData["HEADER_8"]);
   $("#plc_header_9").html(headerData["HEADER_9"]);
   $("#plc_header_10").html(headerData["HEADER_10"]);
   $("#plc_header_11").html(headerData["HEADER_11"]);
-
-  // Read Config Details
-  let config = getHashDataList(getInfoDetails("Config"))
+  
   let maplist = getHashDataList(getInfoDetails("MAP"))
 
    // Update Multi Config Section
@@ -563,6 +587,7 @@ function genHTMLContentType() {
   // -----------------------------------------------
 
   $("#plc_title").html(getInfoDetails("Name"));
+  $("#page_title").html(getInfoDetails("Name"));
 
   //displayOutput(getInfoDetails("Country"))
 
@@ -619,10 +644,10 @@ function genHTMLContentType() {
 
 
   // Update tags 
-  if(config['TAGS'] == 'NA') {
+  if(config_details['TAGS'] == 'NA') {
     document.getElementById("plc_tags").style.display = 'none';
   } else {
-    $("#plc_tags").html(getAppendHTMLLines(config['TAGS'].split(','),
+    $("#plc_tags").html(getAppendHTMLLines(config_details['TAGS'].split(','),
     '<div class="small chip">',
     '</div>'));
   }
@@ -637,6 +662,15 @@ function genHTMLContentType() {
   } else {
     $("#plc_header_6").html(reachInfo['HEADER']);
     $("#plc_info_2_details").html(reachInfo['CONTENT']);
+  }
+
+  // Addon Information
+  addonInfo = getHashDataList(getInfoDetails("AddOn"))
+  if(addonInfo['DISPLAY'] == 'NO') {
+    document.getElementById("plc_addon_sec").style.display = 'none';   
+  } else {
+    $("#plc_header_13").html(addonInfo['HEADER']);
+    $("#plc_addon_details").html(addonInfo['CONTENT']);
   }
 
   // Fees Information
@@ -666,7 +700,7 @@ function genHTMLContentType() {
   }
   
   // Update Tips Details
-  $("#plc_header_9").html(config['TIPSHEADER'])
+  $("#plc_header_9").html(config_details['TIPSHEADER'])
   $("#plc_info_5_details").html(getHashLinesListInHTMLFormat(getInfoDetails("Tips"), 'help_outline','green'))
   
 
@@ -674,8 +708,17 @@ function genHTMLContentType() {
   getListRefDetails(getInfoDetails("Packages List"), 'all_packages_list_ref')
   getListRefDetails(getInfoDetails("Places Details"), 'all_places_list_ref')
 
+  getListRefDetails(getInfoDetails("City"), 'all_city_list_ref')
+  getListRefDetails(getInfoDetails("Things ToDo"), 'all_thingstodo_list_ref')
+
   // Create FAQ Section 
   createFaqSection('plc_faq_sec',getHashDataList(getInfoDetails("FAQ")))
+
+  // Create Service Section
+  createServiceCardSection()
+
+  // Update ADMIN Section
+  updateAdminSection()
 
 
 
@@ -750,45 +793,6 @@ function updateMultiInfoDetails(id_details, html_tag) {
 
 }
 
-// Update Image View
-function updateImageView(divID, imagesList) {
-  var image_html_line = ''
-
-  for (idx in imagesList) {
-
-    var imageName = imagesList[idx]
-
-    var imageDetails = getImageUrl(getInfoDetails(imageName))
-
-    if (imageDetails != "NOK") {
-
-      var imageDesc = getImageDesc(getInfoDetails(imageName))
-
-      image_html_line += '<div class="col s12 m4">\
-                  <div class="card">\
-                    <div class="card-image">\
-                        <img class="materialboxed" data-caption="Click on image to close it" src="' + imageDetails + '"> </div>\
-                    <div style="margin-left: 20px;">\
-                        <p style="font-size: 10px;">'+ imageDesc + '</p>\
-                      </div></div>\
-                </div>';
-
-    }
-
-  } // for end
-
-  if (image_html_line == '') {
-    document.getElementById(divID + "_section").style.display = 'none';
-  } else {
-    $("#" + divID).html(image_html_line);
-  }
-
-
-
-  startUpCalls()
-
-}
-
 // Book Mark Handling
 function bookmarkHandling(details) {
 
@@ -837,6 +841,88 @@ function openRequestForm() {
 
   updateLoaclSessionDetails()
   location.href = 'requestform.html?detail1=NA&detail2=NA&detail3=NA'
+}
+
+// Create Service Card
+function createServiceCardSection() {
+
+  let service_details = getHashDataList(getInfoDetails("Services"))
+
+  if(service_details['DISPLAY'] == 'YES') {
+
+  let html_header_1 = '<p style="font-size: 25px;">'+ service_details['HEADER'] +'</p>'
+  //let html_header_2 = ' <p class="long-text-nor grey-text" style="font-size: 15px; margin-top: -25px;">Sub Header</p>'
+  
+  let html_card = ''
+
+  let service_list = ['SERVICE_1','SERVICE_2','SERVICE_3','SERVICE_4']
+  for(each_idx in service_list) {
+    let key_hdr = service_list[each_idx]
+
+    // Get All Details
+    let display = service_details[key_hdr + '_DISPLAY']
+    let name = service_details[key_hdr + '_NAME']
+    name = ''
+    let image_type = service_details[key_hdr + '_IMAGE'].split('*&*')[0]
+    let image_details = service_details[key_hdr + '_IMAGE'].split('*&*')[1]
+
+    let image =''    
+    if(image_type == 'LOCAL') {
+    image = getDirectImageUrl('Images/' + image_details)
+    } else {
+      image = image_details
+    }
+
+    let action = service_details[key_hdr + '_ACTION']
+
+    if(display == 'YES') {
+    html_card += '<div class="col s6 m6">\
+  <div class="card z-depth-2" style="border-radius: 10px;">\
+    <div class="card-image">\
+      <img src="'+image+'" style="height: 170px; border-radius: 10px;">\
+      <span class="card-title">'+ name +'</span>\
+    </div></div></div>'
+    }
+
+
+  }
+
+
+  
+
+
+    let html_line = ''
+
+    html_line += html_header_1
+    //html_line += html_header_2
+    html_line += '<div class="row">'
+
+    html_line += html_card
+
+    html_line += '</div>'
+
+    $('#card_service').html(html_line)
+
+  }
+
+
+}
+
+// Update Admin Section
+function updateAdminSection() {
+
+  let admin_line = '<p class="black-text">' + document_ID +'</p>'
+
+  admin_line += '<p class="black-text">' + getInfoDetails("ID") +'</p>'  
+ 
+
+  let link = 'update_collection.html?lang_name=CORE&coll_name=PLACES&role=DEV'
+
+  admin_line += '<div class="right-align" style="margin-top: 0px;">\
+              <a href="'+link+'" class="waves-effect waves-teal btn-flat blue-text">Open Content Manager</a>\
+            </div>'
+
+  $("#admin_sec").html(admin_line);
 }
 
 // --------------- Local Session -------------------

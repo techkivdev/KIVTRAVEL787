@@ -92,11 +92,7 @@
     <div class="centered">
       <h1 id="banner_main_header"> </h1>
       <p id="banner_small_header"> </p>
-      <br>
-      <div style="margin-top: 0%;">
-        <a id="btn_book_now" onclick="openRequestForm()" href="#!"
-          class="waves-effect waves-light btn-large pink rcorners">Book Now</a>
-      </div>
+      <br>    
 
       <div id="header_btn_options_dest" style="margin-top: 15%;">
         <div class="col s12">
@@ -154,6 +150,7 @@
 
       <!-- details  -->
       <div id="details_dest">
+        
         <!-- Row Section 1 -->
         <div id="hdr_details_card" class="row" style="margin: -100px 0px 0px 0px;">
 
@@ -212,6 +209,31 @@
                     </div>                  
 
                   </div> 
+
+                  <!-- Tags -->
+                  <div id="dest_tags_sec" class="row">
+                    <div class="col s12">  
+                      <div id="dest_tags">
+                        <!-- All Activities Details -->
+                        <div class="chip">
+                          <img src="Images/default.jpg" alt="default">
+                          Jane Doe
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                   <!-- BTN -->
+                   <div class="col s12 row">  
+                    <div class="row">                                
+                        <div class="center-align">
+                        <a onclick="openRequestForm()" class="waves-effect waves-light btn-large pink rcorners">Get Free Quotes</a>
+                        </div>
+                      </div> 
+                  </div>
+                   
+                  
+                
                   
 
                 </div>
@@ -226,45 +248,8 @@
                   <!-- Quick Options ---- -->
                   <!-- <i class="fas fa-lightbulb-exclamation"></i> -->
                   <!-- <i onclick="viewEssentialDetails()" class="material-icons white-text" style="font-size: 30px;">info</i> -->
-                  <div class="row" style="margin-top: 5px;">
-
-                    <div class="col s4 m4">
-                      <div id="dest_essential_sec" class="center-align" style="display: none;">
-                        <span>
-                          <small><a href='#!'><i onclick="viewEssentialDetails()" class="fas fa-lightbulb orange-text" style="font-size: 40px;"></i></a></small>  
-                          <br><small id="dest_essential_sec_hdr" class="orange-text" style="font-size: 10px;">Essential</small> 
-                        </span>                   
-                      </div>
-
-                    </div>
-
-                    <div class="col s4 m4">
-                      <div id="dest_besttime_list" class="center-align" style="display: none;">
-
-                        <span>
-                          <small><a href='#!'><i onclick="viewBestTimeDetails()" class="fas fa-calendar-check purple-text" style="font-size: 40px;"></i></a></small>  
-                          <br><small id="dest_besttime_list_hdr" class="purple-text" style="font-size: 10px;">Best Time</small> 
-                        </span>
-
-                                           
-                      </div>
-
-                    </div>
-
-
-                    <div class="col s4 m4">
-                      <div id="dest_todo_sec" class="center-align" style="display: none;">
-
-                        <span>
-                          <small> <a href='#!'><i onclick="viewtoDoDetails()" class="fas fa-bullhorn indigo-text" style="font-size: 40px;"></i></a></small>  
-                          <br><small id="dest_todo_sec_hdr" class="indigo-text" style="font-size: 10px;">Things To Do</small> 
-                        </span>
-
-                                             
-                      </div>
-
-                    </div>
-
+                  <div id="dest_quick_action_sec" class="row" style="margin-top: 5px;">
+                    <!-- Script Code -->                   
                   </div>
 
                   <!-- ------------------ -->
@@ -273,7 +258,8 @@
                 <!-- Card Body START -->
                 <div class="row">
 
-                  <div class="row">
+                   <!-- activities -->
+                  <div id="dest_activity_sec" class="row">
                     <div class="col s12">
                       <p id="dest_header_3" class="grey-text">Activities : </p>
 
@@ -319,11 +305,34 @@
         <div id="destcard_links" class="col s12" style="display: none;">
           <div class="card" style="border-radius: 10px;">
             <div class="card-content black-text">
-              <span class="card-title"><b id="dest_header_6">Links</b></span>
+              <span id="card_link_header_sec" class="card-title"><b id="dest_header_6">Links</b></span>
 
               <!-- Card Body START -->
               <div>
-                <p id="dest_links">#</p>
+                <!-- Address --> 
+                <div id="dest_address_sec" class="row">                                       
+                  <div class="col s12">
+                    <p id="dest_header_10" class="grey-text">Address</p>
+                    <b id="dest_address">1-2 Hours</b>
+                  </div>                   
+              </div>
+
+              <!-- Links --> 
+              <div id="dest_links_sec" class="row">                                       
+               <div class="col s12">
+                 <p id="dest_header_11" class="grey-text">Website</p>
+                 <b id="dest_links">1-2 Hours</b>
+               </div>                   
+           </div>
+
+           <!-- Phone --> 
+           <div id="dest_phone_sec" class="row">                                       
+            <div class="col s12">
+              <p id="dest_header_12" class="grey-text">Phone</p>
+              <b id="dest_phone">1-2 Hours</b>
+            </div>                   
+        </div>
+
               </div>
 
               <!-- Card Body END -->
@@ -428,21 +437,28 @@
 
         </div>
 
+        <!-- CARD Infromation Services -->
+        <div id="destcard_service" class="col s12" style="display: block;">
+          <!-- Script Code -->
+        </div>
+
 
         <!-- CARD Infromation ADMIN -->
-        <div id="destcard_admin" class="col s12" style="display: none;">
-          <div class="card" style="border-radius: 10px;">
-            <div class="card-content black-text">
-              <span class="card-title"><b>ADMIN</b></span>
+        <div id="card_admin" class="col s12" style="display: none;">
 
+          <ul class="collapsible">
+            <li>
+              <div class="collapsible-header"><i class="material-icons">account_circle</i>Admin Section</div>
+              <div class="collapsible-body"> 
               <!-- Card Body START -->
-              <div>
-                <p id="dest_admin" class="long-text">#</p>
+              <div id="admin_sec">
+                <!-- Script Code -->
               </div>
               <!-- Card Body END -->
+              </div>
+            </li>            
+          </ul>         
 
-            </div>
-          </div>
         </div>
 
       </div>
@@ -487,13 +503,55 @@
       <!-- **************************************** -->
     </div>
 
+    <!-- Filter Btn -->
+    <div id="listref_filter_btn" class="row" style="display:none;">
+
+      <div class="right-align">
+
+        <div id="listref_filter_btn_sec">
+          <!-- Script Code -->   
+      </div>
+
+    </div>
+  </div>
+
     <div id="all_packages_list_ref">
       <!-- **************************************** -->
       <!--   Script Code  -->
       <!-- **************************************** -->
     </div>
 
+    <div id="all_packages_list_2_ref">
+      <!-- **************************************** -->
+      <!--   Script Code  -->
+      <!-- **************************************** -->
+    </div>
+
+    <div id="all_packages_list_3_ref">
+      <!-- **************************************** -->
+      <!--   Script Code  -->
+      <!-- **************************************** -->
+    </div>
+
     <div id="all_places_list_ref">
+      <!-- **************************************** -->
+      <!--   Script Code  -->
+      <!-- **************************************** -->
+    </div>
+
+    <div id="all_todo_places_list_ref">
+      <!-- **************************************** -->
+      <!--   Script Code  -->
+      <!-- **************************************** -->
+    </div>
+
+    <div id="all_stories_list_ref">
+      <!-- **************************************** -->
+      <!--   Script Code  -->
+      <!-- **************************************** -->
+    </div>
+
+    <div id="all_reviews_list_ref">
       <!-- **************************************** -->
       <!--   Script Code  -->
       <!-- **************************************** -->

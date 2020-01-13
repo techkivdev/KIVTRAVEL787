@@ -197,6 +197,9 @@ function checkStartupValidation() {
         coll_base_path = basePath
         $('#role_message').html('KivTech Development Publish')
 
+        // Show ADMIN Section
+        document.getElementById("card_admin").style.display = 'block';
+
         readDocumentDataAsync(document_ID)
       } else {
         readDocumentDataAsync(document_ID)
@@ -217,6 +220,9 @@ function checkStartupValidation() {
         check_dev_publish_content = false
         coll_base_path = basePath
         $('#role_message').html('KivTech Development Publish,DEV MODE')
+
+        // Show ADMIN Section
+        document.getElementById("card_admin").style.display = 'block';
 
         readDocumentDataAsync(document_ID)
       }
@@ -266,7 +272,6 @@ function updateHTMLPage() {
 
   document.getElementById("col_section_1").style.display = 'block';
   document.getElementById("header_section").style.display = 'block';  
-  document.getElementById("btn_book_now").style.display = 'none';
   document.getElementById("footer_sec").style.display = 'block';
   document.getElementById("dest_faq_sec").style.display = 'block';
 
@@ -293,7 +298,7 @@ function modifyPageStyle() {
 
     document.getElementById("header_section").style.height = "250px";
     document.getElementById("banner_main_image").style.height = "250px";
-    document.getElementById("header_btn_options_dest").style.marginTop = "-30%";
+    document.getElementById("header_btn_options_dest").style.marginTop = "-30%";    
 
     //document.getElementById("hdr_details_card").style.margin = "-80px 0px 0px 0px;";
     //document.getElementById("hdr_image_card").style.margin = "-80px 0px 0px 0px;";
@@ -337,7 +342,7 @@ function viewReviewDetails() {
 // Show Overview details
 function viewOverview() {
   //viewModel('Overview', getInfoDetails("Description"))
-  showFullMessageDialog('Overview', 'NA',getInfoDetails("Description"))
+  showFullMessageDialog(config_details['ABOUT_HDR'], 'NA',getInfoDetails("Description"))
 }
 
 // Show Reach Details
@@ -400,7 +405,11 @@ function showFullMessageDialog(header,sub_header,content){
   document.getElementById("message_display_container").style.display = 'block';
   document.getElementById("close_fl_btn").style.display = 'block';
 
-  if(sub_header == 'NA') {document.getElementById("msg_sub_header").style.display = 'none';}
+  if(sub_header == 'NA') {
+    document.getElementById("msg_sub_header").style.display = 'none';
+  } else {
+    document.getElementById("msg_sub_header").style.display = 'block';
+  }
 
   // Update HTML Details
   $("#msg_header").html(header);
@@ -436,97 +445,105 @@ function hideFullMessageDialog(){
 
 // <<<<<<<<<<<<<<<<<< CODE SECTION START >>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-//**************** Mapping Function ***************************
-// Update Mapping Data Sets details
-function updateMappingDetails(docID) {
-  if ("MAIN" in allDocCmpData) {
-    mainDocMapDetails["ID"] = allDocCmpData["MAIN"]["INFO0"]
-    mainDocMapDetails["NAME"] = allDocCmpData["MAIN"]["INFO1"]
-    mainDocMapDetails["DESC"] = allDocCmpData["MAIN"]["INFO2"]
-    mainDocMapDetails["VISIBLE"] = allDocCmpData["MAIN"]["INFO3"]
-    mainDocMapDetails["OWNER"] = allDocCmpData["MAIN"]["INFO4"]
-    mainDocMapDetails["LINKS"] = allDocCmpData["MAIN"]["INFO5"]
-    mainDocMapDetails["TDOC"] = allDocCmpData["MAIN"]["INFO6"]
-    mainDocMapDetails["ADMIN"] = allDocCmpData["MAIN"]["INFO7"]
-    mainDocMapDetails["IMAGE_TAB"] = allDocCmpData["MAIN"]["INFO8"]
-    mainDocMapDetails["MULTI_TAB"] = allDocCmpData["MAIN"]["INFO9"]
-    mainDocMapDetails["FORM_TAB"] = allDocCmpData["MAIN"]["INFO10"]
-    mainDocMapDetails["COLL_DOC"] = allDocCmpData["MAIN"]["INFO11"]
-    mainDocMapDetails["DOC_PBLS"] = allDocCmpData["MAIN"]["INFO12"]
-    mainDocMapDetails["DOC_LIST"] = allDocCmpData["MAIN"]["INFO13"]
-    mainDocMapDetails["DEF_IMG"] = allDocCmpData["MAIN"]["INFO14"]
-    mainDocMapDetails["LIST_REF_INFO"] = allDocCmpData["MAIN"]["INFO15"]
-    mainDocMapDetails["IMAGE_INFO"] = allDocCmpData["MAIN"]["INFO16"]
-    mainDocMapDetails["IMAGE_PRO_INFO"] = allDocCmpData["MAIN"]["INFO17"]
-    mainDocMapDetails["MULTI_INFO"] = allDocCmpData["MAIN"]["INFO18"]
-    mainDocMapDetails["FORM_INFO"] = allDocCmpData["MAIN"]["INFO19"]
-    mainDocMapDetails["COMMON_DATA"] = allDocCmpData["MAIN"]["INFO20"]
-  } else {
-    displayOutput("MAIN Doc details is not found !!")
-  }
+    //**************** Mapping Function ***************************
+    // Update Mapping Data Sets details
+    function updateMappingDetails(docID) { 
+      if("MAIN" in allDocCmpData) {
+        mainDocMapDetails["ID"] = allDocCmpData["MAIN"]["INFO0"]
+        mainDocMapDetails["NAME"] = allDocCmpData["MAIN"]["INFO1"]
+        mainDocMapDetails["DESC"] = allDocCmpData["MAIN"]["INFO2"]
+        mainDocMapDetails["VISIBLE"] = allDocCmpData["MAIN"]["INFO3"]
+        mainDocMapDetails["OWNER"] = allDocCmpData["MAIN"]["INFO4"]
+        mainDocMapDetails["LINKS"] = allDocCmpData["MAIN"]["INFO5"]
+        mainDocMapDetails["TDOC"] = allDocCmpData["MAIN"]["INFO6"]
+        mainDocMapDetails["ADMIN"] = allDocCmpData["MAIN"]["INFO7"]
+        mainDocMapDetails["IMAGE_TAB"] = allDocCmpData["MAIN"]["INFO8"]
+        mainDocMapDetails["MULTI_TAB"] = allDocCmpData["MAIN"]["INFO9"]
+        mainDocMapDetails["FORM_TAB"] = allDocCmpData["MAIN"]["INFO10"]
+        mainDocMapDetails["COLL_DOC"] = allDocCmpData["MAIN"]["INFO11"]
+        mainDocMapDetails["DOC_PBLS"] = allDocCmpData["MAIN"]["INFO12"]
+        mainDocMapDetails["DOC_LIST"] = allDocCmpData["MAIN"]["INFO13"]
+        mainDocMapDetails["DEF_IMG"] = allDocCmpData["MAIN"]["INFO14"]
+        mainDocMapDetails["LIST_REF_INFO"] = allDocCmpData["MAIN"]["INFO15"]
+        mainDocMapDetails["IMAGE_INFO"] = allDocCmpData["MAIN"]["INFO16"]
+        mainDocMapDetails["IMAGE_PRO_INFO"] = allDocCmpData["MAIN"]["INFO17"]
+        mainDocMapDetails["MULTI_INFO"] = allDocCmpData["MAIN"]["INFO18"]
+        mainDocMapDetails["FORM_INFO"] = allDocCmpData["MAIN"]["INFO19"]
+        mainDocMapDetails["COMMON_DATA"] = allDocCmpData["MAIN"]["INFO20"]
+      } else {
+        displayOutput("MAIN Doc details is not found !!")
+      }
+    
 
 
 
 
+if(docID in allDocCmpData) {
+docMapDetails["id"] = allDocCmpData[docID]["INFO0"]
+docMapDetails["config"] = allDocCmpData[docID]["INFO1"]
+docMapDetails["price"] = allDocCmpData[docID]["INFO10"]
+docMapDetails["cut_price"] = allDocCmpData[docID]["INFO11"]
+docMapDetails["reach_details"] = allDocCmpData[docID]["INFO12"]
+docMapDetails["packages_details"] = docID + "#INFO13"
+docMapDetails["places_details"] = docID + "#INFO14"
+docMapDetails["cities"] = docID + "#INFO15"
+docMapDetails["name"] = allDocCmpData[docID]["INFO2"]
+docMapDetails["catageory"] = allDocCmpData[docID]["INFO3"]
+docMapDetails["district"] = allDocCmpData[docID]["INFO30"]
+docMapDetails["activities"] = allDocCmpData[docID]["INFO31"]
+docMapDetails["ratings"] = allDocCmpData[docID]["INFO32"]
+docMapDetails["filter"] = allDocCmpData[docID]["INFO35"]
+docMapDetails["links"] = allDocCmpData[docID]["INFO36"]
+docMapDetails["essential"] = allDocCmpData[docID]["INFO37"]
+docMapDetails["to_do"] = allDocCmpData[docID]["INFO38"]
+docMapDetails["international"] = allDocCmpData[docID]["INFO39"]
+docMapDetails["tags"] = allDocCmpData[docID]["INFO4"]
+docMapDetails["faq"] = allDocCmpData[docID]["INFO40"]
+docMapDetails["things_todo"] = docID + "#INFO41"
+docMapDetails["parent_id"] = allDocCmpData[docID]["INFO42"]
+docMapDetails["references"] = allDocCmpData[docID]["INFO43"]
+docMapDetails["services"] = allDocCmpData[docID]["INFO44"]
+docMapDetails["stories"] = docID + "#INFO45"
+docMapDetails["review"] = docID + "#INFO46"
+docMapDetails["packages_2_details"] = docID + "#INFO47"
+docMapDetails["packages_3_details"] = docID + "#INFO48"
+docMapDetails["country"] = allDocCmpData[docID]["INFO5"]
+docMapDetails["state"] = allDocCmpData[docID]["INFO6"]
+docMapDetails["type"] = allDocCmpData[docID]["INFO7"]
+docMapDetails["best_times"] = allDocCmpData[docID]["INFO8"]
+docMapDetails["description"] = allDocCmpData[docID]["INFO9"]
+    
+// MAP Development and Production Image correctly .....
+    if(check_dev_publish_content) {
 
-  if (docID in allDocCmpData) {
-    docMapDetails["id"] = allDocCmpData[docID]["INFO0"]
-    docMapDetails["config"] = allDocCmpData[docID]["INFO1"]
-    docMapDetails["price"] = allDocCmpData[docID]["INFO10"]
-    docMapDetails["cut_price"] = allDocCmpData[docID]["INFO11"]
-    docMapDetails["reach_details"] = allDocCmpData[docID]["INFO12"]
-    docMapDetails["packages_details"] = docID + "#INFO13"
-    docMapDetails["places_details"] = docID + "#INFO14"
-    docMapDetails["cities"] = docID + "#INFO15"
-    docMapDetails["name"] = allDocCmpData[docID]["INFO2"]
-    docMapDetails["catageory"] = allDocCmpData[docID]["INFO3"]
-    docMapDetails["district"] = allDocCmpData[docID]["INFO30"]
-    docMapDetails["activities"] = allDocCmpData[docID]["INFO31"]
-    docMapDetails["ratings"] = allDocCmpData[docID]["INFO32"]
-    docMapDetails["filter"] = allDocCmpData[docID]["INFO35"]
-    docMapDetails["links"] = allDocCmpData[docID]["INFO36"]
-    docMapDetails["essential"] = allDocCmpData[docID]["INFO37"]
-    docMapDetails["to_do"] = allDocCmpData[docID]["INFO38"]
-    docMapDetails["international"] = allDocCmpData[docID]["INFO39"]
-    docMapDetails["tags"] = allDocCmpData[docID]["INFO4"]
-    docMapDetails["faq"] = allDocCmpData[docID]["INFO40"]
-    docMapDetails["country"] = allDocCmpData[docID]["INFO5"]
-    docMapDetails["state"] = allDocCmpData[docID]["INFO6"]
-    docMapDetails["places"] = allDocCmpData[docID]["INFO7"]
-    docMapDetails["best_times"] = allDocCmpData[docID]["INFO8"]
-    docMapDetails["description"] = allDocCmpData[docID]["INFO9"]
+    // IMAGES Production Information
 
-    // MAP Development and Production Image correctly .....
-    if (check_dev_publish_content) {
+docMapDetails["image_1"] = docID + "#INFO17"
+docMapDetails["image_2"] = docID + "#INFO19"
+docMapDetails["image_3"] = docID + "#INFO21"
+docMapDetails["image_4"] = docID + "#INFO23"
+docMapDetails["image_5"] = docID + "#INFO25"
+docMapDetails["image_6"] = docID + "#INFO27"
+docMapDetails["model"] = docID + "#INFO29"
 
-      // IMAGES Production Information
+} else {
+    // IMAGES Information
 
-      docMapDetails["image_1"] = docID + "#INFO17"
-      docMapDetails["image_2"] = docID + "#INFO19"
-      docMapDetails["image_3"] = docID + "#INFO21"
-      docMapDetails["image_4"] = docID + "#INFO23"
-      docMapDetails["image_5"] = docID + "#INFO25"
-      docMapDetails["image_6"] = docID + "#INFO27"
-      docMapDetails["model"] = docID + "#INFO29"
+docMapDetails["image_1"] = docID + "#INFO16"
+docMapDetails["image_2"] = docID + "#INFO18"
+docMapDetails["image_3"] = docID + "#INFO20"
+docMapDetails["image_4"] = docID + "#INFO22"
+docMapDetails["image_5"] = docID + "#INFO24"
+docMapDetails["image_6"] = docID + "#INFO26"
+docMapDetails["model"] = docID + "#INFO28"
 
-    } else {
-      // IMAGES Information
-
-      docMapDetails["image_1"] = docID + "#INFO16"
-      docMapDetails["image_2"] = docID + "#INFO18"
-      docMapDetails["image_3"] = docID + "#INFO20"
-      docMapDetails["image_4"] = docID + "#INFO22"
-      docMapDetails["image_5"] = docID + "#INFO24"
-      docMapDetails["image_6"] = docID + "#INFO26"
-      docMapDetails["model"] = docID + "#INFO28"
-
+}    
+} else {
+        displayOutput(docID + " Data not found !!")
     }
-  } else {
-    displayOutput(docID + " Data not found !!")
-  }
 
 }
-//**************** END ***************************
+    //**************** END ***************************
 
 // <<<<<<<<<<<<<<<<< CODE SECTION END >>>>>>>>>>>>>>>>>>>>>
 
@@ -585,6 +602,9 @@ function genHTMLContentType() {
   // Update Image View
   updateImageView("dest_image_view", ["Image 2", "Image 3", "Image 4", "Image 5","Image 6"])
 
+  // Read Config Details
+  config_details = getHashDataList(getInfoDetails("Config"))
+
   // Get All Header Details
   let headerData = getHashDataList(mainDocMapDetails["COMMON_DATA"])
 
@@ -592,12 +612,10 @@ function genHTMLContentType() {
   $("#dest_header_2").html(headerData["HEADER_2"]);
   $("#dest_header_3").html(headerData["HEADER_3"]);
   $("#dest_header_4").html(headerData["HEADER_4"]);
-  $("#dest_header_5").html(headerData["HEADER_5"]);
+  $("#dest_header_5").html(config_details['ABOUT_HDR']);
   $("#dest_header_6").html(headerData["HEADER_6"]);
   $("#dest_header_7").html(headerData["HEADER_7"]);
-
-  // Read Config Details
-  config_details = getHashDataList(getInfoDetails("Config"))
+  
   links = getHashDataList(getInfoDetails("Links"))
   reachDetails = getHashDataList(getInfoDetails("Reach Details"))
   bestTimes = getHashDataList(getInfoDetails("Best Times"))
@@ -605,29 +623,9 @@ function genHTMLContentType() {
   toDo = getHashDataList(getInfoDetails("To Do"))
   //displayOutput(faq)
 
-   // Update To Do Section 
-  // -----------------------------------------------
-  if(toDo['DISPLAY'] == 'YES') {
-    document.getElementById("dest_todo_sec").style.display = 'block';
-  }
-
-  // -----------------------------------------------
-
-  // Update Essential Section 
-  // -----------------------------------------------
-  if(essential['DISPLAY'] == 'YES') {
-    document.getElementById("dest_essential_sec").style.display = 'block';
-  }
-
-  // -----------------------------------------------
-
-  // Update Best Time Section 
-  // -----------------------------------------------
-  if(bestTimes['DISPLAY'] == 'YES') {
-    document.getElementById("dest_besttime_list").style.display = 'block';
-  }
-
-  // -----------------------------------------------
+  // Update Quick Action Section
+  createQuickActionSection(toDo['DISPLAY'],essential['DISPLAY'],bestTimes['DISPLAY'])
+  
 
   // Update How to Reach Section 
   // -----------------------------------------------
@@ -649,20 +647,44 @@ function genHTMLContentType() {
 
   // -----------------------------------------------
 
-  // Update Multi Config Section
+  // Update Links Config Section
   // -----------------------------------------------
   if(links['DISPLAY'] == 'YES') {
     document.getElementById("destcard_links").style.display = 'block';
-    $("#dest_links").html(links['CONTENT']);
+
+    if(links['HEADER'] == 'NA') { document.getElementById("card_link_header_sec").style.display = 'none';}
+    $("#dest_header_6").html(links['HEADER']);
+
+    if(links['WEBSITE'] == 'NA') { document.getElementById("dest_links_sec").style.display = 'none';}
+    $("#dest_links").html(links['WEBSITE']);
+
+    if(links['ADDRESS'] == 'NA') { document.getElementById("dest_address_sec").style.display = 'none';}
+    $("#dest_address").html(links['ADDRESS']);
+
+    if(links['PHONE'] == 'NA') { document.getElementById("dest_phone_sec").style.display = 'none';}
+    $("#dest_phone").html(links['PHONE']);
+
   }
 
   // -----------------------------------------------
+
+   // -----------------------------------------------
+  // Update Page Content details
+  pageContent['ID'] = getInfoDetails("ID")
+  pageContent['NAME'] = getInfoDetails("Name")
+  pageContent['IMAGE'] = getImageUrl(getInfoDetails("Image 1"))
+  pageContent['EXTRA'] = config_details['DESC']
+  pageContent['TYPE'] = 'DEST'
+  pageContent['DEST_ID'] = getInfoDetails("ID")
+  pageContent['DEST_NAME'] = getInfoDetails("State") + '#' + getInfoDetails("District")
 
   //$("#banner_main_header").html(getInfoDetails("Name"));
   //$("#banner_small_header").html(" ");
 
   // Update HTML Page Details getInfoDetails("Name")
   $("#dest_title").html(getInfoDetails("Name"));
+  $("#page_title").html(getInfoDetails("Name"));
+
   $("#dest_price").html('&#x20b9;' + getInfoDetails("Price"));
   $("#dest_best_time").html(config_details['BEST_TIME']);
   $("#dest_duration").html(config_details['DURATION']);
@@ -672,17 +694,50 @@ function genHTMLContentType() {
 
   // Update Activities
   // <img src="Images/default.jpg" alt="default"> 
-  $("#dest_activities").html(getAppendHTMLLines(getInfoDetails("Activities"),
+  if(getInfoDetails("Activities")[0] == 'NA') {
+    document.getElementById("dest_activity_sec").style.display = 'none';
+  } else {
+    $("#dest_activities").html(getAppendHTMLLines(getInfoDetails("Activities"),
     '<div class="chip">',
     '</div>'));
+  }
+ 
+
+  
+  // Update Tags
+  // <img src="Images/default.jpg" alt="default">   
+  if(getInfoDetails("Tags")[0] == 'NA') {
+    document.getElementById("dest_tags_sec").style.display = 'none';
+  } else {
+    $("#dest_tags").html(getAppendHTMLLines(getInfoDetails("Tags"),
+    '<div class="chip">',
+    '</div>'));
+  }
+  
 
   // Update List Ref Details
   getListRefDetails(getInfoDetails("Cities"), 'all_cities_list_ref')
+
   getListRefDetails(getInfoDetails("Packages Details"), 'all_packages_list_ref')
+  getListRefDetails(getInfoDetails("Packages_2 Details"), 'all_packages_list_2_ref')
+  getListRefDetails(getInfoDetails("Packages_3 Details"), 'all_packages_list_3_ref')
+
+  // Update Filter List Ref Display Section  
+  createListRefFilterBtn()
+
   getListRefDetails(getInfoDetails("Places Details"), 'all_places_list_ref')
+  getListRefDetails(getInfoDetails("Things ToDo"), 'all_todo_places_list_ref')
+
+  getListRefDetails(getInfoDetails("Stories"), 'all_stories_list_ref')
+  getListRefDetails(getInfoDetails("Review"), 'all_reviews_list_ref')
 
   // Create FAQ Section
   createFaqSection('dest_faq_sec',getHashDataList(getInfoDetails("FAQ")))
+
+  // Update Service Section
+  createServiceCardSection()
+  
+  updateAdminSection()
 
 }
 
@@ -755,45 +810,6 @@ function updateMultiInfoDetails(id_details, html_tag) {
 
 }
 
-// Update Image View
-function updateImageView(divID, imagesList) {
-  var image_html_line = ''
-
-  for (idx in imagesList) {
-
-    var imageName = imagesList[idx]
-
-    var imageDetails = getImageUrl(getInfoDetails(imageName))
-
-    if (imageDetails != "NOK") {
-
-      var imageDesc = getImageDesc(getInfoDetails(imageName))
-
-      image_html_line += '<div class="col s12 m4">\
-                  <div class="card">\
-                    <div class="card-image">\
-                        <img class="materialboxed" data-caption="Click on image to close it" src="' + imageDetails + '"> </div>\
-                    <div style="margin-left: 20px;">\
-                        <p style="font-size: 10px;">'+ imageDesc + '</p>\
-                      </div></div>\
-                </div>';
-
-    }
-
-  } // for end
-
-  if (image_html_line == '') {
-    document.getElementById(divID + "_section").style.display = 'none';
-  } else {
-    $("#" + divID).html(image_html_line);
-  }
-
-
-
-
-
-}
-
 // Book Mark Handling
 function bookmarkHandling(details) {
 
@@ -844,6 +860,228 @@ function openRequestForm() {
   location.href = 'requestform.html?detail1=NA&detail2=NA&detail3=NA'
 }
 
+// Create Quick Information Section
+function createQuickActionSection(toDo,essential,bestTimes){
+
+  let html_line = ''
+
+if(essential == 'YES') {
+  html_line += ' <!-- Action 1 -->\
+  <div class="col s4 m4">\
+    <div id="dest_essential_sec" class="center-align" style="display: block;">\
+      <span>\
+        <small><a href="#!"><i onclick="viewEssentialDetails()" class="fas fa-lightbulb orange-text" style="font-size: 40px;"></i></a></small>\
+        <br><small id="dest_essential_sec_hdr" class="orange-text" style="font-size: 10px;">Essential</small> \
+      </span></div></div>'
+}
+
+if(bestTimes == 'YES') {
+      html_line += '  <!-- Action 2 -->\
+  <div class="col s4 m4">\
+    <div id="dest_besttime_list" class="center-align" style="display: block;">\
+\
+      <span>\
+        <small><a href="#!"><i onclick="viewBestTimeDetails()" class="fas fa-calendar-check purple-text" style="font-size: 40px;"></i></a></small>\
+        <br><small id="dest_besttime_list_hdr" class="purple-text" style="font-size: 10px;">Best Time</small>\
+      </span></div> </div>'
+}
+
+if(toDo == 'YES') {
+      html_line += ' <!-- Action 3 -->\
+  <div class="col s4 m4">\
+    <div id="dest_todo_sec" class="center-align" style="display: block;">\
+\
+      <span>\
+        <small> <a href="#!"><i onclick="viewtoDoDetails()" class="fas fa-bullhorn indigo-text" style="font-size: 40px;"></i></a></small>\
+        <br><small id="dest_todo_sec_hdr" class="indigo-text" style="font-size: 10px;">Things To Do</small>\
+         </span> </div> </div>'
+}
+
+    $('#dest_quick_action_sec').html(html_line)
+
+
+}
+
+// Create Service Card
+function createServiceCardSection() {
+
+  let service_details = getHashDataList(getInfoDetails("Services"))
+
+  if(service_details['DISPLAY'] == 'YES') {
+
+  let html_header_1 = '<p style="font-size: 25px;">'+ service_details['HEADER'] +'</p>'
+  //let html_header_2 = ' <p class="long-text-nor grey-text" style="font-size: 15px; margin-top: -25px;">Sub Header</p>'
+  
+  let html_card = ''
+
+  let service_list = ['SERVICE_1','SERVICE_2','SERVICE_3','SERVICE_4']
+  for(each_idx in service_list) {
+    let key_hdr = service_list[each_idx]
+
+    // Get All Details
+    let display = service_details[key_hdr + '_DISPLAY']
+    let name = service_details[key_hdr + '_NAME']
+    name = ''
+    let image_type = service_details[key_hdr + '_IMAGE'].split('*&*')[0]
+    let image_details = service_details[key_hdr + '_IMAGE'].split('*&*')[1]
+
+    let image =''    
+    if(image_type == 'LOCAL') {
+    image = getDirectImageUrl('Images/' + image_details)
+    } else {
+      image = image_details
+    }
+
+    let action = service_details[key_hdr + '_ACTION']
+
+    if(display == 'YES') {
+    html_card += '<div class="col s6 m6">\
+  <div class="card z-depth-2" style="border-radius: 10px;">\
+    <div class="card-image">\
+      <img src="'+image+'" style="height: 170px; border-radius: 10px;">\
+      <span class="card-title">'+ name +'</span>\
+    </div></div></div>'
+    }
+
+
+  }
+
+
+  
+
+
+    let html_line = ''
+
+    html_line += html_header_1
+    //html_line += html_header_2
+    html_line += '<div class="row">'
+
+    html_line += html_card
+
+    html_line += '</div>'
+
+    $('#destcard_service').html(html_line)
+
+  }
+
+
+}
+
+// Handle FIlter List Ref Section Display
+function handleListRefFilterDisplay(details) {
+     //displayOutput(details)
+
+     $('#listref_filter_drop_down').html(details.split('#')[1])
+
+     switch(details.split('#')[0]) {
+
+      case 'filter_1' :
+        document.getElementById("all_packages_list_ref").style.display = 'block';
+        document.getElementById("all_packages_list_2_ref").style.display = 'none';
+        document.getElementById("all_packages_list_3_ref").style.display = 'none';
+        break;
+
+        case 'filter_2' :
+          document.getElementById("all_packages_list_ref").style.display = 'none';
+          document.getElementById("all_packages_list_2_ref").style.display = 'block';
+          document.getElementById("all_packages_list_3_ref").style.display = 'none';
+          break;
+
+          case 'filter_3' :
+            document.getElementById("all_packages_list_ref").style.display = 'none';
+            document.getElementById("all_packages_list_2_ref").style.display = 'none';
+            document.getElementById("all_packages_list_3_ref").style.display = 'block';
+            break;
+
+            default:
+              document.getElementById("all_packages_list_ref").style.display = 'none';
+            document.getElementById("all_packages_list_2_ref").style.display = 'none';
+            document.getElementById("all_packages_list_3_ref").style.display = 'none';
+              break;
+     }
+}
+
+// Create Filter Selection Droup down btn
+function createListRefFilterBtn(){
+  
+  // Check Config Details
+  if(config_details['LISTREF_FILTER_BTN'].trim() == 'ALL,ALL,ALL') {
+
+    document.getElementById("all_packages_list_ref").style.display = 'block';
+    document.getElementById("all_packages_list_2_ref").style.display = 'block';
+    document.getElementById("all_packages_list_3_ref").style.display = 'block';
+
+  } else {
+
+  document.getElementById("all_packages_list_ref").style.display = 'block';
+  document.getElementById("all_packages_list_2_ref").style.display = 'none';
+  document.getElementById("all_packages_list_3_ref").style.display = 'none';  
+  
+  let filter_1 = 'filter_1'
+  let filter_2 = 'filter_2'
+  let filter_3 = 'filter_3'
+
+  let filter_1_val = config_details['LISTREF_FILTER_BTN'].trim().split(',')[0]
+  let filter_2_val = config_details['LISTREF_FILTER_BTN'].trim().split(',')[1]
+  let filter_3_val = config_details['LISTREF_FILTER_BTN'].trim().split(',')[2]
+
+  if((filter_1_val == 'NA') && (filter_2_val == 'NA') && (filter_3_val == 'NA')) {
+     // Disable Filter drop down option
+     document.getElementById("listref_filter_btn").style.display = 'none';
+
+  } else {
+
+    document.getElementById("listref_filter_btn").style.display = 'block';
+
+  let html_line = '  <!-- Dropdown Trigger -->\
+  <a id="listref_filter_drop_down" class="dropdown-trigger btn pink rcorners" href="#" data-target="listref_filter_drop_btn">'+ filter_1_val +'</a>\
+\
+  <!-- Dropdown Structure -->\
+  <ul id="listref_filter_drop_btn" class="dropdown-content">'
+
+    if(filter_1_val != 'NA') { html_line +=  '<li><a onclick="handleListRefFilterDisplay(\'' + filter_1 + '#' + filter_1_val + '\')" href="#!">'+ filter_1_val +'</a></li>'}
+    if(filter_2_val != 'NA') { html_line +=  '<li><a onclick="handleListRefFilterDisplay(\'' + filter_2 + '#' + filter_2_val + '\')" href="#!">'+ filter_2_val +'</a></li>'}
+    if(filter_3_val != 'NA') { html_line +=  '<li><a onclick="handleListRefFilterDisplay(\'' + filter_3 + '#' + filter_3_val + '\')" href="#!">'+ filter_3_val +'</a></li>'}
+  
+    html_line +=  '</ul>'    
+
+    $('#listref_filter_btn_sec').html(html_line)
+
+    $('.dropdown-trigger').dropdown();
+  }
+
+
+}
+}
+
+// Update Admin Section
+function updateAdminSection() {
+
+  let admin_line = ''
+
+  let html_line = ''
+  html_line += '<b>Doc ID : </b>' + document_ID +'<br>'
+  html_line += '<b>ID : </b>' + getInfoDetails("ID") +'<br>'
+  html_line += '<b>Type : </b>' + getInfoDetails("Type") +'<br>'  
+
+  admin_line += '<p>' + html_line +'</p>'
+
+  html_line = ''
+
+  html_line += '<b>Parent ID : </b><br>' + getInfoDetails("Parent ID") +'<br>'
+  html_line += '<b>References : </b><br>' + getInfoDetails("References") +'<br>'
+
+  admin_line += '<p>' + html_line +'</p>'
+
+  let link = 'update_collection.html?lang_name=CORE&coll_name=DESTINATIONS&role=DEV'
+
+  admin_line += '<div class="right-align" style="margin-top: 0px;">\
+              <a href="'+link+'" class="waves-effect waves-teal btn-flat blue-text">Open Content Manager</a>\
+            </div>'
+
+  $("#admin_sec").html(admin_line);
+}
+
 // --------------- Local Session -------------------
 function updateLoaclSessionDetails() {
   // Update Session Data
@@ -852,6 +1090,7 @@ function updateLoaclSessionDetails() {
   localStorageData('PKG_ID', pageContent['ID'])
   localStorageData('PKG_IMG', pageContent['IMAGE'])
   localStorageData('PKG_EXTRA', pageContent['EXTRA'])
+  localStorageData('PKG_TYPE', pageContent['TYPE'])
   localStorageData('PKG_DEST_ID', pageContent['DEST_ID'])
   localStorageData('PKG_DEST_NAME', pageContent['DEST_NAME'])
 }
