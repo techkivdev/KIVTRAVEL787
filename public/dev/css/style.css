@@ -127,14 +127,47 @@ body
 }
 
 /* For long text */
-.long-text{
-  line-height:1.2em;
+.long-text-old{
+  line-height:1.2em;   
   height:3.6em;
   overflow:hidden;
+  text-overflow: ellipsis;
+}
+
+.long-text{
+  display: block;
+    display: -webkit-box;    
+    -webkit-line-clamp: 3;
+    line-height:1.2em;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.long-hdr-text{
+  display: block;
+    display: -webkit-box;    
+    -webkit-line-clamp: 2;
+    line-height:1.2em;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .long-text-nor{
   line-height:1.2em;  
+}
+
+/* Chip using padding*/
+.chip-outline {
+  display: inline-block;
+  padding: 0 6px;
+  height: 25px;
+  font-size: 13px;
+  line-height: 20px;
+  border-radius: 25px;
+  border: 2px solid grey;
+  /*background-color: #f1f1f1;*/
 }
 
 
@@ -183,8 +216,6 @@ body
 /* ================================================= */
 
 /* ================================================= */
-/* --------- Fix Header Content -------------------- */
-
 
 
 

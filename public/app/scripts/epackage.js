@@ -693,14 +693,10 @@ function genHTMLContentType() {
   $("#pkg_ratings_num").html(getInfoDetails("Ratings").replace('#', ','));
 
   // Update Activities 
-  $("#pkg_activities").html(getAppendHTMLLines(getInfoDetails("Activities"),
-    '<div class="chip"><img src="Images/default.jpg" alt="default"> ',
-    '</div>'));
+  $("#pkg_activities").html(getChipIconsFromList(getInfoDetails("Activities")))
 
   // Update Includes
-  $("#pkg_includes").html(getAppendHTMLLines(getInfoDetails("Includes"),
-    '<div class="chip"><img src="Images/default.jpg" alt="default"> ',
-    '</div>'));
+  $("#pkg_includes").html(getChipWithBorderFromList(getInfoDetails("Includes")))
 
 
   $("#pkg_description").html(getInfoDetails("Overview"));

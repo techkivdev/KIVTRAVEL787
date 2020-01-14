@@ -340,25 +340,25 @@ function getCompleteModelContentDetails(doc_details) {
       var price = doc_details['INFO7']
       var cut_price = doc_details['INFO8']  
 
-       // Check tags lenght
-       let filter_sub_header = sub_header
-       if(sub_header.length > 3) {
-         filter_sub_header = [sub_header[0],sub_header[1],sub_header[2],'...']
-       }
-       // <div class="small chip center-align" style="height: 20px; padding: 2px;">
-       let tags_line = getChipIconsFromList_ver_2(filter_sub_header)    
+     // Check tags lenght
+     let filter_sub_header = sub_header
+     if(sub_header.length > 5) {
+       filter_sub_header = [sub_header[0],sub_header[1],sub_header[2],sub_header[3],sub_header[4]]
+     }
+     // <div class="small chip center-align" style="height: 20px; padding: 2px;">
+     let tags_line = getChipWithBorderFromList(filter_sub_header)
 
+     html_div_line = '<div><p class="long-hdr-text" style="font-size: 20px;">' + header + '</p>\
+     <p><small class="text-muted" style="margin-top: 5px;">' + getRatingHTMLCode(ratings) + '</small>\
+ <p class="card-text" style="margin-top: 0px;">'+ tags_line + '</p>\
+ <br>\
+ <span class="right">'
 
-      html_div_line = '<div><p style="font-size: 20px;">'+ header +'</p>\
-  <p class="card-text" style="font-size: 10px;">'+ tags_line +'</p>\
-  <p><small class="text-muted">' +  getRatingHTMLCode(ratings)  + '\
-      </small>\
-  <br>\
-  <span class="right"> \
-    <small style="text-decoration: line-through; class="text-muted">\
-      ($'+ cut_price +')</small><small class="green-text" style="font-size: 20px;">$'+ price +'</small></span>\
-      <br>\
-</p></div>';
+     if (cut_price != '0') { html_div_line += '<small style="text-decoration: line-through; class="text-muted">(&#x20b9;' + cut_price + ')</small>' }
+
+     html_div_line += '<small class="green-text" style="font-size: 25px;">&#x20b9;' + price + '</small></span>\
+       <br>\
+ </p></div>';
 
   return html_div_line
 }

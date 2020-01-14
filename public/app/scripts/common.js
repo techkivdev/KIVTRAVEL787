@@ -375,12 +375,13 @@ function getChipIconsFromList(details){
 
 }
 
-function getChipIconsFromList_ver_2(details){
+// Get Chip with border accroding to the Name
+function getChipWithBorderFromList(details){
 
   var html_line = ''
 
-  let start = '<div class="chip" style="height: 22px; font-size: 10px;"><p class="center-align" style="mmargin-bottom: 3px;">'
-  let end = '</p></div>'
+  let start = '<div class="chip-outline grey-text" style="margin-right: 5px; margin-top: 5px;">'
+  let end = '</div>'
 
   let image_line = ''
 
@@ -942,22 +943,21 @@ function getFixedModelContent(mdl_coll, all_doc_info_list, doc_data) {
 
       // Check tags lenght
       let filter_sub_header = sub_header
-      if(sub_header.length > 3) {
-        filter_sub_header = [sub_header[0],sub_header[1],sub_header[2],'...']
+      if(sub_header.length > 5) {
+        filter_sub_header = [sub_header[0],sub_header[1],sub_header[2],sub_header[3],sub_header[4]]
       }
       // <div class="small chip center-align" style="height: 20px; padding: 2px;">
-      let tags_line = getChipIconsFromList_ver_2(filter_sub_header)
+      let tags_line = getChipWithBorderFromList(filter_sub_header)
 
-      html_div_line = '<div><p style="font-size: 20px;">' + header + '</p>\
-  <p class="card-text" style="margin-top: 10px;">'+ tags_line + '</p>\
-  <p><small class="text-muted">' + getRatingHTMLCode(ratings) + '\
-      </small>\
+      html_div_line = '<div><p class="long-hdr-text" style="font-size: 20px;">' + header + '</p>\
+      <p><small class="text-muted" style="margin-top: 5px;">' + getRatingHTMLCode(ratings) + '</small>\
+  <p class="card-text" style="margin-top: 0px;">'+ tags_line + '</p>\
   <br>\
   <span class="right">'
 
       if (cut_price != '0') { html_div_line += '<small style="text-decoration: line-through; class="text-muted">(&#x20b9;' + cut_price + ')</small>' }
 
-      html_div_line += '<small class="green-text" style="font-size: 20px;">&#x20b9;' + price + '</small></span>\
+      html_div_line += '<small class="green-text" style="font-size: 25px;">&#x20b9;' + price + '</small></span>\
         <br>\
   </p></div>';
 
@@ -971,11 +971,11 @@ function getFixedModelContent(mdl_coll, all_doc_info_list, doc_data) {
 
       // Check tags lenght
       let plc_filter_tags = tags
-      if(tags.length > 3) {
-        plc_filter_tags = [tags[0],tags[1],tags[2]]
+      if(tags.length > 5) {
+        plc_filter_tags = [tags[0],tags[1],tags[2],tags[3],tags[4]]
       }
       // <div class="small chip center-align" style="height: 20px; padding: 2px;">
-      let plc_tags_line = getChipIconsFromList(plc_filter_tags)
+      let plc_tags_line = getChipWithBorderFromList(plc_filter_tags)
 
       html_div_line = '<b class="black-text">' + header + '</b><br><p class="grey-text long-text" style="font-size: 13px; margin-top: 5px;">' + content + '</p><div style="margin-top: 5px;">' + plc_tags_line +'</div>'
 
