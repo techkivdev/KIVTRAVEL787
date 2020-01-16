@@ -216,7 +216,7 @@ function updateHTMLPage() {
   hidePleaseWait()
 
   // HTML Modification functions
-  document.getElementById("header_section").style.display = 'block';
+  //document.getElementById("header_section").style.display = 'block';
   document.getElementById("main_section").style.display = 'block';
   updateCardLayout('col_section_1')
 
@@ -230,6 +230,8 @@ function modifyPageStyle() {
     displayOutput('Mobile Browser found!')
 
     document.getElementById('main_list_container').className = "container-fluid row";
+
+    document.getElementById("hdr_title").style.display = 'none';
 
   } else {
     displayOutput('Mobile Browser Not found!')
@@ -363,6 +365,34 @@ function getCompleteModelContentDetails(doc_details) {
   return html_div_line
 }
 
+
+// ****************************************************************
+// ---------------- FIlter Handling -------------------------------
+// ****************************************************************
+
+// Open Filter Section
+function openFilterSection() {
+
+  document.getElementById("main_list_container").style.display = 'none';
+  document.getElementById("flb_open_filter").style.display = 'none';
+  document.getElementById("main_footer_sec").style.display = 'none';
+
+  document.getElementById("flb_close_filter").style.display = 'block';
+
+}
+
+// Close Filter Section
+function closeFilterSection() {
+
+  document.getElementById("main_list_container").style.display = 'block';
+  document.getElementById("flb_open_filter").style.display = 'block';
+  document.getElementById("main_footer_sec").style.display = 'block';
+
+  document.getElementById("flb_close_filter").style.display = 'none';
+
+}
+
+
 // *****************************************************************
 
 // ----------------------------------------------------------------
@@ -435,7 +465,7 @@ function modelLytSquareCard_local(mdl_map_details) {
   var image_ref = mdl_map_details['IMAGE']
   var complete_content = mdl_map_details['CONTENT'] 
 
-  var htmlLine = '<div class="col s12 m4"><a href="' + clickHandling(mdl_map_details) + '">\
+  var htmlLine = '<div class="col s12 m6"><a href="' + clickHandling(mdl_map_details) + '">\
                   <div class="card hoverable" style="border-radius: 10px;">\
                     <div class="card-image z-depth-2" style="height: 200px; max-height: 200px; widht: 500px; max-width: 500px; border-radius: 10px 10px 0px 0px;">\
                       <img src="' + getModelImageRef(image_ref) + '" style="height: 200px; max-height: 200px; widht: 400px; max-width: 400px; border-radius: 10px 10px 0px 0px;">\

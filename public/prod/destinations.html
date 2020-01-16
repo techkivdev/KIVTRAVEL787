@@ -16,6 +16,8 @@
 
 <body>
 
+  <div class="bg">
+
   <!-- **************************************** -->
   <!-- Navigation Sectione -->
   <!-- **************************************** -->
@@ -38,6 +40,10 @@
       </ul>
      
       <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+
+      <div id="main_progress" class="progress">
+        <div class="indeterminate red"></div>
+      </div>
 
     </div>
 
@@ -68,26 +74,6 @@
   </ul>
 
   <!-- ========================================== -->
-
-
-
-  <div id="main_progress" class="center-align header-margin">
-
-    <div class="preloader-wrapper active">
-      <div class="spinner-layer spinner-red-only">
-        <div class="circle-clipper left">
-          <div class="circle"></div>
-        </div>
-        <div class="gap-patch">
-          <div class="circle"></div>
-        </div>
-        <div class="circle-clipper right">
-          <div class="circle"></div>
-        </div>
-      </div>
-    </div>
-
-  </div>
 
   <!-- **************************************** -->
   <!-- Main Banner -->
@@ -120,14 +106,20 @@
     <div id="main_list_container" class="container row">
 
       <!-- **************************************** -->
-      <!--   Coloum Section 1  -->
-      <div style="margin: -100px 0px 0px 0px;">
+      <!--   Coloum Section 1  
+      -100px 0px 0px 0px; -->
+      <div style="margin: 0px 0px 0px 0px;">
 
         <div class="row">
 
           <div class="col s12 m12">
 
-            <div class="card" style="border-radius: 25px;">
+            <div id="hdr_title"> 
+              <h1 class="white-text">Destination</h1> 
+            </div>
+
+
+            <div id="dest_hdr_card" class="card" style="border-radius: 25px; display: none;">
 
                 <div class="blue-card-content white-text z-depth-2" style="border-radius: 25px; height: 150px;">
                     <div class="card-content">
@@ -154,6 +146,23 @@
 
     </div>
 
+
+
+   <!-- **************************************** -->
+    <!-- Floating Action Button -->
+    <!-- **************************************** -->
+
+    <div id="flb_open_filter" class="fixed-action-btn">
+      <a href="#!" onclick="openFilterSection()" class="btn-floating btn-large  blue">
+        <i class="large material-icons">filter_list</i>
+      </a>
+    </div>
+
+    <div id="flb_close_filter" class="fixed-action-btn" style="display: none;">
+      <a href="#!" onclick="closeFilterSection()" class="btn-floating btn-large  red">
+        <i class="large material-icons">close</i>
+      </a>
+    </div>
 
 
     <!-- ***************** END ******************* -->
@@ -202,6 +211,9 @@
     </footer>
 
   </div>
+
+
+</div>
 
 
 
