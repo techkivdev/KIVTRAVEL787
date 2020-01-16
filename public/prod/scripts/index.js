@@ -346,77 +346,83 @@ function dispHtmlSection() {
 
 // <<<<<<<<<<<<<<<<<< CODE SECTION START >>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-//**************** Mapping Function ***************************
-// Update Mapping Data Sets details
-function updateMappingDetails(docID) {
-  if ("MAIN" in allDocCmpData) {
-    mainDocMapDetails["ID"] = allDocCmpData["MAIN"]["INFO0"]
-    mainDocMapDetails["NAME"] = allDocCmpData["MAIN"]["INFO1"]
-    mainDocMapDetails["DESC"] = allDocCmpData["MAIN"]["INFO2"]
-    mainDocMapDetails["VISIBLE"] = allDocCmpData["MAIN"]["INFO3"]
-    mainDocMapDetails["OWNER"] = allDocCmpData["MAIN"]["INFO4"]
-    mainDocMapDetails["LINKS"] = allDocCmpData["MAIN"]["INFO5"]
-    mainDocMapDetails["TDOC"] = allDocCmpData["MAIN"]["INFO6"]
-    mainDocMapDetails["ADMIN"] = allDocCmpData["MAIN"]["INFO7"]
-    mainDocMapDetails["IMAGE_TAB"] = allDocCmpData["MAIN"]["INFO8"]
-    mainDocMapDetails["MULTI_TAB"] = allDocCmpData["MAIN"]["INFO9"]
-    mainDocMapDetails["FORM_TAB"] = allDocCmpData["MAIN"]["INFO10"]
-    mainDocMapDetails["COLL_DOC"] = allDocCmpData["MAIN"]["INFO11"]
-    mainDocMapDetails["DOC_PBLS"] = allDocCmpData["MAIN"]["INFO12"]
-    mainDocMapDetails["DOC_LIST"] = allDocCmpData["MAIN"]["INFO13"]
-    mainDocMapDetails["DEF_IMG"] = allDocCmpData["MAIN"]["INFO14"]
-    mainDocMapDetails["LIST_REF_INFO"] = allDocCmpData["MAIN"]["INFO15"]
-    mainDocMapDetails["IMAGE_INFO"] = allDocCmpData["MAIN"]["INFO16"]
-    mainDocMapDetails["IMAGE_PRO_INFO"] = allDocCmpData["MAIN"]["INFO17"]
-    mainDocMapDetails["MULTI_INFO"] = allDocCmpData["MAIN"]["INFO18"]
-    mainDocMapDetails["FORM_INFO"] = allDocCmpData["MAIN"]["INFO19"]
-    mainDocMapDetails["COMMON_DATA"] = allDocCmpData["MAIN"]["INFO20"]
-  } else {
-    displayOutput("MAIN Doc details is not found !!")
-  }
+    //**************** Mapping Function ***************************
+    // Update Mapping Data Sets details
+    function updateMappingDetails(docID) { 
+      if("MAIN" in allDocCmpData) {
+        mainDocMapDetails["ID"] = allDocCmpData["MAIN"]["INFO0"]
+        mainDocMapDetails["NAME"] = allDocCmpData["MAIN"]["INFO1"]
+        mainDocMapDetails["DESC"] = allDocCmpData["MAIN"]["INFO2"]
+        mainDocMapDetails["VISIBLE"] = allDocCmpData["MAIN"]["INFO3"]
+        mainDocMapDetails["OWNER"] = allDocCmpData["MAIN"]["INFO4"]
+        mainDocMapDetails["LINKS"] = allDocCmpData["MAIN"]["INFO5"]
+        mainDocMapDetails["TDOC"] = allDocCmpData["MAIN"]["INFO6"]
+        mainDocMapDetails["ADMIN"] = allDocCmpData["MAIN"]["INFO7"]
+        mainDocMapDetails["IMAGE_TAB"] = allDocCmpData["MAIN"]["INFO8"]
+        mainDocMapDetails["MULTI_TAB"] = allDocCmpData["MAIN"]["INFO9"]
+        mainDocMapDetails["FORM_TAB"] = allDocCmpData["MAIN"]["INFO10"]
+        mainDocMapDetails["COLL_DOC"] = allDocCmpData["MAIN"]["INFO11"]
+        mainDocMapDetails["DOC_PBLS"] = allDocCmpData["MAIN"]["INFO12"]
+        mainDocMapDetails["DOC_LIST"] = allDocCmpData["MAIN"]["INFO13"]
+        mainDocMapDetails["DEF_IMG"] = allDocCmpData["MAIN"]["INFO14"]
+        mainDocMapDetails["LIST_REF_INFO"] = allDocCmpData["MAIN"]["INFO15"]
+        mainDocMapDetails["IMAGE_INFO"] = allDocCmpData["MAIN"]["INFO16"]
+        mainDocMapDetails["IMAGE_PRO_INFO"] = allDocCmpData["MAIN"]["INFO17"]
+        mainDocMapDetails["MULTI_INFO"] = allDocCmpData["MAIN"]["INFO18"]
+        mainDocMapDetails["FORM_INFO"] = allDocCmpData["MAIN"]["INFO19"]
+        mainDocMapDetails["COMMON_DATA"] = allDocCmpData["MAIN"]["INFO20"]
+      } else {
+        displayOutput("MAIN Doc details is not found !!")
+      }
+    
 
 
 
 
+if(docID in allDocCmpData) {
+docMapDetails["top_header"] = allDocCmpData[docID]["INFO0"]
+docMapDetails["destination_1"] = docID + "#INFO10"
+docMapDetails["packages_1"] = docID + "#INFO11"
+docMapDetails["app_config"] = allDocCmpData[docID]["INFO12"]
+docMapDetails["places_1"] = docID + "#INFO18"
+docMapDetails["services"] = allDocCmpData[docID]["INFO19"]
+docMapDetails["catg_list"] = allDocCmpData[docID]["INFO2"]
+docMapDetails["square_view"] = allDocCmpData[docID]["INFO20"]
+docMapDetails["destination_2"] = docID + "#INFO21"
+docMapDetails["destination_3"] = docID + "#INFO22"
+docMapDetails["packages_2"] = docID + "#INFO23"
+docMapDetails["packages_3"] = docID + "#INFO24"
+docMapDetails["places_2"] = docID + "#INFO25"
+docMapDetails["places_3"] = docID + "#INFO26"
+docMapDetails["offer_list"] = allDocCmpData[docID]["INFO3"]
+docMapDetails["footer"] = allDocCmpData[docID]["INFO4"]
+docMapDetails["config"] = allDocCmpData[docID]["INFO5"]
+    
+// MAP Development and Production Image correctly .....
+    if(check_dev_publish_content) {
 
-  if (docID in allDocCmpData) {
-    docMapDetails["top_header"] = allDocCmpData[docID]["INFO0"]
-    docMapDetails["top_destination"] = docID + "#INFO10"
-    docMapDetails["top_packages"] = docID + "#INFO11"
-    docMapDetails["top_places"] = docID + "#INFO18"
-    docMapDetails["app_config"] = allDocCmpData[docID]["INFO12"]
-    docMapDetails["catg_list"] = allDocCmpData[docID]["INFO2"]
-    docMapDetails["offer_list"] = allDocCmpData[docID]["INFO3"]
-    docMapDetails["footer"] = allDocCmpData[docID]["INFO4"]
-    docMapDetails["config"] = allDocCmpData[docID]["INFO5"]
+    // IMAGES Production Information
 
-    // MAP Development and Production Image correctly .....
-    if (check_dev_publish_content) {
+docMapDetails["hdr_img1"] = docID + "#INFO14"
+docMapDetails["hdr_img2"] = docID + "#INFO16"
+docMapDetails["hdr_img3"] = docID + "#INFO7"
+docMapDetails["footer_image"] = docID + "#INFO9"
 
-      // IMAGES Production Information
+} else {
+    // IMAGES Information
 
-      docMapDetails["hdr_img1"] = docID + "#INFO14"
-      docMapDetails["hdr_img2"] = docID + "#INFO16"
-      docMapDetails["hdr_img3"] = docID + "#INFO7"
-      docMapDetails["footer_image"] = docID + "#INFO9"
+docMapDetails["hdr_img1"] = docID + "#INFO13"
+docMapDetails["hdr_img2"] = docID + "#INFO15"
+docMapDetails["hdr_img3"] = docID + "#INFO6"
+docMapDetails["footer_image"] = docID + "#INFO8"
 
-    } else {
-      // IMAGES Information
-
-      docMapDetails["hdr_img1"] = docID + "#INFO13"
-      docMapDetails["hdr_img2"] = docID + "#INFO15"
-      docMapDetails["hdr_img3"] = docID + "#INFO6"
-      docMapDetails["footer_image"] = docID + "#INFO8"
-
+}    
+} else {
+        displayOutput(docID + " Data not found !!")
     }
-  } else {
-    displayOutput(docID + " Data not found !!")
-  }
-
 
 }
-
-//**************** END ***************************
+    //**************** END ***************************
 
 // <<<<<<<<<<<<<<<<< CODE SECTION END >>>>>>>>>>>>>>>>>>>>>
 
@@ -432,9 +438,22 @@ function updateListRefDetails() {
 
   // Collect List Ref Details and Display Into HTML
   displayOutput('Update List view ...')
-  getListRefDetails(getInfoDetailsC('Top Destination'), 'col_section_1')
-  getListRefDetails(getInfoDetailsC('Top Packages'), 'col_section_2')
-  getListRefDetails(getInfoDetailsC('Top Places'), 'col_section_3')
+  getListRefDetails(getInfoDetailsC('Destination_1'), 'destination_section_1')
+  getListRefDetails(getInfoDetailsC('Destination_2'), 'destination_section_2')
+  getListRefDetails(getInfoDetailsC('Destination_3'), 'destination_section_3')
+
+
+  getListRefDetails(getInfoDetailsC('Packages_1'), 'packages_section_1')
+  getListRefDetails(getInfoDetailsC('Packages_2'), 'packages_section_2')
+  getListRefDetails(getInfoDetailsC('Packages_3'), 'packages_section_3')
+
+  getListRefDetails(getInfoDetailsC('Places_1'), 'places_section_1')
+  getListRefDetails(getInfoDetailsC('Places_2'), 'places_section_2')
+  getListRefDetails(getInfoDetailsC('Places_3'), 'places_section_3')
+
+
+  // Create Service Section
+  createServiceCardSection(getInfoDetailsC('Services'))
 
 }
 
@@ -485,13 +504,13 @@ function getModelLayoutConfig(mdl_coll) {
 
   switch (mdl_coll) {
     case "DESTINATIONS":
-      return [true, true, 'center', 'center']
+      return [true, true, 'left', 'right']
 
     case "PACKAGES":
-      return [true, true, 'center', 'center']
+      return [true, true, 'left', 'right']
 
     default:
-      return [true, false, 'center', 'center']
+      return [true, false, 'left', 'right']
   }
 
 

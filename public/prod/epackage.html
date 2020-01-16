@@ -83,11 +83,7 @@
     <div class="centered">
       <h1 id="banner_main_header"> </h1>
       <p id="banner_small_header"> </p>
-      <br>
-      <div id="hdr_book_now_btn" style="margin-top: -30%;">
-        <a id="btn_book_now" onclick="openRequestForm()" href="#!"
-          class="waves-effect waves-light btn-large pink rcorners">Book Now</a>
-      </div>
+      <br>     
 
       <div id="header_btn_options_pkg" style="margin-top: 25%;">
         <div class="col s12">
@@ -177,6 +173,22 @@
                 <!-- Card Body START -->
                 <div class="card-content" style="margin: -20px 0px 0px 0px;">
 
+                  <!-- Review -->
+                  <div class="row">
+                    <div class="col s12">
+                      <p id="pkg_header_9" class="grey-text" style="display: none;">Ratings</p>
+                      <p id="pkg_ratings" style="font-size: 50px;">#</p>
+                      <p id="pkg_ratings_num" style="font-size: 10px; display: none;">#</p>
+  
+                      <div style="margin-top: 1%; display: none;">
+                        <a onclick="viewReviewDetails()" class="waves-effect waves-light btn blue rcorners">All
+                          Review's</a>
+                      </div>
+  
+                    </div>
+                  </div>
+
+                   <!-- Days -->
                   <div class="row">
 
                     <!-- Days Details -->
@@ -199,6 +211,7 @@
 
                   </div>
 
+                   <!-- Price -->
                   <div class="row">
 
                     <!-- Price -->
@@ -224,6 +237,15 @@
 
 
 
+                  </div>
+
+                  <!-- BTN -->
+                  <div id= "hdr_book_now_btn" class="col s12 row" style="margin-top: -7px;">  
+                    <div class="row">                                
+                        <div class="center-align">
+                        <a onclick="openRequestForm()" class="waves-effect waves-light btn-large pink rcorners">Get Free Quotes</a>
+                        </div>
+                      </div> 
                   </div>
 
                 </div>
@@ -297,19 +319,7 @@
                 </div>               
 
 
-                <div class="row">
-                  <div class="col s12">
-                    <p id="pkg_header_9" class="grey-text">Ratings</p>
-                    <p id="pkg_ratings" style="font-size: 50px;">#</p>
-                    <p id="pkg_ratings_num" style="font-size: 10px;">#</p>
-
-                    <div style="margin-top: 1%;">
-                      <a onclick="viewReviewDetails()" class="waves-effect waves-light btn blue rcorners">All
-                        Review's</a>
-                    </div>
-
-                  </div>
-                </div>
+               
 
                 <!-- Card Body END -->
 
@@ -727,7 +737,13 @@
 
 
     <!-- List Ref Section -- -->
-    <div id="pkg_listref_section">     
+    <div id="pkg_listref_section"> 
+
+      <div id="all_packages_list_ref">
+        <!-- **************************************** -->
+        <!--   Script Code  -->
+        <!-- **************************************** -->
+      </div>
 
       <div id="all_places_list_ref">
         <!-- **************************************** -->
@@ -735,7 +751,25 @@
         <!-- **************************************** -->
       </div>
 
-      <div id="all_packages_list_ref">
+      <div id="all_cities_list_ref">
+        <!-- **************************************** -->
+        <!--   Script Code  -->
+        <!-- **************************************** -->
+      </div>
+
+      <div id="all_todo_places_list_ref">
+        <!-- **************************************** -->
+        <!--   Script Code  -->
+        <!-- **************************************** -->
+      </div>
+  
+      <div id="all_stories_list_ref">
+        <!-- **************************************** -->
+        <!--   Script Code  -->
+        <!-- **************************************** -->
+      </div>
+  
+      <div id="all_reviews_list_ref">
         <!-- **************************************** -->
         <!--   Script Code  -->
         <!-- **************************************** -->

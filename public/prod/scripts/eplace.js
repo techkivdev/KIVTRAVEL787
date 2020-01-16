@@ -526,10 +526,10 @@ function getModelLayoutConfig(mdl_coll) {
  switch (mdl_coll) {    
 
   case "PACKAGES":
-    return [true, true, 'left', 'center']
+    return [true, true, 'left', 'right']
 
   default:
-    return [true, false, 'left', 'center']
+    return [true, false, 'left', 'right']
 }
 
 }
@@ -715,7 +715,7 @@ function genHTMLContentType() {
   createFaqSection('plc_faq_sec',getHashDataList(getInfoDetails("FAQ")))
 
   // Create Service Section
-  createServiceCardSection()
+  createServiceCardSection(getInfoDetails('Services'))
 
   // Update ADMIN Section
   updateAdminSection()
@@ -841,71 +841,6 @@ function openRequestForm() {
 
   updateLoaclSessionDetails()
   location.href = 'requestform.html?detail1=NA&detail2=NA&detail3=NA'
-}
-
-// Create Service Card
-function createServiceCardSection() {
-
-  let service_details = getHashDataList(getInfoDetails("Services"))
-
-  if(service_details['DISPLAY'] == 'YES') {
-
-  let html_header_1 = '<p style="font-size: 25px;">'+ service_details['HEADER'] +'</p>'
-  //let html_header_2 = ' <p class="long-text-nor grey-text" style="font-size: 15px; margin-top: -25px;">Sub Header</p>'
-  
-  let html_card = ''
-
-  let service_list = ['SERVICE_1','SERVICE_2','SERVICE_3','SERVICE_4']
-  for(each_idx in service_list) {
-    let key_hdr = service_list[each_idx]
-
-    // Get All Details
-    let display = service_details[key_hdr + '_DISPLAY']
-    let name = service_details[key_hdr + '_NAME']
-    name = ''
-    let image_type = service_details[key_hdr + '_IMAGE'].split('*&*')[0]
-    let image_details = service_details[key_hdr + '_IMAGE'].split('*&*')[1]
-
-    let image =''    
-    if(image_type == 'LOCAL') {
-    image = getDirectImageUrl('Images/' + image_details)
-    } else {
-      image = image_details
-    }
-
-    let action = service_details[key_hdr + '_ACTION']
-
-    if(display == 'YES') {
-    html_card += '<div class="col s6 m6">\
-  <div class="card z-depth-2" style="border-radius: 10px;">\
-    <div class="card-image">\
-      <img src="'+image+'" style="height: 170px; border-radius: 10px;">\
-      <span class="card-title">'+ name +'</span>\
-    </div></div></div>'
-    }
-
-
-  }
-
-
-  
-
-
-    let html_line = ''
-
-    html_line += html_header_1
-    //html_line += html_header_2
-    html_line += '<div class="row">'
-
-    html_line += html_card
-
-    html_line += '</div>'
-
-    $('#card_service').html(html_line)
-
-  }
-
-
 }
 
 // Update Admin Section

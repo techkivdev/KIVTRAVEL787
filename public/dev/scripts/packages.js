@@ -335,7 +335,7 @@ function getCompleteModelContentDetails(doc_details) {
   //$("#page_title").html('Packages');
 
       var header = doc_details['INFO1']
-      var sub_header = doc_details['INFO11']
+      var sub_header = doc_details['INFO9']
       var ratings = doc_details['INFO66']
       var price = doc_details['INFO7']
       var cut_price = doc_details['INFO8']  
@@ -356,7 +356,7 @@ function getCompleteModelContentDetails(doc_details) {
 
      if (cut_price != '0') { html_div_line += '<small style="text-decoration: line-through; class="text-muted">(&#x20b9;' + cut_price + ')</small>' }
 
-     html_div_line += '<small class="green-text" style="font-size: 25px;">&#x20b9;' + price + '</small></span>\
+     html_div_line += '<small class="green-text" style="font-size: 30px;">&#x20b9;' + price + '</small></span>\
        <br>\
  </p></div>';
 

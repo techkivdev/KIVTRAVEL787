@@ -568,10 +568,10 @@ function getModelLayoutConfig(mdl_coll) {
   switch (mdl_coll) {    
 
     case "PACKAGES":
-      return [true, true, 'left', 'center']
+      return [true, true, 'left', 'right']
 
     default:
-      return [true, false, 'left', 'center']
+      return [true, false, 'left', 'right']
   }
 
 }
@@ -971,7 +971,7 @@ function createServiceCardSection() {
 function handleListRefFilterDisplay(details) {
      //displayOutput(details)
 
-     $('#listref_filter_drop_down').html(details.split('#')[1])
+     $('#listref_filter_drop_down').html('<i class="material-icons left">filter_list</i>' + details.split('#')[1])
 
      switch(details.split('#')[0]) {
 
@@ -1034,7 +1034,7 @@ function createListRefFilterBtn(){
     document.getElementById("listref_filter_btn").style.display = 'block';
 
   let html_line = '  <!-- Dropdown Trigger -->\
-  <a id="listref_filter_drop_down" class="dropdown-trigger btn pink rcorners" href="#" data-target="listref_filter_drop_btn">'+ filter_1_val +'</a>\
+  <a id="listref_filter_drop_down" class="dropdown-trigger btn pink rcorners" href="#" data-target="listref_filter_drop_btn"><i class="material-icons left">filter_list</i>'+ filter_1_val +'</a>\
 \
   <!-- Dropdown Structure -->\
   <ul id="listref_filter_drop_btn" class="dropdown-content">'

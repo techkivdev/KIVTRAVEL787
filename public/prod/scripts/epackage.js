@@ -280,6 +280,12 @@ function updateHTMLPage() {
   getListRefDetails(getInfoDetails("Places List"), 'all_places_list_ref')
   getListRefDetails(getInfoDetails("Packages List"), 'all_packages_list_ref')
 
+  getListRefDetails(getInfoDetails("City"), 'all_cities_list_ref')
+  getListRefDetails(getInfoDetails("Things ToDo"), 'all_todo_places_list_ref')
+ 
+  getListRefDetails(getInfoDetails("Review"), 'all_reviews_list_ref')
+  getListRefDetails(getInfoDetails("Stories"), 'all_stories_list_ref')
+
   genHTMLContentType('col_section_2')
 
 
@@ -300,8 +306,8 @@ function modifyPageStyle() {
 
     document.getElementById("header_section").style.height = "250px";
     document.getElementById("banner_main_image").style.height = "250px";
-    document.getElementById("hdr_book_now_btn").style.marginTop = "-60%";
-    document.getElementById("header_btn_options_pkg").style.marginTop = "5%";
+   
+    document.getElementById("header_btn_options_pkg").style.marginTop = "-30%";
 
   } else {
     displayOutput('Mobile Browser Not found!')
@@ -413,135 +419,139 @@ function hideFullMessageDialog(){
 // <<<<<<<<<<<<<<<<<< CODE SECTION START >>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-//**************** Mapping Function ***************************
-// Update Mapping Data Sets details
-function updateMappingDetails(docID) {
-  if ("MAIN" in allDocCmpData) {
-    mainDocMapDetails["ID"] = allDocCmpData["MAIN"]["INFO0"]
-    mainDocMapDetails["NAME"] = allDocCmpData["MAIN"]["INFO1"]
-    mainDocMapDetails["DESC"] = allDocCmpData["MAIN"]["INFO2"]
-    mainDocMapDetails["VISIBLE"] = allDocCmpData["MAIN"]["INFO3"]
-    mainDocMapDetails["OWNER"] = allDocCmpData["MAIN"]["INFO4"]
-    mainDocMapDetails["LINKS"] = allDocCmpData["MAIN"]["INFO5"]
-    mainDocMapDetails["TDOC"] = allDocCmpData["MAIN"]["INFO6"]
-    mainDocMapDetails["ADMIN"] = allDocCmpData["MAIN"]["INFO7"]
-    mainDocMapDetails["IMAGE_TAB"] = allDocCmpData["MAIN"]["INFO8"]
-    mainDocMapDetails["MULTI_TAB"] = allDocCmpData["MAIN"]["INFO9"]
-    mainDocMapDetails["FORM_TAB"] = allDocCmpData["MAIN"]["INFO10"]
-    mainDocMapDetails["COLL_DOC"] = allDocCmpData["MAIN"]["INFO11"]
-    mainDocMapDetails["DOC_PBLS"] = allDocCmpData["MAIN"]["INFO12"]
-    mainDocMapDetails["DOC_LIST"] = allDocCmpData["MAIN"]["INFO13"]
-    mainDocMapDetails["DEF_IMG"] = allDocCmpData["MAIN"]["INFO14"]
-    mainDocMapDetails["LIST_REF_INFO"] = allDocCmpData["MAIN"]["INFO15"]
-    mainDocMapDetails["IMAGE_INFO"] = allDocCmpData["MAIN"]["INFO16"]
-    mainDocMapDetails["IMAGE_PRO_INFO"] = allDocCmpData["MAIN"]["INFO17"]
-    mainDocMapDetails["MULTI_INFO"] = allDocCmpData["MAIN"]["INFO18"]
-    mainDocMapDetails["FORM_INFO"] = allDocCmpData["MAIN"]["INFO19"]
-    mainDocMapDetails["COMMON_DATA"] = allDocCmpData["MAIN"]["INFO20"]
-  } else {
-    displayOutput("MAIN Doc details is not found !!")
-  }
+    //**************** Mapping Function ***************************
+    // Update Mapping Data Sets details
+    function updateMappingDetails(docID) { 
+      if("MAIN" in allDocCmpData) {
+        mainDocMapDetails["ID"] = allDocCmpData["MAIN"]["INFO0"]
+        mainDocMapDetails["NAME"] = allDocCmpData["MAIN"]["INFO1"]
+        mainDocMapDetails["DESC"] = allDocCmpData["MAIN"]["INFO2"]
+        mainDocMapDetails["VISIBLE"] = allDocCmpData["MAIN"]["INFO3"]
+        mainDocMapDetails["OWNER"] = allDocCmpData["MAIN"]["INFO4"]
+        mainDocMapDetails["LINKS"] = allDocCmpData["MAIN"]["INFO5"]
+        mainDocMapDetails["TDOC"] = allDocCmpData["MAIN"]["INFO6"]
+        mainDocMapDetails["ADMIN"] = allDocCmpData["MAIN"]["INFO7"]
+        mainDocMapDetails["IMAGE_TAB"] = allDocCmpData["MAIN"]["INFO8"]
+        mainDocMapDetails["MULTI_TAB"] = allDocCmpData["MAIN"]["INFO9"]
+        mainDocMapDetails["FORM_TAB"] = allDocCmpData["MAIN"]["INFO10"]
+        mainDocMapDetails["COLL_DOC"] = allDocCmpData["MAIN"]["INFO11"]
+        mainDocMapDetails["DOC_PBLS"] = allDocCmpData["MAIN"]["INFO12"]
+        mainDocMapDetails["DOC_LIST"] = allDocCmpData["MAIN"]["INFO13"]
+        mainDocMapDetails["DEF_IMG"] = allDocCmpData["MAIN"]["INFO14"]
+        mainDocMapDetails["LIST_REF_INFO"] = allDocCmpData["MAIN"]["INFO15"]
+        mainDocMapDetails["IMAGE_INFO"] = allDocCmpData["MAIN"]["INFO16"]
+        mainDocMapDetails["IMAGE_PRO_INFO"] = allDocCmpData["MAIN"]["INFO17"]
+        mainDocMapDetails["MULTI_INFO"] = allDocCmpData["MAIN"]["INFO18"]
+        mainDocMapDetails["FORM_INFO"] = allDocCmpData["MAIN"]["INFO19"]
+        mainDocMapDetails["COMMON_DATA"] = allDocCmpData["MAIN"]["INFO20"]
+      } else {
+        displayOutput("MAIN Doc details is not found !!")
+      }
+    
 
 
 
 
+if(docID in allDocCmpData) {
+docMapDetails["id"] = allDocCmpData[docID]["INFO0"]
+docMapDetails["name"] = allDocCmpData[docID]["INFO1"]
+docMapDetails["catageory"] = allDocCmpData[docID]["INFO10"]
+docMapDetails["tags"] = allDocCmpData[docID]["INFO11"]
+docMapDetails["destination_id"] = allDocCmpData[docID]["INFO12"]
+docMapDetails["country"] = allDocCmpData[docID]["INFO13"]
+docMapDetails["state"] = allDocCmpData[docID]["INFO14"]
+docMapDetails["district"] = allDocCmpData[docID]["INFO15"]
+docMapDetails["difficulty"] = allDocCmpData[docID]["INFO16"]
+docMapDetails["highlights"] = allDocCmpData[docID]["INFO17"]
+docMapDetails["overview"] = allDocCmpData[docID]["INFO18"]
+docMapDetails["inclusions"] = allDocCmpData[docID]["INFO19"]
+docMapDetails["days"] = allDocCmpData[docID]["INFO2"]
+docMapDetails["exclusions"] = allDocCmpData[docID]["INFO20"]
+docMapDetails["to_take"] = allDocCmpData[docID]["INFO21"]
+docMapDetails["organiser"] = allDocCmpData[docID]["INFO22"]
+docMapDetails["map"] = allDocCmpData[docID]["INFO23"]
+docMapDetails["places_list"] = docID + "#INFO24"
+docMapDetails["packages_list"] = docID + "#INFO25"
+docMapDetails["stay1"] = allDocCmpData[docID]["INFO3"]
+docMapDetails["config"] = allDocCmpData[docID]["INFO4"]
+docMapDetails["transport"] = allDocCmpData[docID]["INFO5"]
+docMapDetails["itinerary_1d"] = docID + "#INFO56"
+docMapDetails["itinerary_2d"] = docID + "#INFO57"
+docMapDetails["itinerary_3d"] = docID + "#INFO58"
+docMapDetails["itinerary_4d"] = docID + "#INFO59"
+docMapDetails["routes"] = allDocCmpData[docID]["INFO6"]
+docMapDetails["itinerary_5d"] = docID + "#INFO60"
+docMapDetails["itinerary_6d"] = docID + "#INFO61"
+docMapDetails["itinerary_7d"] = docID + "#INFO62"
+docMapDetails["activities"] = allDocCmpData[docID]["INFO65"]
+docMapDetails["ratings"] = allDocCmpData[docID]["INFO66"]
+docMapDetails["best_time"] = allDocCmpData[docID]["INFO67"]
+docMapDetails["cities"] = allDocCmpData[docID]["INFO68"]
+docMapDetails["config2"] = allDocCmpData[docID]["INFO69"]
+docMapDetails["price"] = allDocCmpData[docID]["INFO7"]
+docMapDetails["filter"] = allDocCmpData[docID]["INFO70"]
+docMapDetails["price_list"] = allDocCmpData[docID]["INFO71"]
+docMapDetails["international"] = allDocCmpData[docID]["INFO72"]
+docMapDetails["availability"] = allDocCmpData[docID]["INFO73"]
+docMapDetails["availability_config"] = allDocCmpData[docID]["INFO74"]
+docMapDetails["faq"] = allDocCmpData[docID]["INFO75"]
+docMapDetails["departure_city"] = allDocCmpData[docID]["INFO76"]
+docMapDetails["stay2"] = allDocCmpData[docID]["INFO77"]
+docMapDetails["stay3"] = allDocCmpData[docID]["INFO78"]
+docMapDetails["city"] = docID + "#INFO79"
+docMapDetails["cut_price"] = allDocCmpData[docID]["INFO8"]
+docMapDetails["things_todo"] = docID + "#INFO80"
+docMapDetails["review"] = docID + "#INFO81"
+docMapDetails["stories"] = docID + "#INFO82"
+docMapDetails["includes"] = allDocCmpData[docID]["INFO9"]
+    
+// MAP Development and Production Image correctly .....
+    if(check_dev_publish_content) {
 
-  if (docID in allDocCmpData) {
-    docMapDetails["id"] = allDocCmpData[docID]["INFO0"]
-    docMapDetails["name"] = allDocCmpData[docID]["INFO1"]
-    docMapDetails["catageory"] = allDocCmpData[docID]["INFO10"]
-    docMapDetails["tags"] = allDocCmpData[docID]["INFO11"]
-    docMapDetails["destination_id"] = allDocCmpData[docID]["INFO12"]
-    docMapDetails["country"] = allDocCmpData[docID]["INFO13"]
-    docMapDetails["state"] = allDocCmpData[docID]["INFO14"]
-    docMapDetails["district"] = allDocCmpData[docID]["INFO15"]
-    docMapDetails["difficulty"] = allDocCmpData[docID]["INFO16"]
-    docMapDetails["highlights"] = allDocCmpData[docID]["INFO17"]
-    docMapDetails["overview"] = allDocCmpData[docID]["INFO18"]
-    docMapDetails["inclusions"] = allDocCmpData[docID]["INFO19"]
-    docMapDetails["days"] = allDocCmpData[docID]["INFO2"]
-    docMapDetails["exclusions"] = allDocCmpData[docID]["INFO20"]
-    docMapDetails["to_take"] = allDocCmpData[docID]["INFO21"]
-    docMapDetails["organiser"] = allDocCmpData[docID]["INFO22"]
-    docMapDetails["map"] = allDocCmpData[docID]["INFO23"]
-    docMapDetails["places_list"] = docID + "#INFO24"
-    docMapDetails["packages_list"] = docID + "#INFO25"
-    docMapDetails["stay1"] = allDocCmpData[docID]["INFO3"]
-    docMapDetails["config"] = allDocCmpData[docID]["INFO4"]
-    docMapDetails["transport"] = allDocCmpData[docID]["INFO5"]
-    docMapDetails["itinerary_1d"] = docID + "#INFO56"
-    docMapDetails["itinerary_2d"] = docID + "#INFO57"
-    docMapDetails["itinerary_3d"] = docID + "#INFO58"
-    docMapDetails["itinerary_4d"] = docID + "#INFO59"
-    docMapDetails["routes"] = allDocCmpData[docID]["INFO6"]
-    docMapDetails["itinerary_5d"] = docID + "#INFO60"
-    docMapDetails["itinerary_6d"] = docID + "#INFO61"
-    docMapDetails["itinerary_7d"] = docID + "#INFO62"
-    docMapDetails["activities"] = allDocCmpData[docID]["INFO65"]
-    docMapDetails["ratings"] = allDocCmpData[docID]["INFO66"]
-    docMapDetails["best_time"] = allDocCmpData[docID]["INFO67"]
-    docMapDetails["cities"] = allDocCmpData[docID]["INFO68"]
-    docMapDetails["config2"] = allDocCmpData[docID]["INFO69"]
-    docMapDetails["price"] = allDocCmpData[docID]["INFO7"]
-    docMapDetails["filter"] = allDocCmpData[docID]["INFO70"]
-    docMapDetails["price_list"] = allDocCmpData[docID]["INFO71"]
-    docMapDetails["international"] = allDocCmpData[docID]["INFO72"]
-    docMapDetails["availability"] = allDocCmpData[docID]["INFO73"]
-    docMapDetails["availability_config"] = allDocCmpData[docID]["INFO74"]
-    docMapDetails["faq"] = allDocCmpData[docID]["INFO75"]
-    docMapDetails["departure_city"] = allDocCmpData[docID]["INFO76"]
-    docMapDetails["stay2"] = allDocCmpData[docID]["INFO77"]
-    docMapDetails["stay3"] = allDocCmpData[docID]["INFO78"]
-    docMapDetails["cut_price"] = allDocCmpData[docID]["INFO8"]
-    docMapDetails["includes"] = allDocCmpData[docID]["INFO9"]
+    // IMAGES Production Information
 
-    // MAP Development and Production Image correctly .....
-    if (check_dev_publish_content) {
+docMapDetails["image_1"] = docID + "#INFO27"
+docMapDetails["image_2"] = docID + "#INFO29"
+docMapDetails["image_3"] = docID + "#INFO31"
+docMapDetails["image_4"] = docID + "#INFO33"
+docMapDetails["image_5"] = docID + "#INFO35"
+docMapDetails["itinerary_1"] = docID + "#INFO37"
+docMapDetails["itinerary_2"] = docID + "#INFO39"
+docMapDetails["itinerary_3"] = docID + "#INFO41"
+docMapDetails["itinerary_4"] = docID + "#INFO43"
+docMapDetails["itinerary_5"] = docID + "#INFO45"
+docMapDetails["itinerary_6"] = docID + "#INFO47"
+docMapDetails["itinerary_7"] = docID + "#INFO49"
+docMapDetails["model"] = docID + "#INFO51"
+docMapDetails["image_7"] = docID + "#INFO53"
+docMapDetails["image_8"] = docID + "#INFO55"
 
-      // IMAGES Production Information
+} else {
+    // IMAGES Information
 
-      docMapDetails["image_1"] = docID + "#INFO27"
-      docMapDetails["image_2"] = docID + "#INFO29"
-      docMapDetails["image_3"] = docID + "#INFO31"
-      docMapDetails["image_4"] = docID + "#INFO33"
-      docMapDetails["image_5"] = docID + "#INFO35"
-      docMapDetails["itinerary_1"] = docID + "#INFO37"
-      docMapDetails["itinerary_2"] = docID + "#INFO39"
-      docMapDetails["itinerary_3"] = docID + "#INFO41"
-      docMapDetails["itinerary_4"] = docID + "#INFO43"
-      docMapDetails["itinerary_5"] = docID + "#INFO45"
-      docMapDetails["itinerary_6"] = docID + "#INFO47"
-      docMapDetails["itinerary_7"] = docID + "#INFO49"
-      docMapDetails["model"] = docID + "#INFO51"
-      docMapDetails["image_7"] = docID + "#INFO53"
-      docMapDetails["image_8"] = docID + "#INFO55"
+docMapDetails["image_1"] = docID + "#INFO26"
+docMapDetails["image_2"] = docID + "#INFO28"
+docMapDetails["image_3"] = docID + "#INFO30"
+docMapDetails["image_4"] = docID + "#INFO32"
+docMapDetails["image_5"] = docID + "#INFO34"
+docMapDetails["itinerary_1"] = docID + "#INFO36"
+docMapDetails["itinerary_2"] = docID + "#INFO38"
+docMapDetails["itinerary_3"] = docID + "#INFO40"
+docMapDetails["itinerary_4"] = docID + "#INFO42"
+docMapDetails["itinerary_5"] = docID + "#INFO44"
+docMapDetails["itinerary_6"] = docID + "#INFO46"
+docMapDetails["itinerary_7"] = docID + "#INFO48"
+docMapDetails["model"] = docID + "#INFO50"
+docMapDetails["image_7"] = docID + "#INFO52"
+docMapDetails["image_8"] = docID + "#INFO54"
 
-    } else {
-      // IMAGES Information
-
-      docMapDetails["image_1"] = docID + "#INFO26"
-      docMapDetails["image_2"] = docID + "#INFO28"
-      docMapDetails["image_3"] = docID + "#INFO30"
-      docMapDetails["image_4"] = docID + "#INFO32"
-      docMapDetails["image_5"] = docID + "#INFO34"
-      docMapDetails["itinerary_1"] = docID + "#INFO36"
-      docMapDetails["itinerary_2"] = docID + "#INFO38"
-      docMapDetails["itinerary_3"] = docID + "#INFO40"
-      docMapDetails["itinerary_4"] = docID + "#INFO42"
-      docMapDetails["itinerary_5"] = docID + "#INFO44"
-      docMapDetails["itinerary_6"] = docID + "#INFO46"
-      docMapDetails["itinerary_7"] = docID + "#INFO48"
-      docMapDetails["model"] = docID + "#INFO50"
-      docMapDetails["image_7"] = docID + "#INFO52"
-      docMapDetails["image_8"] = docID + "#INFO54"
-
+}    
+} else {
+        displayOutput(docID + " Data not found !!")
     }
-  } else {
-    displayOutput(docID + " Data not found !!")
-  }
 
 }
-//**************** END ***************************
+    //**************** END ***************************
 
 // <<<<<<<<<<<<<<<<< CODE SECTION END >>>>>>>>>>>>>>>>>>>>>
 
@@ -565,10 +575,10 @@ function getModelLayoutConfig(mdl_coll) {
  switch (mdl_coll) {    
 
   case "PACKAGES":
-    return [true, true, 'left', 'center']
+    return [true, true, 'left', 'right']
 
   default:
-    return [true, false, 'left', 'center']
+    return [true, false, 'left', 'right']
 }
 
 }
@@ -689,8 +699,8 @@ function genHTMLContentType() {
   $("#pkg_days").html(getInfoDetails("Days"));
   $("#pkg_cities").html('<b>' + getInfoDetails("Cities") + '</b>');
   $("#pkg_route").html(getInfoDetails("Routes"));
-  $("#pkg_ratings").html(getRatingHTMLCode(getInfoDetails("Ratings"), 'medium'));
-  $("#pkg_ratings_num").html(getInfoDetails("Ratings").replace('#', ','));
+  $("#pkg_ratings").html(getRatingHTMLCode(getInfoDetails("Ratings"), 'small'));
+  //$("#pkg_ratings_num").html(getInfoDetails("Ratings").replace('#', ','));
 
   // Update Activities 
   $("#pkg_activities").html(getChipIconsFromList(getInfoDetails("Activities")))

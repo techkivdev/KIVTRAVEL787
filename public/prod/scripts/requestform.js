@@ -113,13 +113,29 @@ getParams();
 // Mobile mode handling
 mobileModeStartupHandling()
 
+updateHTMLPage()
+
 checkLoginData()
 
 // *******************************************************
 // --------------- Functions -----------------------------
 
 // Update Complete HTML Page
-function updateHTMLPage() {        
+function updateHTMLPage() {   
+  modifyPageStyle()     
+}
+
+// Modify Page style according to the browser
+function modifyPageStyle() {
+  // Check for mobile browser
+  if (isMobileBrowser()) {
+    displayOutput('Mobile Browser found!')
+
+    document.getElementById('main_list_container').className = "container-fluid row";
+
+  } else {
+    displayOutput('Mobile Browser Not found!')
+  }
 }
 
 // ----------------------------------------

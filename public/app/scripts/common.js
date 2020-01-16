@@ -43,7 +43,7 @@ var bypass_validation_check = false
 // -----------------------------------------------------
 // ------------- Mobile Mode ---------------------------
 // -----------------------------------------------------
-var mobile_mode = true
+var mobile_mode = false
 
 
 // ------------------------------------------------------
@@ -957,7 +957,7 @@ function getFixedModelContent(mdl_coll, all_doc_info_list, doc_data) {
 
       if (cut_price != '0') { html_div_line += '<small style="text-decoration: line-through; class="text-muted">(&#x20b9;' + cut_price + ')</small>' }
 
-      html_div_line += '<small class="green-text" style="font-size: 25px;">&#x20b9;' + price + '</small></span>\
+      html_div_line += '<small class="green-text" style="font-size: 30px;">&#x20b9;' + price + '</small></span>\
         <br>\
   </p></div>';
 
@@ -1029,15 +1029,89 @@ function createFaqSection(divSec, details) {
       $('.collapsible').collapsible();
     });
 
+    /*
     var elem = document.querySelector('.collapsible.expandable');
     var instance = M.Collapsible.init(elem, {
       accordion: false
     });
+    */
 
   }
 
 
 }
+
+// Create Service Card Section
+function createServiceCardSection(details) {
+
+  let service_details = getHashDataList(details)
+
+  // Check for Mobile Browser
+  let card_height = '170px'
+  if (isMobileBrowser()) {
+    card_height = '100px'
+  }
+
+  if(service_details['DISPLAY'] == 'YES') {
+
+  let html_header_1 = '<p style="font-size: 25px;">'+ service_details['HEADER'] +'</p>'
+  //let html_header_2 = ' <p class="long-text-nor grey-text" style="font-size: 15px; margin-top: -25px;">Sub Header</p>'
+  
+  let html_card = ''
+
+  let service_list = ['SERVICE_1','SERVICE_2','SERVICE_3','SERVICE_4']
+  for(each_idx in service_list) {
+    let key_hdr = service_list[each_idx]
+
+    // Get All Details
+    let display = service_details[key_hdr + '_DISPLAY']
+    let name = service_details[key_hdr + '_NAME']
+    name = ''
+    let image_type = service_details[key_hdr + '_IMAGE'].split('*&*')[0]
+    let image_details = service_details[key_hdr + '_IMAGE'].split('*&*')[1]
+
+    let image =''    
+    if(image_type == 'LOCAL') {
+    image = getDirectImageUrl('Images/' + image_details)
+    } else {
+      image = image_details
+    }
+
+    let action = service_details[key_hdr + '_ACTION']
+
+    if(display == 'YES') {
+    html_card += '<div class="col s6 m6">\
+  <div class="card z-depth-2" style="border-radius: 10px;">\
+    <div class="card-image">\
+      <img src="'+image+'" style="height: '+card_height+'; border-radius: 10px;">\
+      <span class="card-title">'+ name +'</span>\
+    </div></div></div>'
+    }
+
+
+  }
+
+
+  
+
+
+    let html_line = ''
+
+    html_line += html_header_1
+    //html_line += html_header_2
+    html_line += '<div class="row">'
+
+    html_line += html_card
+
+    html_line += '</div>'
+  
+    $('#card_service').html(html_line)
+
+  }
+
+
+}
+
 
 
 
@@ -1175,8 +1249,12 @@ function updateImageView(divID, imagesList) {
   if (image_html_line == '') {
     document.getElementById(divID + "_section").style.display = 'none';
   } else {
-    $("#" + divID).html(image_html_line);
+    $("#" + divID).html(image_html_line);   
   }
+
+  $(document).ready(function(){
+    $('.materialboxed').materialbox();
+  });
 
 
 
