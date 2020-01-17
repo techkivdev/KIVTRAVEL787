@@ -216,14 +216,15 @@ function submitDetails() {
 
     
     // Check mobile number validation
-    var mbcnt = mobileno.length;
-    if(mbcnt != 10){
-      validation = false
-      toastMsg('Your mobile number is not correct !!')
-    } else {
+    var mbcnt = mobileno.length;   
+    if(mbcnt == 10){
       validation = true
+    } else {
+      validation = false
+      toastMsg('Your mobile number is not correct !!')     
     }
 
+    if(validation) {
     // Check email id
     if(emailid.includes('@') && emailid.includes('.com')){
       validation = true
@@ -231,6 +232,7 @@ function submitDetails() {
       validation = false
       toastMsg('Your Email ID is not correct !!')
     }
+  }
 
   } else {
 
@@ -361,7 +363,7 @@ function updateUserBookingSection(bookingid,submitdata) {
 
     // Add a new document with a generated id.
     db.collection(userBookingPath).doc(bookingid).set(data).then(ref => {
-    displayOutput('Added document with ID: ', ref.id);
+   // displayOutput('Added document with ID: ', ref.id);
     displayOutput('User Booking Added !!')
     
   });
