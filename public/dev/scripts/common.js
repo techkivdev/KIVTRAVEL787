@@ -955,9 +955,9 @@ function getFixedModelContent(mdl_coll, all_doc_info_list, doc_data) {
   <br>\
   <span class="right">'
 
-      if (cut_price != '0') { html_div_line += '<small style="text-decoration: line-through; class="text-muted">(&#x20b9;' + cut_price + ')</small>' }
+      if (cut_price != '0') { html_div_line += '<small style="text-decoration: line-through; class="text-muted">(&#x20b9;' + cut_price + '/-)</small>' }
 
-      html_div_line += '<small class="green-text" style="font-size: 30px;">&#x20b9;' + price + '</small></span>\
+      html_div_line += '<small class="green-text" style="font-size: 30px;">&#x20b9;' + price + '/-</small></span>\
         <br>\
   </p></div>';
 
@@ -1010,13 +1010,17 @@ function createFaqSection(divSec, details) {
 
     for (keys in details) {
       if (keys.includes('CNT_Q')) {
+        if(details[keys] != 'NA') {
         html += '<li>'
         html += '<div class="collapsible-header"><i class="material-icons">question_answer</i><b>' + details[keys] + '</b></div>'
+        }
         //displayOutput(keys)
       } else if (keys.includes('CNT_A')) {
+        if(details[keys] != 'NA') {
         html += '<div class="collapsible-body"><span>' + details[keys] + '</span></div>'
         //displayOutput(keys)
         html += '</li>'
+        }
       }
 
     }

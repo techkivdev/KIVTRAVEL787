@@ -145,6 +145,9 @@ function authDetails() {
         userData['PHOTOURL'] = photoURL
         userData['ROLE'] = 'USER'
         userData['MOBILE'] = ''
+        userData['COUNTRY'] = ''
+        userData['STATE'] = ''
+        userData['DISTRICT'] = ''
         userData['BIO'] = ''
         userData['NICKNAME'] = ''  
         userData['EXTRA'] = {
@@ -300,9 +303,7 @@ function updateHTMLPage() {
   let admin_role = '<br>\
   <h5>Admin Options</h5>\
     <div class="collection">\
-        <a href="#!" class="collection-item">User Managment</a>\
         <a href="managedetails.html" class="collection-item blue-text">Booking Managment</a>\
-        <a href="project_settings.html" class="collection-item red-text">Content Managment</a> </div>\
   </div>'
 
   if (userData['ROLE'] != 'USER') {

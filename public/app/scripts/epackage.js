@@ -43,6 +43,11 @@ var price_hdr = ''
 var price_details = ''
 var hotel_viewdetails = ''
 
+var commonConfig = ''
+
+let showAdminCard = false
+let userLoginData = 'NA'
+
 // ***********************************************
 
 // ***********************************************
@@ -189,7 +194,7 @@ function checkStartupValidation() {
     // Check User Mode to read Dev Publish Section
     if (status == 'true') {
 
-      let userLoginData = getLoginUserData()
+      userLoginData = getLoginUserData()
       if (userLoginData['ROLE'] == 'ADMIN' || userLoginData['ROLE'] == 'DEV') {
         displayOutput('Change Publish Mode from Production to Development.')
         check_dev_publish_content = false
@@ -197,7 +202,7 @@ function checkStartupValidation() {
         $('#role_message').html('KivTech Development Publish')
 
         // Show ADMIN Section
-        document.getElementById("card_admin").style.display = 'block';
+        showAdminCard = true
 
         readDocumentDataAsync(document_ID)
       } else {
@@ -213,7 +218,7 @@ function checkStartupValidation() {
   } else {
 
     if (status == 'true') {
-      let userLoginData = getLoginUserData()
+      userLoginData = getLoginUserData()
       if (userLoginData['ROLE'] == 'DEV') {
         displayOutput('Change Publish Mode from Production to Development.')
         check_dev_publish_content = false
@@ -221,7 +226,7 @@ function checkStartupValidation() {
         $('#role_message').html('KivTech Development Publish,DEV MODE')
 
         // Show ADMIN Section
-        document.getElementById("card_admin").style.display = 'block';
+        showAdminCard = true
 
         readDocumentDataAsync(document_ID)
       }
@@ -419,7 +424,7 @@ function hideFullMessageDialog(){
 // <<<<<<<<<<<<<<<<<< CODE SECTION START >>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
-    //**************** Mapping Function ***************************
+       //**************** Mapping Function ***************************
     // Update Mapping Data Sets details
     function updateMappingDetails(docID) { 
       if("MAIN" in allDocCmpData) {
@@ -444,6 +449,7 @@ function hideFullMessageDialog(){
         mainDocMapDetails["MULTI_INFO"] = allDocCmpData["MAIN"]["INFO18"]
         mainDocMapDetails["FORM_INFO"] = allDocCmpData["MAIN"]["INFO19"]
         mainDocMapDetails["COMMON_DATA"] = allDocCmpData["MAIN"]["INFO20"]
+        mainDocMapDetails["CONFIG"] = allDocCmpData["MAIN"]["INFO21"]
       } else {
         displayOutput("MAIN Doc details is not found !!")
       }
@@ -503,6 +509,7 @@ docMapDetails["cut_price"] = allDocCmpData[docID]["INFO8"]
 docMapDetails["things_todo"] = docID + "#INFO80"
 docMapDetails["review"] = docID + "#INFO81"
 docMapDetails["stories"] = docID + "#INFO82"
+docMapDetails["vendor"] = allDocCmpData[docID]["INFO83"]
 docMapDetails["includes"] = allDocCmpData[docID]["INFO9"]
     
 // MAP Development and Production Image correctly .....
@@ -610,6 +617,9 @@ function genHTMLContentType() {
    let config = getHashDataList(getInfoDetails("Config"))
    let config2 = getHashDataList(getInfoDetails("Config2"))  
 
+   // Common Config
+   commonConfig = getHashDataList(mainDocMapDetails["CONFIG"])   
+
 
   // Get All Header Details
   let headerData = getHashDataList(mainDocMapDetails["COMMON_DATA"]) 
@@ -646,6 +656,7 @@ function genHTMLContentType() {
   let pricelist = getHashDataList(getInfoDetails("Price List"))
   let availablitylist = getHashDataList(getInfoDetails("Availability Config"))  
   let maplist = getHashDataList(getInfoDetails("MAP"))
+  let vendorDetails = getHashDataList(getInfoDetails("Vendor"))
   //displayOutput(availablitylist)  
 
   // Update Multi Config Section
@@ -693,8 +704,8 @@ function genHTMLContentType() {
   $("#pkg_title").html(getInfoDetails("Name"));
   $("#page_title").html(getInfoDetails("Name"));
 
-  $("#pkg_price").html('&#x20b9;' + getInfoDetails("Price"));
-  if (getInfoDetails("Cut Price") != '0') { $("#pkg_cut_price").html('&#x20b9;' + getInfoDetails("Cut Price")); }
+  $("#pkg_price").html('&#x20b9;' + getInfoDetails("Price") + '/-');
+  if (getInfoDetails("Cut Price") != '0') { $("#pkg_cut_price").html('&#x20b9;' + getInfoDetails("Cut Price") + '/-'); }
   $("#pkg_best_time").html(getInfoDetails("Best Time"));
   $("#pkg_days").html(getInfoDetails("Days"));
   $("#pkg_cities").html('<b>' + getInfoDetails("Cities") + '</b>');
@@ -936,19 +947,49 @@ function openRequestForm() {
 
 // Update Admin Section
 function updateAdminSection() {
+  
+  if(commonConfig['HIDE_ADMIN_TAB'] == 'YES') {
+    showAdminCard = false
+  }
 
+  if(showAdminCard){
+
+    // Check for Document Owner ID
+    let ownerDetails = allDocCmpData[document_ID]["MAIN_INFO4"]
+    let validateOwner = false
+
+    // By pass all check for DEV Role
+    if (userLoginData['ROLE'] == 'DEV') {
+      validateOwner = true
+    } else {
+      if(userLoginData == 'NA') {
+        validateOwner = false
+      } else if(userLoginData['UUID'] == ownerDetails) {
+        validateOwner = true
+      }
+    } 
+   
+    if(validateOwner) {
+
+      
   let admin_line = '<p class="black-text">' + document_ID +'</p>'
 
   admin_line += '<p class="black-text">' + getInfoDetails("ID") +'</p>'  
  
 
-  let link = 'update_collection.html?lang_name=CORE&coll_name=PACKAGES&role=DEV'
+  let link = 'update_collection.html?lang_name=CORE&coll_name=PACKAGES&role=DEV&fl_action=DOC&fl_value='+ document_ID
 
   admin_line += '<div class="right-align" style="margin-top: 0px;">\
               <a href="'+link+'" class="waves-effect waves-teal btn-flat blue-text">Open Content Manager</a>\
             </div>'
 
   $("#admin_sec").html(admin_line);
+
+  document.getElementById("card_admin").style.display = 'block';
+
+    }
+  }
+
 }
 
 // --------------- Local Session -------------------

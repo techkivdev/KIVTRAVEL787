@@ -21,6 +21,9 @@
 var coll_lang = 'NA';
 var coll_name = 'NA';
 var user_role = 'NA';
+var filter_action = 'NA';
+var filter_value = 'NA'
+
 
 // ********************************************
 
@@ -77,6 +80,8 @@ function getParams() {
     coll_lang = params['lang_name'];
     coll_name = params['coll_name'];
     user_role = 'NA';
+    filter_action = params['fl_action'];
+    filter_value = params['fl_value'];
 
 
 }
@@ -116,6 +121,7 @@ function readDataFromDatabase() {
             querySnapshot.forEach((doc) => {
                 //console.log(`${doc.id} =>`, doc.data());
                 allDocData[doc.id] = doc.data();
+                //console.log(allDocData)
 
                 if (doc.id == 'MAIN') {
                     // --------- Update Main Section ----------
@@ -136,10 +142,11 @@ function readDataFromDatabase() {
 
                     list_html += '<a class="list-group-item list-group-item-action " data-toggle="list" href="#' + doc.id + '_TAB' + '" role="tab">\n';
                     list_html += '<div class="d-flex w-100 justify-content-between">\n';
-                    list_html += '<b>' + allDocData[doc.id]['MAIN']['VALUE']['INFO1']['VALUE'] + '</b>\n';
+                    list_html += '<b style="font-size: 10px;">' + allDocData[doc.id]['MAIN']['VALUE']['INFO1']['VALUE'] + '</b>\n';
                     list_html += '</div>\n';
                     list_html += '<small>' + doc.id + '</small>\n';
                     list_html += '</a>\n';
+                    
 
                     // Create NAV HTML Tags.
                     nav_html += getTabPanelHTMLFormat(doc.id + '_TAB', doc.id + '_NAV', doc.data(), doc.id)
@@ -161,7 +168,7 @@ function readDataFromDatabase() {
             $("#collectionAdminContent").html(coll_admin_html);
 
             // Update HTML Page
-            //console.log(list_html);
+            console.log(list_html);
             $("#collectionDocumentsList").html(list_html);
 
             // Update HTML page
@@ -177,6 +184,131 @@ function readDataFromDatabase() {
     });
 
 } // EOF
+
+// *************************************************
+// Read Only Document Data form Database and create HTML Page
+// *************************************************
+function readOnlyDocDataFromDatabase(coll_admin_html) {
+
+    document.getElementById('message_container').style.display = "none";
+    document.getElementById('collection_content_container').style.display = "none";    
+
+    // ------------------------------------------------------
+
+    let docref = db.collection(basePath + coll_lang + '/' + coll_name).doc(filter_value);
+    docref.get()
+    .then(doc => {
+
+        if (!doc.exists) {
+            console.log('No such document!');
+            hidePleaseWait();
+            showNoRecordMessage();
+
+        } else {
+
+        console.log('Document data:', doc.data());
+
+        // ---------------------------------------------
+
+        document.getElementById('collection_content_container').style.display = "block";
+
+        var list_html = '';
+        var nav_html = '';        
+
+        //console.log(`${doc.id} =>`, doc.data());
+        allDocData[doc.id] = doc.data();
+        console.log(allDocData)       
+
+        // Create List group HTML tags
+        list_html += '<a class="list-group-item list-group-item-action active" data-toggle="list" href="#' + doc.id + '_TAB' + '" role="tab">\n';
+        list_html += '<div class="d-flex w-100 justify-content-between">\n';
+        list_html += '<b style="font-size: 10px;">' + allDocData[doc.id]['MAIN']['VALUE']['INFO1']['VALUE'] + '</b>\n';
+        list_html += '</div>\n';
+        list_html += '<small>' + doc.id + '</small>\n';
+        list_html += '</a>\n';
+        
+
+        // Create NAV HTML Tags.
+        nav_html += getTabPanelHTMLFormat(doc.id + '_TAB', doc.id + '_NAV', doc.data(), doc.id,'show active')
+
+
+
+        // Update HTML Page
+        // console.log(coll_admin_html);
+        $("#collectionAdminContent").html(coll_admin_html);
+
+        // Update HTML Page
+        //console.log(list_html);
+        $("#collectionDocumentsList").html(list_html);
+
+        // Update HTML page
+        //console.log(nav_html);
+        $("#collectionDocumentsTab").html(nav_html);
+
+
+        // Process disable operation handling
+        disableHandling()
+
+
+        hidePleaseWait();
+
+        // ----------------------------------------------
+        }
+    })
+    .catch(err => {
+        console.log('Error getting document', err);
+        hidePleaseWait();
+        showNoRecordMessage();
+    });
+
+
+    // ------------------------------------------------------
+
+} // EOF
+
+function readFilterOptionDocumentsFromDatabase() {
+
+    showPleaseWait();
+
+
+    let docref = db.collection(basePath + coll_lang + '/' + coll_name).doc('MAIN');
+    docref.get()
+    .then(doc => {
+        if (!doc.exists) {
+        console.log('No such document!');
+
+        hidePleaseWait();
+        showNoRecordMessage();
+
+        } else {
+        //console.log('Document data:', doc.data());
+
+        allDocData[doc.id] = doc.data();
+
+         // --------- Update Main Section ----------
+        // Create NAV HTML Tags.
+        let coll_admin_html = getCollectionAdminHTMLContent(doc.data())
+
+        // Collect global MAIN details
+        doc_display_id_info_details = allDocData[doc.id]['INFO11']['VALUE'];
+        doc_publish_info_details = allDocData[doc.id]['INFO12']['VALUE'];
+        doc_listData_info_details = allDocData[doc.id]['INFO13']['VALUE'];
+        doc_config_info_details = allDocData[doc.id]['INFO21']['VALUE'];
+
+        // Process Other Document
+
+        readOnlyDocDataFromDatabase(coll_admin_html)
+
+
+        }
+    })
+    .catch(err => {
+        console.log('Error getting document', err);
+
+        hidePleaseWait();
+        showNoRecordMessage();
+    });
+}
 
 
 // ************************************************
@@ -214,12 +346,18 @@ function validateAdminRoles() {
   
               // Only for ADMIN and DEV
               user_role = userData['ROLE']
+             //user_role = 'ADMIN'
 
               if (userData['ROLE'] != 'USER') {
                 // Validation Done
                 console.log('Validation Passed !!')                
   
-                readDataFromDatabase()
+                if(filter_action == 'NA') {
+                    readDataFromDatabase()
+                } else {
+                    readFilterOptionDocumentsFromDatabase()
+                    //readDataFromDatabase()
+                }                 
 
                 document.getElementById("collection_content_container").style.display = 'block';
   
@@ -401,6 +539,20 @@ function disableHandling() {
         document.getElementById('updatekey-tab').style.display = "none";
     }
 
+    // Hide Options For Filter Option is DOC
+    if(filter_action == 'DOC') {
+        document.getElementById('nav_section').style.display = "none";        
+        document.getElementById('pills-adminControl').style.display = "none";
+        document.getElementById('nav_pills_admin').style.display = "none"; 
+        document.getElementById('nav_pills_control').style.display = "none"; 
+        document.getElementById('hdr_section').style.display = "none";
+
+        document.getElementById('collectionDocumentsList_sec').style.display = "none"; 
+
+        document.getElementById('collectionDocumentsTab_sec').className = "col-sm-12";
+               
+    }
+
 
 }
 
@@ -408,13 +560,13 @@ function disableHandling() {
 // *********************************************
 // Create NAV HTML Panel code
 // *********************************************
-function getTabPanelHTMLFormat(tab_id, nav_id, docData, docID) {
+function getTabPanelHTMLFormat(tab_id, nav_id, docData, docID, action = '') {
 
     var eachDocFormIDdetails = {};
 
     var html = '';
 
-    html += '<div class="tab-pane" id="' + tab_id + '" role="tabpanel">\n';
+    html += '<div class="tab-pane '+action+'" id="' + tab_id + '" role="tabpanel">\n';
 
     html += '<ul class="nav nav-tabs" id="docTab" role="tablist">\n';
     html += '<li class="nav-item">\n';
@@ -483,7 +635,35 @@ function getTabPanelHTMLFormat(tab_id, nav_id, docData, docID) {
                     html += '<div id = "' + 'DIV_' + eachDocFormIDdetails[key + '_' + sub_info] + '" class="form-group">\n';
                     html += '<h5>' + sub_info_data['KEY'] + '</h5>\n';
                     html += '<p class="card-subtitle mb-2 text-muted" style="font-size:70%;">' + sub_info_data['DESC'] + '</p>\n';
-                    html += '<textarea class="form-control" rows="5" id=' + eachDocFormIDdetails[key + '_' + sub_info] + '>' + sub_info_data['VALUE'] + '</textarea>\n';
+                   // html += '<textarea class="form-control" rows="5" id=' + eachDocFormIDdetails[key + '_' + sub_info] + '>' + sub_info_data['VALUE'] + '</textarea>\n';
+
+
+                    // Filter Handling
+                    if(filter_action == 'DOC') {
+
+                        // Check for Multi Options
+                        if(sub_info_data['VALUE'].includes('#NA $-> =======')) {
+                        
+                            html += '<textarea class="form-control" rows="1" id=' + eachDocFormIDdetails[key + '_' + sub_info] + ' disabled >' + sub_info_data['VALUE'] + '</textarea>\n';                
+                            // Create Button
+                            html += '<br><input type="button" id="' + eachDocFormIDdetails[key + '_' + sub_info] + '_VIEW_HTML_BTN' + '" class="btn btn-primary" value="View Options" onclick="viewHTML(\'' + eachDocFormIDdetails[key + '_' + sub_info] + '\')" />';
+
+
+                        } else {
+                            html += '<textarea class="form-control" rows="8" id=' + eachDocFormIDdetails[key + '_' + sub_info] + '>' + sub_info_data['VALUE'] + '</textarea>\n';                
+                            // Create Button
+                            html += '<br><input type="button" id="' + eachDocFormIDdetails[key + '_' + sub_info] + '_VIEW_HTML_BTN' + '" class="btn btn-primary" value="View HTML" onclick="viewHTML(\'' + eachDocFormIDdetails[key + '_' + sub_info] + '\')" />';
+
+                        }
+
+                    } else {
+
+                        html += '<textarea class="form-control" rows="5" id=' + eachDocFormIDdetails[key + '_' + sub_info] + '>' + sub_info_data['VALUE'] + '</textarea>\n';                
+                        // Create Button
+                        html += '<br><input type="button" id="' + eachDocFormIDdetails[key + '_' + sub_info] + '_VIEW_HTML_BTN' + '" class="btn btn-primary" value="View HTML" onclick="viewHTML(\'' + eachDocFormIDdetails[key + '_' + sub_info] + '\')" />';
+
+                    }
+
                     html += '</div>\n';
 
 
@@ -551,9 +731,29 @@ function getTabPanelHTMLFormat(tab_id, nav_id, docData, docID) {
             html += '<div id = "' + 'DIV_' + eachDocFormIDdetails[key] + '" class="form-group">\n';
             html += '<h5>' + infoData['KEY'] + '</h5>\n';
             html += '<p class="card-subtitle mb-2 text-muted" style="font-size:70%;">' + infoData['DESC'] + '</p>\n';
-            html += '<textarea class="form-control" rows="5" id=' + eachDocFormIDdetails[key] + '>' + infoData['VALUE'] + '</textarea>\n';
-            // Create Button
-            html += '<br><input type="button" id="' + eachDocFormIDdetails[key] + '_VIEW_HTML_BTN' + '" class="btn btn-primary" value="View HTML" onclick="viewHTML(\'' + eachDocFormIDdetails[key] + '\')" />';
+
+            // Filter Handling
+            if(filter_action == 'DOC') {
+
+                // Check for Multi Options
+                if(infoData['VALUE'].includes('#NA $-> =======')) {
+                    html += '<textarea class="form-control" rows="1" id=' + eachDocFormIDdetails[key] + ' disabled >' + infoData['VALUE'] + '</textarea>\n';
+                    // Create Button
+                    html += '<br><input type="button" id="' + eachDocFormIDdetails[key] + '_VIEW_HTML_BTN' + '" class="btn btn-primary" value="View Options" onclick="viewHTML(\'' + eachDocFormIDdetails[key] + '\')" />';
+                } else {
+                    html += '<textarea class="form-control" rows="8" id=' + eachDocFormIDdetails[key] + '>' + infoData['VALUE'] + '</textarea>\n';
+                    // Create Button
+                    html += '<br><input type="button" id="' + eachDocFormIDdetails[key] + '_VIEW_HTML_BTN' + '" class="btn btn-primary" value="View HTML" onclick="viewHTML(\'' + eachDocFormIDdetails[key] + '\')" />';
+                   
+                }
+
+            } else {
+
+                html += '<textarea class="form-control" rows="5" id=' + eachDocFormIDdetails[key] + '>' + infoData['VALUE'] + '</textarea>\n';
+                // Create Button
+                html += '<br><input type="button" id="' + eachDocFormIDdetails[key] + '_VIEW_HTML_BTN' + '" class="btn btn-primary" value="View HTML" onclick="viewHTML(\'' + eachDocFormIDdetails[key] + '\')" />';
+
+            }
 
             html += '</div>\n';
 
@@ -955,10 +1155,32 @@ function getTabPanelHTMLFormat(tab_id, nav_id, docData, docID) {
                     html += '<div id = "' + 'DIV_' + eachDocFormIDdetails[key + '_' + sub_info] + '" class="form-group">\n';
                     html += '<h5>' + sub_info_data['KEY'] + '</h5>\n';
                     html += '<p class="card-subtitle mb-2 text-muted" style="font-size:70%;">' + sub_info_data['DESC'] + '</p>\n';
-                    html += '<textarea class="form-control" rows="5" id=' + eachDocFormIDdetails[key + '_' + sub_info] + '>' + sub_info_data['VALUE'] + '</textarea>\n';
-                    // Create Button
-                    html += '<br><input type="button" id="' + eachDocFormIDdetails[key + '_' + sub_info] + '_VIEW_HTML_BTN' + '" class="btn btn-primary" value="View HTML" onclick="viewHTML(\'' + eachDocFormIDdetails[key + '_' + sub_info] + '\')" />';
 
+                    // Filter Handling
+                    if(filter_action == 'DOC') {
+
+                        // Check for Multi Options
+                        if(sub_info_data['VALUE'].includes('#NA $-> =======')) {
+                            html += '<textarea class="form-control" rows="1" id=' + eachDocFormIDdetails[key + '_' + sub_info] + ' disabled >' + sub_info_data['VALUE'] + '</textarea>\n';
+                            // Create Button
+                            html += '<br><input type="button" id="' + eachDocFormIDdetails[key + '_' + sub_info] + '_VIEW_HTML_BTN' + '" class="btn btn-primary" value="View Options" onclick="viewHTML(\'' + eachDocFormIDdetails[key + '_' + sub_info] + '\')" />';
+
+                         } else {
+
+                            html += '<textarea class="form-control" rows="8" id=' + eachDocFormIDdetails[key + '_' + sub_info] + '>' + sub_info_data['VALUE'] + '</textarea>\n';
+                            // Create Button
+                            html += '<br><input type="button" id="' + eachDocFormIDdetails[key + '_' + sub_info] + '_VIEW_HTML_BTN' + '" class="btn btn-primary" value="View HTML" onclick="viewHTML(\'' + eachDocFormIDdetails[key + '_' + sub_info] + '\')" />';
+    
+                        }
+
+                    } else {
+
+                        html += '<textarea class="form-control" rows="5" id=' + eachDocFormIDdetails[key + '_' + sub_info] + '>' + sub_info_data['VALUE'] + '</textarea>\n';
+                        // Create Button
+                        html += '<br><input type="button" id="' + eachDocFormIDdetails[key + '_' + sub_info] + '_VIEW_HTML_BTN' + '" class="btn btn-primary" value="View HTML" onclick="viewHTML(\'' + eachDocFormIDdetails[key + '_' + sub_info] + '\')" />';
+
+                    }
+                   
                     html += '</div>\n';
 
 
@@ -1131,28 +1353,57 @@ function getTabPanelHTMLFormat(tab_id, nav_id, docData, docID) {
 
 
     // ----------------- BTN 2 ----------------------------
-    html += '<br><div class="card" style="width: 28rem;">';
-    html += '<div class="card-body">';
-    html += '<h5 class="card-title">Create New Document</h5>';
-    html += '<p class="card-subtitle mb-2 text-muted">Create new document with current document contents.Duplicate copy of current document.</p>';
+    if(filter_action == 'NA') {
+        html += '<br><div class="card" style="width: 28rem;">';
+        html += '<div class="card-body">';
+        html += '<h5 class="card-title">Create New Document</h5>';
+        html += '<p class="card-subtitle mb-2 text-muted">Create new document with current document contents.Duplicate copy of current document.</p>';
 
-    html += '<br><input type="button" id="' + docID + '_DUPLICATE_BTN' + '" class="btn btn-warning" value="+ Create Duplicate Document" onclick="duplicateCurrentDocument(\'' + docID + '\')" />';
+        html += '<br><input type="button" id="' + docID + '_DUPLICATE_BTN' + '" class="btn btn-warning" value="+ Create Duplicate Document" onclick="duplicateCurrentDocument(\'' + docID + '\')" />';
 
-    html += '</div>';
-    html += '</div>';
+        html += '</div>';
+        html += '</div>';
+    }
 
 
     // ----------------- BTN 3 ----------------------------
-    html += '<br><div class="card" style="width: 28rem;">';
-    html += '<div class="card-body">';
-    html += '<h5 class="card-title">Delete Document</h5>';
-    html += '<p class="card-subtitle mb-2 text-muted">Delete current document from database.</p>';
+    if(filter_action == 'NA') {
+        html += '<br><div class="card" style="width: 28rem;">';
+        html += '<div class="card-body">';
+        html += '<h5 class="card-title">Delete Document</h5>';
+        html += '<p class="card-subtitle mb-2 text-muted">Delete current document from database.</p>';
 
-    html += '<br><input type="button" id="' + docID + '_DELETE_DOC_BTN' + '" class="btn btn-danger" value="DELETE DOCUMENT" onclick="deleteCurrentDocument(\'' + docID + '\')" />';
+        html += '<br><input type="button" id="' + docID + '_DELETE_DOC_BTN' + '" class="btn btn-danger" value="DELETE DOCUMENT" onclick="deleteCurrentDocument(\'' + docID + '\')" />';
 
-    html += '</div>';
-    html += '</div>';
+        html += '</div>';
+        html += '</div>';
+    }
 
+
+
+    if(filter_action == 'DOC') {
+
+        html += '<br><div class="card" style="width: 28rem;">';
+        html += '<div class="card-body">';
+        html += '<h5 class="card-title">Publish Document</h5>';
+        html += '<p class="card-subtitle mb-2 text-muted">Publish Document content to develoment database.</p>';
+
+        html += '<br><input type="button" id="' + docID + '_PUBLISH_DOC_BTN' + '" class="btn btn-primary" value="PUBLISH DOCUMENT" onclick="publishCurrentDocument(\'' + docID + '\')" />';
+
+        html += '</div>';
+        html += '</div>';
+
+
+        html += '<br><div class="card" style="width: 28rem;">';
+        html += '<div class="card-body">';
+        html += '<h5 class="card-title">Final Publish Document</h5>';
+        html += '<p class="card-subtitle mb-2 text-muted">Publish Document content to production database.</p>';
+
+        html += '<br><input type="button" id="' + docID + '_FINAL_PUBLISH_DOC_BTN' + '" class="btn btn-danger" value="FINAL PUBLISH DOCUMENT" onclick="finalpublishCurrentDocument(\'' + docID + '\')" />';
+
+        html += '</div>';
+        html += '</div>';
+    }
 
     // ------------------------------------------------------------
 
@@ -1589,14 +1840,231 @@ function saveCurrentDocument(value) {
 
         // Write Into Database
         showPleaseWait();
-        doc_count = 0;
-        total_doc = 1;
-        writeDocument(basePath + coll_lang + '/' + coll_name, value, dbDataSet, 'Document Updated !!');
-        //let docData = db.collection(basePath + coll_lang+'/'+coll_name).doc(value).set(dbDataSet);
+      
+        
+        if(filter_action == 'DOC') {
+        db.collection(basePath + coll_lang + '/' + coll_name).doc(value).set(dbDataSet).then(ref => {
+            
+            hidePleaseWait();
+            //alert(message);
+
+            location.reload();
+          });
+        } else {
+
+            doc_count = 0;
+            total_doc = 1;
+            writeDocument(basePath + coll_lang + '/' + coll_name, value, dbDataSet, 'Document Updated !!');
+            //let docData = db.collection(basePath + coll_lang+'/'+coll_name).doc(value).set(dbDataSet);
+        }
 
     }
 
 } // EOF
+
+// ------------- PUBLISH DOCUMENTS --------------------------
+
+// Publish to Development 
+function publishCurrentDocument(value) {    
+
+    var result = confirm("Do you want to PUBLISH " + value + " Details ?");
+
+    if (result) {
+
+        showPleaseWait();
+
+        // Update Data Set with new Details       
+
+        var coll_name_data = coll_name + '_DATA';
+
+
+        let docref = db.collection(basePath + coll_lang + '/' + coll_name_data).doc(value);
+        docref.get()
+          .then(doc => {
+            if (!doc.exists) {
+
+                createDATACollection(basePath + coll_lang + '/' + coll_name_data, basePath,false);
+
+            } else {
+
+                db.collection(basePath + coll_lang + '/' + coll_name_data).doc(value).delete().then(function () {
+
+                    createDATACollection(basePath + coll_lang + '/' + coll_name_data, basePath,false);
+        
+                  });  
+
+            }
+          })
+          .catch(err => {
+            console.log('Error getting document', err);
+
+            hidePleaseWait();
+          });        
+
+    }
+
+}
+
+// Publish to Production
+function finalpublishCurrentDocument(value) {
+
+    var result = confirm("Do you want to FINAL PUBLISH " + value + " Details ?");
+
+    if (result) {
+
+        showPleaseWait();
+
+         // Update Data Set with new Details       
+
+         var coll_name_data = coll_name + '_DATA';
+
+
+         let docref = db.collection(baseProductionPath + coll_lang + '/' + coll_name_data).doc(value);
+         docref.get()
+           .then(doc => {
+             if (!doc.exists) {
+ 
+                 createDATACollection(baseProductionPath + coll_lang + '/' + coll_name_data, baseProductionPath,false);
+ 
+             } else {
+ 
+                 db.collection(baseProductionPath + coll_lang + '/' + coll_name_data).doc(value).delete().then(function () {
+ 
+                     createDATACollection(baseProductionPath + coll_lang + '/' + coll_name_data, baseProductionPath,false);
+         
+                   });  
+ 
+             }
+           })
+           .catch(err => {
+             console.log('Error getting document', err);
+ 
+             hidePleaseWait();
+           });      
+
+    }
+
+
+}
+
+// Update Doc Collection from Collection List Data
+function updateDocFromCollectionListData(db_base_path,arrayListDetails) {
+
+    console.log('-> LIST_DATA Updation ....')
+
+    var newCollDataSet = {};
+
+    if (doc_listData_info_details != 'NA') {
+
+        for (var key in allDocData) {
+            var docData = allDocData[key];
+
+            if (key != 'MAIN') {
+                // Check is Document Published Options is enabled or not
+                var doc_publish_validation = true;
+                if (docData['MAIN']['VALUE'][doc_publish_info_details]['VALUE'] != 'YES') {
+                    doc_publish_validation = false;
+                }
+
+                if (doc_publish_validation) {
+
+                    console.log("-----  " + key + "  ---------")
+                    var doc_list_info = {};
+
+                    // Read Keys details
+                    var list_data_details = doc_listData_info_details.split(',');
+
+                    for (each_info_det in list_data_details) {
+                        var info_details = list_data_details[each_info_det];
+
+                        if(info_details in docData ) {
+                                if (info_details.includes("_")) {
+                                    doc_list_info[info_details] = docData[info_details.split('_')[0]]['VALUE'][info_details.split('_')[1]]['VALUE'];
+                                } else {
+                                    
+                                    // TEXT INFO
+                                    if (key != 'MAIN') {
+                                        // Check details for covertToArrayList                                
+                                        if(arrayListDetails.includes(info_details)) {
+                                            if(docData[info_details]['VALUE'].includes(',')) {
+                                                console.log(info_details + ': Convert to Array')  
+                                                doc_list_info[info_details] = docData[info_details]['VALUE'].split(',');
+                                            } else {
+                                                console.log(info_details + ': Convert to Array') 
+                                                doc_list_info[info_details] = [docData[info_details]['VALUE']];
+                                            }
+                                        } else {
+                                            doc_list_info[info_details] = docData[info_details]['VALUE'];
+                                        }  
+        
+                                    } else {
+                                        doc_list_info[info_details] = docData[info_details]['VALUE'];
+                                    }
+
+                                    
+                                }
+                        }
+                    }
+
+                    // Check for Images                    
+                    if (db_base_path.includes('PRODUCTION')) {
+                        for(each_info_key in docData) {
+                            if(docData[each_info_key]["MODE"] == "IMAGE_PRO") {
+                                if(docData[each_info_key]["VALUE"]["INFO7"]["VALUE"] == "LIST_DATA") {
+                                    doc_list_info["IMAGE"] = getImageDetails(docData[each_info_key]["VALUE"])
+                                }                                
+                            }
+                        }
+                    } else {
+                        for(each_info_key in docData) {
+                            if(docData[each_info_key]["MODE"] == "IMAGE") {
+                                if(docData[each_info_key]["VALUE"]["INFO7"]["VALUE"] == "LIST_DATA") {
+                                    doc_list_info["IMAGE"] = getImageDetails(docData[each_info_key]["VALUE"])
+                                }                                
+                            }
+                        }
+                    }
+
+                    // Add some more Information
+                    doc_list_info['ID'] = key
+
+
+                    newCollDataSet[key] = doc_list_info;
+
+
+                }
+            }
+        }// For END
+
+    }
+
+    if (Object.keys(newCollDataSet).length > 0) {
+        //console.log(newCollDataSet);
+
+        // ---------- Update Only Single Document Inside LIST_DATA --------------
+        console.log('Update Only Single DOC inside LIST DATA.')
+        let newDataSet = {}
+        newDataSet[filter_value] = newCollDataSet[filter_value]
+        console.log(newDataSet)
+
+        // Update LIST Data into LIST_DATA Collection.
+        doc_count = 0;
+        total_doc = 1;
+
+        updateDocument(db_base_path + coll_lang + '/' + 'LIST_DATA', coll_name, newCollDataSet , 'NA');
+        console.log(coll_name + " : LIST_DATA UPDATED !!")
+
+    } else {
+        console.log('No list Data.')
+    }
+
+
+
+
+}// EOF
+
+
+// ----------------------------------------------------------
 
 // ----------- Write Document Into Database ------------------
 async function writeDocument(collPath, docValue, dbDataSet, message) {
@@ -1635,6 +2103,30 @@ async function deleteDocument(collPath, docValue, message) {
     console.log('Total Doc : ' + total_doc_before_del.toString() + '\n')
 
     if (del_docCount == total_doc_before_del) {
+
+        if (message != 'NA') {
+            hidePleaseWait();
+            alert(message);
+        }
+
+    }
+
+}
+
+// ----------- Update Document Into Database ------------------
+async function updateDocument(collPath, docValue, dbDataSet, message) {
+
+    var doc = await db.collection(collPath).doc(docValue).update(dbDataSet);
+    //now this code is reached after that async write
+
+    console.log(docValue + '  Doc Updating !!');
+
+    doc_count = doc_count + 1;
+
+    console.log('Counter : ' + doc_count);
+    console.log('Total Doc : ' + total_doc);
+
+    if (total_doc == doc_count) {
 
         if (message != 'NA') {
             hidePleaseWait();
@@ -2796,13 +3288,17 @@ async function deletePublishedDocument(collPath, docValue, db_basePath) {
 }
 
 // -------- Create DATA Collection ---------
-function createDATACollection(collection_path, db_basePath) {
+function createDATACollection(collection_path, db_basePath,updateListData = true) {
 
     // Get Config Details
-    let colConfig = getHashDataList(doc_config_info_details)
+    let colConfig = getHashDataListWithDelim(doc_config_info_details)
     let covertToArrayList = colConfig['CONVERTTOARRAY'].split(',')
 
-    updateCollectionListData(db_basePath,covertToArrayList);
+    if(updateListData) {
+           updateCollectionListData(db_basePath,covertToArrayList);
+    } else {
+        updateDocFromCollectionListData(db_basePath,covertToArrayList)
+    }
 
     var publish_mode = 'DEV';
     if (db_basePath.includes('PRODUCTION')) {
@@ -3186,6 +3682,7 @@ function generateMappingCurrentCollection() {
         mainDocMapDetails["MULTI_INFO"] = allDocCmpData["MAIN"]["INFO18"]\n\
         mainDocMapDetails["FORM_INFO"] = allDocCmpData["MAIN"]["INFO19"]\n\
         mainDocMapDetails["COMMON_DATA"] = allDocCmpData["MAIN"]["INFO20"]\n\
+        mainDocMapDetails["CONFIG"] = allDocCmpData["MAIN"]["INFO21"]\n\
       } else {\n\
         displayOutput("MAIN Doc details is not found !!")\n\
       }\n\
@@ -3736,7 +4233,7 @@ function showMultiOptionModel(html_content,infoID) {
         <div class="modal-body">' +
         html
         + '</div>\
-        <div class="modal-footer">\
+        <div class="modal-footer fixed">\
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>\
           <button type="button" class="btn btn-primary" onclick="updateMultiOptionModelContent(\'' + infoID + '\',\'' + all_keys + '\')">SAVE</button>\
         </div>\
@@ -3761,7 +4258,8 @@ function updateMultiOptionModelContent(info_details,content) {
     for(eachidx in keyList) {
         let key = keyList[eachidx]
 
-        let value = $('#' + key).val();
+        let value = $('#' + key).val().trim();
+        if(value == '') {value = 'NA'}
 
         // #FLASH_ICON_1 $->  fa-accessible-icon
         let keyValue_line = '#' + key + ' $-> ' + value.trim()

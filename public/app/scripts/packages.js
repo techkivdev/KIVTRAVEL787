@@ -356,9 +356,9 @@ function getCompleteModelContentDetails(doc_details) {
  <br>\
  <span class="right">'
 
-     if (cut_price != '0') { html_div_line += '<small style="text-decoration: line-through; class="text-muted">(&#x20b9;' + cut_price + ')</small>' }
+     if (cut_price != '0') { html_div_line += '<small style="text-decoration: line-through; class="text-muted">(&#x20b9;' + cut_price + '/-)</small>' }
 
-     html_div_line += '<small class="green-text" style="font-size: 30px;">&#x20b9;' + price + '</small></span>\
+     html_div_line += '<small class="green-text" style="font-size: 30px;">&#x20b9;' + price + '/-</small></span>\
        <br>\
  </p></div>';
 
@@ -467,8 +467,8 @@ function modelLytSquareCard_local(mdl_map_details) {
 
   var htmlLine = '<div class="col s12 m6"><a href="' + clickHandling(mdl_map_details) + '">\
                   <div class="card hoverable" style="border-radius: 10px;">\
-                    <div class="card-image z-depth-2" style="height: 200px; max-height: 200px; widht: 500px; max-width: 500px; border-radius: 10px 10px 0px 0px;">\
-                      <img src="' + getModelImageRef(image_ref) + '" style="height: 200px; max-height: 200px; widht: 400px; max-width: 400px; border-radius: 10px 10px 0px 0px;">\
+                    <div class="card-image z-depth-2" style="height: 200px; max-height: 200px;  border-radius: 10px 10px 0px 0px;">\
+                      <img src="' + getModelImageRef(image_ref) + '" style="height: 200px; max-height: 200px; border-radius: 10px 10px 0px 0px;">\
                     </div>\
                     <div class="black-text" style="border-radius: 0px 0px 10px 10px;">\
                       <div class="card-content black-text">' + complete_content + '</div>\

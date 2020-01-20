@@ -908,7 +908,7 @@ function manageCollectionContent(value) {
   //window.open("http://127.0.0.1:8887/update_collection.html");
 
 
-  var url = 'update_collection.html?lang_name=' + encodeURIComponent(lang_db_name) + '&coll_name=' + encodeURIComponent(collection_name) + '&role=' + encodeURIComponent(role);
+  var url = 'update_collection.html?lang_name=' + encodeURIComponent(lang_db_name) + '&coll_name=' + encodeURIComponent(collection_name) + '&role=' + encodeURIComponent(role) + '&fl_action=' + encodeURIComponent('NA') + '&fl_value=' + encodeURIComponent('NA');
 
   document.location.href = url;
 

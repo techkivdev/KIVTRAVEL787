@@ -44,6 +44,11 @@ var bestTimes =  ''
 var essential =  ''
 var toDo =  ''
 
+var commonConfig = ''
+
+let showAdminCard = false
+let userLoginData = 'NA'
+
 // ***********************************************
 
 // ***********************************************
@@ -190,7 +195,7 @@ function checkStartupValidation() {
     // Check User Mode to read Dev Publish Section
     if (status == 'true') {
 
-      let userLoginData = getLoginUserData()
+      userLoginData = getLoginUserData()
       if (userLoginData['ROLE'] == 'ADMIN' || userLoginData['ROLE'] == 'DEV') {
         displayOutput('Change Publish Mode from Production to Development.')
         check_dev_publish_content = false
@@ -198,7 +203,7 @@ function checkStartupValidation() {
         $('#role_message').html('KivTech Development Publish')
 
         // Show ADMIN Section
-        document.getElementById("card_admin").style.display = 'block';
+        showAdminCard = true       
 
         readDocumentDataAsync(document_ID)
       } else {
@@ -214,7 +219,7 @@ function checkStartupValidation() {
   } else {
 
     if (status == 'true') {
-      let userLoginData = getLoginUserData()
+      userLoginData = getLoginUserData()
       if (userLoginData['ROLE'] == 'DEV') {
         displayOutput('Change Publish Mode from Production to Development.')
         check_dev_publish_content = false
@@ -222,7 +227,7 @@ function checkStartupValidation() {
         $('#role_message').html('KivTech Development Publish,DEV MODE')
 
         // Show ADMIN Section
-        document.getElementById("card_admin").style.display = 'block';
+        showAdminCard = true
 
         readDocumentDataAsync(document_ID)
       }
@@ -470,6 +475,7 @@ function hideFullMessageDialog(){
         mainDocMapDetails["MULTI_INFO"] = allDocCmpData["MAIN"]["INFO18"]
         mainDocMapDetails["FORM_INFO"] = allDocCmpData["MAIN"]["INFO19"]
         mainDocMapDetails["COMMON_DATA"] = allDocCmpData["MAIN"]["INFO20"]
+        mainDocMapDetails["CONFIG"] = allDocCmpData["MAIN"]["INFO21"]
       } else {
         displayOutput("MAIN Doc details is not found !!")
       }
@@ -605,6 +611,9 @@ function genHTMLContentType() {
   // Read Config Details
   config_details = getHashDataList(getInfoDetails("Config"))
 
+   // Common Config
+   commonConfig = getHashDataList(mainDocMapDetails["CONFIG"])
+
   // Get All Header Details
   let headerData = getHashDataList(mainDocMapDetails["COMMON_DATA"])
 
@@ -685,7 +694,7 @@ function genHTMLContentType() {
   $("#dest_title").html(getInfoDetails("Name"));
   $("#page_title").html(getInfoDetails("Name"));
 
-  $("#dest_price").html('&#x20b9;' + getInfoDetails("Price"));
+  $("#dest_price").html('&#x20b9;' + getInfoDetails("Price") + '/-');
   $("#dest_best_time").html(config_details['BEST_TIME']);
   $("#dest_duration").html(config_details['DURATION']);
   //$("#dest_ratings").html(getInfoDetails("Ratings"));
@@ -697,9 +706,7 @@ function genHTMLContentType() {
   if(getInfoDetails("Activities")[0] == 'NA') {
     document.getElementById("dest_activity_sec").style.display = 'none';
   } else {
-    $("#dest_activities").html(getAppendHTMLLines(getInfoDetails("Activities"),
-    '<div class="chip">',
-    '</div>'));
+    $("#dest_activities").html(getChipIconsFromList(getInfoDetails("Activities")));
   }
  
 
@@ -709,9 +716,7 @@ function genHTMLContentType() {
   if(getInfoDetails("Tags")[0] == 'NA') {
     document.getElementById("dest_tags_sec").style.display = 'none';
   } else {
-    $("#dest_tags").html(getAppendHTMLLines(getInfoDetails("Tags"),
-    '<div class="chip">',
-    '</div>'));
+    $("#dest_tags").html(getChipIconsFromList(getInfoDetails("Tags")));
   }
   
 
@@ -736,8 +741,9 @@ function genHTMLContentType() {
 
   // Update Service Section
   createServiceCardSection()
-  
+ 
   updateAdminSection()
+ 
 
 }
 
@@ -1055,7 +1061,34 @@ function createListRefFilterBtn(){
 }
 
 // Update Admin Section
-function updateAdminSection() {
+function updateAdminSection() {  
+
+  if(commonConfig['HIDE_ADMIN_TAB'] == 'YES') {
+    showAdminCard = false
+  }
+
+  if(showAdminCard){
+
+    // Check for Document Owner ID
+    let ownerDetails = allDocCmpData[document_ID]["MAIN_INFO4"]
+    let validateOwner = false
+
+    // By pass all check for DEV Role
+    if (userLoginData['ROLE'] == 'DEV') {
+      validateOwner = true
+    } else {
+      if(userLoginData == 'NA') {
+        validateOwner = false
+      } else if(userLoginData['UUID'] == ownerDetails) {
+        validateOwner = true
+      }
+    }
+
+    
+    
+   
+    if(validateOwner) {
+
 
   let admin_line = ''
 
@@ -1069,17 +1102,100 @@ function updateAdminSection() {
   html_line = ''
 
   html_line += '<b>Parent ID : </b><br>' + getInfoDetails("Parent ID") +'<br>'
-  html_line += '<b>References : </b><br>' + getInfoDetails("References") +'<br>'
+
+  // -------------------- Update References Section ----------------------------
+  let refDetails = getHashDataList(getInfoDetails("References"))
+
+  if(refDetails['DISPLAY'] == 'YES') {
+
+    html_line += '<br><b>'+  refDetails['HEADER'] + ' </b><br>'
+
+    let dataList = ''
+    let eachData = ''
+    let eachlink = ''
+
+    // Update DESTINATIONS List
+    if((refDetails['DESTINATIONS'] != 'NA') && (refDetails['DESTINATIONS'] != 'START,NA,END')){      
+      html_line += '<br><b>Destination :</b>'
+      dataList = refDetails['DESTINATIONS'].split(',')
+      for(each_idx in dataList) {
+        eachData = dataList[each_idx].trim()
+        if((eachData == 'START') || (eachData == 'NA') || (eachData == 'END')) {continue}
+        eachlink = 'update_collection.html?lang_name=CORE&coll_name=DESTINATIONS&role=DEV&fl_action=DOC&fl_value='
+        if(eachData.includes('-')) {
+          eachlink += eachData.split('-')[0]
+          html_line += '<a href="'+eachlink+'" ><div class="chip black-text">' + eachData.split('-')[1] + '</div></a>'
+        } else {
+          eachlink += eachData
+          html_line += '<a href="'+eachlink+'" ><div class="chip black-text">' + eachData + '</div></a>'
+        }        
+      }
+    }
+
+
+    // Update PACKAGES List
+    if((refDetails['PACKAGES'] != 'NA') && (refDetails['PACKAGES'] != 'START,NA,END')) {
+      html_line += '<br><br><b>Packages :</b><br><br>'
+      dataList = refDetails['PACKAGES'].split(',')
+      for(each_idx in dataList) {
+        eachData = dataList[each_idx].trim()
+        if((eachData == 'START') || (eachData == 'NA') || (eachData == 'END')) {continue}
+        eachlink = 'update_collection.html?lang_name=CORE&coll_name=PACKAGES&role=DEV&fl_action=DOC&fl_value='
+        if(eachData.includes('-')) {
+          eachlink += eachData.split('-')[0]
+          html_line += '<a href="'+eachlink+'" ><div class="chip black-text">' + eachData.split('-')[1] + '</div></a>'
+        } else {
+          eachlink += eachData
+          html_line += '<a href="'+eachlink+'" ><div class="chip black-text">' + eachData + '</div></a>'
+        }        
+      }
+    }
+
+
+
+    // Update PLACES List
+    if((refDetails['PLACES'] != 'NA') && (refDetails['PLACES'] != 'START,NA,END')) {
+      html_line += '<br><br><b>Places :</b><br><br>'
+      dataList = refDetails['PLACES'].split(',')
+      for(each_idx in dataList) {
+        eachData = dataList[each_idx].trim()
+        if((eachData == 'START') || (eachData == 'NA') || (eachData == 'END')) {continue}
+        eachlink = 'update_collection.html?lang_name=CORE&coll_name=PLACES&role=DEV&fl_action=DOC&fl_value='
+        if(eachData.includes('-')) {
+          eachlink += eachData.split('-')[0]
+          html_line += '<a href="'+eachlink+'" ><div class="chip black-text">' + eachData.split('-')[1] + '</div></a>'
+        } else {
+          eachlink += eachData
+          html_line += '<a href="'+eachlink+'" ><div class="chip black-text">' + eachData + '</div></a>'
+        }        
+      }
+    }
+
+
+    //html_line += getAppendHTMLLines(refDetails['DESTINATIONS'].split(','),'<div class="chip">','</div>');
+
+  }
+
+  
+
+
+
+  // --------------------------------------------------------------------------
 
   admin_line += '<p>' + html_line +'</p>'
 
-  let link = 'update_collection.html?lang_name=CORE&coll_name=DESTINATIONS&role=DEV'
+  let link = 'update_collection.html?lang_name=CORE&coll_name=DESTINATIONS&role=DEV&fl_action=DOC&fl_value='+ document_ID
 
   admin_line += '<div class="right-align" style="margin-top: 0px;">\
               <a href="'+link+'" class="waves-effect waves-teal btn-flat blue-text">Open Content Manager</a>\
             </div>'
 
-  $("#admin_sec").html(admin_line);
+  $("#admin_sec").html(admin_line); 
+
+  document.getElementById("card_admin").style.display = 'block';
+
+    }
+}
 }
 
 // --------------- Local Session -------------------

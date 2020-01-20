@@ -122,19 +122,21 @@ checkLoginData()
 
 // Update Complete HTML Page
 function updateHTMLPage() {   
-  modifyPageStyle()     
+  //modifyPageStyle()
 }
 
 // Modify Page style according to the browser
 function modifyPageStyle() {
   // Check for mobile browser
   if (isMobileBrowser()) {
-    displayOutput('Mobile Browser found!')
-
-    document.getElementById('main_list_container').className = "container-fluid row";
+    displayOutput('Mobile Browser found!') 
+    
+    document.getElementById('main_list_container').className = "container-fluid";
 
   } else {
     displayOutput('Mobile Browser Not found!')
+    
+
   }
 }
 
@@ -221,7 +223,7 @@ function submitDetails() {
       validation = true
     } else {
       validation = false
-      toastMsg('Your mobile number is not correct !!')     
+      toastMsg('Please enter 10 digit Mobile Number !!')     
     }
 
     if(validation) {
@@ -329,6 +331,7 @@ function writeDocument(data) {
 
     hidePleaseWaitModel()
 
+    document.getElementById("hdr_section").style.display = 'none';
     document.getElementById("col_section_1").style.display = 'none';
     document.getElementById("col_section_2").style.display = 'block';
   });
