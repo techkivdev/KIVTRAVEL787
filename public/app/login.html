@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Login</title>
+  <title>Profile</title>
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -20,6 +20,9 @@
 
 <body>   
 
+  <div class="bg">
+
+ 
   <!-- **************************************** -->
   <!-- Navigation Sectione -->
   <!-- **************************************** -->
@@ -42,6 +45,10 @@
         </ul>
        
         <a href="#" data-target="main_nav_bar_mb" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+
+        <div id="spinner" class="progress">
+          <div class="indeterminate red"></div>
+        </div>
   
       </div>
   
@@ -73,23 +80,7 @@
   
     <!-- ========================================== -->
 
-  <div id="spinner" class="center-align header-margin">
-
-    <div class="preloader-wrapper active">
-      <div class="spinner-layer spinner-red-only">
-        <div class="circle-clipper left">
-          <div class="circle"></div>
-        </div>
-        <div class="gap-patch">
-          <div class="circle"></div>
-        </div>
-        <div class="circle-clipper right">
-          <div class="circle"></div>
-        </div>
-      </div>
-    </div>
-
-  </div>
+ 
 
 
   <!-- **************************************** -->
@@ -97,9 +88,8 @@
 
   <!-- Login Header -->
 
-  <div id="login_header_section" style="display: none; margin-top: 1px;">
+  <div id="login_header_section" style="display: none; margin-top: 1px;">    
 
-      <div class="bg">
     <div class="container">
       <br>
 
@@ -145,12 +135,10 @@
           </div>
         </div>
 
-      </div>
-      <br>
-    </div>
+      </div>    
 
   </div>
-  </div>
+  
 
   <!-- ***************** END ******************* -->
 
@@ -159,175 +147,296 @@
   <!--   Profile Section  -->
 
   <!-- Header -->
-  <div id="main_profile_section" style="display: none; margin-top: 1px;">
-
-    <div id="profile_header_section">
-
-      <div class="container-fluid">
-        <div class="fb-profile">
-          <img class="fb-image-lg left-align z-depth-2" src="Images/profile_background.jpg" alt="Profile image" />
-          <div class="center-align">
-            <img id="user_profile_image" class="fb-image-profile thumbnail z-depth-2" src="Images/default.jpg"
-              alt="Profile image example" />
-          </div>
-
-          <div id="user_content" class="center-align">
-            <!-- Script Code -->>
-          </div>
-
-        </div>
-
-       
-
-      </div>
-
-
-
-
-    </div>
-
+  <div id="main_profile_section" style="display: none; margin-top: 1px;">   
 
     <!-- Profile Content -->
     <div class="container-fluid" id="profile_content_section" style="margin: 4% 5% 0px 5%;">
 
       <div class="row">
 
+        <!-- Header Section -->
+        <div id="profile_header_section" class="row" style="margin-top: 80px; margin-left: 1%; margin-right: 1%;"> 
+          
+            <div class="card red-2-card-content" style="border-radius: 10px; height: 140px;">
+              <div class="card-content">
+                <span class="card-title"></span>
+                
+                <div class="fb-profile">
+        
+                  <div class="row">
 
-        <div>
+                    <div class="col s12 m4">
+                  <div class="left-align">
+                    <img id="user_profile_image" class="fb-image-profile thumbnail z-depth-2" src="Images/default.jpg"
+                      alt="Profile image example" />
+                  </div>
+                </div>
+        
+                <div class="col s12 m8">
+                  <div id="user_content" class="left-align" style="margin-top: -30px;">                   
+                   <b id="profile_name" style="font-size: 30px;">Name</b>
+                    <p id="profile_email" style="font-size: 15px; margin-top: -10px;" class="white-text">Email</p>
+                    <p id="profile_mobile" style="font-size: 15px; margin-top: -20px;" class="white-text">Mobile</p>
+                  </div>                 
+                  <br><br><br>
+                  <div class="right-align" style="margin-top: 0px;">
+                    <a onclick="signout()" class="waves-effect waves-light btn-large red rcorners">logout</a>
+                  </div>
 
-          <!-- Tab Section -->
-          <div class="row" style="margin-top: 3%;">
-            <div class="col s12">
-              <ul class="tabs tabs-fixed-width tab-demo z-depth-1 white lighten-5 rcorners">
-                <li class="tab col s3"><a class="active blue-text" href="#Profile"><b>Profile</b></a></li>
-                <li class="tab col s3"><a class="blue-text" href="#Bookings"><b>Bookings</b></a></li>                
-                <li class="tab col s3"><a class="blue-text" href="#Options"><b>Options</b></a></li>
-              </ul>
+                </div>
+
+              </div>
+        
+                </div>
+
+              </div>   
+           
+    
+          </div>  
+         
+        </div>
+
+        <!-- Header Section for mobile -->
+        <div id="profile_header_section_mb" class="row" style="margin-top: 80px; margin-left: 2%; margin-right: 2%; display: none;"> 
+          
+          <div class="card red-2-card-content" style="border-radius: 10px; height: 210px;">
+            <div >
+              <span class="card-title"></span>
+              
+              <div class="fb-profile">
+      
+                <div class="row">
+
+                  <div class="col s12">
+                <div class="center-align">
+                  <img id="user_profile_image_mb" class="fb-image-profile-mb thumbnail z-depth-2" src="Images/default.jpg"
+                    alt="Profile image example" />
+                </div>
+              </div>
+      
+              <div class="col s12">
+                <div id="user_content_mb" class="center-align" style="margin-top: 0px;">                    
+                    <b id="profile_name_mb" style="font-size: 30px;">Name</b>
+                    <p id="profile_email_mb" style="font-size: 15px; margin-top: -10px;" class="white-text">Email</p>
+                    <p id="profile_mobile_mb" style="font-size: 15px; margin-top: -20px;" class="white-text">Mobile</p>
+                </div> 
+                <br><br>
+                <div class="right-align" style="margin-top: -5px;">
+                  <a onclick="signout()" class="waves-effect waves-light btn-large red rcorners">logout</a>
+                </div>
+
+              </div> 
+            </div>      
+              </div>
+            </div>   
+         
+  
+        </div>  
+       
+        </div> 
+
+          <!-- Card Options -->
+          <div id="options_card_section" class="row" style="margin-top: 0%;">
+
+            <div class="row">
+
+              <!-- Option 1 -->
+              <div class="col s12 m6">
+                <a href="#!" onclick="divBlockHandling('profile')" >
+                <div class="card hoverable" style="border-radius: 10px; height: 130px;">
+                  <div class="bg-card" style="border-radius: 10px;">
+                  <div class="card-content">                    
+                    <span class="card-title black-text">Profile</span>
+                    <p class="black-text">Update Profile</p>
+                  </div>
+                  </div>                 
+                </div>
+              </a>
+              </div>
+
+
+               <!-- Option 2 -->
+               <div class="col s12 m6">
+                <a href="#!" onclick="divBlockHandling('bookings')" >
+                <div class="card hoverable" style="border-radius: 10px; height: 130px;">
+                  <div class="bg-card" style="border-radius: 10px;">
+                  <div class="card-content">                    
+                    <span class="card-title black-text">Manage Bookings</span>
+                    <p class="black-text">Manage your all bookings.</p>
+                  </div>
+                  </div>                 
+                </div>
+              </a>
+              </div>
+
+
+              <!-- Option 3 -->
+              <div class="col s12 m6">
+                <a href="#!" onclick="divBlockHandling('wishlist')" >
+                <div class="card hoverable" style="border-radius: 10px; height: 130px;">
+                  <div class="bg-card" style="border-radius: 10px;">
+                  <div class="card-content">                    
+                    <span class="card-title black-text">Wishlist</span>
+                    <p class="black-text">Manage your wishlist.</p>
+                  </div>
+                  </div>                 
+                </div>
+              </a>
+              </div>
+
+
+              <!-- Option 4 -->
+              <div id="extra_options_card" class="col s12 m6" style="display: none;">
+                <a href="#!" onclick="divBlockHandling('options')" >
+                <div class="card hoverable" style="border-radius: 10px; height: 130px;">
+                  <div class="bg-card" style="border-radius: 10px;">
+                  <div class="card-content">                    
+                    <span class="card-title black-text">Options</span>
+                    <p class="black-text">Extra Options.</p>
+                  </div>
+                  </div>                 
+                </div>
+              </a>
+              </div>
+
+
+            </div>
+          
+          </div>
+
+          <!-- Other Section -->
+
+          <!-- Profile Section -->
+          <div id="profile_section" class="row" style="margin-top: 0%; display: none;">
+          
+            <div class="row" style="margin-top:1%;">
+              <div class="col s12">
+                <div class="card" style="border-radius: 25px;">
+                  
+                    <div class="red-card-content white-text z-depth-2" style="border-radius: 25px 25px 0px 0px; height: 100px;">
+                      <p class="card-content" style="font-size: 40px;">Profile</p>
+                    </div>
+                     
+                    <div class="card-content">
+                      <div class="row">
+                        <form class="col s12">
+                          <div class="row">
+                            <div class="input-field col s12">
+                              <i class="material-icons prefix">account_circle</i>
+                              <input disabled value="abc" id="user_name" type="text" class="validate">
+                              <label for="user_name">Name</label>
+                            </div>
+                          </div>
+                        </form>
+
+
+                        <form class="col s12">
+                          <div class="row">
+                            <div class="input-field col s12">
+                              <i class="material-icons prefix">email</i>
+                              <input disabled value="abc@gmail.com" id="user_email" type="text" class="validate">
+                              <label for="user_email">Email ID</label>
+                            </div>
+                          </div>
+                        </form>
+
+
+                        <form class="col s12">
+                          <div class="row">
+                            <div class="input-field col s12">
+                              <i class="material-icons prefix">phone</i>
+                              <input value="0" id="user_mobile" type="number" class="validate">
+                              <label class="active" for="user_mobile">Mobile Number (+91)</label>
+                            </div>
+                          </div>
+                        </form>
+
+                        <form class="col s12">
+                          <div class="row">
+                            <div class="left-align" style="margin-left: 2%;">
+                              <a onclick="saveprofiledata()" class="waves-effect waves-light btn blue rcorners z-depth-2" style="width: 150px; font-size: 20px;">Update</a>
+                            </div>
+                          </div>
+                        </form>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+          </div>
+
+
+          <!-- Booking Section -->
+          <div id="booking_section" class="row" style="margin-top: 0%; display: none;">           
+            
+            <div id="user_bookings" style="margin-top:1%;">
+              <!-- Script Code -->
             </div>
 
-            <!--Edit Profile -->
-            <div id="Profile">
-              <div id="user_profile">
-                <!-- form -->
+            <!-- Show Booking message in complete view -->
+            <div class="container" id="user_bookings_view_section" style="margin-top:3%; display: none;">
 
-                <div class="row" style="margin-top:1%;">
-                  <div class="col s12">
-                    <div class="card" style="border-radius: 25px;">
-                      
-                        <div class="red-card-content white-text z-depth-2" style="border-radius: 25px 25px 0px 0px; height: 100px;">
-                          <p class="card-content" style="font-size: 40px;">Profile</p>
-                        </div>
-                         
-                        <div class="card-content">
-                          <div class="row">
-                            <form class="col s12">
-                              <div class="row">
-                                <div class="input-field col s12">
-                                  <i class="material-icons prefix">account_circle</i>
-                                  <input disabled value="abc" id="user_name" type="text" class="validate">
-                                  <label for="user_name">Name</label>
-                                </div>
-                              </div>
-                            </form>
+              <div class="left-align" style="margin-top: 0px;">
+                <a onclick="hideUserBookingView()" class="waves-effect waves-light btn-large blue rcorners">back</a>
+              </div>
 
+              <div id="user_bookings_view" style="margin-top:1%;">
+                <!-- Script Code -->
+              </div>
 
-                            <form class="col s12">
-                              <div class="row">
-                                <div class="input-field col s12">
-                                  <i class="material-icons prefix">email</i>
-                                  <input disabled value="abc@gmail.com" id="user_email" type="text" class="validate">
-                                  <label for="user_email">Email ID</label>
-                                </div>
-                              </div>
-                            </form>
+            </div>
 
+          </div>
 
-                            <form class="col s12">
-                              <div class="row">
-                                <div class="input-field col s12">
-                                  <i class="material-icons prefix">phone</i>
-                                  <input value="0" id="user_mobile" type="number" class="validate">
-                                  <label class="active" for="user_mobile">Mobile Number (+91)</label>
-                                </div>
-                              </div>
-                            </form>
+           <!-- Wishlist Section -->
+           <div id="wishlist_section" class="row" style="margin-top: 0%; display: none;">
+            <div id="user_wishlist" class="container" style="margin-top:1%;">
+              <!-- Script Code -->
+            </div> 
+          </div>
 
-                            <form class="col s12">
-                              <div class="row">
-                                <div class="left-align" style="margin-left: 2%;">
-                                  <a onclick="saveprofiledata()" class="waves-effect waves-light btn blue rcorners z-depth-2" style="width: 150px; font-size: 20px;">Update</a>
-                                </div>
-                              </div>
-                            </form>
+          <!-- Options Section -->
+          <div id="options_section" class="row" style="margin-top: 0%; display: none;">
+            
+            <div class="row" style="margin-top:1%;">
+              <div class="col s12">
+                <div class="card" style="border-radius: 25px;">
 
+                    <div class="red-card-content white-text z-depth-2" style="border-radius: 25px 25px 0px 0px; height: 100px;">
+                        <p class="card-content" style="font-size: 40px;">Options</p>
+                      </div>
+
+                  <div class="card-content">
+                      <div id="user_options">
+
+                        <!-- Create Option -->
+
+                        <div id="user_options">
+                           <!--
+                          <div class="collection">
+                            <a href="#!" onclick="openBookmark()" class="collection-item">Your Wishlist</a>
                           </div>
+                          -->
+                        </div>                       
+
+                        <div id="admin_options">
+                          <!-- Script Code -->
 
                         </div>
 
                       </div>
-                    </div>
-                  </div>
-                </div>
-
-
-              </div>
-
-            
-
-            <!--Bookings -->
-            <div id="Bookings">
-              <div id="user_bookings" style="margin-top:1%;">
-                <!-- Script Code -->
-              </div>
-            </div>
-           
-
-            <!--Options -->
-            <div id="Options">
-
-              <div class="row" style="margin-top:1%;">
-                <div class="col s12">
-                  <div class="card" style="border-radius: 25px;">
-
-                      <div class="red-card-content white-text z-depth-2" style="border-radius: 25px 25px 0px 0px; height: 100px;">
-                          <p class="card-content" style="font-size: 40px;">Options</p>
-                        </div>
-
-                    <div class="card-content">
-                        <div id="user_options">
-
-                          <!-- Create Option -->
-
-                          <div id="user_options">
-                            <div class="collection">
-                              <a href="#!" onclick="openBookmark()" class="collection-item">Your Wishlist</a>
-                            </div>
-                          </div>
-
-                          <div class="center-align" style="margin-top: 15%;">
-                            <a onclick="signout()" class="waves-effect waves-light btn red rcorners" style="width: 150px; font-size: 20px;">Signout</a>
-                          </div>
-
-                          <div id="admin_options">
-                            <!-- Script Code -->
-
-                          </div>
-
-                        </div>
-                    </div>
                   </div>
                 </div>
               </div>
-
-
             </div>
 
-
-            <!-- tab end -->
 
           </div>
-
-        </div>
+       
 
       </div>
 
@@ -337,12 +446,18 @@
 
   <!-- ***************** END ******************* -->
 
+  <div id="close_fl_btn" class="fixed-action-btn" style="display: none;">
+    <a href="#!" onclick="hideFullMessageDialog()" class="btn-floating btn-large  red">
+      <i class="large material-icons">close</i>
+    </a>
+  </div>
+
 
   <!-- **************************************** -->
   <!-- Footer -->
   <!-- **************************************** -->
   <div id="main_footer_sec" style="display: none; ">
-  <footer id="footer_sec" style="display: none;" class="page-footer fresh-content  white-text">
+  <footer id="footer_sec" style="display: none;" class="page-footer footer-shade  white-text">
       <div class="container">
           <div class="row">
             <div class="col l6 s12">
@@ -382,7 +497,7 @@
   </footer>
 </div>
 
-
+</div>
 
   <!-- **************************************** -->
   <!--  Scripts-->

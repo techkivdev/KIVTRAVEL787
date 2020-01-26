@@ -122,7 +122,7 @@ checkLoginData()
 
 // Update Complete HTML Page
 function updateHTMLPage() {   
-  //modifyPageStyle()
+  modifyPageStyle()
 }
 
 // Modify Page style according to the browser
@@ -182,8 +182,9 @@ function submitDetails() {
   var enddate = document.getElementById("end_date").value;
   displayOutput('End Date : ' + enddate)
 
-  let dateOptionsValues = ["","FIXED","FLEXIBLE","ANYTIME"]
-  var dateoptions = dateOptionsValues[document.getElementById("date_options").value];
+  //let dateOptionsValues = ["","FIXED","FLEXIBLE","ANYTIME"]
+  //var dateoptions = dateOptionsValues[document.getElementById("date_options").value];
+  var dateoptions = 'FIXED'
   displayOutput('Date Options : ' + dateoptions)
 
   var user_comment = document.getElementById("user_comment").value;
@@ -333,6 +334,7 @@ function writeDocument(data) {
 
     document.getElementById("hdr_section").style.display = 'none';
     document.getElementById("col_section_1").style.display = 'none';
+    document.getElementById("main_footer_sec").style.display = 'none';
     document.getElementById("col_section_2").style.display = 'block';
   });
 

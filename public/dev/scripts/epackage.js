@@ -916,6 +916,7 @@ function bookmarkHandling(details) {
     let data = {
       COLLNAME: coll_name,
       DOCID: document_ID,
+      IMAGE: pageContent['IMAGE'],
       DETAILS: details
     };
 

@@ -59,11 +59,18 @@ function mobileModeStartupHandling() {
 function modifyPageStyle() {
   // Check for mobile browser
   if (isMobileBrowser()) {
-    displayOutput('Mobile Browser found!') 
+    displayOutput('Mobile Browser found!')     
     document.getElementById("profile_content_section").style.margin = "0px 0px 0px 0px";
+
+    document.getElementById("profile_header_section_mb").style.display = 'block';
+    document.getElementById("profile_header_section").style.display = 'none';
+    
 
   } else {
     displayOutput('Mobile Browser Not found!') 
+
+    document.getElementById("profile_header_section_mb").style.display = 'none';
+    document.getElementById("profile_header_section").style.display = 'block';
 
   }
 
@@ -267,16 +274,18 @@ function updateHTMLPage() {
 
   updateSessionData()
 
-  collectBookingDetails()
+  collectBookingDetails()  
 
-  // Create User Content
-  let user_content = '<h3>' + userData['NAME'] + '</h3>\
-                       <h5 class="grey-text">' + userData['EMAIL'] + '</h5>\
-                       <h5  class="grey-text">' + userData['MOBILE'] + '</h5>'
-
-  $("#user_content").html(user_content)
+  $("#profile_name").html(userData['NAME'])
+  $("#profile_email").html(userData['EMAIL'])
+  $("#profile_mobile").html(userData['MOBILE'])
+  
+  $("#profile_name_mb").html(userData['NAME'])
+  $("#profile_email_mb").html(userData['EMAIL'])
+  $("#profile_mobile_mb").html(userData['MOBILE'])
 
   document.getElementById("user_profile_image").src = userData['PHOTOURL']
+  document.getElementById("user_profile_image_mb").src = userData['PHOTOURL']
 
   // Profile Details
   document.getElementById("user_name").value = userData['NAME']
@@ -307,6 +316,8 @@ function updateHTMLPage() {
   </div>'
 
   if (userData['ROLE'] != 'USER') {
+    
+    document.getElementById("extra_options_card").style.display = 'block';
 
     let adminOptions = ''
 
@@ -321,6 +332,109 @@ function updateHTMLPage() {
 
 
 
+}
+
+
+// Div Block Handling
+function divBlockHandling(value) {
+  displayOutput(value)
+
+  window.scrollTo(0, 0);
+
+  document.getElementById("main_footer_sec").style.display = 'none';
+
+  switch(value) {
+    
+    case "profile":
+
+      if (isMobileBrowser()) {
+        document.getElementById("profile_header_section_mb").style.display = 'none';
+      } else {
+        document.getElementById("profile_header_section").style.display = 'none';
+      }
+      document.getElementById("options_card_section").style.display = 'none';
+
+      document.getElementById("profile_section").style.display = 'block';
+      document.getElementById("close_fl_btn").style.display = 'block';
+
+    break;
+
+    case "bookings":
+
+      if (isMobileBrowser()) {
+        document.getElementById("profile_header_section_mb").style.display = 'none';
+      } else {
+        document.getElementById("profile_header_section").style.display = 'none';
+      }
+      document.getElementById("options_card_section").style.display = 'none';
+
+      document.getElementById("booking_section").style.display = 'block';
+      document.getElementById("close_fl_btn").style.display = 'block';
+
+    break;
+
+
+    case "wishlist":
+
+      if (isMobileBrowser()) {
+        document.getElementById("profile_header_section_mb").style.display = 'none';
+      } else {
+        document.getElementById("profile_header_section").style.display = 'none';
+      }
+      document.getElementById("options_card_section").style.display = 'none';
+
+      document.getElementById("wishlist_section").style.display = 'block';
+      document.getElementById("close_fl_btn").style.display = 'block';
+
+      openBookmark()
+
+    break;
+
+    case "options":
+
+      if (isMobileBrowser()) {
+        document.getElementById("profile_header_section_mb").style.display = 'none';
+      } else {
+        document.getElementById("profile_header_section").style.display = 'none';
+      }
+      document.getElementById("options_card_section").style.display = 'none';
+
+      document.getElementById("options_section").style.display = 'block';
+      document.getElementById("close_fl_btn").style.display = 'block';
+
+    break;
+
+
+  }
+}
+
+// Hide Close Floating btn
+function hideFullMessageDialog(){
+
+  window.scrollTo(0, 0);
+
+  document.getElementById("profile_section").style.display = 'none';
+  document.getElementById("booking_section").style.display = 'none';
+  document.getElementById("wishlist_section").style.display = 'none';
+  document.getElementById("options_section").style.display = 'none';
+  document.getElementById("close_fl_btn").style.display = 'none';
+
+  if (isMobileBrowser()) {
+    document.getElementById("profile_header_section_mb").style.display = 'block';
+  } else {
+    document.getElementById("profile_header_section").style.display = 'block';
+  }
+  
+  document.getElementById("options_card_section").style.display = 'block';
+  document.getElementById("main_footer_sec").style.display = 'block';
+
+}
+
+// Hide User Booking
+function hideUserBookingView(){
+
+  document.getElementById("user_bookings_view_section").style.display = 'none';
+  document.getElementById("user_bookings").style.display = 'block';
 }
 
 
@@ -408,7 +522,7 @@ function collectBookingDetails() {
       displayOutput('No Record Found !!')
 
       // Show No Booking Details
-      let emptyMsg= '<div class="row" style="margin-top:1%;"><div class="col s12"><div class="card" style="border-radius: 25px;">\
+      let emptyMsg= '<div class="row" style="margin-top:1%;"><div class="col s12 m6"><div class="card" style="border-radius: 25px;">\
       <div class="red-card-content white-text z-depth-2" style="border-radius: 25px 25px 0px 0px; height: 100px;">\
       <p class="card-content" style="font-size: 40px;">Booking</p>\
       </div><div class="card-content"><div class="row">\
@@ -488,10 +602,17 @@ function createCard(id, data) {
   </div>\
   </div></div>'
 
-  details += '<div class="card-content"><b class="grey-text">Message</b><p>' + data['EXTRA']['FINALMESSAGE']+ '</p>\</div>'
+  let message = data['EXTRA']['FINALMESSAGE']
+
+  if(message == 'NA') {
+    details += '<div class="card-content"><b class="grey-text">No Message</b></div>'
+  } else {
+    details += '<div class="card-content"><b class="grey-text">Message</b><p>' + data['EXTRA']['FINALMESSAGE']+ '</p>\</div>'
+  }
+  
 
 
-  var cardDetails = '<div class="col s12 m12">\
+  var cardDetails = '<div class="col s12 m6">\
   <div class="card" style="border-radius: 25px;">\
     <div>\
       ' + details
@@ -513,6 +634,8 @@ function createCard(id, data) {
 // Open Booking Details in Model
 function openViewDialog(id) {
   displayOutput(id)
+
+  showPleaseWaitModel()
    
   let quotPath = allDocCmpData[id]['BOOKINGID']
 
@@ -523,6 +646,7 @@ function openViewDialog(id) {
   .then(doc => {
     if (!doc.exists) {
       displayOutput('No such document!');
+      hidePleaseWaitModel()
 
       viewModel('Message','No Details Found !!')
     } else {
@@ -561,7 +685,7 @@ function openViewDialog(id) {
      '
 
      // Create Card
-     let details = '<div class="left-align ' + carb_back_color + '  white-text z-depth-2">\
+     let details = '<div class="card" style="border-radius: 10px;"><div class="left-align ' + carb_back_color + '  white-text z-depth-2" style="border-radius: 10px;">\
      <div class="card-content">\
      <div class="right-align"><b style="font-size: 20px;">' + data['ADMINSTATUS']+ '</b></div>\
      <div class="row">\
@@ -570,12 +694,13 @@ function openViewDialog(id) {
      <div class="col s12 m3"><b style="font-size: 30px;">'+ data['DESTINATION'] + '</b><p>'+ data['ENDDATE'] + '</p></div>\
      </div>\
      <div class="left-align">'+ userContent +'\
-     </div></div></div>'
+     </div></div></div></div>'
 
-     details += '<div class="card-content"><div class="row">\
+     details += '<div class="card" style="border-radius: 10px;">\
+     <div class="card-content">\
      <div class="input-field col s12">\
          <i class="material-icons prefix blue-text">message</i>\
-         <textarea value="'+ data['USERCOMMENT'] + '" id="user_comment" class="materialize-textarea" data-length="300"></textarea>\
+         <textarea value="'+ data['USERCOMMENT'] + '" id="user_comment" class="materialize-textarea"></textarea>\
          <label class="active" for="user_comment">Your Comment</label>\
        </div>'
 
@@ -583,13 +708,13 @@ function openViewDialog(id) {
 
        details += '</div>'
 
-    
-
-       details += '<br><br><div class="left-align"><a onclick="validateCancelBooking(\'' + id + '#' + quotPath + '\')" class="waves-effect waves-teal btn red rcorners">Cancel Booking</a></div>'
-       details += '<div class="right-align"><a onclick="closeModel()" class="waves-effect waves-teal btn black white-text rcorners">Close</a></div>'
-
-
        details += '</div></div>'
+
+       details += '<div class="center-align" style="margin-top: 0px;"><a onclick="validateCancelBooking(\'' + id + '#' + quotPath + '\')" class="waves-effect waves-teal btn-large red rcorners">Cancel Booking</a></div>'
+       //details += '<div class="right-align"><a onclick="closeModel()" class="waves-effect waves-teal btn black white-text rcorners">Close</a></div>'
+
+
+       
 
      mdlContent += '<div class="col s12 m12">\
      <div class="card">\
@@ -598,10 +723,18 @@ function openViewDialog(id) {
 
          mdlContent += '</div> </div></div>'    
 
-    
+       
+      // Display Content
+      window.scrollTo(0, 0);
+      $('#user_bookings_view').html(details)
+
+      document.getElementById("user_bookings_view_section").style.display = 'block';
+      document.getElementById("user_bookings").style.display = 'none';
+
+      hidePleaseWaitModel()
     
       // Display in model
-      viewModelCustom('',mdlContent)
+      //viewModelCustom('',mdlContent)
 
       $('#user_comment').val(data['USERCOMMENT']);
       M.textareaAutoResize($('#user_comment'));
@@ -611,6 +744,7 @@ function openViewDialog(id) {
   })
   .catch(err => {
     displayOutput('Error getting document');
+    hidePleaseWaitModel()
     viewModel('Message','No Details Found !!')
   }); 
 
@@ -686,6 +820,8 @@ function validateCancelBooking(details) {
 // Update Booking
 function updateBooking(details) {
 
+  showPleaseWaitModel()
+
   let id = details.split('#')[0]
   let quotePath = details.split('#')[1]
 
@@ -698,6 +834,7 @@ function updateBooking(details) {
       USERCOMMENT: user_comment
   }).then(function () {
     displayOutput("Main booking ..");
+    hidePleaseWaitModel()
     toastMsg('You booking has been Updated !!')
   });
 
@@ -721,7 +858,8 @@ function openBookmark() {
         // ------ No Details Present -------------  
         displayOutput('No Record Found !!')
         hidePleaseWaitModel()    
-        viewModel('My Wishlist','<h1>Empty List</h1>'); 
+        //viewModel('My Wishlist','<h1>Empty List</h1>'); 
+        $('#user_wishlist').html('<h1>Empty List</h1>')
   
       } else {
   
@@ -733,18 +871,22 @@ function openBookmark() {
           let mark_data = doc.data()
           displayOutput(mark_data);
 
-         // content += '<a href="eachdetails.html?detail1='+mark_data['COLLNAME']+'&detail2='+mark_data['DOCID']+'&detail3=NA" class="collection-item">'+ mark_data['DETAILS'].split('#')[1] +'</a>'
-         let link = 'eachdetails.html?detail1='+mark_data['COLLNAME']+'&detail2='+mark_data['DOCID']+'&detail3=NA'
-         let markname = mark_data['DETAILS'].split('#')[1]
-         let markid = mark_data['DETAILS'].split('#')[0]       
+          let markname = mark_data['DETAILS'].split('#')[1]
+         let markid = mark_data['DETAILS'].split('#')[0]     
 
-         
-          content += '<li class="collection-item avatar">\
-          <a href="'+link+'"><i class="material-icons circle green">open_in_new</i></a>\
-          <span class="title"><b>'+markname+'</b></span>\
-          <p>'+markid+'</p>\
+         // epackage.html?id=DOC0&fl=NA
+         let link =''
+         if(mark_data['COLLNAME'] == 'PACKAGES') {
+          link = 'epackage.html?id='+mark_data['DOCID']+'&fl=NA' 
+          markid = 'Package'        
+         }     
+                  
+          content += '<a href="'+link+'"><li class="collection-item avatar black-text hoverable">\
+          <img src="'+mark_data['IMAGE']+'" alt="" class="circle">\
+          <span class="title black-text"><b>'+markname+'</b></span>\
+          <p class="grey-text">'+markid+'</p>\
           <a href="#!" onclick="removeBookmark(\'' + doc.id  + '\')" class="secondary-content"><i class="material-icons">delete</i></a>\
-        </li>'  
+        </li></a>'  
 
           // Check Document count
           docCount++;
@@ -752,7 +894,8 @@ function openBookmark() {
            
            hidePleaseWaitModel()
            content += '</ul>'
-           viewModel('My Wishlist',content); 
+           //viewModel('My Wishlist',content);           
+           $('#user_wishlist').html(content)  
 
           }
   

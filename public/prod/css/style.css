@@ -12,8 +12,16 @@
   background: linear-gradient(-45deg,#7391e4,#340788);
 }
 
+.footer-shade{
+  background: linear-gradient(-45deg,#509ECA,#2B4E7D);
+}
+
 .red-card-content{
   background: linear-gradient(-45deg,#ec5252,#6e1a52);
+}
+
+.red-2-card-content{
+  background: linear-gradient(-15deg,#faf8f8,#e01638);
 }
 
 .green-card-content{
@@ -88,6 +96,33 @@ body, html {
   background-image: url("../Images/body_background.png");
 
   /* Full height */
+  height: 70%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+.bg-card {
+  /* The image used */
+  background-image: url("../Images/card_background_1.jpg");
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bg-card-2 {
+  /* The image used */
+  background-image: url("../Images/card_background_2.jpg");
+
+  /* Full height */
   height: 100%;
 
   /* Center and scale the image nicely */
@@ -113,10 +148,20 @@ body
 
 .fb-image-profile
 {
-    margin: -130px 0px 0px 0px;
+    margin: -100px 0px 0px 0px;
     z-index: 9;    
-    max-width: 250px;
-    max-height: 250px;
+    max-width: 200px;
+    max-height: 200px;
+    border: solid white 5px;
+    border-radius: 50%;
+}
+
+.fb-image-profile-mb
+{
+    margin: -70px 0px 0px 0px;
+    z-index: 9;    
+    max-width: 150px;
+    max-height: 150px;
     border: solid white 5px;
     border-radius: 50%;
 }
