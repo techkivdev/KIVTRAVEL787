@@ -216,6 +216,24 @@
 													</div>
 												</div>
 
+												<!-- Generate listdataset file -->
+												<br>
+												<div class="card">
+													<div class="card-body">
+														<h5 class="card-title">Generate List Data Set File</h5>
+														<p class="card-subtitle mb-2 text-muted">Collect all Collection Data and Generate List Data.</p>
+														<br><input type="button" id="collectAllCollData" class="btn btn-primary" value="Collect Data" onclick="collectAllColData()" />
+														<p id="col1_msg"></p>
+														<p id="col2_msg"></p>
+														<p id="col3_msg"></p>
+														<p id="col4_msg"></p>
+														<p id="col5_msg"></p>
+														<br><br><input type="button" id="generateListDataSetFile" class="btn btn-success" value="Generate File" onclick="generateListDataSetFile()" />
+
+
+													</div>
+												</div>
+
 												<!-- Create New Language -->
 												<br>
 												<div class="card">
@@ -296,6 +314,7 @@
 <script src="app/firestore.js"></script>
 <script src="app/datasets.js"></script>
 <script src="app/project_settings.js"></script>
+<script src="app/FileSaver.min.js"></script>
 
 </body>
 </html>

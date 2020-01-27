@@ -28,6 +28,10 @@ var filter = 'NA';
 // All documents data
 var allDocCmpData = {}
 
+// Update Offline read flag if required ....
+//read_offline_col_data = false
+//read_offline_list_data = false
+
 // ***********************************************
 
 // ***********************************************
@@ -109,6 +113,19 @@ async function readDocumentDataAsync(docID) {
 
   displayOutput('DB : ' + coll_base_path)
 
+  if(read_offline_col_data) {
+    // Read Offline Data
+    displayOutput('-> Reading Offline Data ....')
+
+    let colData = readOfflineColData('LIST')
+    allDocCmpData[docID] = colData[docID]   
+
+    updateHTMLPage()
+
+  } else {
+
+    displayOutput('-> Reading Online Data ....')
+
   await db.collection(coll_base_path + coll_lang + '/' + coll_name).doc(docID).get()
     .then(doc => {
       if (!doc.exists) {
@@ -128,6 +145,8 @@ async function readDocumentDataAsync(docID) {
       hidePleaseWait()
     });
 
+  }
+
 }
 
 // Check startup validation
@@ -146,7 +165,9 @@ function checkStartupValidation() {
       if(userLoginData['ROLE'] == 'ADMIN' || userLoginData['ROLE'] == 'DEV') {
         displayOutput('Change Publish Mode from Production to Development.')
         check_dev_publish_content = false              
-        coll_base_path = basePath                   
+        coll_base_path = basePath    
+        read_offline_col_data = false
+        read_offline_list_data = false               
         $('#role_message').html('KivTech Development Publish')
 
         readDocumentDataAsync(document_ID)
@@ -312,9 +333,13 @@ function updateCardLayout(htmlID) {
 
     var doc_data = coll_list_data[each_doc_id]
 
+    // For VISIBLE Only
+    if(doc_data['VISIBLE']) {
+
     // Create Layout according to the Model Layouts  
     var currentmdlContent = modelLayoutSelector_local(model_layout, doc_data, 'FILTERPAGE,epackage,' + each_doc_id + ',NA')
     each_list_ref_div_content += currentmdlContent
+    }
 
   }
 

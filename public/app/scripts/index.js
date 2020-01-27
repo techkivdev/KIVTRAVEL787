@@ -33,6 +33,10 @@ var docMapDetails = {}
 //Extra
 var footer_m_content = ''
 
+// Update Offline read flag if required ....
+//read_offline_col_data = false
+//read_offline_list_data = false
+
 // ***********************************************
 
 // ***********************************************
@@ -146,6 +150,26 @@ async function readDocumentDataAsync(docID) {
 
   showPleaseWait()
 
+  if(read_offline_col_data) {
+    // Read Offline Data
+    displayOutput('-> Reading Offline Data ....')
+
+    let colData = readOfflineColData('HOME')
+    allDocCmpData[docID] = colData[docID]
+    allDocCmpData['MAIN'] = colData['MAIN']   
+
+    updateMappingDetails(docID)
+
+    hidePleaseWait()
+    
+
+    updateHTMLPage()
+
+  } else {
+
+    displayOutput('-> Reading Online Data ....')
+
+    // Read From Database
   await db.collection(coll_base_path + coll_lang + '/' + coll_name).doc(docID).get()
     .then(doc => {
       if (!doc.exists) {
@@ -194,6 +218,8 @@ async function readDocumentDataAsync(docID) {
       hidePleaseWait()
      
     });
+
+  }
 
 }
 
@@ -594,6 +620,8 @@ function checkUserDetailsAndSTART() {
                 displayOutput('Change Publish Mode from Production to Development.')
                 check_dev_publish_content = false
                 coll_base_path = basePath
+                read_offline_col_data = false
+                read_offline_list_data = false
                 $('#role_message').html('KivTech Development Publish ' + footer_m_content)
 
               }
@@ -612,6 +640,8 @@ function checkUserDetailsAndSTART() {
                   displayOutput('Change Publish Mode from Production to Development.')
                   check_dev_publish_content = false
                   coll_base_path = basePath
+                  read_offline_col_data = false
+                  read_offline_list_data = false
                   $('#role_message').html('KivTech Development Publish,DEV MODE '  + footer_m_content)
 
                 }

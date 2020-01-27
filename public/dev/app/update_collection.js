@@ -1966,7 +1966,7 @@ function updateDocFromCollectionListData(db_base_path,arrayListDetails) {
                     doc_publish_validation = false;
                 }
 
-                if (doc_publish_validation) {
+                if (true) {
 
                     console.log("-----  " + key + "  ---------")
                     var doc_list_info = {};
@@ -2027,6 +2027,7 @@ function updateDocFromCollectionListData(db_base_path,arrayListDetails) {
 
                     // Add some more Information
                     doc_list_info['ID'] = key
+                    doc_list_info['VISIBLE'] = doc_publish_validation
 
 
                     newCollDataSet[key] = doc_list_info;
@@ -3318,11 +3319,11 @@ function createDATACollection(collection_path, db_basePath,updateListData = true
         if (key != 'MAIN') {
             if (docData['MAIN']['VALUE'][doc_publish_info_details]['VALUE'] != 'YES') {
                 doc_publish_validation = false;
-                total_doc = total_doc - 1;
+                //total_doc = total_doc - 1;
             }
         }
 
-        if (doc_publish_validation) {
+        if (true) {
 
             console.log("-----  " + key + "  ---------")
 
@@ -3493,7 +3494,7 @@ function updateCollectionListData(db_base_path,arrayListDetails) {
                     doc_publish_validation = false;
                 }
 
-                if (doc_publish_validation) {
+                if (true) {
 
                     console.log("-----  " + key + "  ---------")
                     var doc_list_info = {};
@@ -3554,6 +3555,7 @@ function updateCollectionListData(db_base_path,arrayListDetails) {
 
                     // Add some more Information
                     doc_list_info['ID'] = key
+                    doc_list_info['VISIBLE'] = doc_publish_validation
 
 
                     newCollDataSet[key] = doc_list_info;

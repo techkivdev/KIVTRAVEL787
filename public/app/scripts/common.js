@@ -40,6 +40,18 @@ var check_dev_publish_content = true
 // Bypass Validation check
 var bypass_validation_check = false
 
+// Read Offline Data
+
+// For Only Collection Data
+var read_offline_col_data = true
+// For LIST COl Data
+var read_offline_list_data = true
+
+// Offline Data - Project Setting 
+// For Testing purpose use basePath
+// But for Production use baseProductionPath
+let offline_col_base_path = baseProductionPath
+
 // -----------------------------------------------------
 // ------------- Mobile Mode ---------------------------
 // -----------------------------------------------------
@@ -93,7 +105,7 @@ function getImageUrl(details) {
 // Get Image Description details
 function getImageDesc(details) {
   var docID = details.split('#')[0]
-  var info_details = details.split('#')[1]
+  var info_details = details.split('#')[1]  
 
   return allDocCmpData[docID][info_details + '_INFO6']
 }
@@ -137,17 +149,37 @@ function getListRefDetails(details, htmlID) {
     list_ref_details['MDL_LYT'] = 'SQUARE_CARD_HORIZ'
   }
 
+  // Read Offline Data
+  if(read_offline_list_data) {
+    //Read Collection Document data from LIST_DATA collection
+  if (list_ref_details['MDL_COLL'] != 'NA') {
 
+    displayOutput('-> Read LIST DATA Offline ...')
+    let colData = readOfflineColData('LIST')
+    list_ref_details['MDL_DOC_DATA'] = colData[list_ref_details['MDL_COLL']]
+    //displayOutput(list_ref_details)
+
+     // ----- Update HTML Content ---------
+     if (list_ref_details['VISIBLE']) {
+      createListRefHTMLContent(list_ref_details, htmlID)
+    }
+
+
+  }
+
+  } else { 
 
   //Read Collection Document data from LIST_DATA collection
   if (list_ref_details['MDL_COLL'] != 'NA') {
+    displayOutput('-> Read LIST DATA Online ...')
     db.collection(coll_base_path + coll_lang + '/' + 'LIST_DATA').doc(list_ref_details['MDL_COLL']).get()
       .then(doc => {
         if (!doc.exists) {
           displayOutput('No such document!');
         } else {
           displayOutput(docID + ' - Document data Read Done.');
-          list_ref_details['MDL_DOC_DATA'] = doc.data()
+          
+          list_ref_details['MDL_DOC_DATA'] = doc.data()         
 
           // ----- Update HTML Content ---------
           if (list_ref_details['VISIBLE']) {
@@ -160,6 +192,8 @@ function getListRefDetails(details, htmlID) {
         displayOutput()
       });
   }
+
+}
 
 }
 
@@ -411,6 +445,12 @@ function isMobileBrowser() {
 
 }
 
+// Read Offline Collection Data from listDataSet file
+function readOfflineColData(col_name){
+  var allColData = getAllCollectionData()
+  return allColData['DATA'][col_name]
+}
+
 
 
 // ---------------------------------------------------------------
@@ -428,12 +468,15 @@ function createListRefHTMLContent(details, htmlID) {
 
     var doc_id = all_doc_list[each_doc]
 
-    // Get Doc Details
-    var doc_details = details['MDL_DOC_DATA'][doc_id]
+    // Check VISIBLE Status
+    if(details['MDL_DOC_DATA'][doc_id]['VISIBLE']) {
+      // Get Doc Details
+      var doc_details = details['MDL_DOC_DATA'][doc_id]
 
-    // Create Layout according to the Model Layouts    
-    each_list_ref_div_content += modelLayoutSelector(details['MDL_COLL'], details['MDL_LYT'], doc_details, all_doc_info_list, details['MDL_CLICK'])
+      // Create Layout according to the Model Layouts    
+      each_list_ref_div_content += modelLayoutSelector(details['MDL_COLL'], details['MDL_LYT'], doc_details, all_doc_info_list, details['MDL_CLICK'])
 
+    }
   }
 
   // Get BASE Layout content 

@@ -49,6 +49,10 @@ var commonConfig = ''
 let showAdminCard = false
 let userLoginData = 'NA'
 
+// Update Offline read flag if required ....
+//read_offline_col_data = false
+//read_offline_list_data = false
+
 // ***********************************************
 
 // ***********************************************
@@ -131,6 +135,29 @@ async function readDocumentDataAsync(docID) {
 
   displayOutput('DB : ' + coll_base_path)
 
+  if(read_offline_col_data) {
+    // Read Offline Data
+    displayOutput('-> Reading Offline Data ....')
+
+    let colData = readOfflineColData('DESTINATIONS')
+    allDocCmpData[docID] = colData[docID]
+    allDocCmpData['MAIN'] = colData['MAIN']   
+
+    // Check VISIBLE Status
+    if(allDocCmpData[docID]['MAIN_INFO5']) {
+    updateMappingDetails(docID)
+
+    hidePleaseWait()   
+
+    updateHTMLPage()
+    } else {
+      viewModel('Message','Content Not Available !!')
+     }
+
+  } else {
+
+    displayOutput('-> Reading Online Data ....')
+
   await db.collection(coll_base_path + coll_lang + '/' + coll_name + '_DATA').doc(docID).get()
     .then(doc => {
       if (!doc.exists) {
@@ -163,14 +190,19 @@ async function readDocumentDataAsync(docID) {
         displayOutput('MAIN - Document data Read Done.');
         allDocCmpData['MAIN'] = doc.data()
 
+
+        // Check VISIBLE Status
+       if(allDocCmpData[docID]['MAIN_INFO5']) {
         // Update Mapping Data set       
         updateMappingDetails(docID)
-
-
 
         hidePleaseWait()
 
         updateHTMLPage()
+
+       } else {
+        viewModel('Message','Content Not Available !!')
+       }
 
       }
     })
@@ -180,6 +212,8 @@ async function readDocumentDataAsync(docID) {
 
       hidePleaseWait()
     });
+
+  }
 
 }
 
@@ -200,6 +234,8 @@ function checkStartupValidation() {
         displayOutput('Change Publish Mode from Production to Development.')
         check_dev_publish_content = false
         coll_base_path = basePath
+        read_offline_col_data = false
+        read_offline_list_data = false
         $('#role_message').html('KivTech Development Publish')
 
         // Show ADMIN Section

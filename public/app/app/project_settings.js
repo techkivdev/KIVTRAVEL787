@@ -22,6 +22,9 @@ var doc_count = 0;
 var del_docCount = 0;
 var total_doc_before_del = 0;
 
+// For Collecting Data
+var collectionData = {}
+
 
 // ***************************************************
 // ---------- Global Informations ---------------
@@ -892,6 +895,74 @@ function updateCollectionFromBackup(collection_path, backup_data) {
 
 
 }//EOF
+
+
+
+// ************** GENERATE DATASET FILE ********************
+// 1. Read all <COL>_DATA details
+// 2. Generate listdataset.js file
+// *********************************************************
+
+// Collect all Collection Data
+function collectAllColData() {
+  console.log('Collect all Collection Data ...')   
+  
+  readCollectionData('HOME','col1_msg')
+  readCollectionData('DESTINATIONS','col2_msg')
+  readCollectionData('PACKAGES','col3_msg')
+  readCollectionData('PLACES','col4_msg')
+  readCollectionData('LIST','col5_msg')
+  
+
+}
+
+// Read Collection Data
+function readCollectionData(collection_name,html_tag) {
+
+  $('#'+html_tag).html(collection_name + ' - Progress ....')
+
+  let eachColData = {}
+  db.collection(offline_col_base_path + 'CORE' + '/' + collection_name+'_DATA').get()
+    .then(snapshot => {
+      snapshot.forEach(doc => {
+        //console.log(doc.id, '=>', doc.data());
+        eachColData[doc.id] = doc.data()        
+      });
+      $('#'+html_tag).html(collection_name + ' - Completed.')
+      collectionData[collection_name] = eachColData
+    })
+    .catch(err => {
+      console.log('Error getting documents', err);
+      $('#'+html_tag).html(collection_name + ' - Error Found !!')
+    });
+
+}
+
+
+// Generate listdataset file from data
+function generateListDataSetFile() {
+
+  // Create Collection Content
+  var allcollectionData = {
+      VALIDATE: 'FIREPROJECT_VIK_787',      
+      LANG: 'CORE',
+      PATH: offline_col_base_path,      
+      DATA: collectionData
+  };
+
+  var collectionBackupData_string = JSON.stringify(allcollectionData);
+
+  let jsCode = 'function getAllCollectionData() { return ' + collectionBackupData_string + '}'
+
+  var filename = "listDataSet.js";
+
+  var blob = new Blob([jsCode], {
+      type: "text/plain;charset=utf-8"
+  });
+
+  saveAs(blob, filename);
+
+}
 
 
 // *************************************************************
