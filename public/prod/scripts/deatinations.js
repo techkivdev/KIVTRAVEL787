@@ -32,6 +32,11 @@ var allDocCmpData = {}
 //read_offline_col_data = false
 //read_offline_list_data = false
 
+// Filter Handling
+var is_filter_enable = false
+var filter_doc_data = {}
+var filter_group = {}
+
 // ***********************************************
 
 // ***********************************************
@@ -236,6 +241,9 @@ function updateHTMLPage() {
 
   hidePleaseWait()
 
+  // Init Filter Variables
+  filterInit()
+
   // HTML Modification functions
  // document.getElementById("header_section").style.display = 'block';
   document.getElementById("main_section").style.display = 'block';
@@ -321,8 +329,13 @@ function updateCardLayout(htmlID) {
   
 
   // ----------------------------------------------------
-
   var coll_list_data = allDocCmpData[document_ID]
+  // Filter Update
+  if(is_filter_enable) {
+    displayOutput('Update Filter HTML Content.')   
+    coll_list_data = filter_doc_data[document_ID]
+  }
+  
 
 
   var each_list_ref_div_content = '';
@@ -381,6 +394,7 @@ function openFilterSection() {
   document.getElementById("main_footer_sec").style.display = 'none';
 
   document.getElementById("flb_close_filter").style.display = 'block';
+  document.getElementById("filter_section").style.display = 'block';
 
 }
 
@@ -392,9 +406,246 @@ function closeFilterSection() {
   document.getElementById("main_footer_sec").style.display = 'block';
 
   document.getElementById("flb_close_filter").style.display = 'none';
+  document.getElementById("filter_section").style.display = 'none';
 
 }
 
+// Filer Operation
+function filterInit(){
+  filter_group['LOCATION'] = ['chkbx_filter_1','chkbx_filter_2']
+  filter_group['PRICE'] = ['chkbx_filter_3','chkbx_filter_4','chkbx_filter_5','chkbx_filter_6']
+  filter_group['DURATION'] = ['chkbx_filter_7','chkbx_filter_8','chkbx_filter_9','chkbx_filter_10','chkbx_filter_11']
+  filter_group['ACTIVITIES'] = ['chkbx_filter_12','chkbx_filter_13','chkbx_filter_14','chkbx_filter_15','chkbx_filter_16']
+  filter_group['TIME'] = ['chkbx_filter_17','chkbx_filter_18','chkbx_filter_19','chkbx_filter_20']
+
+}
+
+// RESET Filter
+function resetFilter(){
+   displayOutput('Reset Filter')
+   is_filter_enable = false
+   closeFilterSection()
+   updateCardLayout('col_section_1')
+
+   // Un-Checked all CHeck box
+   for(eachGroupKey in filter_group) {
+    let filter_details = filter_group[eachGroupKey]
+
+    for(eachIdx in filter_details) {
+      let filter_chkbx_id = filter_details[eachIdx]
+      // Check Status
+      document.getElementById(filter_chkbx_id).checked = false; 
+    }
+
+   }
+
+
+}
+
+// APPLY Filter
+function applyFilter() {
+  displayOutput('Apply Filter')
+
+  let filter_enable_data = {}  
+ 
+  // Read all CHeck box details
+  for(eachGroupKey in filter_group) {
+    
+    let filter_details = filter_group[eachGroupKey]
+
+    //Read Filter chkbox id list
+    var checked_value = [];
+    for(eachIdx in filter_details) {
+      let filter_chkbx_id = filter_details[eachIdx]
+
+      // Check Status
+      var status = document.getElementById(filter_chkbx_id).checked;
+      var value =  $("#"+filter_chkbx_id+'_val').html();
+      if(status) {
+        checked_value.push(value)
+      }
+
+    }
+
+    // Update Checked Value
+    filter_enable_data[eachGroupKey] = checked_value   
+    
+  }
+
+  // Process filter Handling
+  processFilterAndRefresh(filter_enable_data)
+
+}
+
+// Process Filter And update Page
+function processFilterAndRefresh(filter_data){
+   displayOutput('Process Filter Data..')
+   //displayOutput(filter_data)
+
+   is_filter_enable = false
+
+     let eachDocMap = {}
+
+     // Read All DOC Details
+     for(eachKey in allDocCmpData[document_ID]){
+      let eachDoc = allDocCmpData[document_ID][eachKey]
+      
+      let doc_filter_data = getHashDataList(eachDoc['INFO35'])
+      //displayOutput('DOC -> ' + eachKey) 
+     
+
+      if(doc_filter_data['ENABLE'] == 'YES') {
+
+        let filter_applied_case_1 = false
+        let filter_applied_case_2 = false
+        let filter_applied_case_3 = false
+        let filter_applied_case_4 = false
+        let filter_applied_case_5 = false
+
+        // Read Filter Data
+        for(eachFilterKey in filter_data) {
+          let filterData = filter_data[eachFilterKey]
+
+          // Check Empty List
+          if (Array.isArray(filterData) && filterData.length) {           
+            
+            // -----------------------------------------------------
+            // Filter DOC list according to Filter group
+            switch(eachFilterKey) {
+
+
+              case 'LOCATION' : { 
+                let case_1_filter_date =  doc_filter_data['LOCATION']
+                if(case_1_filter_date.includes(',')){
+                  case_1_filter_date = case_1_filter_date.split(',')
+                }  else {
+                  case_1_filter_date = [case_1_filter_date]
+                }
+                
+                //displayOutput('LOCATION ->')
+                //displayOutput(case_1_filter_date)
+                //displayOutput(filterData)
+
+                // Compare Both Array
+                filter_applied_case_1 = case_1_filter_date.some((val) => filterData.indexOf(val) !== -1);                 
+                  
+                break;
+              }
+
+
+              case 'PRICE' : {
+                let case_2_filter_date =  doc_filter_data['PRICE'] 
+                if(case_2_filter_date.includes(',')){
+                  case_2_filter_date = case_2_filter_date.split(',')
+                }  else {
+                  case_2_filter_date = [case_2_filter_date]
+                } 
+                
+                //displayOutput('PRICE ->')
+                //displayOutput(case_2_filter_date)
+                //displayOutput(filterData)
+
+                filter_applied_case_2 = case_2_filter_date.some((val) => filterData.indexOf(val) !== -1); 
+                  
+                break;
+              }
+
+
+              case 'DURATION' : {
+
+                let case_3_filter_date =  doc_filter_data['DURATION']  
+                if(case_3_filter_date.includes(',')){
+                  case_3_filter_date = case_3_filter_date.split(',')
+                }  else {
+                  case_3_filter_date = [case_3_filter_date]
+                } 
+                
+                //displayOutput('DURATION ->')
+                //displayOutput(case_3_filter_date)
+                //displayOutput(filterData)
+
+                filter_applied_case_3 = case_3_filter_date.some((val) => filterData.indexOf(val) !== -1); 
+                  
+                break;
+              }
+
+
+
+              case 'ACTIVITIES' : {
+
+                let case_4_filter_date =  doc_filter_data['ACTIVITIES'] 
+                if(case_4_filter_date.includes(',')){
+                  case_4_filter_date = case_4_filter_date.split(',')
+                }  else {
+                  case_4_filter_date = [case_4_filter_date]
+                }  
+                
+                //displayOutput('ACTIVITIES ->')
+                //displayOutput(case_4_filter_date)
+                //displayOutput(filterData)
+
+                filter_applied_case_4 = case_4_filter_date.some((val) => filterData.indexOf(val) !== -1); 
+                  
+                break;
+              }
+
+
+              case 'TIME' : {
+
+                let case_5_filter_date =  doc_filter_data['TIME']  
+                if(case_5_filter_date.includes(',')){
+                  case_5_filter_date = case_5_filter_date.split(',')
+                }  else {
+                  case_5_filter_date = [case_5_filter_date]
+                } 
+                
+                //displayOutput('TIME ->')
+                //displayOutput(case_5_filter_date)
+                //displayOutput(filterData)
+
+                filter_applied_case_5 = case_5_filter_date.some((val) => filterData.indexOf(val) !== -1); 
+                  
+                break;
+              }
+
+              default : {
+                break;
+              }
+            }
+
+            // ----------------------------------------------
+          }     
+        }
+      
+
+        // Check IS Filter applied on DOC or Not
+        if(filter_applied_case_1 || filter_applied_case_2 || filter_applied_case_3 || filter_applied_case_4 || filter_applied_case_5) {
+          displayOutput(eachKey+' > Filter Applied') 
+          is_filter_enable = true
+          eachDocMap[eachKey] = eachDoc
+        } else {          
+          displayOutput(eachKey+' > Filter Not Applied')
+        }
+
+      } else {
+        displayOutput('Filter Disabled !!')
+        eachDocMap[eachKey] = eachDoc
+      }
+   
+  }
+
+  // Update HTML Page
+  filter_doc_data[document_ID] = eachDocMap
+  if(is_filter_enable) {
+    closeFilterSection()
+    updateCardLayout('col_section_1')
+  } else {
+    closeFilterSection()
+    updateCardLayout('col_section_1')
+  }
+
+
+}
 
 
 // *****************************************************************
