@@ -21,12 +21,15 @@ var coll_name = 'LIST_DATA';
 var document_ID = 'PACKAGES';
 // ---------------------------------------
 
-var filter = 'NA';
+var filter_fl = 'NA';
 
 
 // Global Data variables
 // All documents data
 var allDocCmpData = {}
+
+// Col Doc Data
+var coll_list_data = {}
 
 // Update Offline read flag if required ....
 //read_offline_col_data = false
@@ -34,6 +37,7 @@ var allDocCmpData = {}
 
 // Filter Handling
 var is_filter_enable = false
+var filter_check_value = []
 var filter_doc_data = {}
 var filter_group = {}
 
@@ -53,14 +57,14 @@ function getParams() {
       params[nameVal[0]] = nameVal[1];
     }
   }
-  displayOutput(params);
+  //displayOutput(params);
 
   // ------- Update Variables ------------
   if ('fl' in params) {    
-    filter = params['fl'];    
+    filter_fl = params['fl'];    
   }
 
-  displayOutput(filter)
+  //displayOutput(filter_fl)
 
 
 }
@@ -241,6 +245,9 @@ function updateHTMLPage() {
 
   hidePleaseWait()
 
+  // Main Filter Handling
+  mainFilterHandling()
+
    // Init Filter Variables
    filterInit()
 
@@ -259,6 +266,10 @@ function modifyPageStyle() {
     displayOutput('Mobile Browser found!')
 
     document.getElementById('main_list_container').className = "container-fluid row";
+    document.getElementById('filter_section').className = "container-fluid row";
+
+    document.getElementById('filter_hdr').className = "container white-text";
+    document.getElementById('filter_reset_btn').className = "container right-align";
 
     document.getElementById("hdr_title").style.display = 'none';
 
@@ -330,12 +341,14 @@ function updateCardLayout(htmlID) {
   
 
   // ----------------------------------------------------
-  var coll_list_data = allDocCmpData[document_ID]
+  coll_list_data = allDocCmpData[document_ID]
   // Filter Update
   if(is_filter_enable) {
     displayOutput('Update Filter HTML Content.')   
-    coll_list_data = filter_doc_data[document_ID]
+    coll_list_data = filter_doc_data[document_ID]     
   }
+
+  $("#filter_tags").html(getChipIconsFromList(filter_check_value));
 
 
   var each_list_ref_div_content = '';
@@ -407,12 +420,49 @@ function getCompleteModelContentDetails(doc_details) {
 // ---------------- FIlter Handling -------------------------------
 // ****************************************************************
 
+//Main FIlter Handling
+function mainFilterHandling(){
+  
+  if(filter_fl != 'NA') {
+    displayOutput('Main Filter Handling ...')
+  // Collect other details
+  let filter_op_key= filter_fl.split('_')[0]
+  let filter_op_value= [filter_fl.split('_')[1]]
+
+  let eachDocMap = {}
+
+  // Filter DOC according to the FIlter OP Key
+  for(eachKey in allDocCmpData[document_ID]){
+    let eachDoc = allDocCmpData[document_ID][eachKey]
+
+    let op_doc_value = eachDoc[filter_op_key]
+    //displayOutput(op_doc_value)
+
+    let status = filter_op_value.some((val) => op_doc_value.indexOf(val) !== -1); 
+    if(status) {
+      // Details found
+      eachDocMap[eachKey] = eachDoc
+    }
+
+  } 
+
+  allDocCmpData[document_ID] = eachDocMap
+
+}
+
+}
+
 // Open Filter Section
 function openFilterSection() {
+
+  window.scrollTo(0, 0);
+
+  filter_check_value = []
 
   document.getElementById("main_list_container").style.display = 'none';
   document.getElementById("flb_open_filter").style.display = 'none';
   document.getElementById("main_footer_sec").style.display = 'none';
+  document.getElementById("nothing_found_sec").style.display = 'none';
 
   document.getElementById("flb_close_filter").style.display = 'block';
   document.getElementById("filter_section").style.display = 'block';
@@ -422,18 +472,23 @@ function openFilterSection() {
 // Close Filter Section
 function closeFilterSection() {
 
+  window.scrollTo(0, 0);
+
   document.getElementById("main_list_container").style.display = 'block';
   document.getElementById("flb_open_filter").style.display = 'block';
   document.getElementById("main_footer_sec").style.display = 'block';
+  document.getElementById("nothing_found_sec").style.display = 'none';
 
   document.getElementById("flb_close_filter").style.display = 'none';
   document.getElementById("filter_section").style.display = 'none';
+
+  filterCheckNoContentFound()
 
 }
 
 // Filer Operation
 function filterInit(){
-  filter_group['CATEGORIES'] = ['chkbx_filter_1','chkbx_filter_2','chkbx_filter_21','chkbx_filter_22','chkbx_filter_23','chkbx_filter_24']
+  filter_group['CATEGORIES'] = ['chkbx_filter_1','chkbx_filter_2','chkbx_filter_21','chkbx_filter_22','chkbx_filter_23','chkbx_filter_24','chkbx_filter_29','chkbx_filter_30','chkbx_filter_31']
   filter_group['PRICE'] = ['chkbx_filter_3','chkbx_filter_4','chkbx_filter_5','chkbx_filter_6']
   filter_group['DURATION'] = ['chkbx_filter_7','chkbx_filter_8','chkbx_filter_9','chkbx_filter_10','chkbx_filter_11']
   filter_group['ACTIVITIES'] = ['chkbx_filter_12','chkbx_filter_13','chkbx_filter_14','chkbx_filter_15','chkbx_filter_16']
@@ -442,12 +497,30 @@ function filterInit(){
 
 }
 
+// No Content Found After Apply Filter
+function filterCheckNoContentFound(){
+
+  if(is_filter_enable) {
+ // Check if empty
+ if(Object.keys(coll_list_data).length == 0) {
+  document.getElementById("nothing_found_sec").style.display = 'block';
+  document.getElementById("main_footer_sec").style.display = 'none';
+} else {
+  document.getElementById("nothing_found_sec").style.display = 'none';
+  document.getElementById("main_footer_sec").style.display = 'block';
+}
+  }
+}
+
 // RESET Filter
 function resetFilter(){
    displayOutput('Reset Filter')
    is_filter_enable = false
-   closeFilterSection()
+
+   filter_check_value = []
+   
    updateCardLayout('col_section_1')
+   closeFilterSection()
 
    // Un-Checked all CHeck box
    for(eachGroupKey in filter_group) {
@@ -485,6 +558,7 @@ function applyFilter() {
       var value =  $("#"+filter_chkbx_id+'_val').html();
       if(status) {
         checked_value.push(value)
+        filter_check_value.push(value)
       }
 
     }
@@ -518,12 +592,12 @@ function processFilterAndRefresh(filter_data){
 
         //displayOutput('DOC -> ' + eachKey) 
 
-        let filter_applied_case_1 = false
-        let filter_applied_case_2 = false
-        let filter_applied_case_3 = false
-        let filter_applied_case_4 = false
-        let filter_applied_case_5 = false
-        let filter_applied_case_6 = false
+        let filter_applied_case_1 = true
+        let filter_applied_case_2 = true
+        let filter_applied_case_3 = true
+        let filter_applied_case_4 = true
+        let filter_applied_case_5 = true
+        let filter_applied_case_6 = true
 
         // Read Filter Data
         for(eachFilterKey in filter_data) {
@@ -640,9 +714,9 @@ function processFilterAndRefresh(filter_data){
                   case_6_filter_date = [case_6_filter_date]
                 } 
                 
-                //displayOutput('HOTEL ->')
-                //displayOutput(case_5_filter_date)
-                //displayOutput(filterData)
+                displayOutput('HOTEL ->')
+                displayOutput(case_6_filter_date)
+                displayOutput(filterData)
 
                 filter_applied_case_6 = case_6_filter_date.some((val) => filterData.indexOf(val) !== -1); 
                   
@@ -660,7 +734,7 @@ function processFilterAndRefresh(filter_data){
       
 
         // Check IS Filter applied on DOC or Not
-        if(filter_applied_case_1 || filter_applied_case_2 || filter_applied_case_3 || filter_applied_case_4 || filter_applied_case_5 || filter_applied_case_6) {
+        if(filter_applied_case_1 && filter_applied_case_2 && filter_applied_case_3 && filter_applied_case_4 && filter_applied_case_5 && filter_applied_case_6) {
           displayOutput(eachKey+' > Filter Applied') 
           is_filter_enable = true
           eachDocMap[eachKey] = eachDoc
@@ -678,13 +752,15 @@ function processFilterAndRefresh(filter_data){
 
   // Update HTML Page
   filter_doc_data[document_ID] = eachDocMap
-  if(is_filter_enable) {
-    closeFilterSection()
-    updateCardLayout('col_section_1')
+
+  if (Array.isArray(filter_check_value) && filter_check_value.length) { 
+    is_filter_enable = true
   } else {
-    closeFilterSection()
-    updateCardLayout('col_section_1')
+    is_filter_enable = false
   }
+  
+  updateCardLayout('col_section_1')
+  closeFilterSection()
 
 
 }

@@ -106,6 +106,7 @@
   <!-- **************************************** -->
   <div id="main_section" class="container-fluid" style="display: none;">
     
+     <!-- Main Container -->
     <div id="main_list_container" class="container row">
 
       <!-- **************************************** -->
@@ -118,6 +119,11 @@
 
             <div id="hdr_title"> 
               <h1 class="white-text">Packages</h1> 
+            </div>
+
+             <!-- Filter Tags -->
+             <div id="filter_tags" style="margin-top: 2%">
+              <!-- Script Code -->                
             </div>
 
             <div id="pkg_hdr_card" class="card" style="border-radius: 25px; display: none;">
@@ -146,13 +152,18 @@
       </div>
     </div>
 
+      <!-- Nothing Found -->
+      <div id="nothing_found_sec" class="container row" style="margin-top: 2%; display: none;">
+        <h4 class="white-text">Nothing found!!</h4>
+      </div>
+
      <!-- Filter Section -->
-     <div id="filter_section" class="container row" style="display: none;">
-      <h4 class="white-text">Filter Options</h4> 
+     <div id="filter_section" class="container row" style=" margin-top: 2%; display: none;">
+      <h4 id="filter_hdr" class=" white-text">Filter Options</h4> 
 
       <!-- All Options -->
 
-      <div class="right-align" style="margin-top: 0px;">
+      <div id="filter_reset_btn" class=" right-align" style="margin-top: 0px;">
         <a onclick="resetFilter()" class="waves-effect waves-light btn black rcorners">RESET</a>
       </div>
 
@@ -170,7 +181,7 @@
                   <p>
                     <label>
                       <input id="chkbx_filter_1" type="checkbox" class="filled-in"/>
-                      <span id="chkbx_filter_1_val">Catg1</span>
+                      <span id="chkbx_filter_1_val">Honeymoon</span>
                     </label>
                   </p>
                 </div>
@@ -179,7 +190,7 @@
                   <p>
                     <label>
                       <input id="chkbx_filter_2" type="checkbox" class="filled-in"/>
-                      <span  id="chkbx_filter_2_val">Catg2</span>
+                      <span  id="chkbx_filter_2_val">Friends</span>
                     </label>
                   </p>
                 </div>
@@ -188,7 +199,7 @@
                   <p>
                     <label>
                       <input id="chkbx_filter_21" type="checkbox" class="filled-in"/>
-                      <span  id="chkbx_filter_21_val">Catg3</span>
+                      <span  id="chkbx_filter_21_val">Family</span>
                     </label>
                   </p>
                 </div>
@@ -197,7 +208,7 @@
                   <p>
                     <label>
                       <input id="chkbx_filter_22" type="checkbox" class="filled-in"/>
-                      <span  id="chkbx_filter_22_val">Catg4</span>
+                      <span  id="chkbx_filter_22_val">Nature</span>
                     </label>
                   </p>
                 </div>
@@ -206,7 +217,7 @@
                   <p>
                     <label>
                       <input id="chkbx_filter_23" type="checkbox" class="filled-in"/>
-                      <span  id="chkbx_filter_23_val">Catg5</span>
+                      <span  id="chkbx_filter_23_val">Adventure</span>
                     </label>
                   </p>
                 </div>
@@ -215,7 +226,34 @@
                   <p>
                     <label>
                       <input id="chkbx_filter_24" type="checkbox" class="filled-in"/>
-                      <span  id="chkbx_filter_24_val">Catg6</span>
+                      <span  id="chkbx_filter_24_val">Religious</span>
+                    </label>
+                  </p>
+                </div>
+
+                <div class="col s6 m6">
+                  <p>
+                    <label>
+                      <input id="chkbx_filter_29" type="checkbox" class="filled-in"/>
+                      <span  id="chkbx_filter_29_val">Solo</span>
+                    </label>
+                  </p>
+                </div>
+
+                <div class="col s6 m6">
+                  <p>
+                    <label>
+                      <input id="chkbx_filter_30" type="checkbox" class="filled-in"/>
+                      <span  id="chkbx_filter_30_val">Water Activities</span>
+                    </label>
+                  </p>
+                </div>
+
+                <div class="col s6 m6">
+                  <p>
+                    <label>
+                      <input id="chkbx_filter_31" type="checkbox" class="filled-in"/>
+                      <span  id="chkbx_filter_31_val">Wildlife</span>
                     </label>
                   </p>
                 </div>
@@ -464,7 +502,10 @@
                 <div class="col s12">
                   <p>
                     <label>
-                      <input id="chkbx_filter_25" type="checkbox" class="filled-in"/>
+                      <span><i class="small material-icons orange-text">star</i><i class="small material-icons orange-text">star</i>
+                        <i class="small material-icons orange-text">star</i><i class="small material-icons orange-text">star</i>
+                        <i class="small material-icons orange-text">star</i></span><br>
+                      <input id="chkbx_filter_25" type="checkbox" class="filled-in"/>                     
                       <span id="chkbx_filter_25_val">5 Star</span>
                     </label>
                   </p>
@@ -473,6 +514,9 @@
                 <div class="col s12">
                   <p>
                     <label>
+                      <span><i class="small material-icons orange-text">star</i>
+                        <i class="small material-icons orange-text">star</i><i class="small material-icons orange-text">star</i>
+                        <i class="small material-icons orange-text">star</i></span><br>
                       <input id="chkbx_filter_26" type="checkbox" class="filled-in"/>
                       <span id="chkbx_filter_26_val">4 Star</span>
                     </label>
@@ -483,6 +527,8 @@
                 <div class="col s12">
                   <p>
                     <label>
+                      <span><i class="small material-icons orange-text">star</i><i class="small material-icons orange-text">star</i>
+                        <i class="small material-icons orange-text">star</i></span><br>
                       <input id="chkbx_filter_27" type="checkbox" class="filled-in"/>
                       <span id="chkbx_filter_27_val">3 Star</span>
                     </label>
@@ -493,6 +539,8 @@
                 <div class="col s12">
                   <p>
                     <label>
+                      <span><i class="small material-icons orange-text">star</i>
+                        <i class="small material-icons orange-text">star</i></span><br>
                       <input id="chkbx_filter_28" type="checkbox" class="filled-in"/>
                       <span id="chkbx_filter_28_val">2 Star</span>
                     </label>

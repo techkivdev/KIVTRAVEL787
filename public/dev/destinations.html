@@ -117,7 +117,12 @@
 
             <div id="hdr_title"> 
               <h1 class="white-text">Destination</h1> 
-            </div>
+            </div> 
+            
+              <!-- Filter Tags -->
+              <div id="filter_tags" style="margin-top: 2%">
+                <!-- Script Code -->                
+              </div>
 
 
             <div id="dest_hdr_card" class="card" style="border-radius: 25px; display: none;">
@@ -147,16 +152,21 @@
 
     </div>
 
+    <!-- Nothing Found -->
+    <div id="nothing_found_sec" class="container row" style="margin-top: 2%; display: none;">
+      <h4 class="white-text">Nothing found!!</h4>
+    </div>
+
 
     <!-- Filter Section -->
-    <div id="filter_section" class="container row" style="display: none;">
-      <h4 class="white-text">Filter Options</h4> 
+    <div id="filter_section" class="container row" style="margin-top: 2%; display: none;">
+      <h4 id="filter_hdr" class="white-text">Filter Options</h4> 
 
       <!-- All Options -->
 
-      <div class="right-align" style="margin-top: 0px;">
+      <div id="filter_reset_btn" class="right-align" style="margin-top: 0px;">
         <a onclick="resetFilter()" class="waves-effect waves-light btn black rcorners">RESET</a>
-      </div>
+      </div>     
 
       <div class="row">
 
@@ -427,6 +437,7 @@
       </div>
 
     </div>
+
 
 
 
