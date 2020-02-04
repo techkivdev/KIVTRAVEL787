@@ -1204,6 +1204,16 @@ function getTodayDate() {
   return date
 }
 
+function getTodayDateID() { 
+
+  var today = new Date();
+  var date = today.getFullYear()+''+(today.getMonth()+1)+''+today.getDate();
+  var time = today.getHours() + "" + today.getMinutes() + "" + today.getSeconds();
+  var dateTime = date+''+time;
+
+  return dateTime
+}
+
 // ------------------------------------------------------
 // ----------------- Model ------------------------------
 // ------------------------------------------------------
@@ -1514,6 +1524,62 @@ function getLocalSessionPkgData() {
     // Sorry! No Web Storage support..
     displayOutput('Sorry! No Web Storage support..')
     return false
+  }
+
+}
+
+
+// ------------- Save Page History Content ---------
+function savePageHistoryContent(name,image,extra){
+
+  if (typeof (Storage) !== "undefined") {
+    // Code for localStorage/sessionStorage. 
+    
+    let pageData = {
+      ID: coll_name + '_'+document_ID,
+      NAME: name,
+      IMAGE: image,
+      EXTRA: extra,
+      DOCID: document_ID,
+      TYPE: coll_name,
+      VIEWCNT: 1,
+      DATE: getTodayDate(),
+      DATEID: getTodayDateID()
+    }
+
+    //localStorage.setItem('PAGEDATA', null);
+    displayOutput('>> Update Page History List .....')
+    // First Read Data
+
+    let page_history_data = JSON.parse(localStorage.getItem('PAGEDATA'));
+    displayOutput(page_history_data)
+
+    // Check for null
+    if(page_history_data == null){
+      let page_history_map_data = {}
+      page_history_map_data['DATA'] = {}      
+      localStorage.setItem('PAGEDATA', JSON.stringify(page_history_map_data)); 
+      displayOutput('Data Reset.')
+    } else {
+      // Updated Data   
+      // Check Key exist or not
+      if(pageData['ID'] in page_history_data['DATA'])   {
+         let old_cnt =  parseInt(page_history_data['DATA'][pageData['ID']]['VIEWCNT'])
+         //Inc count
+         old_cnt = old_cnt + 1;         
+         pageData.VIEWCNT = old_cnt;         
+      }
+
+
+      page_history_data['DATA'][pageData['ID']] = pageData
+      //displayOutput(page_history_data)
+      localStorage.setItem('PAGEDATA', JSON.stringify(page_history_data)); 
+      displayOutput('Page History Updated.')
+    }
+
+  } else {
+    // Sorry! No Web Storage support..
+    displayOutput('Sorry! No Web Storage support..')
   }
 
 }

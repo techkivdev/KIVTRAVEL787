@@ -38,6 +38,7 @@ var coll_list_data = {}
 // Filter Handling
 var is_filter_enable = false
 var filter_check_value = []
+var main_filter_check_value = ''
 var filter_doc_data = {}
 var filter_group = {}
 
@@ -61,7 +62,7 @@ function getParams() {
 
   // ------- Update Variables ------------
   if ('fl' in params) {    
-    filter_fl = params['fl'];    
+    filter_fl = params['fl'].replace('#!','');    
   }
 
   //displayOutput(filter_fl)
@@ -428,6 +429,8 @@ function mainFilterHandling(){
   // Collect other details
   let filter_op_key= filter_fl.split('_')[0]
   let filter_op_value= [filter_fl.split('_')[1]]
+  main_filter_check_value = filter_fl.split('_')[1]
+  filter_check_value.push(main_filter_check_value)
 
   let eachDocMap = {}
 
@@ -436,6 +439,10 @@ function mainFilterHandling(){
     let eachDoc = allDocCmpData[document_ID][eachKey]
 
     let op_doc_value = eachDoc[filter_op_key]
+    // check for array
+    if(!(Array.isArray(op_doc_value))) {
+      op_doc_value = [op_doc_value]
+    }
     //displayOutput(op_doc_value)
 
     let status = filter_op_value.some((val) => op_doc_value.indexOf(val) !== -1); 
@@ -448,6 +455,17 @@ function mainFilterHandling(){
 
   allDocCmpData[document_ID] = eachDocMap
 
+  // Check if empty
+ if(Object.keys(eachDocMap).length == 0) {
+  document.getElementById("nothing_found_sec").style.display = 'block';
+  document.getElementById("main_footer_sec").style.display = 'none';
+  document.getElementById("flb_open_filter").style.display = 'none';
+} else {
+  document.getElementById("nothing_found_sec").style.display = 'none';
+  document.getElementById("main_footer_sec").style.display = 'block';
+}
+
+
 }
 
 }
@@ -458,6 +476,7 @@ function openFilterSection() {
   window.scrollTo(0, 0);
 
   filter_check_value = []
+  if(main_filter_check_value){filter_check_value.push(main_filter_check_value)}
 
   document.getElementById("main_list_container").style.display = 'none';
   document.getElementById("flb_open_filter").style.display = 'none';
@@ -518,6 +537,7 @@ function resetFilter(){
    is_filter_enable = false
 
    filter_check_value = []
+   if(main_filter_check_value){filter_check_value.push(main_filter_check_value)}
    
    updateCardLayout('col_section_1')
    closeFilterSection()

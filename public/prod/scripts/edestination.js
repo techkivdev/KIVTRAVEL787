@@ -779,6 +779,9 @@ function genHTMLContentType() {
   createServiceCardSection()
  
   updateAdminSection()
+
+  // Update Page History List
+  savePageHistoryContent(getInfoDetails("Name"),getImageUrl(getInfoDetails("Image 1")),'NA')
  
 
 }
@@ -1246,7 +1249,6 @@ function updateLoaclSessionDetails() {
   localStorageData('PKG_DEST_ID', pageContent['DEST_ID'])
   localStorageData('PKG_DEST_NAME', pageContent['DEST_NAME'])
 }
-
 
 // ----------- START UP CALLS ----------------
 function startUpCalls() {

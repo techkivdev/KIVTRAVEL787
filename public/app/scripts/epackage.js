@@ -847,6 +847,9 @@ function genHTMLContentType() {
   // Update ADMIN Section
   updateAdminSection()
 
+  // Update Page History List
+  savePageHistoryContent(getInfoDetails("Name"),getImageUrl(getInfoDetails("Image 1")),'NA')
+
 }
 
 // Get Multi Info details
