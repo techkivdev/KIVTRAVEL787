@@ -44,6 +44,7 @@ var price_details = ''
 var hotel_viewdetails = ''
 
 var commonConfig = ''
+let watchListDetails = 'NA'
 
 let showAdminCard = false
 let userLoginData = 'NA'
@@ -777,7 +778,9 @@ function genHTMLContentType() {
   } else {
   
   $("#pkg_hotel_inc").html(getRatingHTMLCode(hotel_details['STAR'] + '#1'));
+
   $("#pkg_header_14").html(hotel_details['HEADER']);
+  $("#pkg_header_5").html(hotel_details['HEADER']);
   $("#pkg_hotel_hdr_desc").html(hotel_details['DESC']);
  
   $("#hotel_days").html(hotel_details['DAYS']);
@@ -828,17 +831,20 @@ function genHTMLContentType() {
   updateMultiInfoDetails(getInfoDetails("Itinerary 7D"), "itinerary_7")
 
   // Collect Details
-  let pkg_details = getInfoDetails("ID") + '#' + getInfoDetails("Name")
+  watchListDetails = getInfoDetails("ID") + '#' + getInfoDetails("Name")
+
+  /*
   // Floating Button Options
   let floating_btn_line = '<a class="btn-floating btn-large blue">\
 <i class="large material-icons">more_horiz</i>\
 </a>\
 <ul>\
-<li><a a href="#!" onclick="bookmarkHandling(\'' + pkg_details + '\')" class="btn-floating red"><i class="material-icons">favorite</i></a></li>\
+<li><a a href="#!" onclick="watchListHandling(\'' + pkg_details + '\')" class="btn-floating red"><i class="material-icons">favorite</i></a></li>\
 </ul>'
 
   $("#pkg_bookmark_sec").html(floating_btn_line);
   startUpCalls()
+  */
 
 
   // Create FAQ Section
@@ -928,10 +934,10 @@ function updateMultiInfoDetails(id_details, html_tag) {
 
 }
 
-// Book Mark Handling
-function bookmarkHandling(details) {
+// WatchList Handling
+function watchListHandling() {
 
-  displayOutput('Bookmark ID : ' + details)
+  displayOutput('Bookmark ID : ' + watchListDetails)
 
   // Get User Login Details
   // Check Session Data
@@ -955,7 +961,7 @@ function bookmarkHandling(details) {
       COLLNAME: coll_name,
       DOCID: document_ID,
       IMAGE: pageContent['IMAGE'],
-      DETAILS: details
+      DETAILS: watchListDetails
     };
 
     db.collection(userBookmarkPath).doc(doc_id).set(data).then(ref => {
@@ -968,6 +974,34 @@ function bookmarkHandling(details) {
   } else {
     toastMsg('Please login first !!')
   }
+
+}
+
+// Copy Link to Share with other
+function copyLinkToShare(){  
+
+  let page_name = 'epackage'
+  let link = 'https://kivtravels.com/prod/'+page_name+'.html?id='+document_ID+'&fl=NA' 
+
+  var textArea = document.createElement("textarea");
+  textArea.value = link;
+  textArea.display = "none";
+  textArea.style.position="fixed";  //avoid scrolling to bottom
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+
+  try {
+    var successful = document.execCommand('copy');
+    var msg = successful ? 'successful' : 'unsuccessful';    
+    //displayOutput('Fallback: Copying text command was ' + msg);
+    toastMsg('Link Copied !!')
+  } catch (err) {
+    //console.error('Fallback: Oops, unable to copy', err);
+    displayOutput('Oops, unable to copy')
+  }
+
+  document.body.removeChild(textArea);
 
 }
 

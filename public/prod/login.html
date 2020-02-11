@@ -405,7 +405,23 @@
 
            <!-- Wishlist Section -->
            <div id="wishlist_section" class="row" style="margin-top: 0%; display: none;">
-            <div id="user_wishlist" class="container" style="margin-top:1%;">
+
+            <div id="filter_drop_sec" class="center-align" style="display: none; margin-top: 25px;">
+             <!-- Dropdown Trigger -->
+            <a id="wishlist_filter_drop_down" class='dropdown-trigger btn pink rcorners' href='#' data-target='filter_btn'><i class="material-icons left">filter_list</i>All</a>
+
+            <!-- Dropdown Structure -->
+            <ul id='filter_btn' class='dropdown-content'>
+              <li><a onclick="filterWishList('ALL')" href="#!">All</a></li>
+              <li><a onclick="filterWishList('PACKAGES')" href="#!">Package</a></li>
+              <li><a onclick="filterWishList('DESTINATIONS')" href="#!">Destination</a></li>
+              <li><a onclick="filterWishList('PLACES')" href="#!">Place</a></li>
+            </ul>
+
+          </div>
+
+
+            <div id="user_wishlist" class="container" style="margin-top:10px;">
               <!-- Script Code -->
             </div> 
           </div>

@@ -7,8 +7,11 @@
 // *******************************************************************************
 
 
-updateHistorySection()
+$('.dropdown-trigger').dropdown();
 
+let filter_action = 'RESENT'
+
+updateHistorySection()
 
 
 // Update History Section
@@ -31,7 +34,13 @@ function updateHistorySection() {
   {
 
      // Sort Data
-     let updated_page_history_data = sortHistoryData(page_history_data)
+     let updated_page_history_data = ''
+     if(filter_action == 'MOST') {
+      updated_page_history_data = sortHistoryDataByView(page_history_data)
+     } else {
+      updated_page_history_data = sortHistoryDataByResent(page_history_data)
+     }
+     
 
     // Read Each Details
     for(eachidx in updated_page_history_data){
@@ -82,7 +91,7 @@ function clearHistory(){
 }
 
 // Sort history Data by date
-function sortHistoryData(page_history_data){
+function sortHistoryDataByResent(page_history_data){
   
   // Sort link :
   // https://stackoverflow.com/questions/1069666/sorting-object-property-by-values
@@ -102,5 +111,37 @@ byDateData.sort(function(a,b) {
 });
 
 return byDateData
+
+}
+
+// Sort history Data by View
+function sortHistoryDataByView(page_history_data) {
+
+  // Create Array
+let page_history_data_array = []
+
+for(eachKey in page_history_data['DATA']) {
+    let eachData = page_history_data['DATA'][eachKey]
+    page_history_data_array.push(eachData)
+}
+
+// use slice() to copy the array and not just make a reference
+var byDateData = page_history_data_array.slice(0);
+byDateData.sort(function(a,b) {
+    return b.VIEWCNT - a.VIEWCNT;
+});
+
+return byDateData
+
+}
+
+// Filter Content
+function filterHistory(details){
+ 
+  filter_action = details.split('#')[0]
+
+  $('#history_filter_drop_down').html('<i class="material-icons left">filter_list</i>' + details.split('#')[1])
+
+  updateHistorySection()
 
 }

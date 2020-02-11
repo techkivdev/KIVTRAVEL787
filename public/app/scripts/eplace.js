@@ -44,6 +44,7 @@ var timingsInfo = {}
 var config_details = {}
 
 var commonConfig = ''
+let watchListDetails = 'NA'
 
 let showAdminCard = false
 let userLoginData = 'NA'
@@ -761,13 +762,29 @@ function genHTMLContentType() {
   createFaqSection('plc_faq_sec',getHashDataList(getInfoDetails("FAQ")))
 
   // Create Service Section
-  createServiceCardSection(getInfoDetails('Services'))
+  if(commonConfig['HIDE_SERVICE_SECTION'] == 'NO') {
+    createServiceCardSection(getInfoDetails('Services'))
+  }
+  
 
   // Update ADMIN Section
   updateAdminSection()
 
   // Update Page History List
   savePageHistoryContent(getInfoDetails("Name"),getImageUrl(getInfoDetails("Image1")),'NA')
+
+  // -----------------------------------------------
+  // Update Page Content details
+  pageContent['ID'] = getInfoDetails("ID")
+  pageContent['NAME'] = getInfoDetails("Name")
+  pageContent['IMAGE'] = getImageUrl(getInfoDetails("Image1"))
+  pageContent['EXTRA'] = 'NA'
+  pageContent['TYPE'] = 'PLACE'
+  pageContent['DEST_ID'] = getInfoDetails("ID")
+  pageContent['DEST_NAME'] = 'NA'
+
+  // Collect Details
+  watchListDetails = getInfoDetails("ID") + '#' + getInfoDetails("Name")
 
 
 
@@ -937,6 +954,77 @@ function updateAdminSection() {
     }
   }
 
+
+}
+
+// WatchList Handling
+function watchListHandling() {
+
+  displayOutput('Bookmark ID : ' + watchListDetails)
+
+  // Get User Login Details
+  // Check Session Data
+  let status = getLoginUserStatus()
+  displayOutput('Check Session Data ...')
+  displayOutput(status)
+
+  if (status == 'true') {
+    let userLoginData = getLoginUserData()
+    displayOutput(userLoginData)
+
+    uuid = userLoginData['UUID']
+
+    // Update into Database
+    var userBookmarkPath = coll_base_path_P + 'USER/ALLUSER/' + uuid + '/BOOKMARK'
+    displayOutput(userBookmarkPath)
+    let doc_id = coll_name + '_' + document_ID
+    displayOutput(doc_id)
+
+    let data = {
+      COLLNAME: coll_name,
+      DOCID: document_ID,
+      IMAGE: pageContent['IMAGE'],
+      DETAILS: watchListDetails
+    };
+    
+    db.collection(userBookmarkPath).doc(doc_id).set(data).then(ref => {
+      displayOutput('User Bookmark Added !!')
+
+      toastMsg('Bookmark Added !!')
+    });
+
+
+  } else {
+    toastMsg('Please login first !!')
+  }
+
+}
+
+// Copy Link to Share with other
+function copyLinkToShare(){  
+
+  let page_name = 'eplace'
+  let link = 'https://kivtravels.com/prod/'+page_name+'.html?id='+document_ID+'&fl=NA' 
+
+  var textArea = document.createElement("textarea");
+  textArea.value = link;
+  textArea.display = "none";
+  textArea.style.position="fixed";  //avoid scrolling to bottom
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+
+  try {
+    var successful = document.execCommand('copy');
+    var msg = successful ? 'successful' : 'unsuccessful';    
+    //displayOutput('Fallback: Copying text command was ' + msg);
+    toastMsg('Link Copied !!')
+  } catch (err) {
+    //console.error('Fallback: Oops, unable to copy', err);
+    displayOutput('Oops, unable to copy')
+  }
+
+  document.body.removeChild(textArea);
 
 }
 

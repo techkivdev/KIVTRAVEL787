@@ -62,7 +62,7 @@
         <li><a href="index.html">Home</a></li>
         <li ><a href="destinations.html?fl=NA">Destinations</a></li>
         <li><a href="packages.html?fl=NA">Packages</a></li>
-        <li  id='nav_profile' style="display: none;" ><a href="login.html">Profile</a></li> 
+        <li  id='nav_profile' style="display: block;" ><a href="login.html">Profile</a></li> 
         <li class="divider"></li>
     <li id='nav_history'><a href="history.html">History</a></li>
         <li class="divider"></li>    
@@ -85,15 +85,27 @@
       <div id="col_section_1" style="display: block;">
 
           <div class="container"> 
-              <h1 class="white-text">History</h1> 
+              <h4 class="white-text">History</h4> 
           </div>
 
-          <div class="container right-align" style="margin-top: 0px;">
+          <div class="container right-align" style="margin-top: 4px;">
             <a onclick="clearHistory()" class="waves-effect waves-light btn black rcorners">Clear All</a>
           </div> 
 
+          <div id="filter_drop_sec" class="center-align" style="margin-top: 10px;">
+            <!-- Dropdown Trigger -->
+           <a id="history_filter_drop_down" class='dropdown-trigger btn pink rcorners' href='#' data-target='filter_btn'><i class="material-icons left">filter_list</i>Resent View</a>
+
+           <!-- Dropdown Structure -->
+           <ul id='filter_btn' class='dropdown-content'>
+             <li><a onclick="filterHistory('RESENT#Resent Visit')" href="#!">Resent Visit</a></li>
+             <li><a onclick="filterHistory('MOST#Most View')" href="#!">Most View</a></li>           
+           </ul>
+
+         </div>        
+
          
-          <div id="user_history" class="container" style="margin-top:0%;">
+          <div id="user_history" class="container" style="margin-top:15px;">
             <!-- Script Code -->
           </div> 
 

@@ -22,6 +22,7 @@ var allDocCmpData = {}
 var bookingData = ''
 var cancelDetails = ''
 var signinpopup = 'popup'
+var wishlistFilter = 'ALL'
 
 // Startup Call
 startupcalls()
@@ -386,7 +387,7 @@ function divBlockHandling(value) {
       document.getElementById("wishlist_section").style.display = 'block';
       document.getElementById("close_fl_btn").style.display = 'block';
 
-      openBookmark()
+      openWishlistContent()
 
     break;
 
@@ -844,7 +845,7 @@ function updateBooking(details) {
 }
 
 // Open Bookmark details
-function openBookmark() {
+function openWishlistContent() {
 
   let content = '<ul class="collection">'
 
@@ -869,17 +870,25 @@ function openBookmark() {
         // Read Each Documents
         querySnapshot.forEach((doc) => {
           let mark_data = doc.data()
-          displayOutput(mark_data);
+          //displayOutput(mark_data);
 
           let markname = mark_data['DETAILS'].split('#')[1]
-         let markid = mark_data['DETAILS'].split('#')[0]     
+         let markid = mark_data['DETAILS'].split('#')[0]  
+         
+         if((mark_data['COLLNAME'] == wishlistFilter) || (wishlistFilter == 'ALL')) {
 
          // epackage.html?id=DOC0&fl=NA
          let link =''
          if(mark_data['COLLNAME'] == 'PACKAGES') {
           link = 'epackage.html?id='+mark_data['DOCID']+'&fl=NA' 
           markid = 'Package'        
-         }     
+         } else if(mark_data['COLLNAME'] == 'DESTINATIONS')    {
+          link = 'edestination.html?id='+mark_data['DOCID']+'&fl=NA' 
+          markid = 'Destination'
+         } else {
+          link = 'eplace.html?id='+mark_data['DOCID']+'&fl=NA' 
+          markid = 'Place'
+         }
                   
           content += '<a href="'+link+'"><li class="collection-item avatar black-text hoverable">\
           <img src="'+mark_data['IMAGE']+'" alt="" class="circle">\
@@ -887,6 +896,8 @@ function openBookmark() {
           <p class="grey-text">'+markid+'</p>\
           <a href="#!" onclick="removeBookmark(\'' + doc.id  + '\')" class="secondary-content"><i class="material-icons">delete</i></a>\
         </li></a>'  
+
+         }
 
           // Check Document count
           docCount++;
@@ -896,6 +907,8 @@ function openBookmark() {
            content += '</ul>'
            //viewModel('My Wishlist',content);           
            $('#user_wishlist').html(content)  
+
+           document.getElementById("filter_drop_sec").style.display = 'block';
 
           }
   
@@ -908,6 +921,16 @@ function openBookmark() {
 
 }
 
+// Filter WishList Content 
+function filterWishList(details) {
+
+  wishlistFilter = details
+  $('#wishlist_filter_drop_down').html('<i class="material-icons left">filter_list</i>' + details)
+
+  openWishlistContent()
+
+}
+
 // Remove Bookmark
 function removeBookmark(details) {
     displayOutput(details)
@@ -916,7 +939,7 @@ function removeBookmark(details) {
       displayOutput("Bookmark Deleted !!");  
 
       closeModel()
-      openBookmark()
+      openWishlistContent()
     });
 
 

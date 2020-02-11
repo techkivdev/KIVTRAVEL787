@@ -45,6 +45,7 @@ var essential =  ''
 var toDo =  ''
 
 var commonConfig = ''
+let watchListDetails = 'NA'
 
 let showAdminCard = false
 let userLoginData = 'NA'
@@ -774,14 +775,19 @@ function genHTMLContentType() {
 
   // Create FAQ Section
   createFaqSection('dest_faq_sec',getHashDataList(getInfoDetails("FAQ")))
-
-  // Update Service Section
-  createServiceCardSection()
+  
+   // Create Service Section
+   if(commonConfig['HIDE_SERVICE_SECTION'] == 'NO') {
+    createServiceCardSection(getInfoDetails('Services'))
+  }  
  
   updateAdminSection()
 
   // Update Page History List
   savePageHistoryContent(getInfoDetails("Name"),getImageUrl(getInfoDetails("Image 1")),'NA')
+
+  // Collect Details
+  watchListDetails = getInfoDetails("ID") + '#' + getInfoDetails("Name")
  
 
 }
@@ -943,71 +949,6 @@ if(toDo == 'YES') {
 }
 
     $('#dest_quick_action_sec').html(html_line)
-
-
-}
-
-// Create Service Card
-function createServiceCardSection() {
-
-  let service_details = getHashDataList(getInfoDetails("Services"))
-
-  if(service_details['DISPLAY'] == 'YES') {
-
-  let html_header_1 = '<p style="font-size: 25px;">'+ service_details['HEADER'] +'</p>'
-  //let html_header_2 = ' <p class="long-text-nor grey-text" style="font-size: 15px; margin-top: -25px;">Sub Header</p>'
-  
-  let html_card = ''
-
-  let service_list = ['SERVICE_1','SERVICE_2','SERVICE_3','SERVICE_4']
-  for(each_idx in service_list) {
-    let key_hdr = service_list[each_idx]
-
-    // Get All Details
-    let display = service_details[key_hdr + '_DISPLAY']
-    let name = service_details[key_hdr + '_NAME']
-    name = ''
-    let image_type = service_details[key_hdr + '_IMAGE'].split('*&*')[0]
-    let image_details = service_details[key_hdr + '_IMAGE'].split('*&*')[1]
-
-    let image =''    
-    if(image_type == 'LOCAL') {
-    image = getDirectImageUrl('Images/' + image_details)
-    } else {
-      image = image_details
-    }
-
-    let action = service_details[key_hdr + '_ACTION']
-
-    if(display == 'YES') {
-    html_card += '<div class="col s6 m6">\
-  <div class="card z-depth-2" style="border-radius: 10px;">\
-    <div class="card-image">\
-      <img src="'+image+'" style="height: 170px; border-radius: 10px;">\
-      <span class="card-title">'+ name +'</span>\
-    </div></div></div>'
-    }
-
-
-  }
-
-
-  
-
-
-    let html_line = ''
-
-    html_line += html_header_1
-    //html_line += html_header_2
-    html_line += '<div class="row">'
-
-    html_line += html_card
-
-    html_line += '</div>'
-
-    $('#destcard_service').html(html_line)
-
-  }
 
 
 }
@@ -1235,6 +1176,77 @@ function updateAdminSection() {
 
     }
 }
+}
+
+// WatchList Handling
+function watchListHandling() {
+
+  displayOutput('Bookmark ID : ' + watchListDetails)
+
+  // Get User Login Details
+  // Check Session Data
+  let status = getLoginUserStatus()
+  displayOutput('Check Session Data ...')
+  displayOutput(status)
+
+  if (status == 'true') {
+    let userLoginData = getLoginUserData()
+    displayOutput(userLoginData)
+
+    uuid = userLoginData['UUID']
+
+    // Update into Database
+    var userBookmarkPath = coll_base_path_P + 'USER/ALLUSER/' + uuid + '/BOOKMARK'
+    displayOutput(userBookmarkPath)
+    let doc_id = coll_name + '_' + document_ID
+    displayOutput(doc_id)
+
+    let data = {
+      COLLNAME: coll_name,
+      DOCID: document_ID,
+      IMAGE: pageContent['IMAGE'],
+      DETAILS: watchListDetails
+    };
+
+    db.collection(userBookmarkPath).doc(doc_id).set(data).then(ref => {
+      displayOutput('User Bookmark Added !!')
+
+      toastMsg('Bookmark Added !!')
+    });
+
+
+  } else {
+    toastMsg('Please login first !!')
+  }
+
+}
+
+// Copy Link to Share with other
+function copyLinkToShare(){  
+
+  let page_name = 'edestination'
+  let link = 'https://kivtravels.com/prod/'+page_name+'.html?id='+document_ID+'&fl=NA' 
+
+  var textArea = document.createElement("textarea");
+  textArea.value = link;
+  textArea.display = "none";
+  textArea.style.position="fixed";  //avoid scrolling to bottom
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+
+  try {
+    var successful = document.execCommand('copy');
+    var msg = successful ? 'successful' : 'unsuccessful';    
+    //displayOutput('Fallback: Copying text command was ' + msg);
+    toastMsg('Link Copied !!')
+  } catch (err) {
+    //console.error('Fallback: Oops, unable to copy', err);
+    displayOutput('Oops, unable to copy')
+  }
+
+  document.body.removeChild(textArea);
+
 }
 
 // --------------- Local Session -------------------

@@ -244,8 +244,10 @@ mobileModeStartupHandling()
 //readDocumentData(document_ID);
 
 // Async Mode
-//readDocumentDataAsync(document_ID)
 checkUserDetailsAndSTART()
+
+//readDocumentDataAsync(document_ID)
+
 
 
 
@@ -587,6 +589,9 @@ function checkUserDetailsAndSTART() {
     if (user) {
       displayOutput('User login !!')
       let uuid = user.uid;
+
+      // Update HTML Document
+      readDocumentDataAsync(document_ID)
 
       // Check User Doc Exist or Not
       let ref = db.collection(userDataPath).doc(uuid);
