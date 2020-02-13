@@ -20,7 +20,7 @@ var document_ID = 'NA';
 var filter = 'NA';
 var extra = 'NA';
 
-var uuid = 'NA'
+var userLoginData = ''
 
 var quotesPath = coll_base_path+'COMMON/QUOTES'
 
@@ -29,8 +29,7 @@ var quotesPath = coll_base_path+'COMMON/QUOTES'
 var allDocCmpData = {}
 
 // Pkg details
-var pkg_id = 'NA'
-var dest_id = 'NA'
+var pkg_data = ''
 
 // ***********************************************
 
@@ -62,11 +61,8 @@ function checkLoginData(){
   displayOutput(status)
   
   if(status == 'true') {
-    let userLoginData = getLoginUserData()
-    displayOutput(userLoginData)
-
-    uuid = userLoginData['UUID']
-
+    userLoginData = getLoginUserData()
+   
     // Profile Details
   document.getElementById("name_txt").value = userLoginData['NAME']
   document.getElementById("mobile_txt").value = userLoginData['MOBILE']
@@ -79,16 +75,13 @@ function checkLoginData(){
   displayOutput(pkg_status)
 
   if(pkg_status  == 'true') {
-     let pkg_data = getLocalSessionPkgData()
+     pkg_data = getLocalSessionPkgData()
      displayOutput(pkg_data)
      document.getElementById("package_details_sec").style.display = 'block';
 
      document.getElementById('pkg_img').src = pkg_data['PKG_IMG']
      $("#pkg_hdr").html(pkg_data['PKG_NAME']);
-     $("#pkg_extra").html(pkg_data['PKG_EXTRA']);
-
-     pkg_id = pkg_data['PKG_ID']
-     dest_id = pkg_data['PKG_DEST_ID']
+     $("#pkg_extra").html(pkg_data['PKG_EXTRA']);    
 
      document.getElementById('autocomplete-input-destination').value = pkg_data['PKG_DEST_NAME'].split('#')[0]
      document.getElementById('autocomplete-input-destination').disabled = true
@@ -266,18 +259,24 @@ function submitDetails() {
     customedata['FINALMESSAGE'] = 'NA'
     customedata['RESPONSIBLE'] = 'NA'
 
-    customedata['USERUUID'] = uuid
+    customedata['COLLNAME'] = pkg_data['COLLNAME']
+    customedata['DOCID'] = pkg_data['DOCID']
+    customedata['OWNERID'] = pkg_data['OWNERID']
+    customedata['ISREVIEW'] = false
+
+    customedata['USERUUID'] = userLoginData['UUID']
     customedata['USERCOMMENT'] = user_comment
     customedata['USERCANCEL'] = false
     customedata['USERMOOD'] = 'OPEN'
+    customedata['USERPHOTO'] = userLoginData['PHOTO']
 
     // Get Today Date    
     customedata['BOOKINGDATE'] = getTodayDate()
     customedata['VENDORID'] = 'NA'
     customedata['DEALPRICE'] = 'NA'
 
-    customedata['PKGID'] = pkg_id
-    customedata['DESTID'] = dest_id
+    customedata['PKGID'] = pkg_data['PKG_ID']
+    customedata['DESTID'] = pkg_data['PKG_DEST_ID']
     customedata['PRIORITY'] = 'HIGH'
 
     // Disscussion Details
@@ -297,14 +296,9 @@ function submitDetails() {
     let extraParm = {}
     extraParm['EXTRA'] = 'NA'
     
-    customedata['EXTRAPARM'] = extraParm
-
-
-    
+    customedata['EXTRAPARM'] = extraParm  
 
     writeDocument(customedata)
-
-
 
   }
 

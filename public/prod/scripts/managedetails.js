@@ -446,6 +446,7 @@ function openBookingDetails(id) {
     <li><a onclick="changeBookingStatus(\'' + 'OPEN' + '\')" >OPEN</a></li>\
     <li><a onclick="changeBookingStatus(\'' + 'PROGRESS' + '\')" >PROGRESS</a></li>\
     <li><a onclick="changeBookingStatus(\'' + 'SUCCESS' + '\')" >SUCCESS</a></li>\
+    <li><a onclick="changeBookingStatus(\'' + 'COMPLETE' + '\')" >COMPLETE</a></li>\
     <li><a onclick="changeBookingStatus(\'' + 'CANCEL' + '\')" >CANCEL</a></li>\
     <li class="divider" tabindex="-1"></li>\
     <li><a onclick="changeBookingStatus(\'' + 'DELETED' + '\')" class="red-text">DELETED</a></li>\
@@ -521,6 +522,7 @@ function createModel(id, data) {
     <li><a onclick="changeBookingStatus(\'' + 'OPEN' + '\')" >OPEN</a></li>\
     <li><a onclick="changeBookingStatus(\'' + 'PROGRESS' + '\')" >PROGRESS</a></li>\
     <li><a onclick="changeBookingStatus(\'' + 'SUCCESS' + '\')" >SUCCESS</a></li>\
+    <li><a onclick="changeBookingStatus(\'' + 'COMPLETE' + '\')" >COMPLETE</a></li>\
     <li><a onclick="changeBookingStatus(\'' + 'CANCEL' + '\')" >CANCEL</a></li>\
     <li class="divider" tabindex="-1"></li>\
     <li><a onclick="changeBookingStatus(\'' + 'DELETED' + '\')" >DELETED</a></li>\
@@ -661,7 +663,7 @@ function updateBookingStatus(id) {
 function filterOperation() {
   displayOutput('Filter Operation ..')
 
-  let dateOptionsValues = ["OPEN", "ALL", "OPEN", "PROGRESS", "SUCCESS", "CANCEL", "DELETED"]
+  let dateOptionsValues = ["OPEN", "ALL", "OPEN", "PROGRESS", "SUCCESS", "COMPLETE", "CANCEL", "DELETED"]
   filter_options = dateOptionsValues[document.getElementById("filter_state_options").value];
   displayOutput('Filter Options : ' + filter_options)
 

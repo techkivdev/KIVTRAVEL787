@@ -1159,6 +1159,86 @@ function createServiceCardSection(details) {
 
 }
 
+// Update Rating Section
+function updateRatingSection() {
+  // Read Ratings details
+
+  let path = coll_base_path_P + 'RATINGS/' + coll_name+'_'+document_ID
+
+  let htmlContent = '<ul class="collection">'
+
+  let header = ''
+
+ db.collection(path).get()
+  .then(snapshot => {
+
+    if (snapshot.size == 0) {
+      // ------ No Details Present -------------  
+      displayOutput('No Ratings Record Found !!')
+
+      document.getElementById("ratings_sec").style.display = 'none';
+
+    } else {
+
+    snapshot.forEach(doc => { 
+      let rat_data = doc.data()  
+      //displayOutput(rat_data)
+
+      htmlContent += ' <li class="collection-item avatar">\
+      <img src="'+rat_data['USERPHOTO']+'" alt="" class="circle">\
+      <span class="title"><b>'+rat_data['NAME']+'</b><p class="grey-text" style="font-size: 13px;">'+rat_data['DATE']+'</p></span>\
+      '+'<div class="left-align" style="margin-left: -5px;">'+getRatingHTMLCode(rat_data['RATINGS']+'#0')+'</div>'+rat_data['COMMENT']+'\
+      \
+    </li>'
+
+    header += '<h5>Ratings</h5>'
+
+    });
+
+    htmlContent += '</ul>'
+    $("#ratings_sec").html(header + htmlContent);
+
+  }
+  })
+  .catch(err => {
+    console.log('Error getting documents', err);
+  });
+
+ 
+
+
+}
+
+
+// ----------- Document Handling -------------------
+function addNewDocument(path,data,message) { 
+
+  // Create our initial doc
+  db.collection(path).add(data).then(function() {
+    if(message != 'NA') {toastMsg(message);}
+  }); 
+}
+
+function setNewDocument(path,docid,data,message) {
+
+// Create our initial doc
+db.collection(path).doc(docid).set(data).then(function() {
+  if(message != 'NA') {toastMsg(message);}
+});
+
+
+}
+
+function updateDocument(path,data,message) {
+
+  // Create our initial doc
+  db.doc(path).update(data).then(function() {
+    if(message != 'NA') {toastMsg(message);}
+  });
+  
+  
+}
+
 
 
 
@@ -1481,6 +1561,7 @@ function getLoginUserData() {
     userData['EMAIL'] = sessionStorage.getItem('EMAIL');
     userData['MOBILE'] = sessionStorage.getItem('MOBILE');
     userData['ROLE'] = sessionStorage.getItem('ROLE');
+    userData['PHOTO'] = sessionStorage.getItem('PHOTO');
 
 
     return userData;
@@ -1518,6 +1599,10 @@ function getLocalSessionPkgData() {
     data['PKG_TYPE'] = sessionStorage.getItem('PKG_TYPE');
     data['PKG_DEST_ID'] = sessionStorage.getItem('PKG_DEST_ID');
     data['PKG_DEST_NAME'] = sessionStorage.getItem('PKG_DEST_NAME');
+    
+    data['COLLNAME'] = sessionStorage.getItem('COLLNAME');
+    data['DOCID'] = sessionStorage.getItem('DOCID');
+    data['OWNERID'] = sessionStorage.getItem('OWNERID');
 
     return data;
   } else {

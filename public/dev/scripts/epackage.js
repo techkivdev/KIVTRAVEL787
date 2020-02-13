@@ -44,7 +44,7 @@ var price_details = ''
 var hotel_viewdetails = ''
 
 var commonConfig = ''
-let watchListDetails = 'NA'
+let ownerDetails = ''
 
 let showAdminCard = false
 let userLoginData = 'NA'
@@ -830,8 +830,7 @@ function genHTMLContentType() {
   updateMultiInfoDetails(getInfoDetails("Itinerary 6D"), "itinerary_6")
   updateMultiInfoDetails(getInfoDetails("Itinerary 7D"), "itinerary_7")
 
-  // Collect Details
-  watchListDetails = getInfoDetails("ID") + '#' + getInfoDetails("Name")
+  
 
   /*
   // Floating Button Options
@@ -855,6 +854,12 @@ function genHTMLContentType() {
 
   // Update Page History List
   savePageHistoryContent(getInfoDetails("Name"),getImageUrl(getInfoDetails("Image 1")),'NA')
+
+
+  // Update Rating section
+  if(commonConfig['HIDE_RATINGS_SEC'] == 'NO') {
+     updateRatingSection()
+  }
 
 }
 
@@ -936,6 +941,9 @@ function updateMultiInfoDetails(id_details, html_tag) {
 
 // WatchList Handling
 function watchListHandling() {
+
+  // Collect Details
+  let watchListDetails = getInfoDetails("ID") + '#' + getInfoDetails("Name")
 
   displayOutput('Bookmark ID : ' + watchListDetails)
 
@@ -1028,7 +1036,7 @@ function updateAdminSection() {
   if(showAdminCard){
 
     // Check for Document Owner ID
-    let ownerDetails = allDocCmpData[document_ID]["MAIN_INFO4"]
+    ownerDetails = allDocCmpData[document_ID]["MAIN_INFO4"]
     let validateOwner = false
 
     // By pass all check for DEV Role
@@ -1076,6 +1084,9 @@ function updateLoaclSessionDetails() {
   localStorageData('PKG_TYPE', pageContent['TYPE'])
   localStorageData('PKG_DEST_ID', pageContent['DEST_ID'])
   localStorageData('PKG_DEST_NAME', pageContent['DEST_NAME'])
+  localStorageData('COLLNAME', coll_name)
+  localStorageData('DOCID', document_ID)
+  localStorageData('OWNERID', ownerDetails)
 }
 
 

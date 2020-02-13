@@ -613,6 +613,7 @@ function checkUserDetailsAndSTART() {
             localStorageData('EMAIL', userData['EMAIL'])
             localStorageData('MOBILE', userData['MOBILE'])
             localStorageData('ROLE', userData['ROLE'])
+            localStorageData('PHOTO',userData['PHOTOURL'])
 
             displayOutput('Session Data Updated ...')
 

@@ -32,6 +32,10 @@
   background: linear-gradient(-45deg,#ec8f52,#6e401a);
 }
 
+.yellow-card-content{
+  background: linear-gradient(-45deg,#eff15f,#e9da10);
+}
+
 .new-container {
     position: relative;
     text-align: center;

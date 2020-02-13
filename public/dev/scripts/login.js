@@ -20,6 +20,7 @@ var uuid = ''
 var allDocCmpData = {}
 
 var bookingData = ''
+var bookingID = ''
 var cancelDetails = ''
 var signinpopup = 'popup'
 var wishlistFilter = 'ALL'
@@ -260,6 +261,7 @@ function updateSessionData() {
   localStorageData('EMAIL',userData['EMAIL'])
   localStorageData('MOBILE',userData['MOBILE'])
   localStorageData('ROLE',userData['ROLE']) 
+  localStorageData('PHOTO',userData['PHOTOURL'])
   
   displayOutput('Session Data Updated ...')
 }
@@ -451,6 +453,10 @@ function startupcalls() {
   $(document).ready(function () {
     M.updateTextFields();
   });
+
+  $('.dropdown-trigger').dropdown();
+
+  M.textareaAutoResize($('#user_review_comment'));
 
 }
 
@@ -657,6 +663,8 @@ function openViewDialog(id) {
 
       let data = doc.data()
       bookingData = data
+      bookingID = id
+      //displayOutput(data)
 
       // Create Content
       let mdlContent = ''   
@@ -667,11 +675,16 @@ function openViewDialog(id) {
      let status = data['ADMINSTATUS']
 
      let carb_back_color = 'blue-card-content'
+
+     document.getElementById("user_review_section").style.display = 'none';
    
      if(status == 'CANCEL') {
        carb_back_color = 'red-card-content'
      } else if(status == 'SUCCESS') {
        carb_back_color = 'green-card-content'
+     } else if(status == 'COMPLETE') {
+      carb_back_color = 'green-card-content'
+      document.getElementById("user_review_section").style.display = 'block';
      }
 
      // User Explore Option
@@ -711,10 +724,10 @@ function openViewDialog(id) {
 
        details += '</div></div>'
 
+       if(status != 'COMPLETE') {
        details += '<div class="center-align" style="margin-top: 0px;"><a onclick="validateCancelBooking(\'' + id + '#' + quotPath + '\')" class="waves-effect waves-teal btn-large red rcorners">Cancel Booking</a></div>'
        //details += '<div class="right-align"><a onclick="closeModel()" class="waves-effect waves-teal btn black white-text rcorners">Close</a></div>'
-
-
+       }
        
 
      mdlContent += '<div class="col s12 m12">\
@@ -741,13 +754,124 @@ function openViewDialog(id) {
       M.textareaAutoResize($('#user_comment'));
 
 
+      // Update Rating Section
+      updateRatingsSection()
+
+
     }
+
   })
   .catch(err => {
     displayOutput('Error getting document');
     hidePleaseWaitModel()
     viewModel('Message','No Details Found !!')
   }); 
+
+
+}
+
+// Submit Ratings
+function submitRatings() {
+  displayOutput('Submit Ratings')
+
+  var user_review_comment = 'NA'
+
+  user_review_comment = document.getElementById("user_review_comment").value;
+  
+  var ratings = '5'
+  if(document.getElementById("star_5").checked) {
+    ratings = 5
+  } else if(document.getElementById("star_4").checked) {
+    ratings = 4
+  } else if(document.getElementById("star_3").checked) {
+    ratings = 3
+  } else if(document.getElementById("star_2").checked) {
+    ratings = 2
+  } else {
+    ratings = 1
+  }
+
+  //displayOutput(user_review_comment)
+  //displayOutput(ratings)
+
+  //displayOutput(bookingData)
+  //displayOutput(bookingID)
+  
+
+  // Submit Details Into Database
+  var ratingsData = {}
+  ratingsData['BOOKINGID'] = bookingID
+  ratingsData['RATINGS'] = ratings
+  ratingsData['COMMENT'] = user_review_comment
+
+  ratingsData['USERUUID'] = bookingData['USERUUID']
+  ratingsData['NAME'] = bookingData['NAME']
+  ratingsData['USERPHOTO'] = bookingData['USERPHOTO']
+
+  ratingsData['DATE'] = getTodayDate()
+
+  //displayOutput(ratingsData)
+
+  var reviewCollPath = coll_base_path + 'RATINGS/' + bookingData['COLLNAME'] + '_' + bookingData['DOCID']
+
+  if(first_time_operation) {
+      setNewDocument(coll_base_path,'RATINGS',{NAME: 'RATINGS'},'NA')
+  }
+
+  // Update Document
+  setNewDocument(reviewCollPath,bookingID,ratingsData,'Rating Submitted !!')
+
+
+}
+
+// Update Ratings Section
+function updateRatingsSection(){
+
+  document.getElementById("star_5").checked = true
+  $('#user_review_comment').val('');
+  M.textareaAutoResize($('#user_review_comment'));
+
+
+  var reviewCollPath = coll_base_path + 'RATINGS/' + bookingData['COLLNAME'] + '_' + bookingData['DOCID']+'/'+bookingID
+
+  // Read Ratings Details
+  db.doc(reviewCollPath).get()
+  .then(doc => {
+    if (!doc.exists) {
+      displayOutput('No such document!');
+
+      document.getElementById("star_5").checked = true
+      document.getElementById("user_review_comment").value = ''
+
+    } else {
+      displayOutput(doc.data());
+      let data = doc.data()      
+      
+      $('#user_review_comment').val(data['COMMENT']);
+      M.textareaAutoResize($('#user_review_comment'));
+      
+      if(data['RATINGS'] == '5'){
+        document.getElementById("star_5").checked = true
+      } else if(data['RATINGS'] == '4') {
+        document.getElementById("star_4").checked = true
+      } else if(data['RATINGS'] == '3') {
+        document.getElementById("star_3").checked = true
+      } else if(data['RATINGS'] == '2') {
+        document.getElementById("star_2").checked = true
+      } else {
+        document.getElementById("star_1").checked = true
+      }
+
+    }
+  })
+  .catch(err => {
+    displayOutput('Error getting document');
+
+    document.getElementById("star_5").checked = true
+    $('#user_review_comment').val('');
+    M.textareaAutoResize($('#user_review_comment'));
+
+  });
 
 
 }

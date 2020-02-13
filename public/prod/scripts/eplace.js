@@ -44,7 +44,6 @@ var timingsInfo = {}
 var config_details = {}
 
 var commonConfig = ''
-let watchListDetails = 'NA'
 
 let showAdminCard = false
 let userLoginData = 'NA'
@@ -783,11 +782,6 @@ function genHTMLContentType() {
   pageContent['DEST_ID'] = getInfoDetails("ID")
   pageContent['DEST_NAME'] = 'NA'
 
-  // Collect Details
-  watchListDetails = getInfoDetails("ID") + '#' + getInfoDetails("Name")
-
-
-
 }
 
 // Get Multi Info details
@@ -959,6 +953,9 @@ function updateAdminSection() {
 
 // WatchList Handling
 function watchListHandling() {
+
+  // Collect Details
+  let watchListDetails = getInfoDetails("ID") + '#' + getInfoDetails("Name")
 
   displayOutput('Bookmark ID : ' + watchListDetails)
 

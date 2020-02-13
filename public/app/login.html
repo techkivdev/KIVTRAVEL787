@@ -399,6 +399,73 @@
                 <!-- Script Code -->
               </div>
 
+              <!-- Review Section -->
+              <div id="user_review_section" style="display:none; margin-top:1%;">
+
+                  <div class="card" style="border-radius: 10px;">
+                    <div class="card-content">
+                      <span class="card-title">Please rate us</span>
+                        <!-- Section -->
+                      <div>
+
+                        <form action="#">
+                          <p>
+                            <label>
+                              <input id="star_5" class="with-gap" name="group1" type="radio" checked />
+                              <span><i class="material-icons orange-text">star</i><i class="material-icons orange-text">star</i>
+                                <i class="material-icons orange-text">star</i><i class="material-icons orange-text">star</i>
+                                <i class="material-icons orange-text">star</i></span>
+                            </label>
+                          </p>
+                          <p>
+                            <label>
+                              <input id="star_4" class="with-gap" name="group1" type="radio" />
+                              <span><i class="material-icons orange-text">star</i><i class="material-icons orange-text">star</i>
+                                <i class="material-icons orange-text">star</i><i class="material-icons orange-text">star</i></span>
+                            </label>
+                          </p>
+                          <p>
+                            <label>
+                              <input id="star_3" class="with-gap" name="group1" type="radio"  />
+                              <span><i class="material-icons orange-text">star</i><i class="material-icons orange-text">star</i>
+                                <i class="material-icons orange-text">star</i></span>
+                            </label>
+                          </p>
+
+                          <p>
+                            <label>
+                              <input id="star_2" class="with-gap" name="group1" type="radio"  />
+                              <span><i class="material-icons orange-text">star</i><i class="material-icons orange-text">star</i>
+                                </span>
+                            </label>
+                          </p>
+
+                          <p>
+                            <label>
+                              <input id="star_1" class="with-gap" name="group1" type="radio"  />
+                              <span><i class="material-icons orange-text">star</i></span>
+                            </label>
+                          </p>
+                          
+                        </form>
+
+
+                        <div class="input-field">
+                          <i class="material-icons prefix blue-text">message</i>
+                          <textarea value='' id="user_review_comment" class="materialize-textarea"></textarea>
+                          <label class="active" for="user_review_comment">Comment</label>
+                        </div>
+
+                        <div class="right-align"><a onclick="submitRatings()" class="waves-effect waves-teal btn green rcorners">Submit</a></div>
+
+                      </div>
+
+                    </div>
+                    
+                  </div>
+
+              </div>
+
             </div>
 
           </div>
