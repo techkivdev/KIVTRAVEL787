@@ -6,3 +6,10 @@ https://www.freecodecamp.org/news/how-to-turn-your-website-into-a-mobile-app-wit
 Other Lib :
 
 https://medium.com/@archana_june/firebase-custom-domain-setup-with-godaddy-8b7acf66ccec
+
+
+
+
+Medium Link :
+
+https://medium.com/firebase-tips-tricks/how-to-reduce-the-number-of-read-operations-in-cloud-firestore-9f9d6f5a271

@@ -945,7 +945,7 @@ function watchListHandling() {
   // Collect Details
   let watchListDetails = getInfoDetails("ID") + '#' + getInfoDetails("Name")
 
-  displayOutput('Bookmark ID : ' + watchListDetails)
+  displayOutput('Wishlist ID : ' + watchListDetails)
 
   // Get User Login Details
   // Check Session Data
@@ -960,7 +960,7 @@ function watchListHandling() {
     uuid = userLoginData['UUID']
 
     // Update into Database
-    var userBookmarkPath = coll_base_path_P + 'USER/ALLUSER/' + uuid + '/BOOKMARK'
+    var userBookmarkPath = coll_base_path_P + 'USER/ALLUSER/' + uuid + '/WISHLIST'
     displayOutput(userBookmarkPath)
     let doc_id = coll_name + '_' + document_ID
     displayOutput(doc_id)
@@ -973,9 +973,9 @@ function watchListHandling() {
     };
 
     db.collection(userBookmarkPath).doc(doc_id).set(data).then(ref => {
-      displayOutput('User Bookmark Added !!')
+      displayOutput('User Wishlist Added !!')
 
-      toastMsg('Bookmark Added !!')
+      toastMsg('Wishlist Added !!')
     });
 
 

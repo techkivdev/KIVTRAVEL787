@@ -1284,11 +1284,33 @@ function getTodayDate() {
   return date
 }
 
+function getTodayDateList() {
+
+  var month = new Array();
+  month[0] = "January";
+  month[1] = "February";
+  month[2] = "March";
+  month[3] = "April";
+  month[4] = "May";
+  month[5] = "June";
+  month[6] = "July";
+  month[7] = "August";
+  month[8] = "September";
+  month[9] = "October";
+  month[10] = "November";
+  month[11] = "December";
+
+  var today = new Date();
+  var date = [month[today.getMonth()], today.getDate() , today.getFullYear()];  
+
+  return date
+}
+
 function getTodayDateID() { 
 
   var today = new Date();
   var date = today.getFullYear()+''+(today.getMonth()+1)+''+today.getDate();
-  var time = today.getHours() + "" + today.getMinutes() + "" + today.getSeconds();
+  var time = today.getHours() + "" + today.getMinutes() + "" + today.getSeconds() + today.getMilliseconds();
   var dateTime = date+''+time;
 
   return dateTime

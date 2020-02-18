@@ -295,8 +295,36 @@
               </a>
               </div>
 
-
               <!-- Option 4 -->
+              <div class="col s12 m6">
+                <a href="#!" onclick="divBlockHandling('bookmark')" >
+                <div class="card hoverable" style="border-radius: 10px; height: 130px;">
+                  <div class="bg-card" style="border-radius: 10px;">
+                  <div class="card-content">                    
+                    <span class="card-title black-text">Bookmark</span>
+                    <p class="black-text">Manage your Bookmark.</p>
+                  </div>
+                  </div>                 
+                </div>
+              </a>
+              </div>
+
+              <!-- Option 5 -->
+              <div class="col s12 m6">
+                <a href="#!" onclick="divBlockHandling('mylist')" >
+                <div class="card hoverable" style="border-radius: 10px; height: 130px;">
+                  <div class="bg-card" style="border-radius: 10px;">
+                  <div class="card-content">                    
+                    <span class="card-title black-text">My List</span>
+                    <p class="black-text">Manage your List.</p>
+                  </div>
+                  </div>                 
+                </div>
+              </a>
+              </div>
+
+
+              <!-- Option 6 -->
               <div id="extra_options_card" class="col s12 m6" style="display: none;">
                 <a href="#!" onclick="divBlockHandling('options')" >
                 <div class="card hoverable" style="border-radius: 10px; height: 130px;">
@@ -489,6 +517,50 @@
 
 
             <div id="user_wishlist" class="container" style="margin-top:10px;">
+              <!-- Script Code -->
+            </div> 
+          </div>
+
+           <!-- bookmark Section -->
+           <div id="bookmark_section" class="row" style="margin-top: 0%; display: none;">
+
+            <div id="filter_drop_sec_bookmark" class="center-align" style="display: none; margin-top: 25px;">
+             <!-- Dropdown Trigger -->
+            <a id="bookmark_filter_drop_down" class='dropdown-trigger btn pink rcorners' href='#' data-target='filter_btn_bookmark'><i class="material-icons left">filter_list</i>All</a>
+
+            <!-- Dropdown Structure -->
+            <ul id='filter_btn_bookmark' class='dropdown-content'>
+              <li><a onclick="filterBookmark('ALL')" href="#!">All</a></li>
+              <li><a onclick="filterBookmark('FORUM')" href="#!">Forum</a></li>
+              <li><a onclick="filterBookmark('BLOG')" href="#!">Blog</a></li>              
+            </ul>
+
+          </div>
+
+
+            <div id="user_bookmark" class="container" style="margin-top:10px;">
+              <!-- Script Code -->
+            </div> 
+          </div>
+
+           <!-- mylist Section -->
+           <div id="mylist_section" class="row" style="margin-top: 0%; display: none;">
+
+            <div id="filter_drop_sec_mylist" class="center-align" style="display: none; margin-top: 25px;">
+             <!-- Dropdown Trigger -->
+            <a id="mylist_filter_drop_down" class='dropdown-trigger btn pink rcorners' href='#' data-target='filter_btn_mylist'><i class="material-icons left">filter_list</i>All</a>
+
+            <!-- Dropdown Structure -->
+            <ul id='filter_btn_mylist' class='dropdown-content'>
+              <li><a onclick="filterMyList('ALL')" href="#!">All</a></li>
+              <li><a onclick="filterMyList('FORUM')" href="#!">Forum</a></li>
+              <li><a onclick="filterMyList('BLOG')" href="#!">Blog</a></li>              
+            </ul>
+
+          </div>
+
+
+            <div id="user_mylist" class="container" style="margin-top:10px;">
               <!-- Script Code -->
             </div> 
           </div>

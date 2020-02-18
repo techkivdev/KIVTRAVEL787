@@ -856,7 +856,7 @@ function updateMultiInfoDetails(id_details, html_tag) {
 // Book Mark Handling
 function bookmarkHandling(details) {
 
-  displayOutput('Bookmark ID : ' + details)
+  displayOutput('Wishlist ID : ' + details)
 
   // Get User Login Details
   // Check Session Data
@@ -871,7 +871,7 @@ function bookmarkHandling(details) {
     uuid = userLoginData['UUID']
 
     // Update into Database
-    var userBookmarkPath = coll_base_path_P + 'USER/ALLUSER/' + uuid + '/BOOKMARK'
+    var userBookmarkPath = coll_base_path_P + 'USER/ALLUSER/' + uuid + '/WISHLIST'
     displayOutput(userBookmarkPath)
     let doc_id = coll_name + '_' + document_ID
     displayOutput(doc_id)
@@ -883,9 +883,9 @@ function bookmarkHandling(details) {
     };
 
     db.collection(userBookmarkPath).doc(doc_id).set(data).then(ref => {
-      displayOutput('User Bookmark Added !!')
+      displayOutput('User Wishlist Added !!')
 
-      toastMsg('Bookmark Added !!')
+      toastMsg('Wishlist Added !!')
     });
 
 
@@ -957,7 +957,7 @@ function watchListHandling() {
   // Collect Details
   let watchListDetails = getInfoDetails("ID") + '#' + getInfoDetails("Name")
 
-  displayOutput('Bookmark ID : ' + watchListDetails)
+  displayOutput('Wishlist ID : ' + watchListDetails)
 
   // Get User Login Details
   // Check Session Data
@@ -972,7 +972,7 @@ function watchListHandling() {
     uuid = userLoginData['UUID']
 
     // Update into Database
-    var userBookmarkPath = coll_base_path_P + 'USER/ALLUSER/' + uuid + '/BOOKMARK'
+    var userBookmarkPath = coll_base_path_P + 'USER/ALLUSER/' + uuid + '/WISHLIST'
     displayOutput(userBookmarkPath)
     let doc_id = coll_name + '_' + document_ID
     displayOutput(doc_id)
@@ -985,9 +985,9 @@ function watchListHandling() {
     };
     
     db.collection(userBookmarkPath).doc(doc_id).set(data).then(ref => {
-      displayOutput('User Bookmark Added !!')
+      displayOutput('User Wishlist Added !!')
 
-      toastMsg('Bookmark Added !!')
+      toastMsg('Wishlist Added !!')
     });
 
 

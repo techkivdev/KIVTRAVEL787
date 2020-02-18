@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Forum</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="../external/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="../external/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+    <div class="bg">
+
+  <!-- **************************************** -->
+  <!-- Navigation Sectione -->
+  <!-- **************************************** -->
+
+    <!--=========== NAV SECTION ================= -->
+   <div class="navbar-fixed">
+
+    <!-- Dropdown Structure -->
+    <ul id="nav_dropdown" class="dropdown-content">
+      <li><a href="index.html">My Topic</a></li>              
+    </ul>
+
+    <nav id="main_nav_bar" class="white z-depth-2" role="navigation">
+      <div class="nav-wrapper container">
+  
+        <!-- Logo Container -->
+        <a id="logo-container" href="../index.html" class="brand-logo">KivTravels</a>
+  
+        <!-- Navigation List -->
+        <ul class="right hide-on-med-and-down">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="#!" onclick="openAllTopics()" >All Topics</a></li>
+          <li><a href="#!" onclick="openMyTopics()">My Topics</a></li>
+          <li><a href="../login.html">Profile</a></li>
+         
+
+           <!-- Dropdown Trigger -->
+         <!-- <li><a class="dropdown-trigger" href="#!" data-target="nav_dropdown">More<i class="material-icons right">arrow_drop_down</i></a></li> -->
+
+        </ul>
+       
+        <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+  
+        <div id="main_progress" class="progress">
+          <div class="indeterminate red"></div>
+        </div>
+
+      </div>
+  
+  
+  
+    </nav>
+  
+     </div>
+  
+      <!-- Mobile Navigation List -->
+      <ul id="nav-mobile" class="sidenav">
+         
+        <div class="container-fluid">
+            <div class="fb-profile">            
+              <img class="fb-image-lg left-align z-depth-2" src="../Images/nav_mobile.jpg" alt="Snow" style="height: 200px; margin-bottom: 10px;">            
+            </div>
+          </div>
+  
+  
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="#!" onclick="openAllTopics()" >All Topics</a></li>
+          <li><a href="#!" onclick="openMyTopics()">My Topics</a></li>
+          <li><a href="../login.html">Profile</a></li>  
+      
+    </ul>
+  
+    <!-- ========================================== -->
+   
+
+  <!-- **************************************** -->
+  <!-- Container Section 1 -->
+  <!-- **************************************** -->
+  <div id="show_all_topic_container" class="container">
+    <div class="section">
+
+      <!-- **************************************** -->
+      <!--   Coloum Section 1  --> 
+      <div id="col_section_1" class="row" style="display: block;">      
+
+        <!-- Create New Topic -->
+        <div class="right-align" style="margin-right: 10px;">
+            <a onclick="addNewTopic()" class="waves-effect waves-light btn green rcorners"><i class="material-icons left">add</i>Add New Topic</a>
+        </div>
+
+        <div style="margin-left: 13px; margin-right: 13px;">
+        <!-- Message -->
+        <div id="message_section" style="margin-top: 10px; display: none;">
+          <ul class="collection">
+            <li id="message_content" class="collection-item">Your message</li>
+          </ul>
+        </div>
+
+        <!-- Filter Option -->
+        <div id="main_filter_section" style="margin-top: 10px;"> 
+             <!-- Script Code -->
+        </div>
+
+      </div>
+
+
+        <div id="forum_card_section" style="margin-top: 30px;">
+          <!-- ----------------------- -->
+          <!-- Script Code -->
+          <!-- ----------------------- -->
+        </div>
+        
+      </div>
+
+      <!-- Filter Section -->
+    <div id="filter_section" class="container row" style="margin-top: 2%; display: none;">
+      <h4 id="filter_hdr" class="white-text">Filter Options</h4> 
+
+      <!-- All Options -->
+
+      <div id="filter_reset_btn" class="right-align" style="margin-top: 0px;">
+        <a onclick="resetFilter()" class="waves-effect waves-light btn black rcorners">RESET</a>
+      </div>     
+
+       <!-- All Filter Options -->
+
+      <div class="center-align" style="margin-top: 0px;">
+        <a onclick="applyFilter()" class="waves-effect waves-light btn-large red rcorners">Apply Filter</a>
+      </div>
+
+    </div>
+
+
+   <!-- **************************************** -->
+    <!-- Floating Action Button -->
+    <!-- **************************************** -->
+
+    <div id="flb_open_filter" class="fixed-action-btn">
+      <a href="#!" onclick="openFilterSection()" class="btn-floating btn-large  blue">
+        <i class="large material-icons">filter_list</i>
+      </a>
+    </div>
+
+    <div id="flb_close_filter" class="fixed-action-btn" style="display: none;">
+      <a href="#!" onclick="closeFilterSection()" class="btn-floating btn-large  red">
+        <i class="large material-icons">close</i>
+      </a>
+    </div>
+
+
+    <!-- ***************** END ******************* -->
+
+    </div> 
+  </div>
+
+   <!-- ***************** END ******************* -->  
+
+
+  <!-- **************************************** -->
+  <!-- Message Display Section -->
+  <!-- **************************************** -->
+
+  <div id="topic_display_container" class="container row" style="display: none; margin-top: 20px;">
+            
+    <div class="row">
+
+      <div class="col s12 m12">
+            <div class="card" style="border-radius: 5px;">
+              <div>
+                <!-- Header -->
+                  <ul class="collection" style="border-radius: 5px 5px 0px 0px;">
+                    <li class="collection-item avatar">
+                      <img id="u_img" src="" alt="" class="circle">
+                      <span class="title"><b id="u_name">Name</b></span>
+                      <p class="grey-text" style="font-size: 13px;" id="u_date">Date</p>
+                      </li>
+                  </ul>
+      
+                  <!-- Content -->
+                  <div class="card-content" style="margin-top: -30px;">
+                    <div class="right-align" id="category">
+                      <!-- Script Code -->                     
+                    </div>
+                  
+                    <span class="card-title" id="title">Title</span>
+                    <div id="tags">
+                      Tags
+                    </div>
+      
+                    <div style="margin-top: 15px;">
+                      <p id="desc">Desc</p>
+                    </div>                 
+                    </div>
+
+                    <li class="divider" tabindex="-1"></li>
+
+                    <div id="social_control" class="left-align" style="margin-top: 10px; height: 70px; margin-bottom: 10px; margin-left: 30px;">
+                      <span><small><a href="#!" onclick="likeTopic()" style="margin-right: 3px;"><i id="like_btn" class="small  material-icons red-text">favorite_border</i><a></small><small id="total_fav_cnt" class="grey-text" style="font-size: 35px; margin-right: 20px;"></small></span>
+                      <a href="#!" onclick="bookmarkTopic()"><i id="bookmark_btn" class="small  material-icons orange-text" style="margin-right: 20px;">bookmark_border</i></a> 
+                      <a href="#!" onclick="shareTopic()"><i id="bookmark_btn" class="small  material-icons blue-text">share</i></a>                     
+                    </div>
+                    
+                    <div id="user_control_section" class="right-align" style="margin-top: 5px; height: 50px; margin-bottom: 10px; margin-right: 10px; display: none;">
+                      <a onclick="editTopic()" class="waves-effect waves-light btn blue rcorners" style="margin-right: 20px;"><i class="material-icons left">edit</i>Edit</a>
+                      <a onclick="askToDeleteCompleteTopic()" class="waves-effect waves-light btn red rcorners"><i class="material-icons left">delete</i>Delete</a>                      
+                    </div>
+                    
+                  </div>  
+                </div>
+      </div>
+
+      <!-- Comment Section -->
+      <div class="col s12 m12">
+      <ul id="comment_section" class="collapsible">
+        <li>
+          <div class="collapsible-header"><i class="material-icons">message</i>Add Comment</div>
+          <div class="collapsible-body">
+      
+          <div class="card-content"> 
+            <!-- user comment -->
+            <form class="col s12">
+              <div class="row">
+                  <div class="input-field col s12">
+                      <!-- <i class="material-icons prefix">message</i> -->
+                      <textarea id="comment" class="materialize-textarea"></textarea>
+                      <label for="comment">Comment</label>
+                    </div>                                  
+              </div>
+            </form>
+      
+            <!-- Create New Topic -->
+            <div class="right-align">
+              <a onclick="addNewComment()" class="waves-effect waves-light btn blue rcorners"><i class="material-icons left">add</i>Add Comment</a>
+          </div>
+      
+      
+          </div>
+
+          </div>
+        </li>
+     </ul>
+    </div>
+
+     <!-- All Comment -->
+     <h5 style="margin-top: 15px; margin-left: 12px;">Comment</h5>
+     <div id= "all_user_comments" class="col s12 m12">
+         <!-- Script Code -->
+         <p>No Comment !!</p>
+     </div>
+
+    </div>
+    
+  </div>
+
+  <div id="close_fl_btn" class="fixed-action-btn" style="display: none;">
+    <a href="#!" onclick="hideFullMessageDialog()" class="btn-floating btn-large  red">
+      <i class="large material-icons">close</i>
+    </a>
+  </div>
+
+  <!-- ***************** END ******************* -->
+  
+
+  <!-- **************************************** -->
+  <!-- Footer -->
+  <!-- **************************************** -->
+  <footer id="main_footer_sec" class="page-footer footer-shade  white-text" style="display: none;">
+      <div class="container">
+          <div class="row">
+            <div class="col l6 s12">
+              <h5 class="white-text">Company Bio</h5>
+              <!--
+              <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our
+                full time job. Any amount would help support and continue development on this project and is greatly
+                appreciated.</p>
+                -->
+  
+  
+            </div>
+            <div class="col l3 s12">
+              <!-- <h5 class="white-text">Settings</h5> -->
+              <ul>
+                <li><a class="white-text" href="about_us.html">About</a></li>
+                <li><a class="white-text" href="terms_and_conditions.html">Terms & Conditions</a></li>
+                <li><a class="white-text" href="privacy_police.html">Privacy and Cookie Police</a></li>              
+              </ul>
+            </div>
+            <div class="col l3 s12">
+            <!--
+              <h5 class="white-text">Connect</h5>
+              <ul>
+                <li><a class="white-text" href="#!">Facebook</a></li>
+                <li><a class="white-text" href="#!">Instgram</a></li>
+              </ul>
+             -->
+            </div>
+          </div>
+        </div>
+        <div class="footer-copyright">
+          <div class="container">
+            Made by <a class="brown-text text-lighten-3" href="#!">KivTech</a>
+          </div>
+        </div>
+    </footer>
+
+  </div>
+
+
+  <!-- **************************************** -->
+  <!--  Scripts-->
+  <!-- **************************************** -->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="../../external/js/materialize.js"></script>
+  <script src="../../external/js/init.js"></script>
+
+
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-storage.js"></script>
+  <script src="../app/firestore.js"></script>
+  <script src="../scripts/common.js"></script>
+  <script src="scripts/index.js"></script>
+ 
+
+</body>
+
+</html>

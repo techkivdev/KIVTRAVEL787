@@ -48,15 +48,18 @@ firebase.firestore().enablePersistence()
 // *********************************************************************
 // [START delete_collection]
 function deleteCollection(collectionPath, batchSize) {
-  let collectionRef = db.collection(collectionPath);
+   
+   let db_admin = db
+
+  let collectionRef = db_admin.collection(collectionPath);
   let query = collectionRef.orderBy('__name__').limit(batchSize);
 
   return new Promise((resolve, reject) => {
-    deleteQueryBatch(db, query, batchSize, resolve, reject);
+    deleteQueryBatch(db_admin, query, batchSize, resolve, reject);
   });
 }
 
-function deleteQueryBatch(db, query, batchSize, resolve, reject) {
+function deleteQueryBatch(db_admin, query, batchSize, resolve, reject) {
   query.get()
     .then((snapshot) => {
       // When there are no documents left, we are done
@@ -65,7 +68,7 @@ function deleteQueryBatch(db, query, batchSize, resolve, reject) {
       }
 
       // Delete documents in a batch
-      let batch = db.batch();
+      let batch = db_admin.batch();
       snapshot.docs.forEach((doc) => {
         batch.delete(doc.ref);
       });
@@ -82,7 +85,7 @@ function deleteQueryBatch(db, query, batchSize, resolve, reject) {
       // Recurse on the next process tick, to avoid
       // exploding the stack.
       process.nextTick(() => {
-        deleteQueryBatch(db, query, batchSize, resolve, reject);
+        deleteQueryBatch(db_admin, query, batchSize, resolve, reject);
       });
     })
     .catch(reject);
