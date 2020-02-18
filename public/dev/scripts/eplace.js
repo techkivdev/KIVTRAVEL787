@@ -1025,6 +1025,12 @@ function copyLinkToShare(){
 
 }
 
+// Open Discussion Form
+function openDiscussionForm() {
+  var url = 'forum/index.html?pt=' + encodeURIComponent(coll_name+'_'+document_ID) + '&id=' + encodeURIComponent('NA') + '&fl=' + encodeURIComponent('NA');
+  window.location.href = url
+}
+
 // --------------- Local Session -------------------
 function updateLoaclSessionDetails() {
   // Update Session Data

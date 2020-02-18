@@ -201,7 +201,9 @@ function showCurrentTopicContent() {
       let tagMap = []
       for(eachidx in data['TAGS']) {
         let tagValue = data['TAGS'][eachidx]
+        if(tagValue != 'NA') {
         tagMap.push({tag: tagValue})
+        }
       }
 
       displayOutput(tagMap)

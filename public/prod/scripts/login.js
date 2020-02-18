@@ -1235,6 +1235,7 @@ function openMyListContent() {
           <span class="title black-text"><b>'+data['UNAME']+'</b></span>\
           <p class="grey-text">'+data['DATE'] +' , '+ data['TYPE'] +'</p><br>\
           <b>'+data['TITLE']+'</b>\
+          <a href="#!" class="secondary-content"><i class="material-icons"></i></a>\
         </li></a>'  
 
          }

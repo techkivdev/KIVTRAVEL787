@@ -25,6 +25,11 @@ var currentTopicBookmarkStatus = false
 
 var updateTopicHTMLPage = false
 
+// Main Filter
+var filter_enable_flag = false
+var filter_key = 'NA'
+var filter_value = 'NA'
+
 var allForumTopics = {}
 
 
@@ -128,7 +133,16 @@ function updateHTMLPage() {
   // Update message according to the main path
   if(main_path == 'COMMON') {
     document.getElementById("message_section").style.display = 'block';
+    document.getElementById("common_link").style.display = 'none';
+    document.getElementById("common_link_mb").style.display = 'none';
+
     $('#message_content').html('You are under MAIN Group !!')
+  } else {
+    document.getElementById("message_section").style.display = 'block';
+    document.getElementById("common_link").style.display = 'block';
+    document.getElementById("common_link_mb").style.display = 'block';
+
+    $('#message_content').html('You are not under MAIN Group.<br>But you are under current '+main_path.split('_')[0] + ' Group.')
   }
 
   // Update Filter section details
@@ -185,6 +199,10 @@ function mobileModeStartupHandling() {
 // Read Forum Topic Details
 function readAllForumTopics() {
 
+  allForumTopics = {}
+  $("#forum_card_section").html('');
+  document.getElementById("main_progress").style.display = "block";
+
   // Read details
   let path = coll_base_path + 'FORUM/' + main_path 
   
@@ -192,6 +210,13 @@ function readAllForumTopics() {
   // Query Handling
   // orderBy('DATEID', 'desc')
   let queryRef = ''
+
+  // Main Filter Query
+  if(filter_enable_flag) {    
+    queryRef = db.collection(path).where(filter_key, '==', filter_value).limit(10);    
+
+  } else {
+    // Filter query for url
   if(fl == 'own') {
     queryRef = db.collection(path).where('UUID', '==', userLoginData['UUID']).limit(10);
   } else if(fl == 'tag') {
@@ -201,6 +226,8 @@ function readAllForumTopics() {
   } else {
     queryRef = db.collection(path).orderBy('DATEID', 'desc').limit(10);
   }
+
+}
   
  
   queryRef.get()
@@ -221,11 +248,16 @@ function readAllForumTopics() {
  
      snapshot.forEach(doc => { 
        allForumTopics[doc.id] = doc.data() 
+
+       createEachDocumentCard(doc.data(),doc.id)
+
      });
 
      // Update Forum HTML Content
 
-     updateForumContent()
+    // updateForumContent()
+
+    document.getElementById("main_progress").style.display = "none";
  
    }
    })
@@ -239,6 +271,9 @@ function readAllForumTopics() {
 
 // Read Only One Forum Topic Details
 function readOneForumTopics() {
+
+  allForumTopics = {}
+  document.getElementById("main_progress").style.display = "block";
 
   // Read details
   
@@ -273,29 +308,26 @@ function readOneForumTopics() {
 
 }
 
-
-// Update forum Section
+// Update forum Section with ALL Data once
 function updateForumContent() { 
+
+  $("#forum_card_section").html('');
 
   let htmlContent = '<div class="row">'
 
  for(eachKey in allForumTopics) {
 
       let data = allForumTopics[eachKey]
-      //displayOutput(data)
-      let tags = data['TAGS']
-      if(tags[0] == 'NA') {
-        tags = ''
-      } 
+      //displayOutput(data)     
            
-
+    // <span class="new badge blue" data-badge-caption="reply">'+data['REPLYCNT']+'</span>
 
       htmlContent += ' <div class="col s12 m12">\
       <div class="card" style="border-radius: 5px;">\
         <div>\
           <!-- Header -->\
             <ul class="collection" style="border-radius: 5px 5px 0px 0px;">\
-              <li class="collection-item avatar"><span class="new badge blue" data-badge-caption="reply">'+data['REPLYCNT']+'</span>\
+              <li class="collection-item avatar">\
                 <img src="'+data['UPHOTO']+'" alt="" class="circle">\
                 <span class="title"><b>'+data['UNAME']+'</b></span>\
                 <p class="grey-text" style="font-size: 13px;">'+data['DATE']+'</p>\
@@ -307,7 +339,7 @@ function updateForumContent() {
             <div class="right-align"> <a href="#!" onclick="chipClickHandling(\'' + data['CATEGORY'] +'#catg' + '\')" ><div class="chip">'+data['CATEGORY']+'</div></a> </div>\
               <span class="card-title">'+data['TITLE']+'</span>\
               <div>\
-                '+getChipWithBorderFromListLoc(tags)+'\
+                '+getChipWithBorderFromListLoc(data['TAGS'])+'\
               </div>\
 \
               <div style="margin-top: 15px;">\
@@ -326,6 +358,52 @@ function updateForumContent() {
     $("#forum_card_section").html(htmlContent);
 
     document.getElementById("main_progress").style.display = "none";
+
+}
+
+// Create single card with Data
+function createEachDocumentCard(data,docid) {
+
+ 
+    //displayOutput(data)     
+           
+    // <span class="new badge blue" data-badge-caption="reply">'+data['REPLYCNT']+'</span>
+
+      htmlContent  = ' <div class="col s12 m12">\
+      <div class="card" style="border-radius: 5px;">\
+        <div>\
+          <!-- Header -->\
+            <ul class="collection" style="border-radius: 5px 5px 0px 0px;">\
+              <li class="collection-item avatar">\
+                <img src="'+data['UPHOTO']+'" alt="" class="circle">\
+                <span class="title"><b>'+data['UNAME']+'</b></span>\
+                <p class="grey-text" style="font-size: 13px;">'+data['DATE']+'</p>\
+                </li>\
+            </ul>\
+\
+            <!-- Content -->\
+            <div class="card-content" style="margin-top: -30px;">\
+            <div class="right-align"> <a href="#!" onclick="chipClickHandling(\'' + data['CATEGORY'] +'#catg' + '\')" ><div class="chip">'+data['CATEGORY']+'</div></a> </div>\
+              <span class="card-title">'+data['TITLE']+'</span>\
+              <div>\
+                '+getChipWithBorderFromListLoc(data['TAGS'])+'\
+              </div>\
+\
+              <div style="margin-top: 15px;">\
+                <p class="long-text" >'+data['DESC']+'</p>\
+              </div> \
+              <div id="reach_content_btn" class="right-align" style="margin-top: 0px;">\
+              <a onclick="viewEachTopic(\'' + docid + '\')" class="waves-effect waves-teal btn-flat blue-text">Read More</a>\
+            </div>\
+              </div> </div>  </div></div>'
+
+
+ 
+let block_to_insert = document.createElement( 'div' );
+block_to_insert.innerHTML = htmlContent ;
+ 
+let container_block = document.getElementById( 'forum_card_section' );
+container_block.appendChild( block_to_insert );
 
 }
 
@@ -357,12 +435,8 @@ function viewEachTopic(details) {
   $("#u_date").html(data['DATE']);
   $("#category").html('<div class="chip">' + data['CATEGORY'] + '</div>');
   $("#title").html(data['TITLE']);
-
-  let tags = data['TAGS']
-  if(tags[0] == 'NA') {
-    tags = ''
-  } 
-  $("#tags").html(getChipWithBorderFromListLoc(tags));
+ 
+  $("#tags").html(getChipWithBorderFromListLoc(data['TAGS']));
 
   $("#desc").html(data['DESC']);
 
@@ -910,6 +984,12 @@ function bookmarkBtnHandling() {
 // Get Chip with border accroding to the Name
 function getChipWithBorderFromListLoc(details){
 
+  if((details[0] == 'NA') && (details.length == 1)) {
+    details = ''
+  } else {
+    details.splice( details.indexOf('NA'), 1 );
+  }
+
   var html_line = ''
 
   for (each_idx in details) {
@@ -1019,6 +1099,49 @@ function closeFilterSection() {
   document.getElementById("flb_close_filter").style.display = 'none';
   document.getElementById("filter_section").style.display = 'none';
   
+
+}
+
+// RESET Filter 
+function resetFilter() {
+  // index.html?pt=NA&id=NA&fl=NA
+  var url = 'index.html?pt=' + encodeURIComponent(main_path) + '&id=' + encodeURIComponent('NA') + '&fl=' + encodeURIComponent('NA');
+  window.location.href = url
+}
+
+// Apply Filter
+function applyFilter() {
+
+  let filter_validation = true
+
+  // Read Filter details
+  var topic_date = document.getElementById("topic_date").value;
+  displayOutput('Topic Date : ' + topic_date)
+
+  if(topic_date == '') {
+    filter_validation = false
+  }
+
+  if(filter_validation) {
+
+  filter_enable_flag = true
+  filter_key = 'DATE'
+  filter_value = topic_date
+
+   // Update Filter section details
+   $('#main_filter_section').html('<div class="chip">' + 'Date : ' +  topic_date + '</div>')
+   
+
+  closeFilterSection()
+
+  readAllForumTopics()
+
+  } else {     
+    toastMsg('Invalid Filter !!')
+
+    closeFilterSection()
+  }
+
 
 }
 
