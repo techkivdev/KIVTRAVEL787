@@ -129,7 +129,7 @@ updateHTMLPage()
 
 // Update Complete HTML Page
 function updateHTMLPage() {   
-  modifyPageStyle()
+  modifyPageStyle()  
 
   document.getElementById("message_section").style.display = 'none';
 
@@ -154,18 +154,26 @@ function updateHTMLPage() {
   // Update Filter section details
   $('#main_filter_section').html('')
   if((fl == 'tag') || (fl == 'catg')) {
-    $('#main_filter_section').html('<div class="chip">' + id + '</div>')
+    
     document.getElementById("message_section").style.display = 'block';
     document.getElementById("filter_reset_btn_home").style.display = 'block';
 
     if(fl == 'tag') {
       $('#message_content').html('Filter Applied on Tag !!')
+      $('#main_filter_section').html('<div class="chip">' + id + '</div>')
     } else {
       $('#message_content').html('Filter Applied on Category !!')
+      $('#main_filter_section').html('<div class="chip">' + getCatg1DataMapping(id) + '</div>')
     }
     
   }
   
+
+  // Update Filter Section 
+
+  createFilterTagsDetails()
+
+  createFilterCategoryDetails()
 
  
 }
@@ -178,6 +186,8 @@ function modifyPageStyle() {
     
     document.getElementById('show_all_topic_container').className = "container-fluid";
     document.getElementById('topic_display_container').className = "container-fluid";
+
+    document.getElementById("filter_section").className = 'row container';
 
   } else {
     displayOutput('Mobile Browser Not found!')
@@ -195,6 +205,7 @@ function mobileModeStartupHandling() {
   if (mobile_mode) {
     // Disable Nav-bar and Footer
     //document.getElementById("main_nav_bar").style.display = 'block';
+    
    
 
   } else {
@@ -440,7 +451,7 @@ function createEachDocumentCard(data,docid) {
 \
             <!-- Content -->\
             <div class="card-content" style="margin-top: -30px;">\
-            <div class="right-align"> <a href="#!" onclick="chipClickHandling(\'' + data['CATEGORY1'] +'#catg' + '\')" ><div class="chip">'+data['CATEGORY1']+'</div></a> </div>\
+            <div class="right-align"> <a href="#!" onclick="chipClickHandling(\'' + data['CATEGORY1'] +'#catg' + '\')" ><div class="chip">'+data['CATEGORY1DIS']+'</div></a> </div>\
               <span class="card-title long-text-nor">'+data['TITLE']+'</span>\
               <div>\
                 '+getChipWithBorderFromListLoc(data['TAGS'])+'\
@@ -491,7 +502,7 @@ function viewEachTopic(details) {
 
   $("#u_name").html(data['UNAME']);
   $("#u_date").html(data['DATE']);
-  $("#category").html('<div class="chip">' + data['CATEGORY1'] + '</div>');
+  $("#category").html('<a href="#!" onclick="chipClickHandling(\'' + data['CATEGORY1'] +'#catg' + '\')" ><div class="chip">'+data['CATEGORY1DIS']+'</div></a>');
   $("#title").html(data['TITLE']);
   $("#publish_date").html('Published on ' + data['DATE']);
  
@@ -1196,7 +1207,7 @@ function startUpCalls() {
 // Open Filter Section
 function openFilterSection() {
 
-  window.scrollTo(0, 0);  
+  window.scrollTo(0, 0); 
 
   document.getElementById("col_section_1").style.display = 'none';
   document.getElementById("flb_open_filter").style.display = 'none';
@@ -1272,6 +1283,40 @@ function applyFilter() {
 
 }
 
+// Create Filter tags details
+// Create Tags Section
+function createFilterTagsDetails() {
+  $("#all_tags_details").html('');
+
+  let tags_list = tagsListData()
+
+  let html_line = ''
+  for(tags_name in tags_list) {
+    let tags_count = tags_list[tags_name]
+
+    html_line += '<a href="#!" onclick="chipClickHandling(\'' + tags_name +'#tag' + '\')" ><div class="chip">'+tags_name + ' (' + tags_count +')' +'</div></a>'
+  }
+
+  $("#all_tags_details").html(html_line);
+
+}
+
+// Create Category Section
+function createFilterCategoryDetails() {
+  $("#all_Category_details").html('');
+
+  let catg_list = ['Infromation','Tips','Important']
+
+  let html_line = ''
+  for(each_idx in catg_list) {
+    let catg_name = catg_list[each_idx]
+
+    html_line += '<a href="#!" onclick="chipClickHandling(\'' + catg_name +'#catg' + '\')" ><div class="chip">'+catg_name  +'</div></a>'
+  }
+
+  $("#all_Category_details").html(html_line);
+
+}
 
 // ------------- Menu Handling -------------------
 

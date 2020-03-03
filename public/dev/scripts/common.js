@@ -1523,7 +1523,10 @@ function showPleaseWaitModel() {
 
   $(document).ready(function () {
     $('.modal').modal();
+    $('.modal').modal({'dismissible': false});
   });
+
+
 
 
   $('#pleasewaitmodel').modal('open');
@@ -1714,3 +1717,42 @@ function savePageHistoryContent(name,image,extra){
 function isStrEmpty(str) {
   return (!str || 0 === str.length);
 }
+
+
+// -------------------------------------------------
+// --------- Mapping Data Set ----------------------
+// -------------------------------------------------
+
+// ----------- Category Data Set -----------------
+function getCatg1DataMapping(query) {
+
+  let map_data = {
+              INFO : "General Infromation",
+              TIPS : "Important Travel Tips",
+              QRY : "Any Query"
+            }
+
+  if(query == 'LIST') {
+
+    let allList = [""]
+    for(each in map_data) {
+      allList.push(each)
+    }
+    return allList
+
+  } else {
+     return map_data[query]
+  }
+
+}
+
+
+// ************* Generated Data *********************
+// Tags List Data
+// ======================================================
+
+function tagsListData() { 
+  return {"zxc":"1"}
+ }
+
+ // ====================================================

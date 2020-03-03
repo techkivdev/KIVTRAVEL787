@@ -339,7 +339,7 @@ function addNewTopic() {
    } else {
    //displayOutput(tagsList)
    for(eachIdx in tagsList) {
-     tagsData.push(tagsList[eachIdx]['tag'])
+     tagsData.push(tagsList[eachIdx]['tag'].replace(/\s/g, ""))
    }
  }
  displayOutput(tagsData)
@@ -354,17 +354,23 @@ function addNewTopic() {
      toastMsg('Topic Description is empty!!')
    }
  
-   let catgOption = ["","Category1","Category2","Category3"]
+   let catgOption = getCatg1DataMapping('LIST')  
+
    let catDropValue = document.getElementById("catg_options").value
    let cateData = ''
+   let cateData_display = ''
+
    if(catDropValue == '') {
      cateData = 'NA'
+     cateData_display = 'NA'
      toastMsg('Please select Category !!')
      validateInput = false
    } else {
      cateData = catgOption[catDropValue]
+     cateData_display = getCatg1DataMapping(cateData)
    } 
    displayOutput('cateData : ' + cateData)
+   displayOutput('cateData_display : ' + cateData_display)
 
    // Check for Term and conditions
    let terms_check_status = document.getElementById("accept_terms_checkbox").checked
@@ -387,6 +393,7 @@ function addNewTopic() {
  
      // ---- Category --------------
      forumData['CATEGORY1'] =  cateData
+     forumData['CATEGORY1DIS'] =  cateData_display
      //forumData['CATEGORY2'] =  'NA'
      //forumData['CATEGORY3'] =  'NA'
  
@@ -416,16 +423,14 @@ function addNewTopic() {
      forumData['DOCVER'] = 'V1'
      
      forumData['ISMAIN'] = false
+     forumData['PAGEID'] = 0
+     forumData['DOCSEQ'] = 0
  
      /*
      forumData['EXTRA'] = {
        EXTRA1 : 'NA'
      }
      */
- 
-     forumData['SCOPE'] = 'NA'
-     forumData['MAPCORD'] = 'NA'
-     forumData['LOCATION'] = 'NA' 
      
  
      if(updateExistingContentDetails) {
@@ -582,9 +587,5 @@ function startUpCalls() {
 
 }
 
-
-$( document ).ready(function() {
-
-});
 
 

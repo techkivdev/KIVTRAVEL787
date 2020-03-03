@@ -167,7 +167,7 @@
       </div>
 
       <!-- Filter Section -->
-    <div id="filter_section" class="container row" style="margin-top: 2%; display: none;">
+    <div id="filter_section" class="row" style="margin-top: 2%; display: none;">
       <h4 id="filter_hdr" class="black-text">Filter Options</h4> 
 
       <!-- All Options -->
@@ -178,7 +178,7 @@
 
        <!-- All Filter Options -->
              
-        <div style="margin-top: 20px; height: 200px;">
+        <div style="margin-top: 20px;">
         <div class="row">
           <div class="input-field">
             <i class="material-icons prefix">date_range</i>
@@ -187,14 +187,30 @@
           </div>          
         </div>
       </div>
-      
 
+        <!-- Apply Filter --> 
+      <div class="center-align" style="margin-top: 2px;">
+        <a onclick="applyFilter()" class="waves-effect waves-light btn red rcorners">Apply Filter</a>
+      </div>
 
-        <!-- form sec 3 -->       
-       
+      <li class="divider" tabindex="-1" style="margin-top: 10px;"></li>
 
-      <div class="center-align" style="margin-top: 50px;">
-        <a onclick="applyFilter()" class="waves-effect waves-light btn-large red rcorners">Apply Filter</a>
+       <!-- ALl Category Section -->
+       <div style="margin-top: 5px;">
+        <h5 class="grey-text">Category</h5>
+        <div id="all_Category_details" style="margin-top: 10px;">
+          <!-- Script Code -->
+        </div>
+
+      </div>
+
+      <!-- ALl Tags Section -->
+      <div style="margin-top: 5px;">
+        <h5 class="grey-text">Tags</h5>
+        <div id="all_tags_details" style="margin-top: 10px;">
+          <!-- Script Code -->
+        </div>
+
       </div>
 
     </div>

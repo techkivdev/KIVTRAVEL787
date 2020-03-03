@@ -193,8 +193,10 @@ function collectAllTagsDetails() {
      displayOutput(allTagsData_filtered)
 
      // Create Document for each Tags
+     let tagsListData = {}
      for(each_idx in allTagsData_filtered) {
        let tag_name = allTagsData_filtered[each_idx]
+       tagsListData[tag_name] = occurrence_data[tag_name].length.toString()
 
        // Create New Document
        let tag_doc_path = coll_base_path + 'FORUM/TAGS'
@@ -212,6 +214,10 @@ function collectAllTagsDetails() {
      document.getElementById("collect_tags_status").style.display = 'none';
      toastMsg('Completed !!')
 
+     // Download Tags List Data file    
+     generateListDataSetFile(tagsListData)
+
+
      
  
    }
@@ -219,6 +225,23 @@ function collectAllTagsDetails() {
    .catch(err => {
      console.log('Error getting documents', err);
    });
+
+}
+
+// Generate listdataset file from data
+function generateListDataSetFile(data) {  
+
+  var data_string = JSON.stringify(data);
+
+  let jsCode = 'function tagsListData() { \n return ' + data_string + '\n}'
+
+  var filename = "tagsListData.txt";
+
+  var blob = new Blob([jsCode], {
+      type: "text/plain;charset=utf-8"
+  });
+
+  saveAs(blob, filename);
 
 }
 
