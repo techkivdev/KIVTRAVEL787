@@ -19,6 +19,10 @@ var userDataPath = coll_base_path + 'USER/ALLUSER'
 var uuid = ''
 var allDocCmpData = {}
 
+// Parameters
+var fl = 'NA'
+var fl2 = 'NA'
+
 var bookingData = ''
 var bookingID = ''
 var cancelDetails = ''
@@ -30,10 +34,35 @@ var myListFilter = 'ALL'
 // Startup Call
 startupcalls()
 
+getParams()
+
 // Mobile mode handling
 mobileModeStartupHandling()
 
 modifyPageStyle()
+
+// ----------- Read Parameters -------------------
+function getParams() {
+  // Read Parameters
+  displayOutput('Read Parameters ...')
+  var idx = document.URL.indexOf('?');
+  var params = new Array();
+  var parmFound = false
+  if (idx != -1) {
+    var pairs = document.URL.substring(idx + 1, document.URL.length).split('&');
+    for (var i = 0; i < pairs.length; i++) {
+      nameVal = pairs[i].split('=');
+      params[nameVal[0]] = nameVal[1];
+      parmFound = true
+    }
+  }
+  displayOutput(params); 
+  if(parmFound) {
+    fl = params['fl']
+    fl2 = params['fl2'].replace('#!','')
+  }
+
+}
 
 // ----------------------------------------
 // --------- Mobile Mode Handling ---------
@@ -155,6 +184,7 @@ function authDetails() {
         userData['UUID'] = uuid
         userData['PHOTOURL'] = photoURL
         userData['ROLE'] = 'USER'
+        userData['ROLE2'] = 'USER'
         userData['MOBILE'] = ''
         userData['COUNTRY'] = ''
         userData['STATE'] = ''
@@ -275,11 +305,13 @@ function updateSessionData() {
 function updateHTMLPage() {
   displayOutput('Update HTML Page ..')
 
-  displayOutput(userData)
+  //displayOutput(userData)
 
   updateSessionData()
 
-  collectBookingDetails()  
+  displayOutput('fl : ' + fl)
+
+  if(fl == 'NA') {
 
   $("#profile_name").html(userData['NAME'])
   $("#profile_email").html(userData['EMAIL'])
@@ -335,6 +367,21 @@ function updateHTMLPage() {
     $("#admin_options").html(adminOptions)
   }
 
+} else {
+  // ---- Open Spcific Block --------------
+  document.getElementById("spinner").style.display = 'none';
+  document.getElementById("main_profile_section").style.display = 'block';
+  document.getElementById("footer_sec").style.display = 'block';
+
+  divBlockHandling(fl)
+
+  document.getElementById("close_fl_btn").style.display = 'none';
+  document.getElementById("close_fl_btn_to_forum").style.display = 'block';
+}
+
+
+  
+
 
 
 }
@@ -364,7 +411,7 @@ function divBlockHandling(value) {
 
     break;
 
-    case "bookings":
+    case "bookings":     
 
       if (isMobileBrowser()) {
         document.getElementById("profile_header_section_mb").style.display = 'none';
@@ -375,6 +422,8 @@ function divBlockHandling(value) {
 
       document.getElementById("booking_section").style.display = 'block';
       document.getElementById("close_fl_btn").style.display = 'block';
+
+      collectBookingDetails()
 
     break;
 
@@ -476,6 +525,11 @@ function hideUserBookingView(){
   document.getElementById("user_bookings").style.display = 'block';
 }
 
+// Return to Forum Page
+function returnToForumPage() {
+  window.history.back();
+}
+
 
 // ==================================================================
 // Start up Calls 
@@ -554,6 +608,9 @@ function saveprofiledata() {
 function collectBookingDetails() {
 
   var userBookingPath = coll_base_path + 'USER/ALLUSER/' + uuid + '/BOOKINGS'
+  $("#user_bookings").html('')
+
+  showPleaseWaitModel()
 
   var totaldocCount = 0;
 
@@ -563,6 +620,8 @@ function collectBookingDetails() {
     if (querySnapshot.size == 0) {
       // ------ No Details Present -------------  
       displayOutput('No Record Found !!')
+
+      hidePleaseWaitModel()
 
       // Show No Booking Details
       let emptyMsg= '<div class="row" style="margin-top:1%;"><div class="col s12 m6"><div class="card" style="border-radius: 25px;">\
@@ -589,6 +648,7 @@ function collectBookingDetails() {
         docCount++;
         if (totaldocCount == docCount) {         
 
+          hidePleaseWaitModel()
           // Update HTML Page
           updateBookingHTMLPage()
         }
@@ -1112,7 +1172,7 @@ function removeWishlist(details) {
 // Open Bookmark details
 function openBookmarkContent() {
 
-  let content = '<ul class="collection">'
+  let content = ''
 
   // Get Bookmark Details    
   showPleaseWaitModel()
@@ -1140,13 +1200,13 @@ function openBookmarkContent() {
          
          if((data['TYPE'] == bookmarkFilter) || (bookmarkFilter == 'ALL')) {         
                   
-          content += '<a href="'+data['LINK']+'"><li class="collection-item avatar black-text hoverable">\
+          content += '<ul class="collection"><a href="'+data['LINK']+'"><li class="collection-item avatar black-text hoverable">\
           <img src="'+data['UPHOTO']+'" alt="" class="circle">\
           <span class="title black-text"><b>'+data['UNAME']+'</b></span>\
           <p class="grey-text">'+data['DATE'] +' , '+ data['TYPE'] +'</p><br>\
           <b>'+data['TITLE']+'</b>\
           <a href="#!" onclick="removeBookmark(\'' + doc.id  + '\')" class="secondary-content"><i class="material-icons">delete</i></a>\
-        </li></a>'  
+        </li></a></ul>'  
 
          }
 
@@ -1155,7 +1215,7 @@ function openBookmarkContent() {
           if (totaldocCount == docCount) {
            
            hidePleaseWaitModel()
-           content += '</ul>'
+           content += ''
            //viewModel('My Wishlist',content);           
            $('#user_bookmark').html(content)  
 
@@ -1201,12 +1261,12 @@ function removeBookmark(details) {
 // Open Mylist details
 function openMyListContent() {
 
-  let content = '<ul class="collection">'
+  let content = ''
 
   // Get Bookmark Details    
   showPleaseWaitModel()
 
-    db.collection(userDataPath+'/'+uuid+'/MYLIST').get().then((querySnapshot) => {
+    db.collection(userDataPath+'/'+uuid+'/MYLIST').orderBy('CREATEDON', 'desc').get().then((querySnapshot) => {
       displayOutput("SIZE : " + querySnapshot.size);
   
       if (querySnapshot.size == 0) {
@@ -1230,13 +1290,13 @@ function openMyListContent() {
          
          if((data['TYPE'] == myListFilter) || (myListFilter == 'ALL')) {         
                   
-          content += '<a href="'+data['LINK']+'"><li class="collection-item avatar black-text hoverable">\
+          content += '<ul class="collection"><a href="'+data['LINK']+'"><li class="collection-item avatar black-text hoverable">\
           <img src="'+data['UPHOTO']+'" alt="" class="circle">\
           <span class="title black-text"><b>'+data['UNAME']+'</b></span>\
           <p class="grey-text">'+data['DATE'] +' , '+ data['TYPE'] +'</p><br>\
           <b>'+data['TITLE']+'</b>\
           <a href="#!" class="secondary-content"><i class="material-icons"></i></a>\
-        </li></a>'  
+        </li></a></ul>'  
 
          }
 
@@ -1245,7 +1305,7 @@ function openMyListContent() {
           if (totaldocCount == docCount) {
            
            hidePleaseWaitModel()
-           content += '</ul>'
+           content += ''
            //viewModel('My Wishlist',content);           
            $('#user_mylist').html(content)  
 

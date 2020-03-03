@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Manage Forum</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="../external/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="../external/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+    <div>
+
+  <!-- **************************************** -->
+  <!-- Navigation Sectione -->
+  <!-- **************************************** -->
+
+    <!--=========== NAV SECTION ================= -->
+   <div class="navbar-fixed">
+
+    <nav id="main_nav_bar" class="white z-depth-2" role="navigation">
+      <div class="nav-wrapper container">
+  
+        <!-- Logo Container -->
+        <a id="logo-container" href="../index.html" class="brand-logo">KivTravels</a>
+  
+        <!-- Navigation List -->
+        <ul class="right hide-on-med-and-down">
+          <li><a href="#!" onclick="backToHome()">Home</a></li>
+        
+        </ul>
+       
+        <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+
+        <div id="main_progress" class="progress" style="display: none;">
+          <div class="indeterminate red"></div>
+        </div>
+  
+      </div>
+  
+  
+  
+    </nav>
+  
+     </div>
+  
+      <!-- Mobile Navigation List -->
+      <ul id="nav-mobile" class="sidenav">
+         
+        <div class="container-fluid">
+            <div class="fb-profile">            
+              <img class="fb-image-lg left-align z-depth-2" src="../Images/nav_mobile.jpg" alt="Snow" style="height: 200px; margin-bottom: 10px;">            
+            </div>
+          </div>
+  
+  
+          <li><a href="#!" onclick="backToHome()">Home</a></li>
+      
+    </ul>
+  
+    <!-- ========================================== -->
+   
+
+  <!-- **************************************** -->
+  <!-- Container Section 1 -->
+  <!-- **************************************** -->
+  <div class="container" id="main_section" style="margin-top: 30px;">
+
+    <!-- Delete all Documents -->
+
+    <div class="row">
+
+      <!-- Delete All Collection -->
+      <div class="col s12">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">Delete Documents</span>            
+            <div style="margin-top: 20px;">
+              <p>Delete Documents whose DELETESTATUS is true.</p>
+              <p class="grey-text">Check total documents to DELETE.</p>             
+              <div style="margin-top: 20px;">
+                <a onclick="checkTotalDocuments()" class="waves-effect waves-light btn blue rcorners" style="margin-right: 20px;"><i class="material-icons left">edit</i>Check total documents</a>
+                <p id="total_document_status"></p>
+              </div>
+
+              <div id="delete_documents_status" class="progress" style="display: none;">
+                <div class="indeterminate"></div>
+              </div>
+
+              <div id="delete_documents_btn" class="right-align" style="margin-top: 20px;">
+                <a onclick="deleteAllDocuments()" class="waves-effect waves-light btn red rcorners" style="margin-right: 20px;"><i class="material-icons left">delete</i>Delete all documents</a>
+              </div>
+
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+
+      <!-- Collect All Tags Data -->
+      <div class="col s12">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">Collect Tags</span>            
+            <div style="margin-top: 20px;">
+              <p>Collect all tags details from all items.</p>                
+              
+              <div id="collect_tags_status" class="progress" style="display: none;">
+                <div class="indeterminate"></div>
+              </div>
+
+              <div id="collect_tags_btn" class="right-align" style="margin-top: 20px;">
+                <a onclick="collectAllTagsDetails()" class="waves-effect waves-light btn blue rcorners" style="margin-right: 20px;"><i class="material-icons left">compare_arrows</i>Collect All Tags</a>
+              </div>
+
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  
+
+  <!-- **************************************** -->
+  <!-- Footer -->
+  <!-- **************************************** -->
+  <footer class="page-footer footer-shade  white-text" style="display: none;">
+      <div class="container">
+          <div class="row">
+            <div class="col l6 s12">
+              <h5 class="white-text">Company Bio</h5>
+              <!--
+              <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our
+                full time job. Any amount would help support and continue development on this project and is greatly
+                appreciated.</p>
+                -->
+  
+  
+            </div>
+            <div class="col l3 s12">
+              <!-- <h5 class="white-text">Settings</h5> -->
+              <ul>
+                <li><a class="white-text" href="about_us.html">About</a></li>
+                <li><a class="white-text" href="terms_and_conditions.html">Terms & Conditions</a></li>
+                <li><a class="white-text" href="privacy_police.html">Privacy and Cookie Police</a></li>              
+              </ul>
+            </div>
+            <div class="col l3 s12">
+            <!--
+              <h5 class="white-text">Connect</h5>
+              <ul>
+                <li><a class="white-text" href="#!">Facebook</a></li>
+                <li><a class="white-text" href="#!">Instgram</a></li>
+              </ul>
+             -->
+            </div>
+          </div>
+        </div>
+        <div class="footer-copyright">
+          <div class="container">
+            Made by <a class="brown-text text-lighten-3" href="#!">KivTech</a>
+          </div>
+        </div>
+    </footer>
+
+  </div>
+
+
+  <!-- **************************************** -->
+  <!--  Scripts-->
+  <!-- **************************************** -->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="../../external/js/materialize.js"></script>
+  <script src="../../external/js/init.js"></script>
+
+
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-storage.js"></script>
+  <script src="../app/firestore.js"></script>
+  <script src="../scripts/common.js"></script>
+  <script src="scripts/manageforum.js"></script>
+ 
+
+</body>
+
+</html>

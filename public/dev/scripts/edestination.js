@@ -1256,7 +1256,8 @@ function copyLinkToShare(){
 
 // Open Discussion Form
 function openDiscussionForm() {
-  var url = 'forum/index.html?pt=' + encodeURIComponent(coll_name+'_'+document_ID) + '&id=' + encodeURIComponent('NA') + '&fl=' + encodeURIComponent('NA');
+  //coll_name+'_'+document_ID
+  var url = 'forum/index.html?pt=' + encodeURIComponent('COMMONFORUM') + '&id=' + encodeURIComponent('NA') + '&fl=' + encodeURIComponent('NA');
   window.location.href = url
 }
 

@@ -18,8 +18,10 @@ var userLoginData = ''
 var main_path = 'NA'
 var id = 'NA'
 var fl = 'NA'
+var type = 'NA'
 
 var updateExistingContentDetails = false
+var currentData = {}
 
 
 // ***********************************************
@@ -43,10 +45,17 @@ function getParams() {
   main_path = params['pt']
   id = params['id']
   fl = params['fl'].replace('#!','')
+  type = params['type'].replace('#!','')
 
-  if(fl != 'NA') {
-    updateExistingContentDetails = true
+  if(fl == 'ADD') {
+    updateExistingContentDetails = false
+  } else {
+    if(fl != 'NA') {
+      updateExistingContentDetails = true
+    }
   }
+
+  
 
 
 }
@@ -122,8 +131,34 @@ function updateHTMLPage() {
 
   window.scrollTo(0, 0); 
 
-  if(fl == 'edit') {
-    showCurrentTopicContent()
+  if(fl == 'ADD') {
+    // Check for type
+    if(type == 'TOPIC') {
+      document.getElementById("create_new_topic").style.display = 'block';
+      $("#main_hdr_msg").html('Add New Topic');
+
+    } else if(type == 'EVENT') {
+      document.getElementById("create_new_event").style.display = 'block';
+      $("#main_hdr_msg").html('Add New Event');
+    }
+
+
+  } else if(fl == 'edit') {
+
+    // Check for type
+    if(type == 'TOPIC') {
+      document.getElementById("create_new_topic").style.display = 'block';
+      $("#main_hdr_msg").html('Add New Topic');
+
+      showCurrentTopicContent()
+
+    } else if(type == 'EVENT') {
+      document.getElementById("create_new_event").style.display = 'block';
+      $("#main_hdr_msg").html('Add New Event');
+    }
+
+
+    
   }
 
 }
@@ -190,11 +225,15 @@ function showCurrentTopicContent() {
       let data = doc.data()
       updateExistingContentDetails = true
 
-      displayOutput(data)
+      currentData = data
+
+      //displayOutput(data)
 
       // Update HTML Page
       document.getElementById("title").value = data['TITLE']
-      document.getElementById("description").value = data['DESC']
+
+      // Update Description content      
+      document.getElementById("description").value = br2nl(data['DESC'])
       M.textareaAutoResize($('#description'));
 
       // create tag map
@@ -213,7 +252,7 @@ function showCurrentTopicContent() {
       });
 
       // Update CATEGORY
-      document.getElementById(data['CATEGORY']).selected = true
+      document.getElementById(data['CATEGORY1']).selected = true
 
       $(document).ready(function(){
         $('select').formSelect();
@@ -252,99 +291,204 @@ function cancelDetails() {
 }
 
 // Submit New Post
-function submitDetails() {
-  displayOutput('Submit New Post !!')
+function submitDetails() { 
 
-  // Validate input
-  let validateInput = true
+  if(updateExistingContentDetails) {
+    // --------- Update Existing --------------
+    if(type == 'TOPIC') {
+      addNewTopic()
+    }
 
-  var title = document.getElementById("title").value.trim();
-  displayOutput('title : ' + title)
-  if(title == '') {
-    validateInput = false
-    toastMsg('Topic Title is empty!!')
-  }
-  
-  var tagsList= M.Chips.getInstance($('.chips')).chipsData;
-  let tagsData = []
-  if(tagsList.length == 0) {
-    tagsData.push('NA')
   } else {
-  //displayOutput(tagsList)
-  for(eachIdx in tagsList) {
-    tagsData.push(tagsList[eachIdx]['tag'])
+
+    // ------- Add New ---------------
+    if(fl == 'ADD') {
+      if(type == 'TOPIC') {
+        addNewTopic()
+      }
+    }
+
   }
-}
-displayOutput(tagsData)
+
  
 
-  var description = document.getElementById("description").value.trim();
-  displayOutput('description : ' + description)
-  if(description == '') {
-    validateInput = false
-    toastMsg('Topic Description is empty!!')
-  }
-
-  let catgOption = ["","Category1","Category2","Category3"]
-  let catDropValue = document.getElementById("catg_options").value
-  let cateData = ''
-  if(catDropValue == '') {
-    cateData = 'NA'
-    toastMsg('Please select Category !!')
-    validateInput = false
-  } else {
-    cateData = catgOption[catDropValue]
-  } 
-  displayOutput('cateData : ' + cateData)
-
-
-  // If all Validation is true
-  if(validateInput) {
-    displayOutput('Input Validation TRUE !!')
-
-    let forumData = {}
-
-    forumData['TITLE'] =  title
-    forumData['TAGS'] =  tagsData
-    forumData['CATEGORY'] =  cateData
-    forumData['DESC'] =  description
-    forumData['DATE'] =  getTodayDate()
-    forumData['DATELIST'] =  getTodayDateList()
-    forumData['DATEID'] =  parseInt(getTodayDateID())    
-
-    forumData['UNAME'] =  userLoginData['NAME']
-    forumData['UPHOTO'] =  userLoginData['PHOTO']
-    forumData['UUID'] =  userLoginData['UUID']
-
-    forumData['DELETESTATUS'] = false
-
-    forumData['MULTICONFIG'] = ['NA']
-
-    forumData['REPLYCNT'] = 0
-    forumData['VIEWCNT'] = 0
-    forumData['LIKECNT'] = 0
-
-    forumData['EXTRA'] = {
-      EXTRA1 : 'NA'
-    }
-
-
-    if(updateExistingContentDetails) {
-      updateExistPostIntoDatabase(forumData)
-    } else {
-      updateNewPostIntoDatabase(forumData)
-    }
-    
-
-
-
-
-  } else {
-    displayOutput('Input Validation FALSE !!')
-  }
-
 
 }
+
+// -------------------------
+
+// Add New Topic
+function addNewTopic() {
+
+  displayOutput('Submit New Topic !!')
+
+   // Validate input
+   let validateInput = true
+
+   var title = document.getElementById("title").value.trim();
+   displayOutput('title : ' + title)
+   if(title == '') {
+     validateInput = false
+     toastMsg('Topic Title is empty!!')
+   }
+   
+   var tagsList= M.Chips.getInstance($('.chips')).chipsData;
+   let tagsData = []
+   if(tagsList.length == 0) {
+     tagsData.push('NA')
+   } else {
+   //displayOutput(tagsList)
+   for(eachIdx in tagsList) {
+     tagsData.push(tagsList[eachIdx]['tag'])
+   }
+ }
+ displayOutput(tagsData)
+  
+ 
+   var description = document.getElementById("description").value.trim();
+   //description = description.replace(/\r?\n/g, "<br>")
+   description = nl2br(description)
+   displayOutput('description : ' + description)   
+   if(description == '') {
+     validateInput = false
+     toastMsg('Topic Description is empty!!')
+   }
+ 
+   let catgOption = ["","Category1","Category2","Category3"]
+   let catDropValue = document.getElementById("catg_options").value
+   let cateData = ''
+   if(catDropValue == '') {
+     cateData = 'NA'
+     toastMsg('Please select Category !!')
+     validateInput = false
+   } else {
+     cateData = catgOption[catDropValue]
+   } 
+   displayOutput('cateData : ' + cateData)
+
+   // Check for Term and conditions
+   let terms_check_status = document.getElementById("accept_terms_checkbox").checked
+   if(!terms_check_status){
+    toastMsg('Please accept terms and conditions.')
+    validateInput = false
+   }
+ 
+ 
+   //validateInput = false
+   // If all Validation is true
+   if(validateInput) {
+     displayOutput('Input Validation TRUE !!')
+ 
+     let forumData = {}
+ 
+     // --------- Form Data Set -------------
+     forumData['TITLE'] =  title
+     forumData['TAGS'] =  tagsData
+ 
+     // ---- Category --------------
+     forumData['CATEGORY1'] =  cateData
+     //forumData['CATEGORY2'] =  'NA'
+     //forumData['CATEGORY3'] =  'NA'
+ 
+ 
+     forumData['DESC'] =  description
+     forumData['DATE'] =  getTodayDate()
+     forumData['DATELIST'] =  getTodayDateList()
+     
+
+     if(updateExistingContentDetails) {
+      forumData['CREATEDON'] =  currentData['CREATEDON']
+     } else {
+      const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+      forumData['CREATEDON'] =  timestamp
+     }
+           
+ 
+     forumData['UNAME'] =  userLoginData['NAME']
+     forumData['UPHOTO'] =  userLoginData['PHOTO']
+     forumData['UUID'] =  userLoginData['UUID']
+ 
+     forumData['DELETESTATUS'] = false
+ 
+     //forumData['MULTICONFIG'] = ['NA']
+ 
+     forumData['DOCTYPE'] = 'TOPIC'  // Chnage It according to the Item
+     forumData['DOCVER'] = 'V1'
+     
+     forumData['ISMAIN'] = false
+ 
+     /*
+     forumData['EXTRA'] = {
+       EXTRA1 : 'NA'
+     }
+     */
+ 
+     forumData['SCOPE'] = 'NA'
+     forumData['MAPCORD'] = 'NA'
+     forumData['LOCATION'] = 'NA' 
+     
+ 
+     if(updateExistingContentDetails) {
+       updateExistPostIntoDatabase(forumData)
+     } else {
+       updateNewPostIntoDatabase(forumData)
+     } 
+ 
+   } else {
+     displayOutput('Input Validation FALSE !!')
+   }
+
+}
+
+// Edit Option Handling
+
+function editOptionBtn(details) {
+  displayOutput(details)
+
+  // Read Current Content and Update it
+  var description = document.getElementById("description").value.trim();
+
+  switch(details) {
+
+    case 'BOLD' :
+      description = description + '<b>Type Here</b>'
+      break;
+
+    case 'ITALIC' :
+      description = description + '<i>Type Here</i>'
+      break;
+
+    case 'UNDERLINE' :
+      description = description + '<u>Type Here</u>'
+      break;
+
+    case 'LIST' :
+      description = description + '<li>Type Here</li>'
+      break;
+
+    case 'BLOCKLIST' :
+      description = description + '<blockquote>Type Here</blockquote>'
+      break;
+
+    case 'LINK' :
+      description = description + '<a href="address">Name</a>'
+      break;
+
+    default:
+      break;
+  }
+
+  document.getElementById("description").value = description
+  M.textareaAutoResize($('#description'));
+
+}
+
+// Preview Message
+function previewMessage() {
+  viewModel('Content',nl2br(document.getElementById("description").value.trim()))
+}
+
+// -------------------------
 
 // Update MYLIST Section
 function updateMyList(data,docid) { 
@@ -359,6 +503,7 @@ function updateMyList(data,docid) {
   bookmarkData['DATE'] = data['DATE']
   bookmarkData['TITLE'] = data['TITLE']
   bookmarkData['TYPE'] = 'FORUM'
+  bookmarkData['CREATEDON'] = data['CREATEDON']
 
   var url = 'forum/index.html?pt=' + encodeURIComponent(main_path) + '&id=' + encodeURIComponent(docid) + '&fl=' + encodeURIComponent('only'); 
   bookmarkData['LINK'] = url
@@ -425,11 +570,21 @@ function startUpCalls() {
 
   // Chip 
   $('.chips-placeholder').chips({
-    placeholder: 'Type keyword and press enter',
+    placeholder: 'Enter a Tag',
     secondaryPlaceholder: '+Tag',
   }); 
 
   M.textareaAutoResize($('#description'));
 
+  $(document).ready(function(){
+    $('.tooltipped').tooltip();
+  });
+
 }
+
+
+$( document ).ready(function() {
+
+});
+
 

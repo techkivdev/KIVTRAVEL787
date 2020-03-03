@@ -1316,6 +1316,22 @@ function getTodayDateID() {
   return dateTime
 }
 
+// HTML Convert Functions
+
+function nl2br (str, replaceMode, isXhtml) {
+
+  var breakTag = (isXhtml) ? '<br />' : '<br>';
+  var replaceStr = (replaceMode) ? '$1'+ breakTag : '$1'+ breakTag +'$2';
+  return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, replaceStr);
+}
+
+function br2nl (str, replaceMode) {   
+	
+  var replaceStr = (replaceMode) ? "\n" : '';
+  // Includes <br>, <BR>, <br />, </br>
+  return str.replace(/<\s*\/?br\s*[\/]?>/gi, replaceStr);
+}
+
 // ------------------------------------------------------
 // ----------------- Model ------------------------------
 // ------------------------------------------------------
@@ -1326,7 +1342,7 @@ function viewModel(header, content) {
   <div id="messagemodel" class="modal modal-fixed-footer">\
     <div class="modal-content">\
       <h4> '+ header + '</h4>\
-      <p>'+ content + '</p>\
+      <p class="long-text-nor">'+ content + '</p>\
     </div>\
     <div class="modal-footer">\
       <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>\

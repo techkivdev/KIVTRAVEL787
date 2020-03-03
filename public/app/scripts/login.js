@@ -19,19 +19,50 @@ var userDataPath = coll_base_path + 'USER/ALLUSER'
 var uuid = ''
 var allDocCmpData = {}
 
+// Parameters
+var fl = 'NA'
+var fl2 = 'NA'
+
 var bookingData = ''
 var bookingID = ''
 var cancelDetails = ''
 var signinpopup = 'popup'
 var wishlistFilter = 'ALL'
+var bookmarkFilter = 'ALL'
+var myListFilter = 'ALL'
 
 // Startup Call
 startupcalls()
+
+getParams()
 
 // Mobile mode handling
 mobileModeStartupHandling()
 
 modifyPageStyle()
+
+// ----------- Read Parameters -------------------
+function getParams() {
+  // Read Parameters
+  displayOutput('Read Parameters ...')
+  var idx = document.URL.indexOf('?');
+  var params = new Array();
+  var parmFound = false
+  if (idx != -1) {
+    var pairs = document.URL.substring(idx + 1, document.URL.length).split('&');
+    for (var i = 0; i < pairs.length; i++) {
+      nameVal = pairs[i].split('=');
+      params[nameVal[0]] = nameVal[1];
+      parmFound = true
+    }
+  }
+  displayOutput(params); 
+  if(parmFound) {
+    fl = params['fl']
+    fl2 = params['fl2'].replace('#!','')
+  }
+
+}
 
 // ----------------------------------------
 // --------- Mobile Mode Handling ---------
@@ -153,6 +184,7 @@ function authDetails() {
         userData['UUID'] = uuid
         userData['PHOTOURL'] = photoURL
         userData['ROLE'] = 'USER'
+        userData['ROLE2'] = 'USER'
         userData['MOBILE'] = ''
         userData['COUNTRY'] = ''
         userData['STATE'] = ''
@@ -273,11 +305,13 @@ function updateSessionData() {
 function updateHTMLPage() {
   displayOutput('Update HTML Page ..')
 
-  displayOutput(userData)
+  //displayOutput(userData)
 
   updateSessionData()
 
-  collectBookingDetails()  
+  displayOutput('fl : ' + fl)
+
+  if(fl == 'NA') {
 
   $("#profile_name").html(userData['NAME'])
   $("#profile_email").html(userData['EMAIL'])
@@ -333,6 +367,21 @@ function updateHTMLPage() {
     $("#admin_options").html(adminOptions)
   }
 
+} else {
+  // ---- Open Spcific Block --------------
+  document.getElementById("spinner").style.display = 'none';
+  document.getElementById("main_profile_section").style.display = 'block';
+  document.getElementById("footer_sec").style.display = 'block';
+
+  divBlockHandling(fl)
+
+  document.getElementById("close_fl_btn").style.display = 'none';
+  document.getElementById("close_fl_btn_to_forum").style.display = 'block';
+}
+
+
+  
+
 
 
 }
@@ -362,7 +411,7 @@ function divBlockHandling(value) {
 
     break;
 
-    case "bookings":
+    case "bookings":     
 
       if (isMobileBrowser()) {
         document.getElementById("profile_header_section_mb").style.display = 'none';
@@ -373,6 +422,8 @@ function divBlockHandling(value) {
 
       document.getElementById("booking_section").style.display = 'block';
       document.getElementById("close_fl_btn").style.display = 'block';
+
+      collectBookingDetails()
 
     break;
 
@@ -390,6 +441,38 @@ function divBlockHandling(value) {
       document.getElementById("close_fl_btn").style.display = 'block';
 
       openWishlistContent()
+
+    break;
+
+    case "bookmark":
+
+      if (isMobileBrowser()) {
+        document.getElementById("profile_header_section_mb").style.display = 'none';
+      } else {
+        document.getElementById("profile_header_section").style.display = 'none';
+      }
+      document.getElementById("options_card_section").style.display = 'none';
+
+      document.getElementById("bookmark_section").style.display = 'block';
+      document.getElementById("close_fl_btn").style.display = 'block';
+
+      openBookmarkContent()
+
+    break;
+
+    case "mylist":
+
+      if (isMobileBrowser()) {
+        document.getElementById("profile_header_section_mb").style.display = 'none';
+      } else {
+        document.getElementById("profile_header_section").style.display = 'none';
+      }
+      document.getElementById("options_card_section").style.display = 'none';
+
+      document.getElementById("mylist_section").style.display = 'block';
+      document.getElementById("close_fl_btn").style.display = 'block';
+
+      openMyListContent()
 
     break;
 
@@ -419,6 +502,8 @@ function hideFullMessageDialog(){
   document.getElementById("profile_section").style.display = 'none';
   document.getElementById("booking_section").style.display = 'none';
   document.getElementById("wishlist_section").style.display = 'none';
+  document.getElementById("bookmark_section").style.display = 'none';
+  document.getElementById("mylist_section").style.display = 'none';
   document.getElementById("options_section").style.display = 'none';
   document.getElementById("close_fl_btn").style.display = 'none';
 
@@ -438,6 +523,11 @@ function hideUserBookingView(){
 
   document.getElementById("user_bookings_view_section").style.display = 'none';
   document.getElementById("user_bookings").style.display = 'block';
+}
+
+// Return to Forum Page
+function returnToForumPage() {
+  window.history.back();
 }
 
 
@@ -518,6 +608,9 @@ function saveprofiledata() {
 function collectBookingDetails() {
 
   var userBookingPath = coll_base_path + 'USER/ALLUSER/' + uuid + '/BOOKINGS'
+  $("#user_bookings").html('')
+
+  showPleaseWaitModel()
 
   var totaldocCount = 0;
 
@@ -527,6 +620,8 @@ function collectBookingDetails() {
     if (querySnapshot.size == 0) {
       // ------ No Details Present -------------  
       displayOutput('No Record Found !!')
+
+      hidePleaseWaitModel()
 
       // Show No Booking Details
       let emptyMsg= '<div class="row" style="margin-top:1%;"><div class="col s12 m6"><div class="card" style="border-radius: 25px;">\
@@ -553,6 +648,7 @@ function collectBookingDetails() {
         docCount++;
         if (totaldocCount == docCount) {         
 
+          hidePleaseWaitModel()
           // Update HTML Page
           updateBookingHTMLPage()
         }
@@ -968,7 +1064,8 @@ function updateBooking(details) {
 
 }
 
-// Open Bookmark details
+// --------------- Wishlist Handling -----------------
+// Open WishList details
 function openWishlistContent() {
 
   let content = '<ul class="collection">'
@@ -976,7 +1073,7 @@ function openWishlistContent() {
   // Get Bookmark Details    
   showPleaseWaitModel()
 
-    db.collection(userDataPath+'/'+uuid+'/BOOKMARK').get().then((querySnapshot) => {
+    db.collection(userDataPath+'/'+uuid+'/WISHLIST').get().then((querySnapshot) => {
       displayOutput("SIZE : " + querySnapshot.size);
   
       if (querySnapshot.size == 0) {
@@ -1018,7 +1115,7 @@ function openWishlistContent() {
           <img src="'+mark_data['IMAGE']+'" alt="" class="circle">\
           <span class="title black-text"><b>'+markname+'</b></span>\
           <p class="grey-text">'+markid+'</p>\
-          <a href="#!" onclick="removeBookmark(\'' + doc.id  + '\')" class="secondary-content"><i class="material-icons">delete</i></a>\
+          <a href="#!" onclick="removeWishlist(\'' + doc.id  + '\')" class="secondary-content"><i class="material-icons">delete</i></a>\
         </li></a>'  
 
          }
@@ -1055,6 +1152,96 @@ function filterWishList(details) {
 
 }
 
+// Remove Wishlist
+function removeWishlist(details) {
+    displayOutput(details)
+
+    db.collection(userDataPath+'/'+uuid+'/WISHLIST').doc(details).delete().then(function () {
+      displayOutput("Wishlist Deleted !!");  
+
+      closeModel()
+      openWishlistContent()
+    });
+
+
+}
+
+
+
+// --------------- Bookmark Handling -----------------
+// Open Bookmark details
+function openBookmarkContent() {
+
+  let content = ''
+
+  // Get Bookmark Details    
+  showPleaseWaitModel()
+
+    db.collection(userDataPath+'/'+uuid+'/BOOKMARK').get().then((querySnapshot) => {
+      displayOutput("SIZE : " + querySnapshot.size);
+  
+      if (querySnapshot.size == 0) {
+        // ------ No Details Present -------------  
+        displayOutput('No Record Found !!')
+        hidePleaseWaitModel()    
+        //viewModel('My Wishlist','<h1>Empty List</h1>'); 
+        $('#user_bookmark').html('<h1>Empty List</h1>')
+  
+      } else {
+  
+        totaldocCount = querySnapshot.size
+        var docCount = 0;
+  
+        // Read Each Documents
+        querySnapshot.forEach((doc) => {
+          let data = doc.data()
+          //displayOutput(mark_data);
+
+         
+         if((data['TYPE'] == bookmarkFilter) || (bookmarkFilter == 'ALL')) {         
+                  
+          content += '<ul class="collection"><a href="'+data['LINK']+'"><li class="collection-item avatar black-text hoverable">\
+          <img src="'+data['UPHOTO']+'" alt="" class="circle">\
+          <span class="title black-text"><b>'+data['UNAME']+'</b></span>\
+          <p class="grey-text">'+data['DATE'] +' , '+ data['TYPE'] +'</p><br>\
+          <b>'+data['TITLE']+'</b>\
+          <a href="#!" onclick="removeBookmark(\'' + doc.id  + '\')" class="secondary-content"><i class="material-icons">delete</i></a>\
+        </li></a></ul>'  
+
+         }
+
+          // Check Document count
+          docCount++;
+          if (totaldocCount == docCount) {
+           
+           hidePleaseWaitModel()
+           content += ''
+           //viewModel('My Wishlist',content);           
+           $('#user_bookmark').html(content)  
+
+           document.getElementById("filter_drop_sec_bookmark").style.display = 'block';
+
+          }
+  
+        }); 
+        
+  
+      }
+  
+    });
+
+}
+
+// Filter Bookmark Content 
+function filterBookmark(details) {
+
+  bookmarkFilter = details
+  $('#bookmark_filter_drop_down').html('<i class="material-icons left">filter_list</i>' + details)
+
+  openBookmarkContent()
+
+}
+
 // Remove Bookmark
 function removeBookmark(details) {
     displayOutput(details)
@@ -1063,7 +1250,97 @@ function removeBookmark(details) {
       displayOutput("Bookmark Deleted !!");  
 
       closeModel()
-      openWishlistContent()
+      openBookmarkContent()
+    });
+
+
+}
+
+
+// --------------- Mylist Handling -----------------
+// Open Mylist details
+function openMyListContent() {
+
+  let content = ''
+
+  // Get Bookmark Details    
+  showPleaseWaitModel()
+
+    db.collection(userDataPath+'/'+uuid+'/MYLIST').orderBy('CREATEDON', 'desc').get().then((querySnapshot) => {
+      displayOutput("SIZE : " + querySnapshot.size);
+  
+      if (querySnapshot.size == 0) {
+        // ------ No Details Present -------------  
+        displayOutput('No Record Found !!')
+        hidePleaseWaitModel()    
+        //viewModel('My Wishlist','<h1>Empty List</h1>'); 
+        $('#user_mylist').html('<h1>Empty List</h1>')
+  
+      } else {
+  
+        totaldocCount = querySnapshot.size
+        var docCount = 0;
+  
+        // Read Each Documents
+        querySnapshot.forEach((doc) => {
+          let data = doc.data()
+          //displayOutput(mark_data);
+
+          // <a href="#!" onclick="removeBookmark(\'' + doc.id  + '\')" class="secondary-content"><i class="material-icons">delete</i></a>\
+         
+         if((data['TYPE'] == myListFilter) || (myListFilter == 'ALL')) {         
+                  
+          content += '<ul class="collection"><a href="'+data['LINK']+'"><li class="collection-item avatar black-text hoverable">\
+          <img src="'+data['UPHOTO']+'" alt="" class="circle">\
+          <span class="title black-text"><b>'+data['UNAME']+'</b></span>\
+          <p class="grey-text">'+data['DATE'] +' , '+ data['TYPE'] +'</p><br>\
+          <b>'+data['TITLE']+'</b>\
+          <a href="#!" class="secondary-content"><i class="material-icons"></i></a>\
+        </li></a></ul>'  
+
+         }
+
+          // Check Document count
+          docCount++;
+          if (totaldocCount == docCount) {
+           
+           hidePleaseWaitModel()
+           content += ''
+           //viewModel('My Wishlist',content);           
+           $('#user_mylist').html(content)  
+
+           document.getElementById("filter_drop_sec_mylist").style.display = 'block';
+
+          }
+  
+        }); 
+        
+  
+      }
+  
+    });
+
+}
+
+// Filter MyList Content 
+function filterMyList(details) {
+
+  myListFilter = details
+  $('#mylist_filter_drop_down').html('<i class="material-icons left">filter_list</i>' + details)
+
+  openMyListContent()
+
+}
+
+// Remove MyList
+function removeMyList(details) {
+    displayOutput(details)
+
+    db.collection(userDataPath+'/'+uuid+'/MYLIST').doc(details).delete().then(function () {
+      displayOutput("MyList Deleted !!");  
+
+      closeModel()
+      openMyListContent()
     });
 
 

@@ -13,3 +13,20 @@ https://medium.com/@archana_june/firebase-custom-domain-setup-with-godaddy-8b7ac
 Medium Link :
 
 https://medium.com/firebase-tips-tricks/how-to-reduce-the-number-of-read-operations-in-cloud-firestore-9f9d6f5a271
+
+
+https://blogs.mentor.com/embedded/blog/2014/03/12/consolidating-automotive-things-at-embedded-world/
+
+
+
+firebase tutorials
+https://fireship.io/lessons/firestore-pagination-guide/
+
+
+
+----
+For template
+
+https://blogsite-30c69.firebaseapp.com/blog/wMjHfSWUKQXHZtPzs0yL/the-python-tutorial
+
+https://medium.com/@tjmonsi/learning-firebase-creating-a-blog-article-object-making-a-blog-pt-2-c730e63fc82b

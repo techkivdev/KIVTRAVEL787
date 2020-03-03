@@ -32,6 +32,12 @@ var filter_value = 'NA'
 
 var allForumTopics = {}
 
+// Query Parameters
+let querySize = 10
+let queryRef = ''
+
+let queryMode = 'NORMAL'
+
 
 // ***********************************************
 
@@ -73,11 +79,16 @@ function checkLoginData(){
   
   if(status == 'true') {
     userLoginData = getLoginUserData()
-    displayOutput(userLoginData)
+    //displayOutput(userLoginData)
+
+    // Check for ROLE
+    if(userLoginData['ROLE'] != 'USER') {
+      document.getElementById("manage_forum_menu").style.display = 'block';
+    }
 
     if(updateTopicHTMLPage) {
       // Read all topic and display content
-      readAllForumTopics()
+      readAllForums()
     }
 
   } 
@@ -111,44 +122,39 @@ updateHTMLPage()
 function updateHTMLPage() {   
   modifyPageStyle()
 
+  document.getElementById("message_section").style.display = 'none';
+
   // Page Haandling according to Filter value : fl
 
   if((fl == 'NA') || (fl == 'tag') || (fl == 'catg')){
     // Read all topic and display content
-    readAllForumTopics()
+    readAllForums()
   } else if((fl == 'edit') || (fl == 'only')) {
+    document.getElementById("flb_open_filter").style.display = 'none';
     // Read only edit topic details and show details
-    readOneForumTopics()
+    readOneForum()
   } if(fl == 'own') {
    // Nothing to do
+   document.getElementById("message_section").style.display = 'block';
+   $('#message_content').html('Your Topics only.')
   }
   else {
-    //let htmlContent = ''
-    //htmlContent += '<h1 class="white-text">No Topic Found !!</h1>'    
-    //$("#forum_card_section").html(htmlContent);
-    //document.getElementById("main_progress").style.display = "none";
-  }
-
-
-  // Update message according to the main path
-  if(main_path == 'COMMON') {
-    document.getElementById("message_section").style.display = 'block';
-    document.getElementById("common_link").style.display = 'none';
-    document.getElementById("common_link_mb").style.display = 'none';
-
-    $('#message_content').html('You are under MAIN Group !!')
-  } else {
-    document.getElementById("message_section").style.display = 'block';
-    document.getElementById("common_link").style.display = 'block';
-    document.getElementById("common_link_mb").style.display = 'block';
-
-    $('#message_content').html('You are not under MAIN Group.<br>But you are under current '+main_path.split('_')[0] + ' Group.')
+  
   }
 
   // Update Filter section details
   $('#main_filter_section').html('')
   if((fl == 'tag') || (fl == 'catg')) {
     $('#main_filter_section').html('<div class="chip">' + id + '</div>')
+    document.getElementById("message_section").style.display = 'block';
+    document.getElementById("filter_reset_btn_home").style.display = 'block';
+
+    if(fl == 'tag') {
+      $('#message_content').html('Filter Applied on Tag !!')
+    } else {
+      $('#message_content').html('Filter Applied on Category !!')
+    }
+    
   }
   
 
@@ -196,8 +202,8 @@ function mobileModeStartupHandling() {
 // *******************************************************
 
 
-// Read Forum Topic Details
-function readAllForumTopics() {
+// Read Forum Details
+function readAllForums() {
 
   allForumTopics = {}
   $("#forum_card_section").html('');
@@ -205,32 +211,49 @@ function readAllForumTopics() {
 
   // Read details
   let path = coll_base_path + 'FORUM/' + main_path 
+  let collectionRef = db.collection(path)
   
   // ---------------------------------------
+  // ----- NORMAL ------
+
+  
   // Query Handling
-  // orderBy('DATEID', 'desc')
-  let queryRef = ''
+  // orderBy('DATEID', 'desc') 
 
   // Main Filter Query
-  if(filter_enable_flag) {    
-    queryRef = db.collection(path).where(filter_key, '==', filter_value).limit(10);    
-
+  if(filter_enable_flag) { 
+    // Sort by Date
+    if(filter_key == 'DATE') {
+      queryRef = collectionRef.where('DELETESTATUS', '==', false)
+      .where('DATE', '==', filter_value)
+      .orderBy('CREATEDON', 'desc');
+    }
+  
   } else {
     // Filter query for url
-  if(fl == 'own') {
-    queryRef = db.collection(path).where('UUID', '==', userLoginData['UUID']).limit(10);
-  } else if(fl == 'tag') {
-    queryRef = db.collection(path).where('TAGS', 'array-contains',id).limit(10);
-  } else if(fl == 'catg') {
-    queryRef = db.collection(path).where('CATEGORY', '==', id).limit(10);
-  } else {
-    queryRef = db.collection(path).orderBy('DATEID', 'desc').limit(10);
+
+      // For each query you have to create Index in firebase console
+    if(fl == 'own') { 
+      queryRef = collectionRef.where('DELETESTATUS', '==', false)
+      .where('UUID', '==', userLoginData['UUID'])
+      .orderBy('CREATEDON', 'desc');
+    } else if(fl == 'tag') {
+      queryRef = collectionRef.where('DELETESTATUS', '==', false)
+      .where('TAGS', 'array-contains',id)
+      .orderBy('CREATEDON', 'desc');
+    } else if(fl == 'catg') {
+      queryRef = collectionRef.where('DELETESTATUS', '==', false)
+      .where('CATEGORY1', '==', id)
+      .orderBy('CREATEDON', 'desc');
+    } else {
+      queryRef = collectionRef.where('DELETESTATUS', '==', false)
+      .orderBy('CREATEDON', 'desc');
+    }
+
   }
 
-}
-  
  
-  queryRef.get()
+  queryRef.limit(querySize).get()
    .then(snapshot => {
  
      if (snapshot.size == 0) {
@@ -238,11 +261,12 @@ function readAllForumTopics() {
        displayOutput('No Ratings Record Found !!') 
 
        let htmlContent = ''
-       htmlContent += '<h1 class="white-text">No Topic Found !!</h1>'
+       htmlContent += '<h1 class="black-text">No Topic Found !!</h1>'
        
        $("#forum_card_section").html(htmlContent);
 
        document.getElementById("main_progress").style.display = "none";
+       document.getElementById("more_btn").style.display = "none";
 
      } else {
  
@@ -258,6 +282,7 @@ function readAllForumTopics() {
     // updateForumContent()
 
     document.getElementById("main_progress").style.display = "none";
+    document.getElementById("more_btn").style.display = "block";
  
    }
    })
@@ -269,8 +294,15 @@ function readAllForumTopics() {
 
 }
 
-// Read Only One Forum Topic Details
-function readOneForumTopics() {
+// Query Handling
+function morePage() {
+  querySize = querySize + 10
+  readAllForums()
+}  
+
+
+// Read Only One Forum Details
+function readOneForum() {
 
   allForumTopics = {}
   document.getElementById("main_progress").style.display = "block";
@@ -283,20 +315,36 @@ function readOneForumTopics() {
       displayOutput('No such document!');  
       
       let htmlContent = ''
-       htmlContent += '<h1 class="white-text">No Topic Found !!</h1>'
+       htmlContent += '<h1 class="black-text">No Topic Found !!</h1>'
        
        $("#forum_card_section").html(htmlContent);
 
        document.getElementById("main_progress").style.display = "none";
 
+       document.getElementById("close_fl_btn_to_back").style.display = "block";
+
     } else {
-      allForumTopics[doc.id] = doc.data()
+       let data = doc.data()
 
-      // Update Forum HTML Content
+       if(data['DELETESTATUS'] == false) {
+          allForumTopics[doc.id] = data
+          // Update Forum HTML Content
+          updateForumContent()
+    
+          viewEachTopic(doc.id)
+       } else {
 
-     updateForumContent()
+        // Document Deleted
+        let htmlContent = ''
+        htmlContent += '<h4 class="black-text">Item Deleted by owner!!</h4><br> \
+        <p class="grey-text">You can also detele it from your bookmark list.</p>'        
+        $("#forum_card_section").html(htmlContent);
+        document.getElementById("main_progress").style.display = "none";
 
-     viewEachTopic(doc.id)
+        document.getElementById("close_fl_btn_to_back").style.display = "block";
+
+       }
+       
       
       
     }
@@ -383,8 +431,8 @@ function createEachDocumentCard(data,docid) {
 \
             <!-- Content -->\
             <div class="card-content" style="margin-top: -30px;">\
-            <div class="right-align"> <a href="#!" onclick="chipClickHandling(\'' + data['CATEGORY'] +'#catg' + '\')" ><div class="chip">'+data['CATEGORY']+'</div></a> </div>\
-              <span class="card-title">'+data['TITLE']+'</span>\
+            <div class="right-align"> <a href="#!" onclick="chipClickHandling(\'' + data['CATEGORY1'] +'#catg' + '\')" ><div class="chip">'+data['CATEGORY1']+'</div></a> </div>\
+              <span class="card-title long-text-nor">'+data['TITLE']+'</span>\
               <div>\
                 '+getChipWithBorderFromListLoc(data['TAGS'])+'\
               </div>\
@@ -392,7 +440,7 @@ function createEachDocumentCard(data,docid) {
               <div style="margin-top: 15px;">\
                 <p class="long-text" >'+data['DESC']+'</p>\
               </div> \
-              <div id="reach_content_btn" class="right-align" style="margin-top: 0px;">\
+              <div id="reach_content_btn" class="right-align" style="margin-top: 10px;">\
               <a onclick="viewEachTopic(\'' + docid + '\')" class="waves-effect waves-teal btn-flat blue-text">Read More</a>\
             </div>\
               </div> </div>  </div></div>'
@@ -423,6 +471,7 @@ function viewEachTopic(details) {
   if(fl == 'only') {
     // No need to show close btn, user has to back to source page
     document.getElementById("close_fl_btn").style.display = "none";
+    document.getElementById("close_fl_btn_to_back").style.display = "block";
   } else {
     document.getElementById("close_fl_btn").style.display = "block";
   }
@@ -433,8 +482,9 @@ function viewEachTopic(details) {
 
   $("#u_name").html(data['UNAME']);
   $("#u_date").html(data['DATE']);
-  $("#category").html('<div class="chip">' + data['CATEGORY'] + '</div>');
+  $("#category").html('<div class="chip">' + data['CATEGORY1'] + '</div>');
   $("#title").html(data['TITLE']);
+  $("#publish_date").html('Published on ' + data['DATE']);
  
   $("#tags").html(getChipWithBorderFromListLoc(data['TAGS']));
 
@@ -462,11 +512,12 @@ function viewEachTopic(details) {
 
 }
 
-// Add new topic
-function addNewTopic() {
-  // createnew.html?pt=COMMON&id=NA&fl=NA
-  var url = 'createnew.html?pt=' + encodeURIComponent(main_path) + '&id=' + encodeURIComponent('NA') + '&fl=' + encodeURIComponent('NA');
-  window.location.href = url  
+// ---------------------------------------
+// Add new Item
+function addNewItem(details) {
+// createnew.html?pt=COMMONFORUM&id=NA&fl=NA
+var url = 'createnew.html?pt=' + encodeURIComponent(main_path) + '&id=' + encodeURIComponent('NA') + '&fl=' + encodeURIComponent('ADD')+ '&type=' + encodeURIComponent(details);
+window.location.href = url 
 }
 
 // Show My Topic Only
@@ -539,10 +590,10 @@ function deleteCompleteTopic() {
    displayOutput('Delete Topic : ' + currentTopicID)  
 
    // Delete all comments
-   deleteCollectionDocuments(coll_base_path + 'FORUM/' + main_path +'/' +  currentTopicID + '/COMMENT')
+   //deleteCollectionDocuments(coll_base_path + 'FORUM/' + main_path +'/' +  currentTopicID + '/COMMENT')
 
    // Delete all like
-   deleteCollectionDocuments(coll_base_path + 'FORUM/' + main_path +'/' +  currentTopicID + '/LIKE')
+   //deleteCollectionDocuments(coll_base_path + 'FORUM/' + main_path +'/' +  currentTopicID + '/LIKE')
    
 
    // Delete Main topic Document
@@ -553,16 +604,23 @@ function deleteCompleteTopic() {
 
   // Just Update DELETESTATUS to true
 
-  /*
+  
   db.doc(path).update({
     DELETESTATUS: true
   }).then(ref => {
-    hidePleaseWaitModel()
-    toastMsg('Topic Deleted !!')
-    location.reload();
-  });
-  */
 
+    db.doc(coll_base_path + 'USER/ALLUSER/' +  userLoginData['UUID'] + '/MYLIST/' + currentTopicID).delete().then(function () {
+      hidePleaseWaitModel()
+      toastMsg('Topic Deleted !!')
+      resetFilter()
+    });
+
+  });
+  
+
+ //deleteDocumentUsingCloudFcn(path)
+
+ /*
   db.doc(path).delete().then(function () {
 
     db.doc(coll_base_path + 'USER/ALLUSER/' +  userLoginData['UUID'] + '/MYLIST/' + currentTopicID).delete().then(function () {
@@ -572,6 +630,7 @@ function deleteCompleteTopic() {
     });
    
   });
+  */
 
 }
 
@@ -600,6 +659,27 @@ function deleteCollectionDocuments(path) {
 
 }
 
+// Delete Operation using Cloud Function
+function deleteDocumentUsingCloudFcn(path) {
+  /**
+ * Call the 'recursiveDelete' callable function with a path to initiate
+ * a server-side delete.
+ */
+
+ displayOutput('Delete Document using cloud function ....')
+
+  var deleteFn = firebase.functions().httpsCallable('recursiveDelete');
+  deleteFn({ path: path })
+      .then(function(result) {
+          displayOutput('Delete success: ' + JSON.stringify(result));
+      })
+      .catch(function(err) {
+        displayOutput('Delete failed, see console,');
+          console.warn(err);
+      });
+
+}
+
 // -------------------------------------------------
 
 // ------------- Comment Handling ------------------
@@ -625,10 +705,11 @@ function addNewComment() {
 
        let forumData = {}
 
-       forumData['COMMENT'] = comment
+       forumData['COMMENT'] = nl2br(comment)
 
         forumData['DATE'] =  getTodayDate()
-        forumData['DATEID'] =  parseInt(getTodayDateID())
+        const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+        forumData['CREATEDON'] =  timestamp        
 
         forumData['UNAME'] =  userLoginData['NAME']
         forumData['UPHOTO'] =  userLoginData['PHOTO']
@@ -682,7 +763,7 @@ function viewAllComments() {
 
    let htmlContent = '<div class="row">'
 
-   let queryRef = db.collection(path).orderBy('DATEID', 'desc');
+   let queryRef = db.collection(path).orderBy('CREATEDON', 'desc');
  
    queryRef.get()
     .then(snapshot => {
@@ -718,7 +799,7 @@ function viewAllComments() {
               <div>\
   \
                 <div style="margin-left: 10px; margin-right: 10px;">\
-                  <p>'+data['COMMENT']+'</p>\
+                  <p class="long-text-nor">'+data['COMMENT']+'</p>\
                 </div>'
 
                 if(userLoginData['UUID'] == data['UUID']) {
@@ -838,15 +919,15 @@ function deleteComment(details) {
 
 // --------------- Edit Topic --------------
 function editTopic() {
-  // pt=COMMON&id=NA&fl=NA
-  var url = 'createnew.html?pt='+encodeURIComponent(main_path)+'&id=' + encodeURIComponent(currentTopicID)+'&fl=' + encodeURIComponent('edit');
+  // pt=COMMONFORUM&id=NA&fl=NA
+  var url = 'createnew.html?pt='+encodeURIComponent(main_path)+'&id=' + encodeURIComponent(currentTopicID)+'&fl=' + encodeURIComponent('edit') + '&type=' + encodeURIComponent(allForumTopics[currentTopicID]['DOCTYPE']);
   window.location.href = url
 }
 
 // Share topic
 function shareTopic() {
 
-  // forum/index.html?pt=COMMON&id=iMBaFUKyBcH9Jb4eAUpn&fl=edit
+  // forum/index.html?pt=COMMONFORUM&id=iMBaFUKyBcH9Jb4eAUpn&fl=edit
   let link = 'https://kivtravels.com/prod/forum/index.html?pt='+main_path+'&id='+currentTopicID+'&fl=only' 
 
   var textArea = document.createElement("textarea");
@@ -987,7 +1068,7 @@ function getChipWithBorderFromListLoc(details){
   if((details[0] == 'NA') && (details.length == 1)) {
     details = ''
   } else {
-    details.splice( details.indexOf('NA'), 1 );
+    //details.splice( details.indexOf('NA'), 1 );
   }
 
   var html_line = ''
@@ -1036,6 +1117,11 @@ function hideFullMessageDialog() {
 
   
 
+}
+
+// Back to previous page
+function backTopreviousPage() {
+  window.history.back();
 }
 
 
@@ -1131,10 +1217,17 @@ function applyFilter() {
    // Update Filter section details
    $('#main_filter_section').html('<div class="chip">' + 'Date : ' +  topic_date + '</div>')
    
+   document.getElementById("filter_reset_btn_home").style.display = 'block';
+   
+   if(filter_key == 'DATE') {
+    document.getElementById("message_section").style.display = 'block';
+    $('#message_content').html('Filter Applied on Selected Date !!')
+   }
+   
 
   closeFilterSection()
 
-  readAllForumTopics()
+  readAllForums()
 
   } else {     
     toastMsg('Invalid Filter !!')
@@ -1142,6 +1235,28 @@ function applyFilter() {
     closeFilterSection()
   }
 
+
+}
+
+
+// ------------- Menu Handling -------------------
+
+// Show Menu Options
+function showMenuOptions() {
+
+  document.getElementById("show_all_topic_container").style.display = "none";
+  document.getElementById("menu_section").style.display = "block";
+
+  document.getElementById("close_fl_btn_menu").style.display = "block";
+
+}
+
+// Hide Menu Options
+function hideMenuDialogSection() {
+  document.getElementById("show_all_topic_container").style.display = "block";
+  document.getElementById("menu_section").style.display = "none";
+
+  document.getElementById("close_fl_btn_menu").style.display = "none";
 
 }
 

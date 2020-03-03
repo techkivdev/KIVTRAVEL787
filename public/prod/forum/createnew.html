@@ -87,7 +87,7 @@
 
 
   <div id="hdr_section" style="display:none;" class="container"> 
-    <h3 class="white-text">Add New Topic</h3>
+    <h3 id="main_hdr_msg" class="white-text">Add New</h3>
 
     <!-- Show Login User Name Details -->
     <div id="user_info_sec">
@@ -102,7 +102,8 @@
       <!--   Coloum Section 1  --> 
       <div id="col_section_1" style="display: block;"> 
          
-          <div class="row">
+        <!-- Create Topic Section -->
+          <div id="create_new_topic" class="row" style="display: none;">
 
               <div class="col s12 m12">
 
@@ -128,19 +129,23 @@
                                <form class="col s12">
                                 <div class="row">
                                     <div class="input-field col s12">
-                                        <i class="material-icons prefix">message</i>
-                                        <div id="tags" class="chips chips-placeholder" style="margin-top: -3px;"></div>
+                                        <!-- <i class="material-icons prefix">message</i> -->
+                                        <div class="chips chips-placeholder" style="margin-top: -3px;"></div>
                                         <label class="active">Tags</label>
-                                      </div>                                      
-                                </div>
+                                      </div>                                       
+                                </div>                                
                               </form>
+
+                              <div class="row col s12">
+                                <p class="container grey-text long-text-nor" style="margin-top: -45px; margin-left: 5px;">Please enter tag name and then press enter.</p>
+                              </div>
                             
 
 
                                <!-- Category -->
                               <form class="col s12">
                                 <div class="row">
-                                    <div class="input-field col s12">
+                                    <div class="input-field">
                                       <div class="input-field col s12">
                                         <select id="catg_options">
                                           <option value="" disabled selected>Select a Category</option>
@@ -153,19 +158,45 @@
                                         
                                     </div>                                  
                                 </div>
-                              </form>                             
-                            
+                              </form> 
                          
-                               <!-- user comment -->
+                               <!-- user message -->
                                <form class="col s12">
                                   <div class="row">
                                       <div class="input-field col s12">
                                           <!-- <i class="material-icons prefix">message</i> -->
-                                          <textarea id="description" class="materialize-textarea"></textarea>
+                                          <textarea id="description" placeholder="Please write something !!" class="materialize-textarea"></textarea>
                                           <label for="description">Description</label>
                                         </div>                                  
                                   </div>
                                 </form>
+
+                              <!-- Message Edit Section border: 1px solid grey; -->
+                              <div id="message_edit_section" class="row col s12" style="margin-top: -40px; margin-left: 0px; display: block; ">
+                                <a onclick="editOptionBtn('BOLD')" class="waves-effect waves-teal btn-flat black-text tooltipped" data-position="bottom" data-tooltip="Bold"><i class="medium material-icons left">format_bold</i></a>
+                                <a onclick="editOptionBtn('ITALIC')" class="waves-effect waves-teal btn-flat black-text tooltipped" data-position="bottom" data-tooltip="Italic"><i class="medium material-icons left">format_italic</i></a>
+                                <a onclick="editOptionBtn('UNDERLINE')" class="waves-effect waves-teal btn-flat black-text tooltipped" data-position="bottom" data-tooltip="Underline"><i class="medium material-icons left">format_underlined</i></a>
+                                <a onclick="editOptionBtn('LIST')" class="waves-effect waves-teal btn-flat black-text tooltipped" data-position="bottom" data-tooltip="List"><i class="medium material-icons left">format_list_bulleted</i></a>
+                                <a onclick="editOptionBtn('BLOCKLIST')" class="waves-effect waves-teal btn-flat black-text tooltipped" data-position="bottom" data-tooltip="Block Content"><i class="medium material-icons left">format_line_spacing</i></a>
+                                <a onclick="editOptionBtn('LINK')" class="waves-effect waves-teal btn-flat black-text tooltipped" data-position="bottom" data-tooltip="Insert Link"><i class="medium material-icons left">insert_link</i></a>
+                              </div>
+                              
+                              <div class="row col s12">
+                                <a onclick="previewMessage()" class="waves-effect waves-light btn blue rcorners" style="margin-right: 20px;"><i class="material-icons left">remove_red_eye</i>Preview</a>
+                              </div>
+
+                              <li class="divider" tabindex="-1"></li>
+
+
+                                <!-- Check for Term and conditions -->
+                                <div class="row col s12" style="margin-top: 30px;">
+                                  <p>
+                                    <label>
+                                      <input id="accept_terms_checkbox" type="checkbox" />
+                                      <span>I accept <a href="../terms_and_conditions.html">terms and conditions</a>.</span>
+                                    </label>
+                                  </p>
+                                </div>
 
 
                                
@@ -209,7 +240,56 @@
                   </div>                  
                 </div>
               </div>
+          </div>
+          <!-- ------------------ -->
+
+           <!-- Create Event Section -->
+           <div id="create_new_event" class="row" style="display: none;">
+
+            <div class="col s12 m12">
+
+              <div class="card" style="border-radius: 5px;">
+                <div class="card-content">  
+                  
+                    <div class="row">                            
+
+                              <!-- Submit Section -->
+                              <div>
+                              <!-- form sec 7 -->
+                            <form class="col s12">  
+                                <div class="row">                                
+                                    <div class="center-align">
+                                    <a onclick="submitDetails()" class="waves-effect waves-light btn-large pink rcorners" style="width: 200px;">Submit</a>
+                                    </div>
+                                  </div> 
+                              </form>
+
+                              <!-- end -->    
+                              
+                               <!-- form sec 7 -->
+                            <form class="col s12">  
+                              <div class="row">                                
+                                  <div class="center-align">
+                                  <a onclick="cancelDetails()" class="waves-effect waves-teal btn-flat black-text" style="width: 200px;">Cancel</a>
+                                  </div>
+                                </div> 
+                            </form>
+
+                            <!-- end --> 
+
+                          </div>
+
+                          <!-- end -->
+                        
+                      </div>
+                  
+
+
+                </div>                  
+              </div>
             </div>
+        </div>
+        <!-- ------------------ -->
 
 
       </div>

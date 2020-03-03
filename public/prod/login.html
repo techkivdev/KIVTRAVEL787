@@ -33,7 +33,7 @@
     <!-- Dropdown Structure -->
     <ul id="nav_dropdown" class="dropdown-content">
       <li><a href="history.html">History</a></li>     
-      <li><a href="forum/index.html?pt=COMMON&id=NA&fl=NA">Forum</a></li>       
+      <li><a href="forum/index.html?pt=COMMONFORUM&id=NA&fl=NA">Forum</a></li>       
     </ul>
 
     <nav  class="white z-depth-2" role="navigation">
@@ -84,7 +84,7 @@
         <li  id='nav_profile' class="active"><a href="login.html">Profile</a></li> 
         <li class="divider"></li>
     <li id='nav_history'><a href="history.html">History</a></li>
-    <li><a href="forum/index.html?pt=COMMON&id=NA&fl=NA">Forum</a></li>
+    <li><a href="forum/index.html?pt=COMMONFORUM&id=NA&fl=NA">Forum</a></li>
         <li class="divider"></li>    
         <li style="margin-top: 10px;"><a href="terms_and_conditions.html">Terms & Conditions</a></li>  
         <li><a href="privacy_police.html">Privacy Police</a></li>
@@ -616,6 +616,12 @@
 
   <div id="close_fl_btn" class="fixed-action-btn" style="display: none;">
     <a href="#!" onclick="hideFullMessageDialog()" class="btn-floating btn-large  red">
+      <i class="large material-icons">close</i>
+    </a>
+  </div>
+
+  <div id="close_fl_btn_to_forum" class="fixed-action-btn" style="display: none;">
+    <a href="#!" onclick="returnToForumPage()" class="btn-floating btn-large  red">
       <i class="large material-icons">close</i>
     </a>
   </div>
