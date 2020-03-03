@@ -29,8 +29,8 @@
     <!-- Dropdown Structure -->
     <ul id="nav_dropdown" class="dropdown-content">       
       <li><a href="../login.html?fl=NA&fl2=NA">Profile</a></li>  
-      <li><a href="../login.html?fl=mylist&fl2=NA">My List</a></li> 
-      <li><a href="../login.html?fl=bookmark&fl2=NA">My Bookmark</a></li>
+      <li id="my_list_menu" style="display: none;"><a href="../login.html?fl=mylist&fl2=NA">My List</a></li> 
+      <li id="my_bookmark_menu" style="display: none;" ><a href="../login.html?fl=bookmark&fl2=NA">My Bookmark</a></li>
       <li id="manage_forum_menu" style="display: none;"><a href="manageforum.html">Manage Forum</a></li>          
     </ul>
 
@@ -44,7 +44,7 @@
         <ul class="right hide-on-med-and-down">
           <li><a href="../index.html">Home</a></li>
           <li><a href="#!" onclick="openAllTopics()" >All Topics</a></li>
-          <li><a href="#!" onclick="openMyTopics()">My Topics</a></li>        
+          <li  id="my_topics_menu" style="display: none;" ><a href="#!" onclick="openMyTopics()">My Topics</a></li>        
          
 
            <!-- Dropdown Trigger -->
@@ -78,10 +78,10 @@
   
           <li><a href="../index.html">Home</a></li>
           <li><a href="#!" onclick="openAllTopics()" >All Topics</a></li>
-          <li><a href="#!" onclick="openMyTopics()">My Topics</a></li>
+          <li id="my_topics_menu_mb" style="display: none;" ><a href="#!" onclick="openMyTopics()">My Topics</a></li>
           <li><a href="../login.html?fl=NA&fl2=NA">Profile</a></li> 
-          <li><a href="../login.html?fl=mylist&fl2=NA">My List</a></li> 
-          <li><a href="../login.html?fl=bookmark&fl2=NA">My Bookmark</a></li>
+          <li id="my_list_menu_mb" style="display: none;" ><a href="../login.html?fl=mylist&fl2=NA">My List</a></li> 
+          <li id="my_bookmark_menu_mb" style="display: none;" ><a href="../login.html?fl=bookmark&fl2=NA">My Bookmark</a></li>
       
     </ul>
   

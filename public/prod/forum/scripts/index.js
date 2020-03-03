@@ -86,6 +86,15 @@ function checkLoginData(){
       document.getElementById("manage_forum_menu").style.display = 'block';
     }
 
+    // Display Other Options also
+    document.getElementById("my_topics_menu").style.display = 'block';
+    document.getElementById("my_list_menu").style.display = 'block';
+    document.getElementById("my_bookmark_menu").style.display = 'block';
+
+    document.getElementById("my_topics_menu_mb").style.display = 'block';
+    document.getElementById("my_list_menu_mb").style.display = 'block';
+    document.getElementById("my_bookmark_menu_mb").style.display = 'block';
+
     if(updateTopicHTMLPage) {
       // Read all topic and display content
       readAllForums()
@@ -700,6 +709,11 @@ function addNewComment() {
     toastMsg('Comment is empty!!')
   }
 
+  if(getLoginUserStatus() == 'false') {
+    validateInput = false;
+    toastMsg('Please login to write comment !!')
+  }
+
   if(validateInput) {
        // Update Comment into Comment Section
 
@@ -957,6 +971,8 @@ function likeTopic() {
 
   let path = coll_base_path + 'FORUM/' + main_path +'/' +  currentTopicID + '/LIKE'
 
+  if(getLoginUserStatus() == 'true') {
+
   if(currentTopicLikeStatus) {
 
     db.collection(path).doc(userLoginData['UUID']).delete().then(function() { 
@@ -973,6 +989,10 @@ function likeTopic() {
 
   }
 
+} else {
+  toastMsg('Please login !!')
+}
+
 }
 
 // Like btn handling
@@ -981,6 +1001,8 @@ function likeBtnHandling() {
   currentTopicLikeStatus = false
 
   let path = coll_base_path + 'FORUM/' + main_path +'/' +  currentTopicID + '/LIKE'
+
+  if(getLoginUserStatus() == 'true') {
 
   db.collection(path).doc(userLoginData['UUID']).get()
   .then(doc => {
@@ -998,11 +1020,15 @@ function likeBtnHandling() {
 
 }
 
+}
+
 // Bookmark topic
 function bookmarkTopic() {
   $("#bookmark_btn").html('bookmark');
 
   let path = coll_base_path + 'USER/ALLUSER/' +  userLoginData['UUID'] + '/BOOKMARK'
+
+  if(getLoginUserStatus() == 'true') {
   
   if(currentTopicBookmarkStatus) {
 
@@ -1036,6 +1062,10 @@ function bookmarkTopic() {
 
   }
 
+} else {
+  toastMsg('Please login !!')
+}
+
 
 }
 
@@ -1046,19 +1076,23 @@ function bookmarkBtnHandling() {
   
   let path = coll_base_path + 'USER/ALLUSER/' +  userLoginData['UUID'] + '/BOOKMARK'
 
-  db.collection(path).doc(currentTopicID).get()
-  .then(doc => {
-    if (!doc.exists) {
-      $("#bookmark_btn").html('bookmark_border');
-      currentTopicBookmarkStatus = false
-    } else {
-      $("#bookmark_btn").html('bookmark');
-      currentTopicBookmarkStatus = true
-    }
-  })
-  .catch(err => {
-    console.log('Error getting document', err);
-  });
+  if(getLoginUserStatus() == 'true') {
+    db.collection(path).doc(currentTopicID).get()
+    .then(doc => {
+      if (!doc.exists) {
+        $("#bookmark_btn").html('bookmark_border');
+        currentTopicBookmarkStatus = false
+      } else {
+        $("#bookmark_btn").html('bookmark');
+        currentTopicBookmarkStatus = true
+      }
+    })
+    .catch(err => {
+      console.log('Error getting document', err);
+    });
+
+  }
+
 }
 
 
@@ -1244,10 +1278,15 @@ function applyFilter() {
 // Show Menu Options
 function showMenuOptions() {
 
+  if(getLoginUserStatus() == 'true') {
+
   document.getElementById("show_all_topic_container").style.display = "none";
   document.getElementById("menu_section").style.display = "block";
 
   document.getElementById("close_fl_btn_menu").style.display = "block";
+  } else {
+    toastMsg('Please login to post anything !!')
+  }
 
 }
 
