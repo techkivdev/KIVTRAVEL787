@@ -38,6 +38,10 @@ let queryRef = ''
 
 let queryMode = 'NORMAL'
 
+// Scroll Position
+let horizScrollPosition = 0
+let vertiScrollPosition = 0
+
 
 // ***********************************************
 
@@ -303,6 +307,8 @@ function readAllForums() {
 
     document.getElementById("main_progress").style.display = "none";
     document.getElementById("more_btn").style.display = "block";
+
+    window.scrollTo(horizScrollPosition, vertiScrollPosition);
  
    }
    })
@@ -316,10 +322,21 @@ function readAllForums() {
 
 // Query Handling
 function morePage() {
+
+  // Current Scroll Posstion
+  // horizontal scrolling amount
+  horizScrollPosition = window.pageXOffset
+  // vertical scrolling amount
+  vertiScrollPosition = window.pageYOffset
+
   querySize = querySize + 10
   readAllForums()
-}  
+} 
 
+// Top Page
+function topPage() {
+  window.scrollTo(0, 0);
+}
 
 // Read Only One Forum Details
 function readOneForum() {
@@ -441,7 +458,7 @@ function createEachDocumentCard(data,docid) {
       <div class="card" style="border-radius: 5px;">\
         <div>\
           <!-- Header -->\
-            <ul class="collection" style="border-radius: 5px 5px 0px 0px;">\
+            <ul class="collection" style="border-radius: 5px 5px 0px 0px; border: 0.1px solid grey; height: 60px;">\
               <li class="collection-item avatar">\
                 <img src="'+data['UPHOTO']+'" alt="" class="circle">\
                 <span class="title"><b>'+data['UNAME']+'</b></span>\
@@ -450,17 +467,16 @@ function createEachDocumentCard(data,docid) {
             </ul>\
 \
             <!-- Content -->\
-            <div class="card-content" style="margin-top: -30px;">\
-            <div class="right-align"> <a href="#!" onclick="chipClickHandling(\'' + data['CATEGORY1'] +'#catg' + '\')" ><div class="chip">'+data['CATEGORY1DIS']+'</div></a> </div>\
-              <span class="card-title long-text-nor">'+data['TITLE']+'</span>\
-              <div>\
+            <div class="card-content" style="margin-top: -40px;">\
+            <span class="card-title long-text-nor">'+data['TITLE']+'</span>\
+            <div class="right-align" style="margin-top: -5px;"> <a href="#!" onclick="chipClickHandling(\'' + data['CATEGORY1'] +'#catg' + '\')" ><div class="chip">'+data['CATEGORY1DIS']+'</div></a> </div>\
+            <div style="margin-top: 5px;">\
+            <p class="long-text" >'+data['DESC']+'</p>\
+          </div> \
+            <div  style="margin-top: 10px; z-index: -1">\
                 '+getChipWithBorderFromListLoc(data['TAGS'])+'\
               </div>\
-\
-              <div style="margin-top: 15px;">\
-                <p class="long-text" >'+data['DESC']+'</p>\
-              </div> \
-              <div id="reach_content_btn" class="right-align" style="margin-top: 10px;">\
+               <div id="reach_content_btn" class="right-align" style="margin-top: 5px;">\
               <a onclick="viewEachTopic(\'' + docid + '\')" class="waves-effect waves-teal btn-flat blue-text">Read More</a>\
             </div>\
               </div> </div>  </div></div>'
@@ -477,6 +493,12 @@ container_block.appendChild( block_to_insert );
 
 // View Each Topic
 function viewEachTopic(details) {
+
+  // Current Scroll Posstion
+  // horizontal scrolling amount
+  horizScrollPosition = window.pageXOffset
+  // vertical scrolling amount
+  vertiScrollPosition = window.pageYOffset
 
   //displayOutput(details)
   currentTopicID = details
@@ -809,10 +831,10 @@ function viewAllComments() {
         // Update Comment Section
 
         htmlContent += ' <div id="'+ doc.id +'" class="col s12 m12" style="margin-top : 10px;" >\
-        <div class="" style="border-radius: 5px; border: 1px solid grey; border-top-style: none;">\
+        <div class="" style="border-radius: 5px; border: 0.1px solid grey; border-top-style: none;">\
           <div>\
             <!-- Header -->\
-              <ul class="collection" style="border-radius: 5px 5px 0px 0px; margin-top : -0.5px;">\
+              <ul class="collection" style="border-radius: 5px 5px 0px 0px; border: 0.1px solid grey; margin-top : -0.5px; z-index: -1 ">\
                 <li class="collection-item avatar">\
                   <img src="'+data['UPHOTO']+'" alt="" class="circle">\
                   <span class="title"><b>'+data['UNAME']+'</b></span>\
@@ -823,7 +845,7 @@ function viewAllComments() {
               <!-- Content -->\
               <div>\
   \
-                <div style="margin-left: 10px; margin-right: 10px;">\
+                <div style="margin-top: -30px; margin-left: 20px; margin-right: 10px; ">\
                   <p class="long-text-nor">'+data['COMMENT']+'</p>\
                 </div>'
 
@@ -833,7 +855,7 @@ function viewAllComments() {
               </div>'
                 }
 
-               htmlContent += ' </div> </div>  </div></div>'
+               htmlContent += ' <li class="divider" tabindex="-1"></li> </div> </div>  </div></div>'
 
       });   
       
@@ -1146,7 +1168,7 @@ function chipClickHandling(details) {
 // close topic view
 function hideFullMessageDialog() {
 
-  if((fl == 'NA') || (fl == 'own')) {
+  if((fl == 'NA') || (fl == 'own') || (fl == 'tag') || (fl == 'catg')) {
 
     document.getElementById("show_all_topic_container").style.display = "block";
     document.getElementById("topic_display_container").style.display = "none";
@@ -1159,6 +1181,8 @@ function hideFullMessageDialog() {
     window.location.href = url
 
   }
+
+  window.scrollTo(horizScrollPosition, vertiScrollPosition);
 
   
 
@@ -1192,7 +1216,8 @@ function startUpCalls() {
 
   $(document).ready(function(){
     $('.datepicker').datepicker();
-  });
+    $('.datepicker').datepicker({'format' : 'mmm d, yyyy'});
+  }); 
 
   $(document).ready(function(){
     $('select').formSelect();
@@ -1207,7 +1232,13 @@ function startUpCalls() {
 // Open Filter Section
 function openFilterSection() {
 
-  window.scrollTo(0, 0); 
+  // Current Scroll Posstion
+  // horizontal scrolling amount
+  horizScrollPosition = window.pageXOffset
+  // vertical scrolling amount
+  vertiScrollPosition = window.pageYOffset
+
+  //window.scrollTo(0, 0); 
 
   document.getElementById("col_section_1").style.display = 'none';
   document.getElementById("flb_open_filter").style.display = 'none';
@@ -1219,9 +1250,7 @@ function openFilterSection() {
 }
 
 // Close Filter Section
-function closeFilterSection() {
-
-  window.scrollTo(0, 0);
+function closeFilterSection() {  
 
   document.getElementById("col_section_1").style.display = 'block';
   document.getElementById("flb_open_filter").style.display = 'block';
@@ -1229,7 +1258,8 @@ function closeFilterSection() {
 
   document.getElementById("flb_close_filter").style.display = 'none';
   document.getElementById("filter_section").style.display = 'none';
-  
+
+  window.scrollTo(horizScrollPosition, vertiScrollPosition);  
 
 }
 
@@ -1305,13 +1335,15 @@ function createFilterTagsDetails() {
 function createFilterCategoryDetails() {
   $("#all_Category_details").html('');
 
-  let catg_list = ['Infromation','Tips','Important']
+  let catg_list = getCatg1DataMapping('LIST')
 
   let html_line = ''
   for(each_idx in catg_list) {
+    if(each_idx == 0) {continue}
+
     let catg_name = catg_list[each_idx]
 
-    html_line += '<a href="#!" onclick="chipClickHandling(\'' + catg_name +'#catg' + '\')" ><div class="chip">'+catg_name  +'</div></a>'
+    html_line += '<a href="#!" onclick="chipClickHandling(\'' + catg_name +'#catg' + '\')" ><div class="chip">'+ getCatg1DataMapping(catg_name)  +'</div></a>'
   }
 
   $("#all_Category_details").html(html_line);
@@ -1333,6 +1365,12 @@ function showMenuOptions() {
     toastMsg('Please login to post anything !!')
   }
 
+   // Current Scroll Posstion
+  // horizontal scrolling amount
+  horizScrollPosition = window.pageXOffset
+  // vertical scrolling amount
+  vertiScrollPosition = window.pageYOffset
+
 }
 
 // Hide Menu Options
@@ -1341,6 +1379,8 @@ function hideMenuDialogSection() {
   document.getElementById("menu_section").style.display = "none";
 
   document.getElementById("close_fl_btn_menu").style.display = "none";
+
+  window.scrollTo(horizScrollPosition, vertiScrollPosition);
 
 }
 

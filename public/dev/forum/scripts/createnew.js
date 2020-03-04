@@ -74,11 +74,11 @@ function checkLoginData(){
 
     // Update User Information Section 
     let htmlContent = ''
-    htmlContent += '<div style="margin: 0px 12px 0px 12px;"><ul class="collection">\
-    <li class="collection-item avatar yellow">\
+    htmlContent += '<div class="card" style="margin: 0px 0px 0px 0px;"><ul class="collection">\
+    <li class="collection-item avatar orange">\
       <img src="'+userLoginData['PHOTO']+'" alt="" class="circle">\
       <span class="title"><b>'+userLoginData['NAME']+'</b></span>\
-      <p class="grey-text" style="font-size: 15px;">'+userLoginData['EMAIL']+'</p>\
+      <p class="white-text" style="font-size: 15px;">'+userLoginData['EMAIL']+'</p>\
     </li></ul></div>'
 
     $("#user_info_sec").html(htmlContent);
@@ -269,7 +269,7 @@ function showCurrentTopicContent() {
   })
   .catch(err => {
     //hidePleaseWaitModel()
-    displayOutput('Error getting document', err);
+    displayOutput('Error getting document' + err);
   });
 
 }
@@ -293,6 +293,9 @@ function cancelDetails() {
 // Submit New Post
 function submitDetails() { 
 
+  //generateNDocuments()
+
+  
   if(updateExistingContentDetails) {
     // --------- Update Existing --------------
     if(type == 'TOPIC') {
@@ -308,9 +311,7 @@ function submitDetails() {
       }
     }
 
-  }
-
- 
+  } 
 
 
 }
@@ -394,9 +395,6 @@ function addNewTopic() {
      // ---- Category --------------
      forumData['CATEGORY1'] =  cateData
      forumData['CATEGORY1DIS'] =  cateData_display
-     //forumData['CATEGORY2'] =  'NA'
-     //forumData['CATEGORY3'] =  'NA'
- 
  
      forumData['DESC'] =  description
      forumData['DATE'] =  getTodayDate()
@@ -423,8 +421,7 @@ function addNewTopic() {
      forumData['DOCVER'] = 'V1'
      
      forumData['ISMAIN'] = false
-     forumData['PAGEID'] = 0
-     forumData['DOCSEQ'] = 0
+     forumData['PAGEID'] = 1
  
      /*
      forumData['EXTRA'] = {
@@ -444,6 +441,80 @@ function addNewTopic() {
    }
 
 }
+
+// ---------------------------------------
+// TESTING : Generated n- Documents
+function generateNDocuments() {
+
+  var i;
+  for (i = 0; i < 50; i++) {   
+
+    let forumData = {}
+ 
+     // --------- Form Data Set -------------
+     forumData['TITLE'] =  'There Was a Time When Earth Was All Water, With no Continents And no Coronavirus ' + i
+     
+     let tagList = []
+     for (let j = 0; j < 5; j++) {
+      tagList.push('tag' + Math.floor(Math.random() * 10))
+     }
+
+     forumData['TAGS'] =  tagList
+ 
+     // ---- Category --------------
+     forumData['CATEGORY1'] =  'INFO'
+
+     let catgList = ['General Infromation','Important Travel Tips','Any Query','General Infromation','Important Travel Tips','Any Query']
+     forumData['CATEGORY1DIS'] =  catgList[Math.floor(Math.random() * 5)]
+ 
+     forumData['DESC'] =  'We suggest that seawater δ18O may have decreased through time, in contrast to the large increases seen in marine chemical sediments. To explain this possibility, we construct an oxygen isotope exchange model of the geologic water cycle, which suggests that the initiation of continental weathering in the late Archaean, between 3 and 2.5 billion years ago, would have drawn down an 18O-enriched early Archaean ocean to δ18O values similar to those of modern seawater,” say the co-authors in the paper.<br><br>\
+                           The co-authors believe that the Panorama has what was the hard, outer shell of the planet. “There are no samples of really ancient ocean water lying around, but we do have rocks that interacted with that seawater and remembered that interaction,” says Johnson. The process, he says, is like analyzing coffee grounds to gather information about the water that poured through it. To do that, the researchers analyzed data from more than 100 rock samples from across the dry terrain.'
+     
+     forumData['DATE'] =  getTodayDate()
+     forumData['DATELIST'] =  getTodayDateList()
+     
+
+     if(updateExistingContentDetails) {
+      forumData['CREATEDON'] =  currentData['CREATEDON']
+     } else {
+      const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+      forumData['CREATEDON'] =  timestamp
+     }
+           
+ 
+     forumData['UNAME'] =  userLoginData['NAME']
+     forumData['UPHOTO'] =  userLoginData['PHOTO']
+     forumData['UUID'] =  userLoginData['UUID']
+ 
+     forumData['DELETESTATUS'] = false
+ 
+     //forumData['MULTICONFIG'] = ['NA']
+ 
+     forumData['DOCTYPE'] = 'TOPIC'  // Chnage It according to the Item
+     forumData['DOCVER'] = 'V1'
+     
+     forumData['ISMAIN'] = false
+     forumData['PAGEID'] = 1
+ 
+     /*
+     forumData['EXTRA'] = {
+       EXTRA1 : 'NA'
+     }
+     */
+
+    displayOutput(forumData)
+
+
+    // Create our initial doc    
+    db.collection(coll_base_path+'FORUM/' + main_path).add(forumData).then( ref => {   
+      displayOutput('Added document with ID: ' +  ref.id);
+      updateMyList(forumData,ref.id)     
+    }); 
+
+    }
+
+}
+// ---------------------------------------
 
 // Edit Option Handling
 
