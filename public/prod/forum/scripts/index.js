@@ -27,13 +27,15 @@ var updateTopicHTMLPage = false
 
 // Main Filter
 var filter_enable_flag = false
-var filter_key = 'NA'
-var filter_value = 'NA'
+var filter_selection_status = {}
+var filter_selection_data = {}
+
 
 var allForumTopics = {}
 
 // Query Parameters
 let querySize = 10
+let commentquerySize = 10
 let queryRef = ''
 
 let queryMode = 'NORMAL'
@@ -41,6 +43,9 @@ let queryMode = 'NORMAL'
 // Scroll Position
 let horizScrollPosition = 0
 let vertiScrollPosition = 0
+
+let comment_horizScrollPosition = 0
+let comment_vertiScrollPosition = 0
 
 
 // ***********************************************
@@ -232,10 +237,7 @@ function readAllForums() {
   allForumTopics = {}
   $("#forum_card_section").html('');
   document.getElementById("main_progress").style.display = "block";
-
-  // Read details
-  let path = coll_base_path + 'FORUM/' + main_path 
-  let collectionRef = db.collection(path)
+  document.getElementById("more_btn").style.display = "none"; 
   
   // ---------------------------------------
   // ----- NORMAL ------
@@ -245,36 +247,27 @@ function readAllForums() {
   // orderBy('DATEID', 'desc') 
 
   // Main Filter Query
-  if(filter_enable_flag) { 
-    // Sort by Date
-    if(filter_key == 'DATE') {
-      queryRef = collectionRef.where('DELETESTATUS', '==', false)
-      .where('DATE', '==', filter_value)
-      .orderBy('CREATEDON', 'desc');
-    }
-  
-  } else {
-    // Filter query for url
+  if(filter_enable_flag) {
 
-      // For each query you have to create Index in firebase console
-    if(fl == 'own') { 
-      queryRef = collectionRef.where('DELETESTATUS', '==', false)
-      .where('UUID', '==', userLoginData['UUID'])
-      .orderBy('CREATEDON', 'desc');
-    } else if(fl == 'tag') {
-      queryRef = collectionRef.where('DELETESTATUS', '==', false)
-      .where('TAGS', 'array-contains',id)
-      .orderBy('CREATEDON', 'desc');
-    } else if(fl == 'catg') {
-      queryRef = collectionRef.where('DELETESTATUS', '==', false)
-      .where('CATEGORY1', '==', id)
-      .orderBy('CREATEDON', 'desc');
-    } else {
-      queryRef = collectionRef.where('DELETESTATUS', '==', false)
-      .orderBy('CREATEDON', 'desc');
-    }
+    // Get Filter Query Reference 
+    queryRef = getFilterQuery()
+
+  } else {
+
+    // Get Noraml Query Reference 
+    queryRef = getQuery()
 
   }
+
+  // Update Total Count message
+  queryRef.get().then(function(querySnapshot) {   
+    $("#total_card_sec").html('Display ' + querySize + ' / ' + querySnapshot.size);
+    if(querySize >= querySnapshot.size) {
+      document.getElementById("more_btn").style.display = "none";
+    } else {
+      document.getElementById("more_btn").style.display = "block";
+    }
+  });
 
  
   queryRef.limit(querySize).get()
@@ -292,7 +285,7 @@ function readAllForums() {
        document.getElementById("main_progress").style.display = "none";
        document.getElementById("more_btn").style.display = "none";
 
-     } else {
+     } else {    
  
      snapshot.forEach(doc => { 
        allForumTopics[doc.id] = doc.data() 
@@ -305,8 +298,7 @@ function readAllForums() {
 
     // updateForumContent()
 
-    document.getElementById("main_progress").style.display = "none";
-    document.getElementById("more_btn").style.display = "block";
+    document.getElementById("main_progress").style.display = "none";   
 
     window.scrollTo(horizScrollPosition, vertiScrollPosition);
  
@@ -314,13 +306,78 @@ function readAllForums() {
    })
    .catch(err => {
      console.log('Error getting documents', err);
-   });
- 
+   }); 
   
+}
+
+// Normal Query Handling
+function getQuery() {
+
+   // Read details
+   let path = coll_base_path + 'FORUM/' + main_path 
+   let collectionRef = db.collection(path)
+
+  let normalqueryref = ''
+
+   // Filter query for url
+  // For each query you have to create Index in firebase console
+  if(fl == 'own') { 
+    normalqueryref = collectionRef.where('DELETESTATUS', '==', false)
+    .where('UUID', '==', userLoginData['UUID'])
+    .orderBy('CREATEDON', 'desc');
+  } else if(fl == 'tag') {
+    normalqueryref = collectionRef.where('DELETESTATUS', '==', false)
+    .where('TAGS', 'array-contains',id)
+    .orderBy('CREATEDON', 'desc');
+  } else if(fl == 'catg') {
+    normalqueryref = collectionRef.where('DELETESTATUS', '==', false)
+    .where('CATEGORY1', '==', id)
+    .orderBy('CREATEDON', 'desc');
+  } else {
+    normalqueryref = collectionRef.where('DELETESTATUS', '==', false)
+    .orderBy('CREATEDON', 'desc');
+  }
+
+  return normalqueryref
 
 }
 
-// Query Handling
+// Filter Query Handling
+function getFilterQuery() {
+
+  // Read details
+  let path = coll_base_path + 'FORUM/' + main_path 
+  let collectionRef = db.collection(path)
+
+  let normalqueryref = collectionRef.where('DELETESTATUS', '==', false)
+
+  // Selected Month Filter
+  if(filter_selection_status['MONTH'] || filter_selection_status['YEAR']) {    
+    normalqueryref = normalqueryref.where('DATELIST', 'array-contains', filter_selection_data['DATE'])
+  } else {
+ 
+      // Apply query
+      if(filter_selection_status['DATE']) {
+        normalqueryref = normalqueryref.where('DATE', '==', filter_selection_data['DATE'])
+      }
+
+      if(filter_selection_status['CATG']) {
+        normalqueryref = normalqueryref.where('CATEGORY1', '==', filter_selection_data['CATG'])
+      }
+
+      if(filter_selection_status['TAG']) {
+        normalqueryref = normalqueryref.where('TAGS', 'array-contains', filter_selection_data['TAG'])
+      }
+
+  }
+
+  normalqueryref = normalqueryref.orderBy('CREATEDON', 'desc') 
+
+  return normalqueryref
+
+}
+
+// Show More Page Content
 function morePage() {
 
   // Current Scroll Posstion
@@ -467,13 +524,13 @@ function createEachDocumentCard(data,docid) {
             </ul>\
 \
             <!-- Content -->\
-            <div class="card-content" style="margin-top: -40px;">\
+            <div class="card-content" style="margin-top: -35px;">\
             <span class="card-title long-text-nor">'+data['TITLE']+'</span>\
-            <div class="right-align" style="margin-top: -5px;"> <a href="#!" onclick="chipClickHandling(\'' + data['CATEGORY1'] +'#catg' + '\')" ><div class="chip">'+data['CATEGORY1DIS']+'</div></a> </div>\
             <div style="margin-top: 5px;">\
-            <p class="long-text" >'+data['DESC']+'</p>\
+            <p class="long-text grey-text" >'+data['DESC']+'</p>\
           </div> \
-            <div  style="margin-top: 10px; z-index: -1">\
+          <div class="left-align" style="margin-top: 5px;"> <a href="#!" onclick="chipClickHandling(\'' + data['CATEGORY1'] +'#catg' + '\')" ><div class="chip">'+data['CATEGORY1DIS']+'</div></a> </div>\
+              <div  style="margin-top: 2px; z-index: -1">\
                 '+getChipWithBorderFromListLoc(data['TAGS'])+'\
               </div>\
                <div id="reach_content_btn" class="right-align" style="margin-top: 5px;">\
@@ -550,7 +607,7 @@ function viewEachTopic(details) {
   }
 
   // Display all comments
-  viewAllComments()
+  updateCommentMessage('FIRST')
 
 }
 
@@ -726,8 +783,68 @@ function deleteDocumentUsingCloudFcn(path) {
 
 // ------------- Comment Handling ------------------
 
+// Open Comment Modal
+function openCommentModal(control) {
+
+  displayOutput(control)
+
+  let validateInput = true
+  if(getLoginUserStatus() == 'false') {
+    validateInput = false;
+    toastMsg('Please login to write comment !!')
+  }
+
+  let header = ''
+  let content = '  <!-- user comment -->\
+  <form class="col s12">\
+    <div class="row">\
+        <div class="input-field col s12">\
+            <!-- <i class="material-icons prefix">message</i> -->\
+            <textarea id="comment" class="materialize-textarea"></textarea>\
+            <label for="comment">Your Comment</label>\
+          </div></div>\
+  </form>'
+
+  // Click Behaviour Change according to control
+  let onclick_html = ''
+  if(control == 'MAIN') {
+    onclick_html = 'addNewComment()'
+  } else {
+    onclick_html = 'addNewSubComment(\'' + control + '\')'
+  }
+
+  var model = '<!-- Modal Structure -->\
+  <div id="commentModal" class="modal">\
+    <div class="modal-content">\
+      <h4> '+ header + '</h4>\
+      <p class="long-text-nor">'+ content + '</p>\
+    </div>\
+    <div class="modal-footer">\
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>\
+      <a href="#!" onclick="'+onclick_html+'" class="waves-effect waves-green btn-flat">Add Comment</a>\
+    </div>\
+  </div>'
+
+  var elem = document.getElementById('commentModal');
+  if (elem) { elem.parentNode.removeChild(elem); }
+
+
+  $(document.body).append(model);
+
+  $(document).ready(function () {
+    $('.modal').modal();
+  });
+
+  if(validateInput) {
+     $('#commentModal').modal('open');
+  }
+
+}
+
 // Add new Comment
 function addNewComment() { 
+
+  $('#commentModal').modal('close');
 
   // Read details
   let path = coll_base_path + 'FORUM/' + main_path +'/' +  currentTopicID + '/COMMENT'
@@ -740,12 +857,7 @@ function addNewComment() {
   if(comment == '') {
     validateInput = false
     toastMsg('Comment is empty!!')
-  }
-
-  if(getLoginUserStatus() == 'false') {
-    validateInput = false;
-    toastMsg('Please login to write comment !!')
-  }
+  } 
 
   if(validateInput) {
        // Update Comment into Comment Section
@@ -760,8 +872,7 @@ function addNewComment() {
 
         forumData['UNAME'] =  userLoginData['NAME']
         forumData['UPHOTO'] =  userLoginData['PHOTO']
-        forumData['UUID'] =  userLoginData['UUID']
-
+        forumData['UUID'] =  userLoginData['UUID']        
 
        showPleaseWaitModel()
 
@@ -790,7 +901,6 @@ function addNewComment() {
     // -----------------------------------------------------
     */
 
-
     viewAllComments()
      
   }); 
@@ -801,9 +911,15 @@ function addNewComment() {
 // View all comments
 function viewAllComments() {
 
+  document.getElementById("all_user_comments").style.display = "block";
+  document.getElementById("viewallcomments").style.display = "none";
+
   $("#all_user_comments").html('<p>Loading .... </p>');
 
   currentTopicCommentsStatus = true
+
+  // Update Comment Message
+  updateCommentMessage('SECOND')
 
    // Read details
    let path = coll_base_path + 'FORUM/' + main_path + '/' +  currentTopicID + '/COMMENT'
@@ -812,7 +928,7 @@ function viewAllComments() {
 
    let queryRef = db.collection(path).orderBy('CREATEDON', 'desc');
  
-   queryRef.get()
+   queryRef.limit(commentquerySize).get()
     .then(snapshot => {
   
       if (snapshot.size == 0) {
@@ -820,6 +936,8 @@ function viewAllComments() {
         displayOutput('No Ratings Record Found !!') 
         //document.getElementById("ratings_sec").style.display = 'none'; 
         $("#all_user_comments").html('<p>No Comment !!</p>');
+
+        document.getElementById("viewmorecomments").style.display = "none";
 
         currentTopicCommentsStatus = false
 
@@ -863,7 +981,9 @@ function viewAllComments() {
       htmlContent += '</div>'
 
 
-      $("#all_user_comments").html(htmlContent);  
+      $("#all_user_comments").html(htmlContent);    
+      
+      window.scrollTo(comment_horizScrollPosition, comment_vertiScrollPosition);
      
   
     }
@@ -872,6 +992,58 @@ function viewAllComments() {
       console.log('Error getting documents', err);
     });
   
+
+}
+
+// View more comments
+function viewMoreComments() {
+
+  comment_horizScrollPosition = window.pageXOffset  
+  comment_vertiScrollPosition = window.pageYOffset
+
+  commentquerySize = commentquerySize + 10
+
+  viewAllComments()
+
+}
+
+// Display Comment Message
+function updateCommentMessage(mode) {
+
+  let path = coll_base_path + 'FORUM/' + main_path + '/' +  currentTopicID + '/COMMENT'
+
+   // Update Total Count message
+   db.collection(path).get().then(function(querySnapshot) {   
+
+    if(querySnapshot.size == 0) {
+      $("#comment_message").html('Comment (' + querySnapshot.size + ')')
+      document.getElementById("viewallcomments").style.display = "none";
+
+      document.getElementById("all_user_comments").style.display = "block";
+      $("#all_user_comments").html('<p>No Comment !!</p>');
+
+    } else {
+
+      if(commentquerySize >= querySnapshot.size) {
+        document.getElementById("viewmorecomments").style.display = "none";
+        commentquerySize = querySnapshot.size
+      } else {
+        document.getElementById("viewmorecomments").style.display = "block";
+      }
+
+      if(mode == 'FIRST') {
+        $("#comment_message").html('Comment (' + querySnapshot.size + ')')
+        document.getElementById("viewmorecomments").style.display = "none";
+        document.getElementById("viewallcomments").style.display = "block";
+        document.getElementById("all_user_comments").style.display = "none";
+
+      } else {
+        $("#comment_message").html('Comment (' + commentquerySize + ' / '+ querySnapshot.size + ')')
+      }
+
+    }
+    
+  });
 
 }
 
@@ -1168,6 +1340,10 @@ function chipClickHandling(details) {
 // close topic view
 function hideFullMessageDialog() {
 
+  commentquerySize = 10
+  comment_horizScrollPosition = 0
+  comment_vertiScrollPosition = 0
+
   if((fl == 'NA') || (fl == 'own') || (fl == 'tag') || (fl == 'catg')) {
 
     document.getElementById("show_all_topic_container").style.display = "block";
@@ -1223,6 +1399,13 @@ function startUpCalls() {
     $('select').formSelect();
   });
 
+
+  $(document).ready(function(){
+    $('input.autocomplete').autocomplete({
+      data: convTagsList(),
+    });
+  });
+
 }
 
 
@@ -1275,38 +1458,113 @@ function applyFilter() {
 
   let filter_validation = true
 
-  // Read Filter details
-  var topic_date = document.getElementById("topic_date").value;
-  displayOutput('Topic Date : ' + topic_date)
-
-  if(topic_date == '') {
-    filter_validation = false
+  filter_selection_status = {
+    CATG : false,
+    TAG : false,
+    DATE : false,
+    MONTH : false,
+    YEAR : false
   }
+
+  filter_selection_data = {
+    CATG : '',
+    TAG : '',
+    DATE : ''
+  }
+
+  // Read Filter details
+
+   let catgOption = getCatg1DataMapping('LIST') 
+   let catDropValue = document.getElementById("catg_options").value
+   let cateData = ''  
+
+   if(catDropValue == '') {
+    filter_selection_status['CATG'] = false
+   } else {
+    filter_selection_status['CATG'] = true
+     cateData = catgOption[catDropValue]     
+     filter_selection_data['CATG'] = cateData
+   } 
+  
+
+
+  var tagDetails = document.getElementById("autocomplete-input").value.trim();  
+  if(tagDetails == '') {
+    filter_selection_status['TAG'] = false
+  } else {
+    filter_selection_status['TAG'] = true
+    filter_selection_data['TAG'] = tagDetails
+  }
+
+  var topic_date = document.getElementById("topic_date").value.trim();
+  displayOutput('Topic Date : ' + topic_date)
+  if(topic_date == '') {
+    filter_selection_status['DATE'] = false
+  } else {
+    filter_selection_status['DATE'] = true
+    filter_selection_data['DATE'] = topic_date
+  }
+
+  //displayOutput(filter_selection_status)
+  //displayOutput(filter_selection_data)
+
+  // Check Month and year status
+  let selected_date = document.getElementById("selected_date_chkbx").checked
+  if(selected_date) {
+    filter_selection_status['MONTH'] = false
+    filter_selection_status['YEAR'] = false
+  } else {
+    filter_selection_status['MONTH'] = document.getElementById("selected_month_chkbx").checked
+    filter_selection_status['YEAR'] = document.getElementById("selected_year_chkbx").checked
+  }
+  
+
+  filter_validation = filter_selection_status['CATG'] || filter_selection_status['TAG'] || filter_selection_status['DATE']
+  displayOutput('Filter Validation : ' + filter_validation)
+  //filter_validation = false
 
   if(filter_validation) {
 
-  filter_enable_flag = true
-  filter_key = 'DATE'
-  filter_value = topic_date
+  filter_enable_flag = true 
 
-   // Update Filter section details
-   $('#main_filter_section').html('<div class="chip">' + 'Date : ' +  topic_date + '</div>')
-   
-   document.getElementById("filter_reset_btn_home").style.display = 'block';
-   
-   if(filter_key == 'DATE') {
-    document.getElementById("message_section").style.display = 'block';
-    $('#message_content').html('Filter Applied on Selected Date !!')
+   // Update Filter message
+   let chip_html = ''
+   if(filter_selection_status['DATE']) {
+    chip_html += '<div class="chip">' + 'Date : ' +  filter_selection_data['DATE'] + '</div>'
    }
+
+   if(filter_selection_status['CATG']) {
+    chip_html += '<div class="chip">' + 'Category : ' +  getCatg1DataMapping(filter_selection_data['CATG']) + '</div>'
+   }
+
+   if(filter_selection_status['TAG']) {
+    chip_html += '<div class="chip">' + 'Tag : ' +  filter_selection_data['TAG'] + '</div>'
+   }
+
+   let sel_value = ''
+   if(filter_selection_status['MONTH']) {
+     sel_value = filter_selection_data['DATE'].split(' ')[0]
+    chip_html = '<div class="chip">' + 'Month : ' +  sel_value  + '</div>'
+    filter_selection_data['DATE'] = sel_value
+   }
+
+   if(filter_selection_status['YEAR']) {
+    sel_value = filter_selection_data['DATE'].split(' ')[2]
+    chip_html = '<div class="chip">' + 'Year : ' +  sel_value  + '</div>'
+    filter_selection_data['DATE'] = sel_value
+   }
+
+   $('#main_filter_section').html(chip_html)
+
+   document.getElementById("message_section").style.display = 'block';
+    $('#message_content').html('Filter Applied !!')
    
 
   closeFilterSection()
-
   readAllForums()
 
   } else {     
-    toastMsg('Invalid Filter !!')
-
+    toastMsg('No Filter Applied !!')
     closeFilterSection()
   }
 

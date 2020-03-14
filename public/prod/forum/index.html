@@ -154,38 +154,95 @@
         </div>
 
         <!-- Next and Previous Button -->
-        <div>
-
+        <div id="top_more_btn_sec">          
           <div id="more_btn" class="center-align" style="margin-top: 5px; height: 50px; margin-bottom: 10px; margin-right: 0px; display: none;">
+            <i id="total_card_sec" class="right-align grey-text"></i><br>
             <a onclick="topPage()" class="waves-effect waves-light btn orange rcorners"><i class="material-icons left">arrow_drop_up</i>Top</a>
-            <a onclick="morePage()" class="waves-effect waves-light btn blue rcorners" style="margin-right: 20px;"><i class="material-icons right">arrow_drop_down</i>More</a>
-                               
+            <a onclick="morePage()" class="waves-effect waves-light btn blue rcorners" style="margin-right: 20px;"><i class="material-icons right">arrow_drop_down</i>More</a>                               
           </div>
 
         </div>
         
       </div>
 
+      <!-- ========================================= -->
       <!-- Filter Section -->
     <div id="filter_section" class="row" style="margin-top: 2%; display: none;">
-      <h4 id="filter_hdr" class="black-text">Filter Options</h4> 
+      <!-- <h4 id="filter_hdr" class="black-text">Filter Options</h4> -->
 
       <!-- All Options -->
 
       <div id="filter_reset_btn" class="right-align" style="margin-top: 0px;">
         <a onclick="resetFilter()" class="waves-effect waves-light btn black rcorners">RESET</a>
-      </div>     
+      </div> 
 
-       <!-- All Filter Options -->
-             
-        <div style="margin-top: 20px;">
+       <!-- All Filter Options -->             
+        <div style="margin-top: 40px;">
+
+          <li class="divider" tabindex="-1"></li>
+
+          <h5 class="grey-text">Filter Option's</h5>
+
+          <!-- Category -->         
+            <div class="row" style="margin-top: 40px;">
+                <div class="input-field">                  
+                    <select id="catg_options">
+                      <option value="" disabled selected>Select a Category</option>
+                      <option id="INFO" value="1">General Infromation</option>
+                      <option id="TIPS" value="2">Important Travel Tips</option>
+                      <option id="QRY" value="3">Any Query</option>
+                    </select>
+                    <label>Category</label> 
+                </div>                                  
+            </div>
+         
+
+          <!-- Search Tags -->
+          <div class="row">
+            <div class="input-field">
+              <i class="material-icons prefix">textsms</i>
+              <input type="text" id="autocomplete-input" class="autocomplete">
+              <label for="autocomplete-input">Search Tags</label>
+            </div>        
+          </div>
+
+
+          <!-- Select Date -->
         <div class="row">
           <div class="input-field">
             <i class="material-icons prefix">date_range</i>
             <input type="text" id="topic_date" class="datepicker">
             <label for="topic_date" class="black-text">Topic Date</label>
-          </div>          
+          </div>
+
+          <!-- Date Filter Options -->
+          <form action="#" style="margin-left: 45px;">
+
+            <p>
+              <label>
+                <input id="selected_date_chkbx" name="group1" type="radio" checked/>
+                <span>Consider complete date.</span>
+              </label>
+            </p>
+
+            <p>
+              <label>
+                <input id="selected_month_chkbx" name="group1" type="radio"/>
+                <span>Consider only Month from above selected date.</span>
+              </label>
+            </p>
+
+            <p>
+              <label>
+                <input id="selected_year_chkbx" name="group1" type="radio"/>
+                <span>Consider only Year from above selected date.</span>
+              </label>
+            </p>
+           
+          </form> 
+
         </div>
+
       </div>
 
         <!-- Apply Filter --> 
@@ -195,8 +252,8 @@
 
       <li class="divider" tabindex="-1" style="margin-top: 10px;"></li>
 
-       <!-- ALl Category Section -->
-       <div style="margin-top: 5px;">
+      <!-- ALl Category Section -->
+      <div style="margin-top: 5px;">
         <h5 class="grey-text">Category</h5>
         <div id="all_Category_details" style="margin-top: 10px;">
           <!-- Script Code -->
@@ -206,13 +263,14 @@
 
       <!-- ALl Tags Section -->
       <div style="margin-top: 5px;">
-        <h5 class="grey-text">Tags</h5>
+        <h5 class="grey-text">Popular Tags</h5>
         <div id="all_tags_details" style="margin-top: 10px;">
           <!-- Script Code -->
         </div>
 
-      </div>
+      </div>     
 
+      
     </div>
 
 
@@ -245,26 +303,21 @@
   <!-- Message Display Section -->
   <!-- **************************************** -->
 
-  <div id="topic_display_container" class="container row" style="display: none; margin-top: 20px;">
+  <div id="topic_display_container" class="container row" style="display: none; margin-top: 1px;">
             
     <div class="row">
 
       <div class="col s12 m12">
 
           <!-- Show Title and other details -->
-          <div style="margin-left: 5px; margin-right: 5px; margin-top: 25px;">
+          <div style="margin-left: 5px; margin-right: 5px; margin-top: 10px;">
             <b id="title" class="long-text-nor" style="font-size: 25px;">Title</b>
-            <p id="publish_date" class="grey-text"></p>
-
-            <div class="left-align" id="category">
-              <!-- Script Code -->                     
-            </div>
-
+            <p id="publish_date" class="grey-text" style="margin-top: -2px;"></p>
           </div>
 
 
           <!-- display description -->
-          <div style="margin-left: 5px; margin-right: 5px; margin-top: 25px;">
+          <div style="margin-left: 5px; margin-right: 5px; margin-top: 2px;">
             <p id="desc" class= "long-text-nor" style="font-size: 17px;">Desc</p>
           </div>
 
@@ -272,6 +325,10 @@
           <li class="divider" tabindex="-1"></li>
 
           <div style="margin-left: 5px; margin-right: 5px; margin-top: 10px;">
+
+            <div class="left-align" id="category">
+              <!-- Script Code -->                     
+            </div>
 
             <div id="tags">
               Tags
@@ -292,7 +349,7 @@
             <!-- User Details  -->
             <p id="publish_by" class="grey-text">Published by </p>
 
-            <ul class="collection" style="border-radius: 5px 5px 0px 0px;">
+            <ul class="collection" style="border-radius: 10px 10px 10px 10px;">
               <li class="collection-item avatar">
                 <img id="u_img" src="" alt="" class="circle">
                 <span class="title"><b id="u_name">Name</b></span>
@@ -302,48 +359,38 @@
 
           </div>
 
+          <li class="divider" tabindex="-1"></li>
 
           <!-- Comment Section -->
           <div style="margin-left: 5px; margin-right: 5px; margin-top: 10px;">
-            <ul id="comment_section" class="collapsible">
-              <li>
-                <div class="collapsible-header"><i class="material-icons">message</i>Add Comment</div>
-                <div class="collapsible-body">
-            
-                <div class="card-content"> 
-                  <!-- user comment -->
-                  <form class="col s12">
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <!-- <i class="material-icons prefix">message</i> -->
-                            <textarea id="comment" class="materialize-textarea"></textarea>
-                            <label for="comment">Comment</label>
-                          </div>                                  
-                    </div>
-                  </form>
-            
-                  <!-- Create New Topic -->
-                  <div class="right-align">
-                    <a onclick="addNewComment()" class="waves-effect waves-light btn blue rcorners"><i class="material-icons left">add</i>Add Comment</a>
-                </div>
-            
-            
-                </div>
+
+             <!-- Create New Topic -->
+             <div class="right-align">
+              <a onclick="openCommentModal('MAIN')" class="waves-effect waves-light btn blue rcorners"><i class="material-icons left">add</i>Add Comment</a>
+             </div> 
+
+          </div>
+
+          <!-- All Comment -->        
+          <div style="margin-left: 5px; margin-right: 5px; margin-top: 10px; margin-bottom: 100px;"> 
+
+          <h5 id="comment_message">Comment</h5>
+
+          <!-- View Comments -->
       
-                </div>
-              </li>
-          </ul>
+          <div id="viewallcomments" class="center-align" style="margin-top: 0px;">
+            <a onclick="viewAllComments()" class="waves-effect waves-teal btn-flat blue-text">View All Comments</a>
           </div>
 
-          <!-- All Comment -->
-          <div style="margin-left: 5px; margin-right: 5px; margin-top: 10px;">
-            <li class="divider" tabindex="-1"></li>
 
-          <h5>Comment</h5>
-          <div id= "all_user_comments" style="margin-bottom: 100px;">
-              <!-- Script Code -->
-              <p>No Comment !!</p>
+          <div id= "all_user_comments" style="display: none;">
+              <!-- Script Code -->              
           </div>
+
+          <div id="viewmorecomments" class="center-align" style="margin-top: 0px; display: none;">
+            <a onclick="viewMoreComments()" class="waves-effect waves-teal btn-flat blue-text">More</a>
+          </div>
+
           </div>
 
 
@@ -463,8 +510,14 @@
   <!--  Scripts-->
   <!-- **************************************** -->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+   <!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+
+<!-- 
   <script src="../../external/js/materialize.js"></script>
   <script src="../../external/js/init.js"></script>
+  -->
 
 
   <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-app.js"></script>

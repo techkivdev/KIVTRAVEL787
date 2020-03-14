@@ -8,15 +8,17 @@
 
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
   <link href="../external/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
-  <link href="../external/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
-  <link href="../css/style.css" type="text/css" rel="stylesheet" />
+  <link href="../external/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />   
+  <link href="../css/style.css" type="text/css" rel="stylesheet" /> 
+
 </head>
 
 
 <body>
 
-    <div class="bg">
+    <div class="">
 
   <!-- **************************************** -->
   <!-- Navigation Sectione -->
@@ -87,7 +89,7 @@
 
 
   <div id="hdr_section" style="display:none;" class="container"> 
-    <h5 id="main_hdr_msg" class="white-text">Add New</h5>
+    <h5 id="main_hdr_msg" class="black-text">Add New</h5>
 
     <!-- Show Login User Name Details -->
     <div id="user_info_sec" style="margin-top: 30px;">
@@ -130,7 +132,7 @@
                                 <div class="row">
                                     <div class="input-field col s12">
                                         <!-- <i class="material-icons prefix">message</i> -->
-                                        <div class="chips chips-placeholder" style="margin-top: -3px;"></div>
+                                        <div class="chips chips-autocomplete" style="margin-top: -3px;"></div>
                                         <label class="active">Tags</label>
                                       </div>                                       
                                 </div>                                
@@ -174,12 +176,12 @@
 
                               <!-- Message Edit Section border: 1px solid grey; -->
                               <div id="message_edit_section" class="row col s12" style="margin-top: -40px; margin-left: 0px; display: block; ">
-                                <a onclick="editOptionBtn('BOLD')" class="waves-effect waves-teal btn-flat black-text tooltipped" data-position="bottom" data-tooltip="Bold"><i class="medium material-icons left">format_bold</i></a>
-                                <a onclick="editOptionBtn('ITALIC')" class="waves-effect waves-teal btn-flat black-text tooltipped" data-position="bottom" data-tooltip="Italic"><i class="medium material-icons left">format_italic</i></a>
-                                <a onclick="editOptionBtn('UNDERLINE')" class="waves-effect waves-teal btn-flat black-text tooltipped" data-position="bottom" data-tooltip="Underline"><i class="medium material-icons left">format_underlined</i></a>
-                                <a onclick="editOptionBtn('LIST')" class="waves-effect waves-teal btn-flat black-text tooltipped" data-position="bottom" data-tooltip="List"><i class="medium material-icons left">format_list_bulleted</i></a>
-                                <a onclick="editOptionBtn('BLOCKLIST')" class="waves-effect waves-teal btn-flat black-text tooltipped" data-position="bottom" data-tooltip="Block Content"><i class="medium material-icons left">format_line_spacing</i></a>
-                                <a onclick="editOptionBtn('LINK')" class="waves-effect waves-teal btn-flat black-text tooltipped" data-position="bottom" data-tooltip="Insert Link"><i class="medium material-icons left">insert_link</i></a>
+                                <a onclick="openEditOptionsModal('BOLD')" class="waves-effect waves-teal btn-flat black-text tooltipped" data-position="bottom" data-tooltip="Bold"><i class="medium material-icons left">format_bold</i></a>
+                                <a onclick="openEditOptionsModal('ITALIC')" class="waves-effect waves-teal btn-flat black-text tooltipped" data-position="bottom" data-tooltip="Italic"><i class="medium material-icons left">format_italic</i></a>
+                                <a onclick="openEditOptionsModal('UNDERLINE')" class="waves-effect waves-teal btn-flat black-text tooltipped" data-position="bottom" data-tooltip="Underline"><i class="medium material-icons left">format_underlined</i></a>
+                                <a onclick="openEditOptionsModal('LIST')" class="waves-effect waves-teal btn-flat black-text tooltipped" data-position="bottom" data-tooltip="List"><i class="medium material-icons left">format_list_bulleted</i></a>
+                                <a onclick="openEditOptionsModal('BLOCKLIST')" class="waves-effect waves-teal btn-flat black-text tooltipped" data-position="bottom" data-tooltip="Block Content"><i class="medium material-icons left">format_line_spacing</i></a>
+                                <a onclick="openEditOptionsModal('LINK')" class="waves-effect waves-teal btn-flat black-text tooltipped" data-position="bottom" data-tooltip="Insert Link"><i class="medium material-icons left">insert_link</i></a>
                               </div>
                               
                               <div class="row col s12">
@@ -370,8 +372,14 @@
   <!--  Scripts-->
   <!-- **************************************** -->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+  <!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+
+  <!--
   <script src="../../external/js/materialize.js"></script>
   <script src="../../external/js/init.js"></script>
+   -->
 
 
   <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase-app.js"></script>

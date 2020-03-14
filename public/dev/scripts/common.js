@@ -1301,7 +1301,7 @@ function getTodayDateList() {
   month[11] = "December";
 
   var today = new Date();
-  var date = [month[today.getMonth()], today.getDate() , today.getFullYear()];  
+  var date = [month[today.getMonth()].substring(0, 3) , today.getDate() , today.getFullYear()];  
 
   return date
 }
@@ -1752,7 +1752,16 @@ function getCatg1DataMapping(query) {
 // ======================================================
 
 function tagsListData() { 
-  return {"tag9":"47","tag7":"56","tag6":"51","tag2":"53","tag4":"48","tag5":"56","tag0":"53","tag1":"49","tag3":"40","tag8":"47"}
+  return {"tourist":"7","fun":"11","india":"5","leovaradkar":"6","bsesensex":"9","yesbank":"4","instapassport":"7","instagood":"3","statebankofindia":"8","coronavirus":"3","photooftheday":"5","vacation":"7","donaldtrump":"10","travel":"3","justintrudeau":"4","nifty50":"7","traveling":"5","tourism":"5","amitshah":"5","holiday":"3","instatravel":"6","instago":"2","travelgram":"3","visiting":"4","travelling":"4","mytravelgram":"3"}
  }
 
  // ====================================================
+
+ // Convert Tags to Chips
+function convTagsList() {
+  let updatedTagsList = {}
+  for(eachTag in tagsListData()) {
+    updatedTagsList[eachTag] = null
+  }
+  return updatedTagsList
+}

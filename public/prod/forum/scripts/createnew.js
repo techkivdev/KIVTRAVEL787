@@ -74,8 +74,8 @@ function checkLoginData(){
 
     // Update User Information Section 
     let htmlContent = ''
-    htmlContent += '<div class="card" style="margin: 0px 0px 0px 0px;"><ul class="collection">\
-    <li class="collection-item avatar orange">\
+    htmlContent += '<div class="card" style="margin: 0px 0px 0px 0px; border-radius: 5px;"><ul class="collection">\
+    <li class="collection-item avatar orange" style="border-radius: 5px;">\
       <img src="'+userLoginData['PHOTO']+'" alt="" class="circle">\
       <span class="title"><b>'+userLoginData['NAME']+'</b></span>\
       <p class="white-text" style="font-size: 15px;">'+userLoginData['EMAIL']+'</p>\
@@ -293,9 +293,9 @@ function cancelDetails() {
 // Submit New Post
 function submitDetails() { 
 
-  //generateNDocuments()
+  generateNDocuments()
 
-  
+  /*
   if(updateExistingContentDetails) {
     // --------- Update Existing --------------
     if(type == 'TOPIC') {
@@ -312,7 +312,7 @@ function submitDetails() {
     }
 
   } 
-  
+  */
 
 
 }
@@ -448,31 +448,75 @@ function addNewTopic() {
 function generateNDocuments() {
 
   var i;
-  for (i = 0; i < 50; i++) {   
+  for (i = 0; i < 30; i++) {   
 
     let forumData = {}
  
      // --------- Form Data Set -------------
-     forumData['TITLE'] =  'There Was a Time When Earth Was All Water, With no Continents And no Coronavirus ' + i
-     
+     let titleList = []
+     titleList[0] = 'Trading Halted For 45 Minutes, Sensex Down 3,091 Points; Nifty Below 9,000'
+     titleList[1] = 'Karnataka man, 76, is Indias first coronavirus fatality'
+     titleList[2] = 'Govt: Dont panic, no community transmission of coronavirus yet'
+     titleList[3] = 'Day after His BJP Entry, MP Economic Offences Wing Reopens Forgery Case Against Jyotiraditya Scindia'
+     titleList[4] = 'Google India employee tests positive for coronavirus'
+     titleList[5] = 'Canadian PM Justin Trudeau wife positive for coronavirus'
+     titleList[6] = 'Sophie Gregoire Trudeau had returned from a speaking engagement in Britain and was showing mild flu-like symptoms.'
+     titleList[7] = 'A flight attendant tells why should never keep anything on the seat-back pocket of a plane'
+     titleList[8] = 'How does coronavirus spread? How do you get it?'
+     titleList[9] = 'Growing concerns about the coronavirus pandemic in the last 24 hours — with California calling for a ban on many public events, the NBA suspending its'
+
+
+
+     forumData['TITLE'] =  titleList[Math.floor(Math.random() * 9)] + ' ' + i
+
+     let normalTag = ['Justin Trudeau','Amit Shah','BSE SENSEX','Yes Bank','India','Donald Trump','NIFTY 50','StateBankofIndia','Coronavirus','Leo Varadkar','travel','traveling','vacation','visiting','instatravel','instago','instagood','trip','holiday','photooftheday','fun','travelling','tourism','tourist','instapassport','instatraveling','mytravelgram','travelgram','travelingram','igtravel']
+          
      let tagList = []
-     for (let j = 0; j < 5; j++) {
-      tagList.push('tag' + Math.floor(Math.random() * 10))
+     let maxTags = Math.floor(Math.random() * 10)
+     for (let j = 0; j < maxTags; j++) {
+       let newTag = normalTag[Math.floor(Math.random() * 28)].replace(' ','').toLowerCase()
+      tagList.push(newTag)
      }
 
      forumData['TAGS'] =  tagList
  
-     // ---- Category --------------
-     forumData['CATEGORY1'] =  'INFO'
-
+     // ---- Category --------------     
+     
+     let catgListD = ['INFO','TIPS','QRY','INFO','TIPS','QRY']
      let catgList = ['General Infromation','Important Travel Tips','Any Query','General Infromation','Important Travel Tips','Any Query']
-     forumData['CATEGORY1DIS'] =  catgList[Math.floor(Math.random() * 5)]
+     let catgnum = Math.floor(Math.random() * 5)
+     forumData['CATEGORY1DIS'] =  catgList[catgnum]
+     forumData['CATEGORY1'] =  catgListD[catgnum]
  
      forumData['DESC'] =  'We suggest that seawater δ18O may have decreased through time, in contrast to the large increases seen in marine chemical sediments. To explain this possibility, we construct an oxygen isotope exchange model of the geologic water cycle, which suggests that the initiation of continental weathering in the late Archaean, between 3 and 2.5 billion years ago, would have drawn down an 18O-enriched early Archaean ocean to δ18O values similar to those of modern seawater,” say the co-authors in the paper.<br><br>\
                            The co-authors believe that the Panorama has what was the hard, outer shell of the planet. “There are no samples of really ancient ocean water lying around, but we do have rocks that interacted with that seawater and remembered that interaction,” says Johnson. The process, he says, is like analyzing coffee grounds to gather information about the water that poured through it. To do that, the researchers analyzed data from more than 100 rock samples from across the dry terrain.'
      
-     forumData['DATE'] =  getTodayDate()
-     forumData['DATELIST'] =  getTodayDateList()
+     // Create Date - Mar 19, 2020
+     var month = new Array();
+      month[0] = "January";
+      month[1] = "February";
+      month[2] = "March";
+      month[3] = "April";
+      month[4] = "May";
+      month[5] = "June";
+      month[6] = "July";
+      month[7] = "August";
+      month[8] = "September";
+      month[9] = "October";
+      month[10] = "November";
+      month[11] = "December";
+
+      let monthValue = month[Math.floor(Math.random() * 11)].substring(0, 3)
+       
+      let dateValue = Math.floor(Math.random() * 30)
+      let yearList = ['2018','2019','2020','2018','2019','2020']
+      let yearValue = yearList[Math.floor(Math.random() * 5)]
+
+      var date = monthValue + ' ' + dateValue + ', ' + yearValue;
+
+
+     forumData['DATE'] =  date
+     forumData['DATELIST'] =  [monthValue, dateValue , yearValue]
      
 
      if(updateExistingContentDetails) {
@@ -517,10 +561,102 @@ function generateNDocuments() {
 }
 // ---------------------------------------
 
-// Edit Option Handling
+// Open Edit Options Modal
+function openEditOptionsModal(control) {
 
+  displayOutput(control) 
+
+  // Click Behaviour Change according to control
+  let content = ''
+  if(control == 'LINK') {
+
+    content = '  <!-- edit content -->\
+    <form class="col s12">\
+      <div class="row">\
+          <div class="input-field col s12">\
+              <!-- <i class="material-icons prefix">message</i> -->\
+              <textarea id="edit_link_name" class="materialize-textarea"></textarea>\
+              <label for="edit_link_name">Link Name</label>\
+            </div>\
+            <div class="input-field col s12">\
+            <!-- <i class="material-icons prefix">message</i> -->\
+            <textarea id="edit_link_address" class="materialize-textarea"></textarea>\
+            <label for="edit_link_address">Link Address</label>\
+          </div>\
+      </div>\
+    </form>'
+
+  } else {
+
+    content = '  <!-- edit content -->\
+    <form class="col s12">\
+      <div class="row">\
+          <div class="input-field col s12">\
+              <!-- <i class="material-icons prefix">message</i> -->\
+              <textarea id="edit_content" class="materialize-textarea"></textarea>\
+              <label for="edit_content">Type Text</label>\
+            </div></div>\
+    </form>'  
+
+  }
+  
+  
+
+  var model = '<!-- Modal Structure -->\
+  <div id="commentModal" class="modal">\
+    <div class="modal-content">\
+      <h4> '+ '' + '</h4>\
+      <p class="long-text-nor">'+ content + '</p>\
+    </div>\
+    <div class="modal-footer">\
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancel</a>\
+      <a href="#!" onclick="editOptionBtn(\'' + control + '\')" class="waves-effect waves-green btn-flat">Add</a>\
+    </div>\
+  </div>'
+
+  var elem = document.getElementById('commentModal');
+  if (elem) { elem.parentNode.removeChild(elem); }
+
+
+  $(document.body).append(model);
+
+  $(document).ready(function () {
+    $('.modal').modal();
+  });
+ 
+  $('#commentModal').modal('open');  
+
+}
+
+// Edit Option Handling
 function editOptionBtn(details) {
   displayOutput(details)
+
+  $('#commentModal').modal('close');
+
+  var validateInput =  true
+
+  if(details == 'LINK') {
+
+    // Read Comment Details
+   var edit_link_name = document.getElementById("edit_link_name").value.trim();
+   var edit_link_address = document.getElementById("edit_link_address").value.trim();
+   if((edit_link_name == '') || (edit_link_address == '')) {
+     validateInput = false     
+   } 
+
+  } else {
+
+   // Read Comment Details
+   var edit_content = document.getElementById("edit_content").value.trim();
+   displayOutput('edit_content : ' + edit_content)
+   if(edit_content == '') {
+     validateInput = false     
+   } 
+
+  }
+
+   if(validateInput) {
 
   // Read Current Content and Update it
   var description = document.getElementById("description").value.trim();
@@ -528,27 +664,27 @@ function editOptionBtn(details) {
   switch(details) {
 
     case 'BOLD' :
-      description = description + '<b>Type Here</b>'
+      description = description + ' <b>'+edit_content+'</b> '
       break;
 
     case 'ITALIC' :
-      description = description + '<i>Type Here</i>'
+      description = description + ' <i>'+edit_content+'</i> '
       break;
 
     case 'UNDERLINE' :
-      description = description + '<u>Type Here</u>'
+      description = description + ' <u>'+edit_content+'</u> '
       break;
 
     case 'LIST' :
-      description = description + '<li>Type Here</li>'
+      description = description + ' <li>'+edit_content+'</li> '
       break;
 
     case 'BLOCKLIST' :
-      description = description + '<blockquote>Type Here</blockquote>'
+      description = description + ' <blockquote>'+edit_content+'</blockquote> '
       break;
 
     case 'LINK' :
-      description = description + '<a href="address">Name</a>'
+      description = description + ' <a href="'+edit_link_address+'"><b>'+edit_link_name+'</b></a> '
       break;
 
     default:
@@ -557,6 +693,8 @@ function editOptionBtn(details) {
 
   document.getElementById("description").value = description
   M.textareaAutoResize($('#description'));
+
+}
 
 }
 
@@ -651,11 +789,24 @@ function startUpCalls() {
     secondaryPlaceholder: '+Tag',
   }); 
 
+  $('.chips-autocomplete').chips({
+    placeholder: 'Enter a Tag',
+    secondaryPlaceholder: '+Tag',
+
+    autocompleteOptions: {
+      data: convTagsList(),
+      limit: Infinity,
+      minLength: 1
+    }
+  });
+
+
   M.textareaAutoResize($('#description'));
 
   $(document).ready(function(){
     $('.tooltipped').tooltip();
   });
+
 
 }
 
