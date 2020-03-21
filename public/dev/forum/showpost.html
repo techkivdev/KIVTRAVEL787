@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>All Post</title>
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="../external/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="../external/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+  <link href="../css/style.css" type="text/css" rel="stylesheet" />
+</head>
+
+
+<body>
+
+  <!-- bg -->
+    <div class="">
+
+  <!-- **************************************** -->
+  <!-- Navigation Sectione -->
+  <!-- **************************************** -->
+
+    <!--=========== NAV SECTION ================= -->
+   <div class="navbar-fixed">
+
+    <!-- Dropdown Structure -->
+    <ul id="nav_dropdown" class="dropdown-content">       
+      <li><a href="../login.html?fl=NA&fl2=NA">Profile</a></li>  
+      <li id="my_list_menu" style="display: none;"><a href="../login.html?fl=mylist&fl2=NA">My List</a></li> 
+      <li id="my_bookmark_menu" style="display: none;" ><a href="../login.html?fl=bookmark&fl2=NA">My Bookmark</a></li>               
+    </ul>
+
+    <nav id="main_nav_bar" class="white z-depth-2" role="navigation">
+      <div class="nav-wrapper container">
+  
+        <!-- Logo Container -->
+        <a id="logo-container" href="../index.html" class="brand-logo">KivTravels</a>
+  
+        <!-- Navigation List -->
+        <ul class="right hide-on-med-and-down">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#!" onclick="openAllTopics()" >All Post</a></li>
+          <li  id="my_topics_menu" style="display: none;" ><a href="#!" onclick="openMyTopics()">My Post</a></li>        
+         
+
+           <!-- Dropdown Trigger -->
+         <li><a class="dropdown-trigger" href="#!" data-target="nav_dropdown">Options<i class="material-icons right">arrow_drop_down</i></a></li>
+
+        </ul>
+       
+        <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+  
+        <div id="main_progress" class="progress">
+          <div class="indeterminate red"></div>
+        </div>
+
+      </div>
+  
+  
+  
+    </nav>
+  
+     </div>
+  
+      <!-- Mobile Navigation List -->
+      <ul id="nav-mobile" class="sidenav">
+         
+        <div class="container-fluid">
+            <div class="fb-profile">            
+              <img class="fb-image-lg left-align z-depth-2" src="../Images/nav_mobile.jpg" alt="Snow" style="height: 200px; margin-bottom: 10px;">            
+            </div>
+          </div>
+  
+  
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#!" onclick="openAllTopics()" >All Post</a></li>
+          <li id="my_topics_menu_mb" style="display: none;" ><a href="#!" onclick="openMyTopics()">My Post</a></li>
+          <li><a href="../login.html?fl=NA&fl2=NA">Profile</a></li> 
+          <li id="my_list_menu_mb" style="display: none;" ><a href="../login.html?fl=mylist&fl2=NA">My List</a></li> 
+          <li id="my_bookmark_menu_mb" style="display: none;" ><a href="../login.html?fl=bookmark&fl2=NA">My Bookmark</a></li>
+      
+    </ul>
+  
+    <!-- ========================================== -->
+   
+
+  <!-- **************************************** -->
+  <!-- Show all Items Details -->
+  <!-- **************************************** -->
+  <div id="show_all_topic_container" class="container">
+    <div class="section">
+
+      <!-- **************************************** -->
+      <!--   Coloum Section 1  --> 
+      <div id="col_section_1" class="row" style="display: block; margin-bottom: 100px;"> 
+        
+         <!-- Create New Item -->
+
+         <!-- Create Menu Button -->
+         <div id="add_new_item" class="right-align" style="margin-right: 10px;">
+          <a onclick="showMenuOptions()" class="waves-effect waves-light btn pink rcorners" style="margin-right: 20px;"><i class="material-icons left">add</i>Add New</a>        
+        </div>
+
+         <!-- ------------ end ------------- -->
+
+         <!-- Create Menu Dropdown Mode -->         
+        <div id="add_new_item_drop_sec" class="right-align" style="margin-right: 10px; display:none;">
+          <!-- Dropdown Trigger -->
+         <a id="add_new_item_drop_down" class='dropdown-trigger btn pink rcorners' href='#' data-target='add_new_item_target'><i class="material-icons left">add</i>Add New</a>
+
+         <!-- Dropdown Structure -->
+         <ul id='add_new_item_target' class='dropdown-content'>
+           <li><a onclick="addNewItem('TOPIC')" href="#!">Post</a></li>
+           <!-- <li><a onclick="addNewItem('EVENT')" href="#!">Event</a></li>
+           <li><a onclick="addNewItem('POLL')" href="#!">Poll</a></li> -->             
+         </ul>
+
+       </div> 
+       
+       <!-- ------------- end ---------------------- -->
+
+        <div style="margin-left: 13px; margin-right: 13px;">
+          
+        <!-- Message -->
+        <div id="message_section" style="margin-top: 10px; display: none;">
+          <ul class="collection">
+            <li id="message_content" class="collection-item">Your message</li>
+          </ul>
+        </div>
+
+        <!-- Filter Option -->
+        <div id="main_filter_section" style="margin-top: 10px;"> 
+             <!-- Script Code -->
+        </div>
+
+        <!-- RESET Filter -->
+        <div id="filter_reset_btn_home" class="right-align" style="margin-bottom: 10px; display: none;">
+          <a onclick="resetFilter()" class="waves-effect waves-light btn black rcorners">RESET</a>
+        </div> 
+
+        <li class="divider" tabindex="-1"></li>
+
+      </div>
+
+
+        <div id="forum_card_section" class="row" style="margin-top: 30px;">
+          <!-- ----------------------- -->
+          <!-- Script Code -->
+          <!-- ----------------------- -->
+        </div>
+
+        <!-- Next and Previous Button -->
+        <div id="top_more_btn_sec">          
+          <div id="more_btn" class="center-align" style="margin-top: 5px; height: 50px; margin-bottom: 10px; margin-right: 0px; display: none;">
+            <i id="total_card_sec" class="right-align grey-text"></i><br>
+            <a onclick="topPage()" class="waves-effect waves-light btn orange rcorners"><i class="material-icons left">arrow_drop_up</i>Top</a>
+            <a onclick="morePage()" class="waves-effect waves-light btn blue rcorners" style="margin-right: 20px;"><i class="material-icons right">arrow_drop_down</i>More</a>                               
+          </div>
+
+        </div>
+        
+      </div>
+
+      <!-- ========================================= -->
+      <!-- Filter Section -->
+    <div id="filter_section" class="row" style="margin-top: 2%; display: none;">
+      <!-- <h4 id="filter_hdr" class="black-text">Filter Options</h4> -->
+
+      <!-- All Options -->
+
+      <div id="filter_reset_btn" class="right-align" style="margin-top: 0px;">
+        <a onclick="resetFilter()" class="waves-effect waves-light btn black rcorners">RESET</a>
+      </div> 
+
+       <!-- All Filter Options -->             
+        <div style="margin-top: 40px;">
+
+          <li class="divider" tabindex="-1"></li>
+
+          <h5 class="grey-text">Filter Option's</h5>
+
+          <!-- Category -->         
+            <div class="row" style="margin-top: 40px;">
+                <div class="input-field">                  
+                    <select id="catg_options">
+                      <option value="" disabled selected>Select a Category</option>
+                      <option id="INFO" value="1">General Infromation</option>
+                      <option id="TIPS" value="2">Important Travel Tips</option>
+                      <option id="QRY" value="3">Any Query</option>
+                    </select>
+                    <label>Category</label> 
+                </div>                                  
+            </div>
+         
+
+          <!-- Search Tags -->
+          <div class="row">
+            <div class="input-field">
+              <i class="material-icons prefix">textsms</i>
+              <input type="text" id="autocomplete-input" class="autocomplete">
+              <label for="autocomplete-input">Search Tags</label>
+            </div>        
+          </div>
+
+
+          <!-- Select Date -->
+        <div class="row">
+          <div class="input-field">
+            <i class="material-icons prefix">date_range</i>
+            <input type="text" id="topic_date" class="datepicker">
+            <label for="topic_date" class="black-text">Post Date</label>
+          </div>
+
+          <!-- Date Filter Options -->
+          <form action="#" style="margin-left: 45px;">
+
+            <p>
+              <label>
+                <input id="selected_date_chkbx" name="group1" type="radio" checked/>
+                <span>Consider complete date.</span>
+              </label>
+            </p>
+
+            <p>
+              <label>
+                <input id="selected_month_chkbx" name="group1" type="radio"/>
+                <span>Consider only Month from above selected date.</span>
+              </label>
+            </p>
+
+            <p>
+              <label>
+                <input id="selected_year_chkbx" name="group1" type="radio"/>
+                <span>Consider only Year from above selected date.</span>
+              </label>
+            </p>
+           
+          </form> 
+
+        </div>
+
+      </div>
+
+        <!-- Apply Filter --> 
+      <div class="center-align" style="margin-top: 2px;">
+        <a onclick="applyFilter()" class="waves-effect waves-light btn red rcorners">Apply Filter</a>
+      </div>
+
+      <li class="divider" tabindex="-1" style="margin-top: 10px;"></li>
+
+      <!-- ALl Category Section -->
+      <div style="margin-top: 5px;">
+        <h5 class="grey-text">Category</h5>
+        <div id="all_Category_details" style="margin-top: 10px;">
+          <!-- Script Code -->
+        </div>
+
+      </div>
+
+      <!-- ALl Tags Section -->
+      <div style="margin-top: 5px;">
+        <h5 class="grey-text">Popular Tags</h5>
+        <div id="all_tags_details" style="margin-top: 10px;">
+          <!-- Script Code -->
+        </div>
+
+      </div>     
+
+      
+    </div>
+
+
+   <!-- **************************************** -->
+    <!-- Floating Action Button -->
+    <!-- **************************************** -->
+
+    <div id="flb_open_filter" class="fixed-action-btn">
+      <a href="#!" onclick="openFilterSection()" class="btn-floating btn-large  blue">
+        <i class="large material-icons">filter_list</i>
+      </a>
+    </div>
+
+    <div id="flb_close_filter" class="fixed-action-btn" style="display: none;">
+      <a href="#!" onclick="closeFilterSection()" class="btn-floating btn-large  red">
+        <i class="large material-icons">close</i>
+      </a>
+    </div>
+
+
+    <!-- ***************** END ******************* -->
+
+    </div> 
+  </div>
+
+   <!-- ***************** END ******************* -->  
+
+
+  <!-- **************************************** -->
+  <!-- Message Display Section -->
+  <!-- **************************************** -->
+
+  <div id="topic_display_container" class="container row" style="display: none; margin-top: 1px;">
+            
+    <div class="row">
+
+      <div class="col s12 m12">
+
+          <!-- Show Title and other details -->
+          <div style="margin-left: 5px; margin-right: 5px; margin-top: 10px;">
+            <b id="title" class="long-text-nor" style="font-size: 25px;">Title</b>
+            <p id="publish_date" class="grey-text" style="margin-top: -2px;"></p>
+          </div>
+
+
+          <!-- display description -->
+          <div style="margin-left: 5px; margin-right: 5px; margin-top: 2px;">
+            <p id="desc" class= "long-text-nor" style="font-size: 17px;">Desc</p>
+          </div>
+
+          <!-- Other details -->
+          <li class="divider" tabindex="-1"></li>
+
+          <div style="margin-left: 5px; margin-right: 5px; margin-top: 10px;">
+
+            <div class="left-align" id="category">
+              <!-- Script Code -->                     
+            </div>
+
+            <div id="tags">
+              Tags
+            </div>  
+
+            <div id="social_control" class="left-align" style="margin-top: 20px; height: 70px; margin-bottom: 10px; margin-left: 0px;">
+              <span><small><a href="#!" onclick="likeTopic()" style="margin-right: 3px;"><i id="like_btn" class="small  material-icons red-text">favorite_border</i><a></small><small id="total_fav_cnt" class="grey-text" style="font-size: 35px; margin-right: 20px;"></small></span>
+              <a href="#!" onclick="bookmarkTopic()"><i id="bookmark_btn" class="small  material-icons orange-text" style="margin-right: 20px;">bookmark_border</i></a> 
+              <a href="#!" onclick="shareTopic()"><i id="bookmark_btn" class="small  material-icons blue-text">share</i></a>                     
+            </div>
+            
+            <div id="user_control_section" class="right-align" style="margin-top: 5px; height: 50px; margin-bottom: 10px; margin-right: 0px; display: none;">
+              <a onclick="editTopic()" class="waves-effect waves-light btn blue rcorners" style="margin-right: 20px;"><i class="material-icons left">edit</i>Edit</a>
+              <a onclick="askToDeleteCompleteTopic()" class="waves-effect waves-light btn red rcorners"><i class="material-icons left">delete</i>Delete</a>                      
+            </div>
+
+
+            <!-- User Details  -->
+            <p id="publish_by" class="grey-text">Published by </p>
+
+            <ul class="collection" style="border-radius: 10px 10px 10px 10px;">
+              <li class="collection-item avatar">
+                <img id="u_img" src="" alt="" class="circle">
+                <span class="title"><b id="u_name">Name</b></span>
+                <p class="grey-text" style="font-size: 13px;" id="u_date">Date</p>
+                </li>
+            </ul>
+
+          </div>
+
+          <li class="divider" tabindex="-1"></li>
+
+          <!-- Comment Section -->
+          <div style="margin-left: 5px; margin-right: 5px; margin-top: 10px;">
+
+             <!-- Create New Topic -->
+             <div class="right-align">
+              <a onclick="openCommentModal('MAIN')" class="waves-effect waves-light btn blue rcorners"><i class="material-icons left">add</i>Add Comment</a>
+             </div> 
+
+          </div>
+
+          <!-- All Comment -->        
+          <div style="margin-left: 5px; margin-right: 5px; margin-top: 10px; margin-bottom: 100px;"> 
+
+          <h5 id="comment_message">Comment</h5>
+
+          <!-- View Comments -->
+      
+          <div id="viewallcomments" class="center-align" style="margin-top: 0px;">
+            <a onclick="viewAllComments()" class="waves-effect waves-teal btn-flat blue-text">View All Comments</a>
+          </div>
+
+
+          <div id= "all_user_comments" style="display: none;">
+              <!-- Script Code -->              
+          </div>
+
+          <div id="viewmorecomments" class="center-align" style="margin-top: 0px; display: none;">
+            <a onclick="viewMoreComments()" class="waves-effect waves-teal btn-flat blue-text">More</a>
+          </div>
+
+          </div>
+
+
+      </div>
+
+    </div>
+    
+  </div>
+
+  <div id="close_fl_btn" class="fixed-action-btn" style="display: none;">
+    <a href="#!" onclick="hideFullMessageDialog()" class="btn-floating btn-large  red">
+      <i class="large material-icons">close</i>
+    </a>
+  </div>
+
+  <div id="close_fl_btn_to_back" class="fixed-action-btn" style="display: none;">
+    <a href="#!" onclick="backTopreviousPage()" class="btn-floating btn-large  red">
+      <i class="large material-icons">close</i>
+    </a>
+  </div>
+
+  <!-- ***************** END ******************* -->
+
+
+  <!-- **************************************** -->
+  <!-- Show Menu to create new -->
+  <!-- **************************************** -->
+  <div id="menu_section" class="container row" style="display: none; margin-top: 40px;">
+
+    <!-- ------------ Create New Topic ------------------- -->
+    <div class="card">
+      <ul class="collection">
+        <a href="#!" onclick="addNewItem('TOPIC')"><li class="collection-item avatar">
+          <i class="material-icons circle red">assignment</i>
+          <span class="title black-text"><b>Add New Post</b></span>
+          <p class="grey-text">Write what's in your mind!! <br>
+          </p>
+          <div class="secondary-content"><i class="small material-icons">chevron_right</i></div>
+        </li>
+        </a>
+      </ul>
+  </div>
+
+<!-- ------------ Create Event ------------------- -->
+  <div class="card" style="display: none;">
+    <ul class="collection">
+      <a href="#!" onclick="addNewItem('EVENT')"><li class="collection-item avatar">
+        <i class="material-icons circle green">event</i>
+        <span class="title black-text"><b>Add New Event</b></span>
+        <p class="grey-text">Create Event !! <br>
+        </p>
+        <div class="secondary-content"><i class="small material-icons">chevron_right</i></div>
+      </li>
+      </a>
+    </ul>
+</div>
+
+  
+  </div>
+
+  <div id="close_fl_btn_menu" class="fixed-action-btn" style="display: none;">
+    <a href="#!" onclick="hideMenuDialogSection()" class="btn-floating btn-large  red">
+      <i class="large material-icons">close</i>
+    </a>
+  </div>
+
+
+  <!-- ***************** END ******************* -->
+  
+
+  <!-- **************************************** -->
+  <!-- Footer -->
+  <!-- **************************************** -->
+  <footer id="main_footer_sec" class="page-footer footer-shade  black-text" style="display: none;">
+      <div class="container">
+          <div class="row">
+            <div class="col l6 s12">
+              <h5 class="black-text">Company Bio</h5>
+              <!--
+              <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our
+                full time job. Any amount would help support and continue development on this project and is greatly
+                appreciated.</p>
+                -->
+  
+  
+            </div>
+            <div class="col l3 s12">
+              <!-- <h5 class="black-text">Settings</h5> -->
+              <ul>
+                <li><a class="black-text" href="about_us.html">About</a></li>
+                <li><a class="black-text" href="terms_and_conditions.html">Terms & Conditions</a></li>
+                <li><a class="black-text" href="privacy_police.html">Privacy and Cookie Police</a></li>              
+              </ul>
+            </div>
+            <div class="col l3 s12">
+            <!--
+              <h5 class="black-text">Connect</h5>
+              <ul>
+                <li><a class="black-text" href="#!">Facebook</a></li>
+                <li><a class="black-text" href="#!">Instgram</a></li>
+              </ul>
+             -->
+            </div>
+          </div>
+        </div>
+        <div class="footer-copyright">
+          <div class="container">
+            Made by <a class="brown-text text-lighten-3" href="#!">KivTech</a>
+          </div>
+        </div>
+    </footer>
+
+  </div>
+
+
+  <!-- **************************************** -->
+  <!--  Scripts-->
+  <!-- **************************************** -->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+   <!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+
+<!-- 
+  <script src="../../external/js/materialize.js"></script>
+  <script src="../../external/js/init.js"></script>
+  -->
+
+
+  <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-storage.js"></script>
+  <!-- <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase.js"></script> -->
+<!-- <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-functions.js"></script> -->
+  <script src="../app/firestore.js"></script>
+  <script src="../scripts/common.js"></script>
+  <script src="scripts/showpost.js"></script>
+ 
+
+</body>
+
+</html>

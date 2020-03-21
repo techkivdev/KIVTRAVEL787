@@ -1198,12 +1198,12 @@ function openBookmarkContent() {
           //displayOutput(mark_data);
 
          
-         if((data['TYPE'] == bookmarkFilter) || (bookmarkFilter == 'ALL')) {         
+         if((data['SPACENAME'] == bookmarkFilter) || (bookmarkFilter == 'ALL')) {         
                   
           content += '<ul class="collection"><a href="'+data['LINK']+'"><li class="collection-item avatar black-text hoverable">\
           <img src="'+data['UPHOTO']+'" alt="" class="circle">\
           <span class="title black-text"><b>'+data['UNAME']+'</b></span>\
-          <p class="grey-text">'+data['DATE'] +' , '+ data['TYPE'] +'</p><br>\
+          <p class="grey-text">'+data['DATE'] +' , '+ data['SPACENAME'] +'</p><br>\
           <b>'+data['TITLE']+'</b>\
           <a href="#!" onclick="removeBookmark(\'' + doc.id  + '\')" class="secondary-content"><i class="material-icons">delete</i></a>\
         </li></a></ul>'  
@@ -1288,12 +1288,12 @@ function openMyListContent() {
 
           // <a href="#!" onclick="removeBookmark(\'' + doc.id  + '\')" class="secondary-content"><i class="material-icons">delete</i></a>\
          
-         if((data['TYPE'] == myListFilter) || (myListFilter == 'ALL')) {         
+         if((data['SPACENAME'] == myListFilter) || (myListFilter == 'ALL')) {         
                   
           content += '<ul class="collection"><a href="'+data['LINK']+'"><li class="collection-item avatar black-text hoverable">\
           <img src="'+data['UPHOTO']+'" alt="" class="circle">\
           <span class="title black-text"><b>'+data['UNAME']+'</b></span>\
-          <p class="grey-text">'+data['DATE'] +' , '+ data['TYPE'] +'</p><br>\
+          <p class="grey-text">'+data['DATE'] +' , '+ data['SPACENAME'] +'</p><br>\
           <b>'+data['TITLE']+'</b>\
           <a href="#!" class="secondary-content"><i class="material-icons"></i></a>\
         </li></a></ul>'  

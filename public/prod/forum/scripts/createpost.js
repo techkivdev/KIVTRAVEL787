@@ -23,6 +23,10 @@ var type = 'NA'
 var updateExistingContentDetails = false
 var currentData = {}
 
+// Page config
+let main_page = 'showpost.html'
+let create_page = 'createpost.html'
+
 
 // ***********************************************
 
@@ -117,10 +121,9 @@ updateHTMLPage()
 // *******************************************************
 // --------------- Functions -----------------------------
 
-// Show All Topic Only
+// Show All Post Only
 function openAllTopics() {
-  // index.html?pt=NA&id=NA&fl=NA
-  var url = 'index.html?pt=' + encodeURIComponent(main_path) + '&id=' + encodeURIComponent('NA') + '&fl=' + encodeURIComponent('NA');
+  var url = main_page + '?pt=' + encodeURIComponent(main_path) + '&id=' + encodeURIComponent('NA') + '&fl=' + encodeURIComponent('NA');
   window.location.href = url
 
 }
@@ -135,7 +138,7 @@ function updateHTMLPage() {
     // Check for type
     if(type == 'TOPIC') {
       document.getElementById("create_new_topic").style.display = 'block';
-      $("#main_hdr_msg").html('Add New Topic');
+      $("#main_hdr_msg").html('Add New Post');
 
     } else if(type == 'EVENT') {
       document.getElementById("create_new_event").style.display = 'block';
@@ -148,7 +151,7 @@ function updateHTMLPage() {
     // Check for type
     if(type == 'TOPIC') {
       document.getElementById("create_new_topic").style.display = 'block';
-      $("#main_hdr_msg").html('Add New Topic');
+      $("#main_hdr_msg").html('Add New Post');
 
       showCurrentTopicContent()
 
@@ -218,7 +221,7 @@ function showCurrentTopicContent() {
       document.getElementById("hdr_section_validation_failed").style.display = 'block';
 
       document.getElementById("main_progress").style.display = 'none';
-      $('#validation_msg').html('Topic not found !!')
+      $('#validation_msg').html('Post not found !!')
 
 
     } else {
@@ -279,10 +282,10 @@ function showCurrentTopicContent() {
 function cancelDetails() {
 
   if(updateExistingContentDetails) {
-    var url = 'index.html?pt=' + encodeURIComponent(main_path) + '&id=' + encodeURIComponent(id) + '&fl=' + encodeURIComponent('edit');
+    var url = main_page + '?pt=' + encodeURIComponent(main_path) + '&id=' + encodeURIComponent(id) + '&fl=' + encodeURIComponent('edit');
     window.location.href = url
   }  else {
-    var url = 'index.html?pt=' + encodeURIComponent(main_path) + '&id=' + encodeURIComponent('NA') + '&fl=' + encodeURIComponent('NA');
+    var url = main_page + '?pt=' + encodeURIComponent(main_path) + '&id=' + encodeURIComponent('NA') + '&fl=' + encodeURIComponent('NA');
     window.location.href = url
   }
 
@@ -293,36 +296,45 @@ function cancelDetails() {
 // Submit New Post
 function submitDetails() { 
 
-  generateNDocuments()
+  let testing_purpose = false
 
-  /*
-  if(updateExistingContentDetails) {
-    // --------- Update Existing --------------
-    if(type == 'TOPIC') {
-      addNewTopic()
-    }
+  if(testing_purpose) {
+
+       generateNDocuments()
 
   } else {
-
-    // ------- Add New ---------------
-    if(fl == 'ADD') {
+   
+  
+    if(updateExistingContentDetails) {
+      // --------- Update Existing --------------
       if(type == 'TOPIC') {
         addNewTopic()
       }
-    }
+  
+    } else {
+  
+      // ------- Add New ---------------
+      if(fl == 'ADD') {
+        if(type == 'TOPIC') {
+          addNewTopic()
+        }
+      }
+  
+    } 
+    
+  }
+  
 
-  } 
-  */
 
 
 }
 
 // -------------------------
 
-// Add New Topic
+// Add New Post
 function addNewTopic() {
 
-  displayOutput('Submit New Topic !!')
+  displayOutput('Submit New Post !!')
 
    // Validate input
    let validateInput = true
@@ -331,7 +343,7 @@ function addNewTopic() {
    displayOutput('title : ' + title)
    if(title == '') {
      validateInput = false
-     toastMsg('Topic Title is empty!!')
+     toastMsg('Post Title is empty!!')
    }
    
    var tagsList= M.Chips.getInstance($('.chips')).chipsData;
@@ -353,7 +365,7 @@ function addNewTopic() {
    displayOutput('description : ' + description)   
    if(description == '') {
      validateInput = false
-     toastMsg('Topic Description is empty!!')
+     toastMsg('Post Description is empty!!')
    }
  
    let catgOption = getCatg1DataMapping('LIST')  
@@ -710,21 +722,23 @@ function updateMyList(data,docid) {
 
   let path = coll_base_path + 'USER/ALLUSER/' +  userLoginData['UUID'] + '/MYLIST' 
 
-  let bookmarkData = {}
+  let myListData = {}
   
-  bookmarkData['UPHOTO'] = data['UPHOTO']
-  bookmarkData['UNAME'] = data['UNAME']
-  bookmarkData['UUID'] = data['UUID']
-  bookmarkData['DATE'] = data['DATE']
-  bookmarkData['TITLE'] = data['TITLE']
-  bookmarkData['TYPE'] = 'FORUM'
-  bookmarkData['CREATEDON'] = data['CREATEDON']
+  myListData['UPHOTO'] = data['UPHOTO']
+  myListData['UNAME'] = data['UNAME']
+  myListData['UUID'] = data['UUID']
+  myListData['DATE'] = data['DATE']
+  myListData['TITLE'] = data['TITLE']
+  myListData['TYPE'] = 'FORUM'
+  myListData['CREATEDON'] = data['CREATEDON']
+  myListData['SPACE'] = main_path
+  myListData['SPACENAME'] = 'POST'
 
-  var url = 'forum/index.html?pt=' + encodeURIComponent(main_path) + '&id=' + encodeURIComponent(docid) + '&fl=' + encodeURIComponent('only'); 
-  bookmarkData['LINK'] = url
+  var url = 'forum/'+main_page+'?pt=' + encodeURIComponent(main_path) + '&id=' + encodeURIComponent(docid) + '&fl=' + encodeURIComponent('only'); 
+  myListData['LINK'] = url
 
 
-  db.collection(path).doc(docid).set(bookmarkData).then(function() { 
+  db.collection(path).doc(docid).set(myListData).then(function() { 
     //toastMsg('Bookmark Added !!')
     hidePleaseWaitModel()
     cancelDetails()
@@ -759,7 +773,7 @@ function updateExistPostIntoDatabase(forumData){
    db.collection(coll_base_path+'FORUM/' + main_path).doc(id).set(forumData).then(function() {    
     hidePleaseWaitModel()
     
-    var url = 'index.html?pt=' + encodeURIComponent(main_path) + '&id=' + encodeURIComponent(id) + '&fl=' + encodeURIComponent('edit');
+    var url = main_page + '?pt=' + encodeURIComponent(main_path) + '&id=' + encodeURIComponent(id) + '&fl=' + encodeURIComponent('edit');
     window.location.href = url
      
   }); 

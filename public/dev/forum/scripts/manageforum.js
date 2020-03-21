@@ -15,11 +15,9 @@ if (check_dev_publish_content) {
 
 
 // Show All Topic Only
-function backToHome() {
-  // index.html?pt=NA&id=NA&fl=NA
-  var url = 'index.html?pt=' + encodeURIComponent('COMMONFORUM') + '&id=' + encodeURIComponent('NA') + '&fl=' + encodeURIComponent('NA');
+function backToHome() { 
+  var url = 'index.html'
   window.location.href = url
-
 }
 
 // CHeck total Deleted Documents
